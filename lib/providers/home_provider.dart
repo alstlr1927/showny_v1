@@ -18,11 +18,35 @@ class HomeProvider with ChangeNotifier {
 
   var showTag = false;
 
+  /////////
+
+  late PageController pageController;
+  late TabController tabController;
+
   Widget get currentScreen => homeMenu[selectedMenuIdx];
+
+  int curPageIdx = 0;
 
   void setSelectedMenuIdx(int idx) {
     selectedMenuIdx = idx;
     notifyListeners();
+  }
+
+  void setCurrentBattle(int idx) {
+    currentBattle = idx;
+    notifyListeners();
+  }
+
+  void setTab(int value) {
+    tabController.animateTo(value,
+        duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+    curPageIdx = value;
+    notifyListeners();
+  }
+
+  void setpage(int value) {
+    pageController.animateToPage(value,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
   }
 
   void getStyleUpList() {
@@ -94,6 +118,8 @@ class HomeProvider with ChangeNotifier {
   }
 
   HomeProvider(this.state) {
+    pageController = PageController();
+    tabController = TabController(length: 2, vsync: state as TickerProvider);
     homeMenu = [
       StyleupScreen(
         isMain: true,
