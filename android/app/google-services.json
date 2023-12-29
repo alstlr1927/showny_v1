@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "734030341278",
+    "project_id": "showny-fbd46",
+    "storage_bucket": "showny-fbd46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734030341278:android:9023945cd5b159037c478f",
+        "android_client_info": {
+          "package_name": "com.showny.showny"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734030341278-q0610lh0qh27tbaf7a5mdhnnfe5u9ap6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.showny.showny",
+            "certificate_hash": "35de37223bfec57cab2b463d9cedf860acc03091"
+          }
+        },
+        {
+          "client_id": "734030341278-r906clb1e8nc77q5fa3u0db0o2rl6v59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi66f5Jh_3Fa_6hmhL8gma2gcNyD3BJV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734030341278-r906clb1e8nc77q5fa3u0db0o2rl6v59.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "734030341278-37n8itt0914v5fssaor6vkih9on4n8tg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.showny.showny"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

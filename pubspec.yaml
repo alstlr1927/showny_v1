@@ -1,0 +1,114 @@
+name: showny
+description: Showny App Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.4 <4.0.0'
+
+dependencies:
+
+  async: ^2.11.0
+  flutter_html:
+  cached_network_image: ^3.2.3
+  cupertino_icons: ^1.0.2
+  dio: ^5.3.2
+  dropdown_button2: ^2.3.8
+  flutter:
+    sdk: flutter
+  flutter_bounceable: ^1.1.0
+  flutter_riverpod: ^2.3.6
+  flutter_svg: ^2.0.7
+  go_router: ^10.0.0
+  image_gallery_saver: ^2.0.3
+  image_picker: ^1.0.2
+  intl: ^0.18.1
+  json_annotation: ^4.8.1
+  logger: ^1.4.0
+  path_provider: ^2.1.0
+  retrofit: ^4.0.1
+  another_xlider: ^3.0.1
+  flutter_slidable: ^3.0.0
+  share_plus: ^7.1.0
+  flutter_secure_storage: ^9.0.0
+  carousel_slider: ^4.2.1
+  wechat_assets_picker: ^8.7.1
+  fraction: ^5.0.2
+  insta_assets_crop: ^0.0.2
+  card_swiper: ^3.0.1
+  video_player: ^2.7.2
+  visibility_detector: ^0.4.0+2
+  shared_preferences: ^2.2.2
+  video_thumbnail: ^0.5.3
+  crop_your_image: ^0.7.5
+  image_cropper: ^5.0.0
+  http: ^1.1.0
+  provider: ^6.0.5
+  easy_localization: ^3.0.3
+  badges: ^3.1.2
+  datepicker_dropdown: ^0.0.8
+  flutter_keyboard_visibility: ^5.4.1
+  flutter_rating_bar: ^4.0.1
+  percent_indicator: ^4.2.3
+  easy_stepper:
+  dots_indicator: ^3.0.0
+  sendbird_chat_sdk:
+  fluttertoast: ^8.2.4
+  chewie: ^1.7.1
+  permission_handler:
+  flutter_native_splash: ^2.3.6
+  widget_mask: ^1.0.0
+  kakao_flutter_sdk_user: ^1.7.0
+  kakao_flutter_sdk_common: ^1.7.0
+  change_app_package_name: ^1.1.0
+  flutter_naver_login: ^1.8.0
+  google_sign_in: ^6.1.6
+  firebase_auth: ^4.15.2
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.8
+  sign_in_with_apple: ^5.0.0
+  scroll_to_animate_tab: ^0.0.2+3
+  package_info_plus: ^4.2.0
+
+dev_dependencies:
+  build_runner: ^2.4.6
+  flutter_launcher_icons: ^0.13.1
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+  json_serializable: ^6.7.1
+  retrofit_generator: ^7.0.8
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/fonts/
+    - assets/logos/
+    - assets/icons/
+    - assets/mock_images/
+    - assets/images/
+    - assets/translations/
+
+  fonts:
+    - family: Spoqa Han Sans Neo
+      fonts:
+        - asset: assets/fonts/SpoqaHanSansNeo-Light.otf
+          weight: 300
+        - asset: assets/fonts/SpoqaHanSansNeo-Regular.otf
+          weight: 400
+        - asset: assets/fonts/SpoqaHanSansNeo-Medium.otf
+          weight: 500
+        - asset: assets/fonts/SpoqaHanSansNeo-Bold.otf
+          weight: 700
+
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+
+    - family: SF Compact
+      fonts:
+        - asset: assets/fonts/SF-Compact.ttf
+        - asset: assets/fonts/SF-Compact-Italic.ttf
