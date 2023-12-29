@@ -28,6 +28,11 @@ class StyleUpItemProvider with ChangeNotifier {
 
   bool showTags = false;
 
+  void test(bool value) {
+    state.widget.styleUp.userInfo.isFollow = value;
+    notifyListeners();
+  }
+
   void setShowTags(bool value) {
     showTags = value;
 

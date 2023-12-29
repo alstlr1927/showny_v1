@@ -84,7 +84,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
                 ? Column(
                     children: [
                       StyleUpImage(imageList: widget.styleUp.imgUrlList),
-                      _buildDescription(),
+                      _buildDescription(prov),
                     ],
                   )
                 : Stack(
@@ -222,7 +222,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
     );
   }
 
-  Widget _buildDescription() {
+  Widget _buildDescription(StyleUpItemProvider prov) {
     UserProvider userProv = Provider.of<UserProvider>(context, listen: false);
     return Container(
       height: 210,
@@ -260,9 +260,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
                 FollowingButton(
                   isFollow: widget.styleUp.userInfo.isFollow,
                   memNo: widget.styleUp.memNo,
-                  onCompleted: (value) {
-                    widget.styleUp.userInfo.isFollow = value;
-                  },
+                  onCompleted: prov.test,
                 ),
               },
 
