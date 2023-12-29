@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/providers/home_provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/tabs/home/components/see_more_action_sheet.dart';
@@ -28,9 +29,11 @@ class StyleUpItemProvider with ChangeNotifier {
 
   bool showTags = false;
 
-  void test(bool value) {
-    state.widget.styleUp.userInfo.isFollow = value;
-    notifyListeners();
+  void setIsFollow(bool value) {
+    HomeProvider homeProv =
+        Provider.of<HomeProvider>(state.context, listen: false);
+    homeProv.setStyleUpFollow(
+        styleUpNo: state.widget.styleUp.styleupNo, value: value);
   }
 
   void setShowTags(bool value) {
@@ -97,6 +100,8 @@ class StyleUpItemProvider with ChangeNotifier {
   Future onLongPressEnd(LongPressEndDetails details) async {
     UserProvider userProvider =
         Provider.of<UserProvider>(state.context, listen: false);
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(state.context, listen: false);
     if (selected == 1) {
       // ToastMsg.showToast(
       //   msg: 'UP 하셨습니다!',
@@ -109,7 +114,9 @@ class StyleUpItemProvider with ChangeNotifier {
         userProvider.user.memNo,
         1,
         (success) {
-          state.widget.styleUp.upDownType = 1;
+          // state.widget.styleUp.upDownType = 1;
+          homeProvider.setStyleUpDown(
+              styleUpNo: state.widget.styleUp.styleupNo, value: 1);
           state.widget.onSelect?.call();
           notifyListeners();
         },
@@ -125,7 +132,8 @@ class StyleUpItemProvider with ChangeNotifier {
         2,
         (success) {
           // updown type = 2
-          state.widget.styleUp.upDownType = 2;
+          homeProvider.setStyleUpDown(
+              styleUpNo: state.widget.styleUp.styleupNo, value: 2);
           // next page
           state.widget.onSelect?.call();
           notifyListeners();

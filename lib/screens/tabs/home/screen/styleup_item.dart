@@ -9,6 +9,7 @@ import 'package:showny/screens/tabs/home/components/following_button.dart';
 import 'package:showny/screens/tabs/home/components/product_container.dart';
 import 'package:showny/screens/tabs/home/components/tool_box.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_image.dart';
+import 'package:showny/screens/tabs/home/screen/styleup_video.dart';
 
 class StyleUpItem extends StatefulWidget {
   final StyleupModel styleUp;
@@ -88,7 +89,10 @@ class _StyleUpItemState extends State<StyleUpItem> {
                     ],
                   )
                 : Stack(
-                    children: [],
+                    children: [
+                      StyleUpVideo(videoUrl: widget.styleUp.videoUrl),
+                      _buildDescription(prov),
+                    ],
                   ),
           ),
         )
@@ -224,73 +228,74 @@ class _StyleUpItemState extends State<StyleUpItem> {
 
   Widget _buildDescription(StyleUpItemProvider prov) {
     UserProvider userProv = Provider.of<UserProvider>(context, listen: false);
-    return Container(
-      height: 210,
-      width: double.infinity,
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 16, bottom: 24),
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(200),
-                child: Image.network(
-                  widget.styleUp.userInfo.profileImage,
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: 210,
+        width: double.infinity,
+        padding:
+            const EdgeInsets.only(left: 20, right: 20, top: 16, bottom: 24),
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(200),
+                  child: Image.network(
+                    widget.styleUp.userInfo.profileImage,
+                    width: 40,
+                    height: 40,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                widget.styleUp.userInfo.nickNm,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                const SizedBox(width: 8),
+                Text(
+                  widget.styleUp.userInfo.nickNm,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              if (userProv.user.memNo != widget.styleUp.userInfo.memNo) ...{
-                FollowingButton(
-                  isFollow: widget.styleUp.userInfo.isFollow,
-                  memNo: widget.styleUp.memNo,
-                  onCompleted: prov.test,
-                ),
-              },
-
-              // : Container(
-              //     width: 56,
-              //     height: 20,
-              //     decoration: BoxDecoration(
-              //       color: const Color(0xff5900FF),
-              //       borderRadius: BorderRadius.circular(4),
-              //     ),
-              //     child: Text(
-              //       '${widget.styleUp.upDownType == 1 ? 'up' : 'down'}',
-              //       style: TextStyle(color: Colors.white),
-              //     ),
-              //   ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            widget.styleUp.description,
-            maxLines: 2,
-            style: const TextStyle(
-              overflow: TextOverflow.ellipsis,
-              color: Colors.white,
+                const SizedBox(width: 8),
+                if (userProv.user.memNo != widget.styleUp.userInfo.memNo) ...{
+                  FollowingButton(
+                    isFollow: widget.styleUp.userInfo.isFollow,
+                    memNo: widget.styleUp.memNo,
+                    onCompleted: prov.setIsFollow,
+                  ),
+                },
+                // Text(
+                //   widget.styleUp.upDownType == 1
+                //       ? 'UP'
+                //       : (widget.styleUp.upDownType == 2 ? 'DOWN' : ''),
+                //   style: const TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+              ],
             ),
-          ),
-          const Spacer(),
-          _buildBottomBanner(),
-          const SizedBox(height: 10),
-        ],
+            const SizedBox(height: 12),
+            Text(
+              widget.styleUp.description,
+              maxLines: 2,
+              style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
+                color: Colors.white,
+              ),
+            ),
+            const Spacer(),
+            _buildBottomBanner(),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }

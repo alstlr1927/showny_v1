@@ -27,14 +27,32 @@ class HomeProvider with ChangeNotifier {
 
   int curPageIdx = 0;
 
-  void setSelectedMenuIdx(int idx) {
-    selectedMenuIdx = idx;
-    notifyListeners();
-  }
+  // void setSelectedMenuIdx(int idx) {
+  //   selectedMenuIdx = idx;
+  //   notifyListeners();
+  // }
 
   void setCurrentBattle(int idx) {
     currentBattle = idx;
     notifyListeners();
+  }
+
+  void setStyleUpDown({required String styleUpNo, required int value}) {
+    int idx =
+        styleUpList.indexWhere((element) => element.styleupNo == styleUpNo);
+    if (idx != -1) {
+      styleUpList[idx].upDownType = value;
+      notifyListeners();
+    }
+  }
+
+  void setStyleUpFollow({required String styleUpNo, required bool value}) {
+    int idx =
+        styleUpList.indexWhere((element) => element.styleupNo == styleUpNo);
+    if (idx != -1) {
+      styleUpList[idx].userInfo.isFollow = value;
+      notifyListeners();
+    }
   }
 
   void setTab(int value) {
