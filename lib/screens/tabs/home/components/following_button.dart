@@ -22,35 +22,41 @@ class FollowingButton extends StatefulWidget {
 }
 
 class _FollowingButtonState extends State<FollowingButton> {
-  late bool isFollow = widget.isFollow;
-
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
 
-    return isFollow == false
-        ? CupertinoButton(
-            minSize: 0.0,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 3.0),
-            color: Colors.black.withOpacity(0.4),
-            borderRadius: BorderRadius.circular(2.0),
-            child: Text(
-              isFollow == true ? '팔로잉' : '팔로우',
-              style: Constants.defaultTextStyle.copyWith(
-                color: Colors.white,
-                fontSize: 11,
-              ),
-            ),
-            onPressed: () {
-              ApiHelper.shared.followUser(
-                  user.memNo, widget.memNo, (success) {}, (error) {});
-              setState(() => isFollow = true);
-              widget.onCompleted(isFollow);
-            },
-          )
-        : const SizedBox();
+    return CupertinoButton(
+      minSize: 0.0,
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 3.0),
+      color: widget.isFollow
+          ? Colors.black.withOpacity(0.4)
+          : const Color(0xff5900FF),
+      borderRadius: BorderRadius.circular(2.0),
+      child: Text(
+        widget.isFollow == true ? '팔로잉' : '팔로우',
+        style: Constants.defaultTextStyle.copyWith(
+          color: Colors.white,
+          fontSize: 11,
+        ),
+      ),
+      onPressed: () {
+        if (widget.isFollow) {
+          ApiHelper.shared.unFollowUser(user.memNo, widget.memNo, (success) {
+            widget.onCompleted(false);
+          }, (error) {
+            // 서버 에러 문구
+          });
+        } else {
+          ApiHelper.shared.followUser(user.memNo, widget.memNo, (success) {
+            widget.onCompleted(true);
+          }, (error) {
+            // 서버 에러 문구
+          });
+        }
+      },
+    );
   }
 }

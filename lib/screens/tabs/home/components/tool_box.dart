@@ -34,6 +34,7 @@ class ToolBox extends StatefulWidget {
 
 class _ToolBoxState extends State<ToolBox> {
   late bool bookmark = widget.isBookmark;
+  double interval = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class _ToolBoxState extends State<ToolBox> {
                 height: 28.0,
               ),
             ),
-          const SizedBox(height: 24.0),
+          SizedBox(height: interval),
           CupertinoButton(
             minSize: 0.0,
             padding: EdgeInsets.zero,
@@ -69,7 +70,7 @@ class _ToolBoxState extends State<ToolBox> {
               height: 28.0,
             ),
           ),
-          const SizedBox(height: 24.0),
+          SizedBox(height: interval),
           CupertinoButton(
             minSize: 0.0,
             padding: EdgeInsets.zero,
@@ -82,15 +83,15 @@ class _ToolBoxState extends State<ToolBox> {
               setState(() => bookmark = !bookmark);
               widget.tapBookmark(bookmark);
               ApiHelper.shared.styleupBookmark(widget.styleupNo, user.memNo,
-              (success) {
-                Provider.of<GetMyProfileProvider>(context, listen: false).removeMyBookmarkList();
-                Provider.of<GetMyProfileProvider>(context, listen: false).getMyBookmarkList(context);
-              }, (error) {
-
-              });
+                  (success) {
+                Provider.of<GetMyProfileProvider>(context, listen: false)
+                    .removeMyBookmarkList();
+                Provider.of<GetMyProfileProvider>(context, listen: false)
+                    .getMyBookmarkList(context);
+              }, (error) {});
             },
           ),
-          const SizedBox(height: 24.0),
+          SizedBox(height: interval),
           CupertinoButton(
             minSize: 0.0,
             padding: EdgeInsets.zero,
@@ -101,7 +102,7 @@ class _ToolBoxState extends State<ToolBox> {
               height: 28.0,
             ),
           ),
-          const SizedBox(height: 24.0),
+          SizedBox(height: interval),
           CupertinoButton(
             minSize: 0.0,
             padding: EdgeInsets.zero,
@@ -112,7 +113,7 @@ class _ToolBoxState extends State<ToolBox> {
               height: 28.0,
             ),
           ),
-          const SizedBox(height: 120.0)
+          const SizedBox(height: 150.0)
         ],
       ),
     );

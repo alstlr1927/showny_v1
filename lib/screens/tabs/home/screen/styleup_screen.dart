@@ -6,6 +6,7 @@ import 'package:showny/api/new_api/api_helper.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/screen/login_popup_screen.dart';
 import 'package:showny/screens/tabs/home/components/drag_item_tag.dart';
@@ -15,6 +16,7 @@ import 'package:showny/screens/tabs/home/components/tool_box.dart';
 import 'package:showny/screens/tabs/home/components/up_down_buttons.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/screens/tabs/home/screen/report_sheet_screen.dart';
+import 'package:showny/screens/tabs/home/screen/styleup_item.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_screen_profile.dart';
 import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
 import 'package:showny/utils/images.dart';
@@ -52,6 +54,8 @@ class _StyleupScreenState extends State<StyleupScreen> {
   int horizontalSwiperIndex = 0;
 
   String? reportValue;
+
+  PageController pageController = PageController();
 
   void tapSeeMoreButton(
       {required String styleupNo,
@@ -257,6 +261,26 @@ class _StyleupScreenState extends State<StyleupScreen> {
 
     VideoPlayerController? videoController;
     Future<void>? initVideoController;
+
+    return PageView(
+      controller: pageController,
+      scrollDirection: Axis.vertical,
+      physics: const CustomScrollPhysics(),
+      children: List.generate(
+        widget.styleupList.length,
+        (index) => StyleUpItem(
+          styleUp: styleupList[index],
+          index: index,
+          onSelect: () {
+            pageController.animateToPage(
+              index + 1,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+            );
+          },
+        ),
+      ),
+    );
 
     return Scaffold(
         body: Stack(

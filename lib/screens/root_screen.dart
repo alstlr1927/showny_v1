@@ -17,7 +17,6 @@ class RootScreen extends StatefulWidget {
 }
 
 class _RootScreenState extends State<RootScreen> {
-
   int _currentIdx = 0;
   late List<Widget> _tabs;
 
@@ -36,7 +35,7 @@ class _RootScreenState extends State<RootScreen> {
     ];
     _lastPressedAt ??= DateTime.now().subtract(const Duration(seconds: 3));
     isFirstCheck();
-    if(widget.isChangeIndex ?? false){
+    if (widget.isChangeIndex ?? false) {
       _currentIdx = 1;
     }
   }
@@ -77,132 +76,133 @@ class _RootScreenState extends State<RootScreen> {
       },
       child: Scaffold(
         body: Stack(
-        children: [
-          Scaffold(
-            extendBody: true,
-            body: IndexedStack(
-              index: _currentIdx,
-              children: _tabs,
-            ),
-            bottomNavigationBar: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 8.0,
-                    offset: const Offset(0, -4),
-                  )
-                ],
+          children: [
+            Scaffold(
+              extendBody: false,
+              body: IndexedStack(
+                index: _currentIdx,
+                children: _tabs,
               ),
-              child: SafeArea(
-                child: SizedBox(
-                  height: 56,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      BottomTabButton(
-                        icon: "home",
-                        isSelected: getTabSelected(0),
-                        onTap: () => setState(() => _currentIdx = 0),
-                      ),
-                      BottomTabButton(
-                        icon: "feed",
-                        isSelected: getTabSelected(1),
-                        onTap: () => setState(() {
-                          UserProvider userProvider =
-                          Provider.of<UserProvider>(context, listen: false);
-                          final user = userProvider.user;
+              bottomNavigationBar: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 8.0,
+                      offset: const Offset(0, -4),
+                    )
+                  ],
+                ),
+                child: SafeArea(
+                  child: SizedBox(
+                    height: 56,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        BottomTabButton(
+                          icon: "home",
+                          isSelected: getTabSelected(0),
+                          onTap: () => setState(() => _currentIdx = 0),
+                        ),
+                        BottomTabButton(
+                          icon: "feed",
+                          isSelected: getTabSelected(1),
+                          onTap: () => setState(() {
+                            UserProvider userProvider =
+                                Provider.of<UserProvider>(context,
+                                    listen: false);
+                            final user = userProvider.user;
 
-                          debugPrint(user.memNo);
-                          if (user.memNo == "") {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12.0),
-                                  topRight: Radius.circular(12.0),
-                                ),
-                              ),
-                              builder: (BuildContext context) {
-                                return const LoginPopupScreen();
-                            });
-                            return;
-                          }
-                          _currentIdx = 1;
-                        }),
-                      ),
-                      BottomTabButton(
-                        icon: "shop",
-                        isSelected: getTabSelected(2),
-                        onTap: () => setState(() => _currentIdx = 2),
-                      ),
-                      BottomTabButton(
-                        icon: "networking",
-                        isSelected: getTabSelected(3),
-                        onTap: () => setState(() {
-                          UserProvider userProvider =
-                          Provider.of<UserProvider>(context, listen: false);
-                          final user = userProvider.user;
+                            debugPrint(user.memNo);
+                            if (user.memNo == "") {
+                              showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12.0),
+                                      topRight: Radius.circular(12.0),
+                                    ),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return const LoginPopupScreen();
+                                  });
+                              return;
+                            }
+                            _currentIdx = 1;
+                          }),
+                        ),
+                        BottomTabButton(
+                          icon: "shop",
+                          isSelected: getTabSelected(2),
+                          onTap: () => setState(() => _currentIdx = 2),
+                        ),
+                        BottomTabButton(
+                          icon: "networking",
+                          isSelected: getTabSelected(3),
+                          onTap: () => setState(() {
+                            UserProvider userProvider =
+                                Provider.of<UserProvider>(context,
+                                    listen: false);
+                            final user = userProvider.user;
 
-                          debugPrint(user.memNo);
-                          if (user.memNo == "") {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12.0),
-                                  topRight: Radius.circular(12.0),
-                                ),
-                              ),
-                              builder: (BuildContext context) {
-                                return const LoginPopupScreen();
-                            });
-                            return;
-                          }
-                          _currentIdx = 3;
-                        }),
-                      ),
-                      BottomTabButton(
-                        icon: "profile",
-                        isSelected: getTabSelected(4),
-                        onTap: () => setState(() => _currentIdx = 4),
-                      ),
-                    ],
+                            debugPrint(user.memNo);
+                            if (user.memNo == "") {
+                              showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12.0),
+                                      topRight: Radius.circular(12.0),
+                                    ),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return const LoginPopupScreen();
+                                  });
+                              return;
+                            }
+                            _currentIdx = 3;
+                          }),
+                        ),
+                        BottomTabButton(
+                          icon: "profile",
+                          isSelected: getTabSelected(4),
+                          onTap: () => setState(() => _currentIdx = 4),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          isFirstUse
-              ? SizedBox(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: Stack(
-                    children: [
-                      Container(
-                        color: Colors.black.withOpacity(0.4),
-                        alignment: Alignment.center,
-                        child: Image.asset('assets/icons/init_guide.png'),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isFirstUse = false;
-                            setIsFirstUse();
-                          });
-                        },
-                      )
-                    ],
-                  ),
-                )
-              : const SizedBox(width: 0, height: 0)
-        ],
-      )
-      )
-      ,
+            isFirstUse
+                ? SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Stack(
+                      children: [
+                        Container(
+                          color: Colors.black.withOpacity(0.4),
+                          alignment: Alignment.center,
+                          child: Image.asset('assets/icons/init_guide.png'),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isFirstUse = false;
+                              setIsFirstUse();
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                : const SizedBox(width: 0, height: 0)
+          ],
+        ),
+      ),
     );
   }
 }

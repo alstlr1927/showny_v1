@@ -23,27 +23,6 @@ class ProductContainer extends StatefulWidget {
 class _ProductContainerState extends State<ProductContainer> {
   List<GoodsItemModel> goodsDataList = [];
 
-  void showMoreItem(BuildContext context,
-      {required List<GoodsItemModel> itemInfo}) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      useRootNavigator: true,
-      enableDrag: false,
-      isDismissible: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12.0),
-          topRight: Radius.circular(12.0),
-        ),
-      ),
-      builder: (context) {
-        return WearingItemsSheetScreen(itemInfo: itemInfo);
-      },
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -64,60 +43,52 @@ class _ProductContainerState extends State<ProductContainer> {
             showMoreItem(context, itemInfo: goodsDataList);
           },
           child: Container(
-            height: 48,
-            decoration: const ShapeDecoration(
-              color: Color.fromRGBO(0, 0, 0, 0.4),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(4),
-                  bottomLeft: Radius.circular(4),
-                ),
-              ),
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(.4),
+              borderRadius: BorderRadius.circular(4),
             ),
             child: Row(
               children: [
-                const SizedBox(width: 4.0),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(2.0),
+                  borderRadius: BorderRadius.circular(2),
                   child: Image.network(goodsDataList[0].goodsImg,
-                      width: 40.0, height: 40.0, fit: BoxFit.cover,
-                      errorBuilder: (context, error, StackTrace) {
+                      width: 40.0,
+                      height: 40.0,
+                      fit: BoxFit.cover, errorBuilder: (context, error, stack) {
                     return Container(
                       color: Colors.white,
                     );
                   }),
                 ),
-                const SizedBox(width: 8.0),
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          goodsDataList[0].brandNm,
-                          style: Constants.defaultTextStyle.copyWith(
-                            color: Colors.white,
-                            fontSize: 10,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Flexible(
-                          child: Text(
-                            goodsDataList[0].goodsNm,
-                            style: Constants.defaultTextStyle.copyWith(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ]),
-                )),
+                const SizedBox(width: 12),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      goodsDataList[0].brandNm,
+                      style: Constants.defaultTextStyle.copyWith(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      goodsDataList[0].goodsNm,
+                      style: Constants.defaultTextStyle.copyWith(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+                const Spacer(),
                 CupertinoButton(
                   onPressed: () {
                     showMoreItem(context, itemInfo: goodsDataList);
@@ -125,8 +96,8 @@ class _ProductContainerState extends State<ProductContainer> {
                   padding: EdgeInsets.zero,
                   minSize: 0,
                   child: const SizedBox(
-                    width: 56,
-                    height: 48,
+                    width: 50,
+                    height: 30,
                     child: Center(
                       child: Text(
                         '더보기',
@@ -145,5 +116,26 @@ class _ProductContainerState extends State<ProductContainer> {
     } else {
       return const SizedBox();
     }
+  }
+
+  void showMoreItem(BuildContext context,
+      {required List<GoodsItemModel> itemInfo}) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      useRootNavigator: true,
+      enableDrag: false,
+      isDismissible: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
+      ),
+      builder: (context) {
+        return WearingItemsSheetScreen(itemInfo: itemInfo);
+      },
+    );
   }
 }
