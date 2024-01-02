@@ -1,5 +1,6 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/error/image_error.dart';
 
 class BackBlurWidget extends StatelessWidget {
   final double width;
@@ -26,6 +27,8 @@ class BackBlurWidget extends StatelessWidget {
               child: Image.network(
                 image1,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const ImageError(),
               ),
             ),
             SizedBox(
@@ -34,6 +37,8 @@ class BackBlurWidget extends StatelessWidget {
               child: Image.network(
                 image2,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) =>
+                    const ImageError(),
               ),
             ),
           ],
@@ -68,6 +73,7 @@ class BackBlurWidget2 extends StatelessWidget {
           child: Image.network(
             image,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => const ImageError(),
           ),
         ),
         const Blur(

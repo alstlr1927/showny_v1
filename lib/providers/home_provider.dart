@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/models/styleup_battle_model.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 import 'package:showny/screens/tabs/home/screen/battle_screen.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_screen.dart';
 
 class HomeProvider with ChangeNotifier {
   State state;
 
-  int selectedMenuIdx = 0;
   late List<Widget> homeMenu;
   int currentBattle = 0;
   StyleupBattleModel? styleUpBattle;
@@ -23,20 +24,44 @@ class HomeProvider with ChangeNotifier {
   late PageController pageController;
   late TabController tabController;
 
-  Widget get currentScreen => homeMenu[selectedMenuIdx];
+  // Widget get currentScreen => homeMenu[selectedMenuIdx];
 
   int curPageIdx = 0;
+  bool isBattleSelected = false;
 
   // void setSelectedMenuIdx(int idx) {
   //   selectedMenuIdx = idx;
   //   notifyListeners();
   // }
 
+  ScrollPhysics getPhysics() {
+    if (curPageIdx == 0 || isBattleSelected) {
+      return const CustomScrollPhysics();
+    }
+    return const NeverScrollableScrollPhysics();
+  }
+
+  void setIsBattleSelected(bool value) {
+    isBattleSelected = value;
+    notifyListeners();
+  }
+
   void setCurrentBattle(int idx) {
     currentBattle = idx;
     notifyListeners();
   }
 
+  void setBattleData(
+      {required String roundNo, required StyleupBattleItemModel copy}) {
+    int idx = styleUpBattle!.battleItemList
+        .indexWhere((element) => element.battleRoundNo == roundNo);
+    if (idx != -1) {
+      styleUpBattle!.battleItemList[idx] = copy;
+      notifyListeners();
+    }
+  }
+
+  // TODO 추후 copyWith 사용하여 styleup 데이터 수정하는 부분 통합
   void setStyleUpDown({required String styleUpNo, required int value}) {
     int idx =
         styleUpList.indexWhere((element) => element.styleupNo == styleUpNo);
@@ -63,6 +88,8 @@ class HomeProvider with ChangeNotifier {
   }
 
   void setpage(int value) {
+    curPageIdx = value;
+    notifyListeners();
     pageController.animateToPage(value,
         duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
   }

@@ -11,6 +11,7 @@ import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/tabs/home/components/see_more_action_sheet.dart';
 import 'package:showny/screens/tabs/home/screen/report_sheet_screen.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_item.dart';
+import 'package:video_player/video_player.dart';
 
 class StyleUpItemProvider with ChangeNotifier {
   State<StyleUpItem> state;
@@ -28,6 +29,17 @@ class StyleUpItemProvider with ChangeNotifier {
   Offset movePosition = Offset.zero;
 
   bool showTags = false;
+
+  // temp video controller
+  VideoPlayerController? videoController;
+
+  // cur img idx
+  int curImgIdx = 0;
+
+  void setImgIdx(int val) {
+    curImgIdx = val;
+    notifyListeners();
+  }
 
   void setIsFollow(bool value) {
     HomeProvider homeProv =
@@ -328,8 +340,22 @@ class StyleUpItemProvider with ChangeNotifier {
 
   @override
   void dispose() {
+    if (videoController != null) {
+      videoController?.pause();
+      videoController?.dispose();
+    }
+
     super.dispose();
   }
 
-  StyleUpItemProvider(this.state);
+  StyleUpItemProvider(this.state) {
+    if (state.widget.styleUp.type != 'img') {
+      videoController = VideoPlayerController.networkUrl(
+          Uri.parse(state.widget.styleUp.videoUrl));
+      videoController?.setLooping(true);
+      videoController?.initialize().then((value) {
+        notifyListeners();
+      });
+    }
+  }
 }

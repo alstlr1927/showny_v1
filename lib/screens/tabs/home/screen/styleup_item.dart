@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/components/custom_long_press/custom_long_press.dart';
+import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/styleup_item_provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/tabs/home/components/drag_item_tag.dart';
 import 'package:showny/screens/tabs/home/components/following_button.dart';
 import 'package:showny/screens/tabs/home/components/product_container.dart';
 import 'package:showny/screens/tabs/home/components/tool_box.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_image.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_video.dart';
+import 'package:video_player/video_player.dart';
 
 class StyleUpItem extends StatefulWidget {
   final StyleupModel styleUp;
@@ -90,12 +93,30 @@ class _StyleUpItemState extends State<StyleUpItem> {
                   )
                 : Stack(
                     children: [
-                      StyleUpVideo(videoUrl: widget.styleUp.videoUrl),
+                      StyleUpVideo(
+                        videoUrl: widget.styleUp.videoUrl,
+                        videoController: prov.videoController!,
+                      ),
                       _buildDescription(prov),
                     ],
                   ),
           ),
-        )
+        ),
+        if (!isImage) ...{
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: VideoProgressIndicator(
+              prov.videoController!,
+              allowScrubbing: true,
+              padding: const EdgeInsets.only(top: 30),
+              colors: VideoProgressColors(
+                backgroundColor: Colors.white.withOpacity(.5),
+                bufferedColor: Colors.transparent,
+                playedColor: const Color(0xff656565),
+              ),
+            ),
+          ),
+        },
       ],
     );
   }
@@ -321,6 +342,23 @@ class _StyleUpItemState extends State<StyleUpItem> {
               width: size.width,
               height: size.height,
               color: Colors.black.withOpacity(.7),
+              child: Stack(
+                children: [
+                  ...widget.styleUp.goodsDataList[prov.curImgIdx].map((item) {
+                    return Positioned(
+                      left: item.left * size.width,
+                      top: item.top * size.width * 6 / 4,
+                      child: tagWidget(
+                        goodsNm: item.goodsNm,
+                        price: item.goodsPrice.formatPrice(),
+                        size: item.optionKey != ""
+                            ? '${item.optionKey} : ${item.optionValue}'
+                            : "",
+                      ),
+                    );
+                  }).toList(),
+                ],
+              ),
             ),
           )
         : Container();

@@ -49,15 +49,14 @@ class Constants {
   static String kakaoJavascriptAppId = '20665dd4b2ee2e6e445047491ec1734f';
 }
 
-
-class MiniShopSortType{
+class MiniShopSortType {
   static const int newest = 0;
   static const int recommended = 1;
   static const int lowestPrice = 2;
   static const int highestPrice = 3;
 }
 
-class MiniShopTransactionStatus{
+class MiniShopTransactionStatus {
   static const int checked = 0;
   static const int unChecked = 2;
 }
@@ -67,7 +66,7 @@ class MiniShopSearchTransactionStatus {
   static const int unChecked = 2;
 }
 
-class MiniShopProductsType{
+class MiniShopProductsType {
   static const int newGoods = 1;
   static const int oldOnes = 0;
 }
@@ -77,7 +76,7 @@ class MiniShopSearchProductsType {
   static const int oldOnes = 0;
 }
 
-class MiniShopProductsViewWearingShot{
+class MiniShopProductsViewWearingShot {
   static const int view = 1;
   static const int hide = 0;
 }

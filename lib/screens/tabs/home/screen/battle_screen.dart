@@ -1,18 +1,22 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:share_plus/share_plus.dart';
 
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/models/user_model.dart';
 import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
+import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 import 'package:showny/screens/intro/screen/login_popup_screen.dart';
 import 'package:showny/screens/tabs/home/components/product_container_battle.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/tabs/home/screen/battle_item.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_screen.dart';
 import 'package:showny/screens/tabs/profile/other_profile_screen.dart';
 import 'package:showny/screens/tabs/profile/profile_screen.dart';
@@ -63,18 +67,21 @@ class _BattleScreenState extends State<BattleScreen> {
             ),
           ),
           child: GestureDetector(onTap: () {
-            if(Provider.of<UserProvider>(context, listen: false).user.memNo == profile.memNo) {
+            if (Provider.of<UserProvider>(context, listen: false).user.memNo ==
+                profile.memNo) {
               Navigator.push(
-                context,
-                PageRouteBuilderRightLeft(
-                    child: ProfileScreen(isBack: true,)));
+                  context,
+                  PageRouteBuilderRightLeft(
+                      child: ProfileScreen(
+                    isBack: true,
+                  )));
             } else {
               Navigator.push(
-                context,
-                PageRouteBuilderRightLeft(
-                    child: OtherProfileScreen(
-                  memNo: profile.memNo,
-                )));
+                  context,
+                  PageRouteBuilderRightLeft(
+                      child: OtherProfileScreen(
+                    memNo: profile.memNo,
+                  )));
             }
           }),
         ),
@@ -89,18 +96,21 @@ class _BattleScreenState extends State<BattleScreen> {
             ),
           ),
           onTap: () {
-            if(Provider.of<UserProvider>(context, listen: false).user.memNo == profile.memNo) {
+            if (Provider.of<UserProvider>(context, listen: false).user.memNo ==
+                profile.memNo) {
               Navigator.push(
-                context,
-                PageRouteBuilderRightLeft(
-                    child: ProfileScreen(isBack: true,)));
+                  context,
+                  PageRouteBuilderRightLeft(
+                      child: ProfileScreen(
+                    isBack: true,
+                  )));
             } else {
               Navigator.push(
-                context,
-                PageRouteBuilderRightLeft(
-                    child: OtherProfileScreen(
-                  memNo: profile.memNo,
-                )));
+                  context,
+                  PageRouteBuilderRightLeft(
+                      child: OtherProfileScreen(
+                    memNo: profile.memNo,
+                  )));
             }
           },
         )
@@ -204,8 +214,19 @@ class _BattleScreenState extends State<BattleScreen> {
     debugPrint(widget.title);
     debugPrint(widget.battleList.length.toString());
 
+    return PageView(
+      physics: const CustomScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      children: List.generate(widget.battleList.length, (index) {
+        return BattleItem(
+          battleItem: widget.battleList[index],
+          index: index,
+        );
+      }),
+    );
+
     return Container(
-        color: Colors.white,
+        color: Colors.amber,
         child: widget.battleList.isEmpty
             ? Stack(
                 children: [
@@ -283,39 +304,39 @@ class _BattleScreenState extends State<BattleScreen> {
                       ),
                       SafeArea(
                         child: Row(
-                            children: [
-                              widget.isMain == false
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16),
-                                        child: Image.asset(
-                                          arrowBackward,
-                                          height: 20,
-                                          width: 20,
-                                          color: Colors.white,
-                                        ),
+                          children: [
+                            widget.isMain == false
+                                ? GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Image.asset(
+                                        arrowBackward,
+                                        height: 20,
+                                        width: 20,
+                                        color: Colors.white,
                                       ),
-                                    )
-                                  : const SizedBox(),
-                              const Spacer(),
-                              CupertinoButton(
-                                minSize: 0,
-                                padding: const EdgeInsets.all(16),
-                                child: Image.asset(
-                                  'assets/icons/share.png',
-                                  width: 24,
-                                  height: 24,
-                                ),
-                                onPressed: () {
-                                  Share.share(
-                                      'https://www.instagram.com/outfitbattles_korea/');
-                                },
+                                    ),
+                                  )
+                                : const SizedBox(),
+                            const Spacer(),
+                            CupertinoButton(
+                              minSize: 0,
+                              padding: const EdgeInsets.all(16),
+                              child: Image.asset(
+                                'assets/icons/share.png',
+                                width: 24,
+                                height: 24,
                               ),
-                            ],
-                          ),
+                              onPressed: () {
+                                Share.share(
+                                    'https://www.instagram.com/outfitbattles_korea/');
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                       SafeArea(
                         child: Padding(
@@ -341,7 +362,7 @@ class _BattleScreenState extends State<BattleScreen> {
                                       onPressed: () {
                                         // Navigator.pushNamed(
                                         //   context, BattleListScreen.routeName);
-                                      } ,
+                                      },
                                       minSize: 0,
                                       padding: EdgeInsets.zero,
                                       child: Row(
@@ -401,22 +422,41 @@ class _BattleScreenState extends State<BattleScreen> {
                                               : 0),
                                           child: GestureDetector(
                                             onTap: () {
-                                              ApiHelper.shared.getProfileStyleupList(widget.battleList[index].styleup1.userInfo.memNo, 2, 0, (styleupList) {
-                                                String styleupNo = widget.battleList[index].styleup1.styleupNo;
-                                                StyleupModel findStyleup = styleupList.firstWhere((styleup) => styleup.styleupNo == styleupNo, orElse: () => StyleupModel());
-                                                if(findStyleup.styleupNo == "") {
+                                              ApiHelper.shared
+                                                  .getProfileStyleupList(
+                                                      widget
+                                                          .battleList[index]
+                                                          .styleup1
+                                                          .userInfo
+                                                          .memNo,
+                                                      2,
+                                                      0, (styleupList) {
+                                                String styleupNo = widget
+                                                    .battleList[index]
+                                                    .styleup1
+                                                    .styleupNo;
+                                                StyleupModel findStyleup =
+                                                    styleupList.firstWhere(
+                                                        (styleup) =>
+                                                            styleup.styleupNo ==
+                                                            styleupNo,
+                                                        orElse: () =>
+                                                            StyleupModel());
+                                                if (findStyleup.styleupNo ==
+                                                    "") {
                                                   return;
                                                 }
                                                 styleupList.remove(findStyleup);
-                                                styleupList.insert(0, findStyleup);
+                                                styleupList.insert(
+                                                    0, findStyleup);
                                                 Navigator.push(
-                                                context,
-                                                PageRouteBuilderRightLeft(
-                                                    child: StyleupScreen(
+                                                    context,
+                                                    PageRouteBuilderRightLeft(
+                                                        child: StyleupScreen(
                                                       isMain: false,
                                                       initIndex: 0,
                                                       styleupList: styleupList,
-                                                )));
+                                                    )));
                                               }, (error) {});
                                             },
                                           ),
@@ -456,22 +496,41 @@ class _BattleScreenState extends State<BattleScreen> {
                                               : 0),
                                           child: GestureDetector(
                                             onTap: () {
-                                              ApiHelper.shared.getProfileStyleupList(widget.battleList[index].styleup2.userInfo.memNo, 2, 0, (styleupList) {
-                                                String styleupNo = widget.battleList[index].styleup2.styleupNo;
-                                                StyleupModel findStyleup = styleupList.firstWhere((styleup) => styleup.styleupNo == styleupNo, orElse: () => StyleupModel());
-                                                if(findStyleup.styleupNo == "") {
+                                              ApiHelper.shared
+                                                  .getProfileStyleupList(
+                                                      widget
+                                                          .battleList[index]
+                                                          .styleup2
+                                                          .userInfo
+                                                          .memNo,
+                                                      2,
+                                                      0, (styleupList) {
+                                                String styleupNo = widget
+                                                    .battleList[index]
+                                                    .styleup2
+                                                    .styleupNo;
+                                                StyleupModel findStyleup =
+                                                    styleupList.firstWhere(
+                                                        (styleup) =>
+                                                            styleup.styleupNo ==
+                                                            styleupNo,
+                                                        orElse: () =>
+                                                            StyleupModel());
+                                                if (findStyleup.styleupNo ==
+                                                    "") {
                                                   return;
                                                 }
                                                 styleupList.remove(findStyleup);
-                                                styleupList.insert(0, findStyleup);
+                                                styleupList.insert(
+                                                    0, findStyleup);
                                                 Navigator.push(
-                                                context,
-                                                PageRouteBuilderRightLeft(
-                                                    child: StyleupScreen(
+                                                    context,
+                                                    PageRouteBuilderRightLeft(
+                                                        child: StyleupScreen(
                                                       isMain: false,
                                                       initIndex: 0,
                                                       styleupList: styleupList,
-                                                )));
+                                                    )));
                                               }, (error) {});
                                             },
                                           ),
@@ -516,61 +575,65 @@ class _BattleScreenState extends State<BattleScreen> {
                                           widget.battleList[index].pollTag == 1,
                                       onPressed: () {
                                         UserProvider userProvider =
-                                        Provider.of<UserProvider>(context, listen: false);
+                                            Provider.of<UserProvider>(context,
+                                                listen: false);
                                         final user = userProvider.user;
 
                                         debugPrint(user.memNo);
                                         if (user.memNo == "") {
                                           showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(12.0),
-                                                topRight: Radius.circular(12.0),
+                                              context: context,
+                                              isScrollControlled: true,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft:
+                                                      Radius.circular(12.0),
+                                                  topRight:
+                                                      Radius.circular(12.0),
+                                                ),
                                               ),
-                                            ),
-                                            builder: (BuildContext context) {
-                                              return const LoginPopupScreen();
-                                          });
+                                              builder: (BuildContext context) {
+                                                return const LoginPopupScreen();
+                                              });
                                           return;
                                         }
                                         int selectedIndex = index;
                                         setState(() {
-                                          if(pollLock == true) {
+                                          if (pollLock == true) {
                                             return;
                                           }
                                           pollLock = true;
-                                          
+
                                           ApiHelper.shared
-                                            .selectStyleupBattleItem(
-                                                widget.battleList[selectedIndex]
-                                                    .battleRoundNo,
-                                                item.styleup1.styleupNo,
-                                                item.styleup2.styleupNo,
-                                                user.memNo,
-                                                (battleVoteResponseModel) {
-                                                  
-                                          setState(() {
-                                            pollLock = false;
-                                            widget.battleList[selectedIndex]
-                                                .pollTag = 1;
-                                            widget.battleList[selectedIndex]
-                                                .isPoll = true;
-                                            widget.battleList[selectedIndex]
-                                                    .style1PollCnt =
-                                                battleVoteResponseModel
-                                                    .style1PollCnt;
-                                            widget.battleList[selectedIndex]
-                                                    .style2PollCnt =
-                                                battleVoteResponseModel
-                                                    .style2PollCnt;
+                                              .selectStyleupBattleItem(
+                                                  widget
+                                                      .battleList[selectedIndex]
+                                                      .battleRoundNo,
+                                                  item.styleup1.styleupNo,
+                                                  item.styleup2.styleupNo,
+                                                  user.memNo,
+                                                  (battleVoteResponseModel) {
+                                            setState(() {
+                                              pollLock = false;
+                                              widget.battleList[selectedIndex]
+                                                  .pollTag = 1;
+                                              widget.battleList[selectedIndex]
+                                                  .isPoll = true;
+                                              widget.battleList[selectedIndex]
+                                                      .style1PollCnt =
+                                                  battleVoteResponseModel
+                                                      .style1PollCnt;
+                                              widget.battleList[selectedIndex]
+                                                      .style2PollCnt =
+                                                  battleVoteResponseModel
+                                                      .style2PollCnt;
+                                            });
+                                          }, (error) {
+                                            setState(() {
+                                              pollLock = false;
+                                            });
                                           });
-                                        }, (error) {
-                                          setState(() {
-                                            pollLock = false;
-                                          });
-                                        });
                                         });
                                         // swiperController.next();
                                       }),
@@ -594,62 +657,67 @@ class _BattleScreenState extends State<BattleScreen> {
                                           widget.battleList[index].pollTag == 2,
                                       onPressed: () {
                                         UserProvider userProvider =
-                                        Provider.of<UserProvider>(context, listen: false);
+                                            Provider.of<UserProvider>(context,
+                                                listen: false);
                                         final user = userProvider.user;
 
                                         debugPrint(user.memNo);
                                         if (user.memNo == "") {
                                           showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(12.0),
-                                                topRight: Radius.circular(12.0),
+                                              context: context,
+                                              isScrollControlled: true,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft:
+                                                      Radius.circular(12.0),
+                                                  topRight:
+                                                      Radius.circular(12.0),
+                                                ),
                                               ),
-                                            ),
-                                            builder: (BuildContext context) {
-                                              return const LoginPopupScreen();
-                                          });
+                                              builder: (BuildContext context) {
+                                                return const LoginPopupScreen();
+                                              });
                                           return;
                                         }
                                         int selectedIndex = index;
                                         setState(() {
-                                          if(pollLock == true) {
+                                          if (pollLock == true) {
                                             return;
                                           }
                                           pollLock = true;
-                                          
+
                                           ApiHelper.shared
-                                            .selectStyleupBattleItem(
-                                                widget.battleList[selectedIndex]
-                                                    .battleRoundNo,
-                                                item.styleup2.styleupNo,
-                                                item.styleup1.styleupNo,
-                                                user.memNo,
-                                                (battleVoteResponseModel) {
-                                          setState(() {
-                                            pollLock = false;
-                                            widget.battleList[selectedIndex]
-                                                .pollTag = 2;
-                                            widget.battleList[selectedIndex]
-                                                .isPoll = true;
-                                            widget.battleList[selectedIndex]
-                                                    .style1PollCnt =
-                                                battleVoteResponseModel
-                                                    .style1PollCnt;
-                                            widget.battleList[selectedIndex]
-                                                    .style2PollCnt =
-                                                battleVoteResponseModel
-                                                    .style2PollCnt;
-                                          });
+                                              .selectStyleupBattleItem(
+                                                  widget
+                                                      .battleList[selectedIndex]
+                                                      .battleRoundNo,
+                                                  item.styleup2.styleupNo,
+                                                  item.styleup1.styleupNo,
+                                                  user.memNo,
+                                                  (battleVoteResponseModel) {
+                                            setState(() {
+                                              pollLock = false;
+                                              widget.battleList[selectedIndex]
+                                                  .pollTag = 2;
+                                              widget.battleList[selectedIndex]
+                                                  .isPoll = true;
+                                              widget.battleList[selectedIndex]
+                                                      .style1PollCnt =
+                                                  battleVoteResponseModel
+                                                      .style1PollCnt;
+                                              widget.battleList[selectedIndex]
+                                                      .style2PollCnt =
+                                                  battleVoteResponseModel
+                                                      .style2PollCnt;
+                                            });
                                           }, (error) {
                                             setState(() {
                                               pollLock = false;
                                             });
                                           });
                                         });
-                                        
+
                                         // swiperController.next();
                                       }),
                                   const SizedBox(height: 16.0),
@@ -695,23 +763,23 @@ class _BattleScreenState extends State<BattleScreen> {
                           // Right Swipe
                           debugPrint("Detect Right Swipe");
                           UserProvider userProvider =
-                          Provider.of<UserProvider>(context, listen: false);
+                              Provider.of<UserProvider>(context, listen: false);
                           final user = userProvider.user;
 
                           debugPrint(user.memNo);
                           if (user.memNo == "") {
                             showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12.0),
-                                  topRight: Radius.circular(12.0),
+                                context: context,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(12.0),
+                                    topRight: Radius.circular(12.0),
+                                  ),
                                 ),
-                              ),
-                              builder: (BuildContext context) {
-                                return const LoginPopupScreen();
-                            });
+                                builder: (BuildContext context) {
+                                  return const LoginPopupScreen();
+                                });
                             return;
                           }
 
@@ -741,30 +809,29 @@ class _BattleScreenState extends State<BattleScreen> {
                               });
                             });
                           });
-                          
-                          
+
                           // swiperController.next();
                         } else if (details.delta.dx < -sensitivity) {
                           //Left Swipe
                           debugPrint("Detect Left Swipe");
                           UserProvider userProvider =
-                          Provider.of<UserProvider>(context, listen: false);
+                              Provider.of<UserProvider>(context, listen: false);
                           final user = userProvider.user;
 
                           debugPrint(user.memNo);
                           if (user.memNo == "") {
                             showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12.0),
-                                  topRight: Radius.circular(12.0),
+                                context: context,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(12.0),
+                                    topRight: Radius.circular(12.0),
+                                  ),
                                 ),
-                              ),
-                              builder: (BuildContext context) {
-                                return const LoginPopupScreen();
-                            });
+                                builder: (BuildContext context) {
+                                  return const LoginPopupScreen();
+                                });
                             return;
                           }
 
@@ -775,27 +842,26 @@ class _BattleScreenState extends State<BattleScreen> {
                             pollLock = true;
 
                             ApiHelper.shared.selectStyleupBattleItem(
-                              widget.battleList[index].battleRoundNo,
-                              item.styleup1.styleupNo,
-                              item.styleup2.styleupNo,
-                              user.memNo, (battleVoteResponseModel) {
-                            setState(() {
-                              pollLock = false;
-                              widget.battleList[index].pollTag = 1;
-                              widget.battleList[index].isPoll = true;
-                              widget.battleList[index].style1PollCnt =
-                                  battleVoteResponseModel.style1PollCnt;
-                              widget.battleList[index].style2PollCnt =
-                                  battleVoteResponseModel.style2PollCnt;
-                            });
-                          }, (error) {
-                            setState(() {
-                              pollLock = false;
+                                widget.battleList[index].battleRoundNo,
+                                item.styleup1.styleupNo,
+                                item.styleup2.styleupNo,
+                                user.memNo, (battleVoteResponseModel) {
+                              setState(() {
+                                pollLock = false;
+                                widget.battleList[index].pollTag = 1;
+                                widget.battleList[index].isPoll = true;
+                                widget.battleList[index].style1PollCnt =
+                                    battleVoteResponseModel.style1PollCnt;
+                                widget.battleList[index].style2PollCnt =
+                                    battleVoteResponseModel.style2PollCnt;
+                              });
+                            }, (error) {
+                              setState(() {
+                                pollLock = false;
+                              });
                             });
                           });
 
-                          });
-                          
                           // swiperController.next();
                         }
                       })

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/error/image_error.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/models/goods_item_model.dart';
 import 'package:showny/screens/tabs/home/components/wearing_items_sheet_screen.dart';
@@ -55,11 +56,9 @@ class _ProductContainerState extends State<ProductContainer> {
                   child: Image.network(goodsDataList[0].goodsImg,
                       width: 40.0,
                       height: 40.0,
-                      fit: BoxFit.cover, errorBuilder: (context, error, stack) {
-                    return Container(
-                      color: Colors.white,
-                    );
-                  }),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stack) =>
+                          const ImageError()),
                 ),
                 const SizedBox(width: 12),
                 Column(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:showny/components/error/image_error.dart';
+import 'package:showny/providers/styleup_item_provider.dart';
 
 class StyleUpImage extends StatelessWidget {
   final List<String> imageList;
@@ -9,14 +12,22 @@ class StyleUpImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StyleUpItemProvider prov =
+        Provider.of<StyleUpItemProvider>(context, listen: false);
     return Expanded(
       child: PageView(
         physics: const ClampingScrollPhysics(),
+        onPageChanged: prov.setImgIdx,
         children: imageList
             .map((url) => SizedBox(
                   width: double.infinity,
                   height: double.infinity,
-                  child: Image.network(url, fit: BoxFit.cover),
+                  child: Image.network(
+                    url,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const ImageError(),
+                  ),
                 ))
             .toList(),
       ),

@@ -54,7 +54,9 @@ class _HomeScreenState extends State<HomeScreen>
             return Stack(
               children: [
                 PageView(
-                  physics: const NeverScrollableScrollPhysics(),
+                  physics: prov.getPhysics(),
+                  // physics: const NeverScrollableScrollPhysics(),
+                  // physics: const ClampingScrollPhysics(),
                   controller: prov.pageController,
                   onPageChanged: prov.setTab,
                   children: [

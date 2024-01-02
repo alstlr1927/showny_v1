@@ -20,12 +20,11 @@ class StyleupBattleItemModel {
     StyleupModel? styleup1,
     StyleupModel? styleup2,
     StyleupItemInfoModel? itemInfo,
-  }) : styleup1 = styleup1 ?? StyleupModel(),
+  })  : styleup1 = styleup1 ?? StyleupModel(),
         styleup2 = styleup2 ?? StyleupModel();
-        // itemInfo = itemInfo ?? StyleupItemInfoModel();
+  // itemInfo = itemInfo ?? StyleupItemInfoModel();
 
   factory StyleupBattleItemModel.fromJson(Map<String, dynamic> json) {
-    
     return StyleupBattleItemModel(
       battleRoundNo: json['battleRoundNo'] as String,
       isPoll: json['isPoll'] as bool,
@@ -37,4 +36,23 @@ class StyleupBattleItemModel {
       // itemInfo: StyleupItemInfoModel.fromJson(json['itemInfo'] ??{}),
     );
   }
+
+  StyleupBattleItemModel copyWith({
+    String? battleRoundNo,
+    bool? isPoll,
+    int? pollTag,
+    int? style1PollCnt,
+    int? style2PollCnt,
+    StyleupModel? styleup1,
+    StyleupModel? styleup2,
+  }) =>
+      StyleupBattleItemModel(
+        battleRoundNo: battleRoundNo ?? this.battleRoundNo,
+        isPoll: isPoll ?? this.isPoll,
+        pollTag: pollTag ?? this.pollTag,
+        style1PollCnt: style1PollCnt ?? this.style1PollCnt,
+        style2PollCnt: style2PollCnt ?? this.style2PollCnt,
+        styleup1: styleup1 ?? this.styleup1,
+        styleup2: styleup2 ?? this.styleup2,
+      );
 }

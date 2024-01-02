@@ -93,16 +93,22 @@ flutter:
     - assets/translations/
 
   fonts:
-    - family: Spoqa Han Sans Neo
+    - family: pretendard
       fonts:
-        - asset: assets/fonts/SpoqaHanSansNeo-Light.otf
-          weight: 300
-        - asset: assets/fonts/SpoqaHanSansNeo-Regular.otf
-          weight: 400
-        - asset: assets/fonts/SpoqaHanSansNeo-Medium.otf
-          weight: 500
-        - asset: assets/fonts/SpoqaHanSansNeo-Bold.otf
-          weight: 700
+        - asset: assets/fonts/Pretendard-Bold.ttf
+        - asset: assets/fonts/Pretendard-Regular.ttf
+        - asset: assets/fonts/Pretendard-SemiBold.ttf
+
+    # - family: Spoqa Han Sans Neo
+    #   fonts:
+    #     - asset: assets/fonts/SpoqaHanSansNeo-Light.otf
+    #       weight: 300
+    #     - asset: assets/fonts/SpoqaHanSansNeo-Regular.otf
+    #       weight: 400
+    #     - asset: assets/fonts/SpoqaHanSansNeo-Medium.otf
+    #       weight: 500
+    #     - asset: assets/fonts/SpoqaHanSansNeo-Bold.otf
+    #       weight: 700
 
     - family: Poppins
       fonts:
