@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:provider/provider.dart' as prod;
 import 'package:sendbird_chat_sdk/sendbird_chat_sdk.dart';
@@ -12,6 +15,7 @@ import 'package:showny/providers/FetchGetMemberMinishopProductProvider.dart';
 import 'package:showny/providers/storeListProvider.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/routes.dart';
+import 'package:showny/screens/intro/provider/login_provider.dart';
 import 'package:showny/screens/intro/screen/login_screen.dart';
 import 'package:showny/screens/tabs/profile/my_shop/provider/report_provider.dart';
 import 'package:showny/screens/tabs/profile/other_profile_tab2_provider.dart';
@@ -21,7 +25,17 @@ import 'package:showny/screens/tabs/profile/provider/get_cancel_infodetail_provi
 import 'package:showny/screens/tabs/profile/provider/get_profile_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/getstore_cancel_list_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/getstore_cartlist_provider.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'firebase_options.dart';
+
+class OverFlowGlowBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +73,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool usingDeviceSize = Device.get().isTablet! && Device.get().isAndroid!;
+    if (usingDeviceSize) {
+      ShownyStyle.applyDesignSize = ShownyStyle.tabletDesignSize;
+    }
     return prod.MultiProvider(
       providers: [
         prod.ChangeNotifierProvider(
@@ -98,16 +116,59 @@ class MyApp extends StatelessWidget {
           create: (context) => GetMyProfileProvider(),
         ),
       ],
-      child: MaterialApp(
-        title: Constants.appName,
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: Constants.theme,
-        home: const LoginScreen(),
-        routes: routes,
-        navigatorKey: NavigatorKeys.navigatorKeyMain,
+      child: ScreenUtilInit(
+        designSize: usingDeviceSize
+            ? ShownyStyle.tabletDesignSize
+            : ShownyStyle.defaultDesignSize,
+        builder: (ctx, child) => MaterialApp(
+          darkTheme: ThemeData(
+            brightness: Brightness.light,
+          ),
+          builder: (context, child) {
+            final MediaQueryData data = MediaQuery.of(context);
+            bool usingDeviceSize =
+                Device.get().isTablet! && Device.get().isAndroid!;
+            if (usingDeviceSize) {
+              ShownyStyle.applyDesignSize = ShownyStyle.tabletDesignSize;
+            }
+
+            ScreenUtil.init(
+              context,
+              designSize: usingDeviceSize
+                  ? ShownyStyle.tabletDesignSize
+                  : ShownyStyle.defaultDesignSize,
+            );
+            return ScrollConfiguration(
+              behavior: OverFlowGlowBehavior(),
+              child: MediaQuery(
+                data: data.copyWith(
+                  textScaleFactor: Platform.isAndroid ? .95 : 1.0,
+                ),
+                child: child!,
+              ),
+            );
+          },
+          themeMode: ThemeMode.light,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          theme: Constants.theme,
+          routes: routes,
+          navigatorKey: NavigatorKeys.navigatorKeyMain,
+          home: const LoginScreen(),
+        ),
+        // child: MaterialApp(
+        //   title: Constants.appName,
+        //   debugShowCheckedModeBanner: false,
+        //   localizationsDelegates: context.localizationDelegates,
+        //   supportedLocales: context.supportedLocales,
+        //   locale: context.locale,
+        //   theme: Constants.theme,
+        //   home: const LoginScreen(),
+        //   routes: routes,
+        //   navigatorKey: NavigatorKeys.navigatorKeyMain,
+        // ),
       ),
     );
   }

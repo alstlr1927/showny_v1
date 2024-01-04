@@ -24,6 +24,8 @@ class StyleUpItemProvider with ChangeNotifier {
   double standardPosition = 0.0;
   Duration longPressDuration = const Duration(milliseconds: 100);
 
+  bool isExtendedText = false;
+
   // drag event 관련 좌표
   Offset startPosition = Offset.zero;
   Offset movePosition = Offset.zero;
@@ -35,6 +37,11 @@ class StyleUpItemProvider with ChangeNotifier {
 
   // cur img idx
   int curImgIdx = 0;
+
+  void setExtendedText() {
+    isExtendedText = !isExtendedText;
+    notifyListeners();
+  }
 
   void setImgIdx(int val) {
     curImgIdx = val;
@@ -80,6 +87,7 @@ class StyleUpItemProvider with ChangeNotifier {
   }
 
   void onLongPress() {
+    print('long press');
     isSelectMode = true;
     HapticFeedback.lightImpact();
     notifyListeners();
@@ -115,56 +123,70 @@ class StyleUpItemProvider with ChangeNotifier {
     HomeProvider homeProvider =
         Provider.of<HomeProvider>(state.context, listen: false);
     if (selected == 1) {
-      // ToastMsg.showToast(
-      //   msg: 'UP 하셨습니다!',
-      //   backgroundColor: Colors.black.withOpacity(.7),
-      //   textColor: Colors.white,
+      updateUpDownType(1);
+      // ApiHelper.shared.styleupUpDown(
+      //   state.widget.styleUp.styleupNo,
+      //   userProvider.user.memNo,
+      //   1,
+      //   (success) {
+      //     // state.widget.styleUp.upDownType = 1;
+      //     homeProvider.setStyleUpDown(
+      //         styleUpNo: state.widget.styleUp.styleupNo, value: 1);
+      //     state.widget.onSelect?.call();
+      //     notifyListeners();
+      //   },
+      //   (error) {
+      //     // 서버 오류 메시지
+      //     debugPrint('error : ${error.toString()}');
+      //   },
       // );
-
-      ApiHelper.shared.styleupUpDown(
-        state.widget.styleUp.styleupNo,
-        userProvider.user.memNo,
-        1,
-        (success) {
-          // state.widget.styleUp.upDownType = 1;
-          homeProvider.setStyleUpDown(
-              styleUpNo: state.widget.styleUp.styleupNo, value: 1);
-          state.widget.onSelect?.call();
-          notifyListeners();
-        },
-        (error) {
-          // 서버 오류 메시지
-          debugPrint('error : ${error.toString()}');
-        },
-      );
     } else if (selected == 2) {
-      ApiHelper.shared.styleupUpDown(
-        state.widget.styleUp.styleupNo,
-        userProvider.user.memNo,
-        2,
-        (success) {
-          // updown type = 2
-          homeProvider.setStyleUpDown(
-              styleUpNo: state.widget.styleUp.styleupNo, value: 2);
-          // next page
-          state.widget.onSelect?.call();
-          notifyListeners();
-        },
-        (error) {
-          // 서버 오류 메시지
-          debugPrint('error : ${error.toString()}');
-        },
-      );
-      // ToastMsg.showToast(
-      //   msg: 'DOWN 하셨습니다!',
-      //   backgroundColor: Colors.black.withOpacity(.7),
-      //   textColor: Colors.white,
+      updateUpDownType(2);
+      // ApiHelper.shared.styleupUpDown(
+      //   state.widget.styleUp.styleupNo,
+      //   userProvider.user.memNo,
+      //   2,
+      //   (success) {
+      //     // updown type = 2
+      //     homeProvider.setStyleUpDown(
+      //         styleUpNo: state.widget.styleUp.styleupNo, value: 2);
+      //     // next page
+      //     state.widget.onSelect?.call();
+      //     notifyListeners();
+      //   },
+      //   (error) {
+      //     // 서버 오류 메시지
+      //     debugPrint('error : ${error.toString()}');
+      //   },
       // );
     }
 
     selected = 0;
     standardPosition = 0.0;
     notifyListeners();
+  }
+
+  void updateUpDownType(int value) {
+    UserProvider userProvider =
+        Provider.of<UserProvider>(state.context, listen: false);
+    HomeProvider homeProvider =
+        Provider.of<HomeProvider>(state.context, listen: false);
+    ApiHelper.shared.styleupUpDown(
+      state.widget.styleUp.styleupNo,
+      userProvider.user.memNo,
+      value,
+      (success) {
+        // state.widget.styleUp.upDownType = 1;
+        homeProvider.setStyleUpDown(
+            styleUpNo: state.widget.styleUp.styleupNo, value: value);
+        state.widget.onSelect?.call();
+        notifyListeners();
+      },
+      (error) {
+        // 서버 오류 메시지
+        debugPrint('error : ${error.toString()}');
+      },
+    );
   }
 
   void onLongPressUp() {

@@ -4,6 +4,8 @@ import 'package:showny/components/error/image_error.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/battle_item_provider.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class BattleUser extends StatefulWidget {
   final double defaultImgWidth;
@@ -93,8 +95,7 @@ class _BattleUserState extends State<BattleUser> {
                 child: AnimatedSize(
                   duration: aniDuration,
                   child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
+                    margin: EdgeInsets.all(15.toWidth),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
                       color: Colors.black.withOpacity(.6),
@@ -103,8 +104,8 @@ class _BattleUserState extends State<BattleUser> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 8.toWidth, vertical: 4.toWidth),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -113,29 +114,28 @@ class _BattleUserState extends State<BattleUser> {
                                 child: Image.network(
                                   // 'assets/images/${widget.player.image}',
                                   styleup.userInfo.profileImage,
-                                  width: 24,
-                                  height: 24,
+                                  width: 24.toWidth,
+                                  height: 24.toWidth,
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) =>
                                       const ImageError(),
                                 ),
                               ),
-                              const SizedBox(width: 6),
+                              SizedBox(width: 10.toWidth),
                               Expanded(
                                 child: Text(
                                   styleup.userInfo.memNm,
-                                  style: const TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                  style: ShownyStyle.overline(
+                                      color: Colors.white,
+                                      weight: FontWeight.w700),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
                         ),
                         if (isFinished && isWin) ...{
+                          SizedBox(height: 4.toWidth),
                           LayoutBuilder(
                             builder: (context, layout) {
                               WidgetsBinding.instance
@@ -148,9 +148,9 @@ class _BattleUserState extends State<BattleUser> {
                                   AnimatedContainer(
                                     duration: const Duration(milliseconds: 400),
                                     width: layout.maxWidth * rating,
-                                    height: 27,
+                                    height: 20.toWidth,
                                     alignment: Alignment.centerLeft,
-                                    padding: const EdgeInsets.only(left: 14),
+                                    padding: EdgeInsets.only(left: 8.toWidth),
                                     decoration: BoxDecoration(
                                       color: const Color(0xff5900FF),
                                       gradient: LinearGradient(
@@ -168,10 +168,13 @@ class _BattleUserState extends State<BattleUser> {
                                       rating == 0
                                           ? ''
                                           : '${getRatingInteger(my: pollCnt, other: otherPollCnt)}%',
-                                      style: TextStyle(
+                                      style: ShownyStyle.overline(
                                           color: Colors.white,
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold),
+                                          weight: FontWeight.w700),
+                                      // style: TextStyle(
+                                      //     color: Colors.white,
+                                      //     fontSize: 10,
+                                      //     fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ],

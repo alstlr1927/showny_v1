@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/components/checkbox_term_list_tile.dart';
@@ -58,7 +59,8 @@ class _TermSheetState extends State<TermSheet> {
                   ),
                 ),
               const SizedBox(width: 8.0),
-              Text(tr("terms_screen.agree_all"), style: Constants.textFieldHintStyle),
+              Text(tr("terms_screen.agree_all"),
+                  style: Constants.textFieldHintStyle),
             ],
           ),
         ),
@@ -94,7 +96,8 @@ class _TermSheetState extends State<TermSheet> {
                     color: Colors.transparent,
                   ),
                 ),
-                Text(tr("terms_screen.terms_agree"), style: FontHelper.bold_16_000000),
+                Text(tr("terms_screen.terms_agree"),
+                    style: FontHelper.bold_16_000000),
                 CupertinoButton(
                   padding: const EdgeInsets.all(7.0),
                   child: const Icon(
@@ -136,23 +139,21 @@ class _TermSheetState extends State<TermSheet> {
               },
             ),
             const Spacer(),
-            SVButton(
-              title: tr("terms_screen.agree"),
-              titleColor: (agreePrivacy && agreeTerm)
-                  ? Colors.white
-                  : const Color(0xFF555555),
-              backgroundColor: (agreePrivacy && agreeTerm)
-                  ? Colors.black
-                  : const Color(0xFFEEEEEE),
+            ShownyButton(
               onPressed: () {
-                if(agreePrivacy && agreeTerm) {
+                if (agreePrivacy && agreeTerm) {
                   Navigator.pop(context);
                   widget.onCompleted(agreeMarketing ? '1' : '0');
                 }
-                
+
                 debugPrint('DEBUG: tab agree button');
               },
-            )
+              option: ShownyButtonOption.fill(
+                text: tr("terms_screen.agree"),
+                theme: ShownyButtonFillTheme.violet,
+                style: ShownyButtonFillStyle.fullRegular,
+              ),
+            ),
           ],
         ),
       ),

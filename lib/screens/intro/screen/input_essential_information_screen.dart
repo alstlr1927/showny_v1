@@ -34,8 +34,10 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
   final RegExp _validCharacters = RegExp(r'^[a-zA-Z0-9_.]*$');
   String birthDay = '';
 
-  List<String> heightList = List.generate(201 - 100, (index) => "${index + 100}cm");
-  List<String> weightList = List.generate(121 - 40, (index) => "${index + 40}kg");
+  List<String> heightList =
+      List.generate(201 - 100, (index) => "${index + 100}cm");
+  List<String> weightList =
+      List.generate(121 - 40, (index) => "${index + 40}kg");
 
   int? selectedHeightIndex;
   int? selectedWeightIndex;
@@ -139,7 +141,8 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
                           height: 20.0,
                           decoration: const ShapeDecoration(
                             shape: CircleBorder(
-                              side: BorderSide(color: Color(0xFFCCCCCC), width: 1.0),
+                              side: BorderSide(
+                                  color: Color(0xFFCCCCCC), width: 1.0),
                             ),
                           ),
                         ),
@@ -150,7 +153,7 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
                       style: const TextStyle(
                         color: Color(0xFF555555),
                         fontSize: 14,
-                        fontFamily: 'Spoqa Han Sans Neo',
+                        fontFamily: 'pretendard',
                         fontWeight: FontWeight.w400,
                       ),
                     )
@@ -204,7 +207,8 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
                           }
                           if (isIdLongerThanFour(idController.text) == false) {
                             var dialog = ShownyDialog(
-                                message: tr("input_essential_information_screen.validation_id_length_fail"),
+                                message: tr(
+                                    "input_essential_information_screen.validation_id_length_fail"),
                                 primaryLabel: tr("common.confirm"));
                             showDialog(
                               context: context,
@@ -299,16 +303,16 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
                 children: [
                   Expanded(
                       child: SVDropdownPicker(
-                      hintText: "180cm",
-                      items: heightList,
-                      selectedValue: selectedHeightIndex,
-                      onChanged: (p0) {
-                        setState(() {
-                          selectedHeightIndex = p0;
-                        });
-                        checkReadyToConfirm();
-                      },
-                    )),
+                    hintText: "180cm",
+                    items: heightList,
+                    selectedValue: selectedHeightIndex,
+                    onChanged: (p0) {
+                      setState(() {
+                        selectedHeightIndex = p0;
+                      });
+                      checkReadyToConfirm();
+                    },
+                  )),
                   const SizedBox(
                     width: 8,
                   ),
@@ -350,20 +354,20 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
                             "gender": gender,
                             "newMemId": idController.text.trim(),
                             "birthday": birthDateController.text.trim(),
-                            "heightId":
-                                selectedHeightIndex != null ? (selectedHeightIndex!+100) : null,
-                            "weightId":
-                                selectedWeightIndex != null ? (selectedWeightIndex!+40) : null
+                            "heightId": selectedHeightIndex != null
+                                ? (selectedHeightIndex! + 100)
+                                : null,
+                            "weightId": selectedWeightIndex != null
+                                ? (selectedWeightIndex! + 40)
+                                : null
                           }, (success) {
                             Navigator.pushNamed(
                                 context, InputAdditionalInfoScreen.routeName);
                             user.gender = gender;
                             user.memId = idController.text.trim();
                             user.birthday = birthDateController.text.trim();
-                            user.heightId =
-                                selectedHeightIndex!+100;
-                            user.weightId =
-                                selectedWeightIndex!+40;
+                            user.heightId = selectedHeightIndex! + 100;
+                            user.weightId = selectedWeightIndex! + 40;
                           }, (error) {
                             debugPrint(error);
                           });

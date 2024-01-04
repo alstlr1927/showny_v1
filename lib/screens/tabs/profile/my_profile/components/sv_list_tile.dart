@@ -9,7 +9,7 @@ class SVListTile extends StatelessWidget {
     this.titleTextStyle = const TextStyle(
       color: Color(0xFF777777),
       fontSize: 12,
-      fontFamily: 'Spoqa Han Sans Neo',
+      fontFamily: 'pretendard',
       fontWeight: FontWeight.w400,
     ),
   });

@@ -14,7 +14,8 @@ class StyleUpImage extends StatelessWidget {
   Widget build(BuildContext context) {
     StyleUpItemProvider prov =
         Provider.of<StyleUpItemProvider>(context, listen: false);
-    return Expanded(
+    return AspectRatio(
+      aspectRatio: 3 / 4,
       child: PageView(
         physics: const ClampingScrollPhysics(),
         onPageChanged: prov.setImgIdx,

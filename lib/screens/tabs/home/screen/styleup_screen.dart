@@ -45,6 +45,8 @@ class _StyleupScreenState extends State<StyleupScreen> {
   double navigatorHeight = 0.0; // 네비게이션 바 높이 변수를 추가
 
   List<StyleupModel> styleupList = [];
+  // late StyleUpProvider provider;
+
   // SwiperController swiperController = SwiperController();
   // SwiperController swiperControllerHorizontal = SwiperController();
 
@@ -57,138 +59,138 @@ class _StyleupScreenState extends State<StyleupScreen> {
 
   PageController pageController = PageController();
 
-  void tapSeeMoreButton(
-      {required String styleupNo,
-      required String contentMemNo,
-      required String memNo,
-      required int index}) {
-    final bool isMine = (contentMemNo == memNo);
+  // void tapSeeMoreButton(
+  //     {required String styleupNo,
+  //     required String contentMemNo,
+  //     required String memNo,
+  //     required int index}) {
+  //   final bool isMine = (contentMemNo == memNo);
 
-    var tempContext = context;
+  //   var tempContext = context;
 
-    showModalBottomSheet(
-      context: tempContext,
-      useRootNavigator: true,
-      enableDrag: false,
-      backgroundColor: Colors.transparent,
-      builder: (context2) {
-        return SizedBox(
-          height: 210.0,
-          child: SeeMoreActionSheet(
-            styleupNo: styleupNo,
-            memNo: memNo,
-            report: isMine ? false : true,
-            primaryLabel: isMine ? '삭제하기' : '신고하기',
-            primaryAction: () {
-              isMine
-                  ?
-                  //삭제
-                  showDialog(
-                      context: tempContext,
-                      builder: (context3) {
-                        return ShownyDialog(
-                          message: '게시글을 삭제하시겠습니까?',
-                          primaryLabel: '취소',
-                          secondaryLabel: '확인',
-                          secondaryAction: () {
-                            ApiHelper.shared.deleteStyleup(memNo, styleupNo,
-                                (success) {
-                              showDialog(
-                                  context: tempContext,
-                                  builder: (context2) {
-                                    return ShownyDialog(
-                                      message: '삭제가 완료되었습니다.',
-                                      primaryLabel: '확인',
-                                      primaryAction: () {
-                                        Navigator.pop(tempContext);
-                                        setState(() {
-                                          styleupList.removeAt(index);
-                                          debugPrint(
-                                              styleupList.length.toString());
-                                          debugPrint(
-                                              styleupList.length.toString());
-                                          Provider.of<GetMyProfileProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .removeMyStyleupList();
-                                          Provider.of<GetMyProfileProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .getMyStyleupList(context);
-                                          Provider.of<GetMyProfileProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .removeMyBookmarkList();
-                                          Provider.of<GetMyProfileProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .getMyBookmarkList(context);
-                                          // swiperController.move(index, animation: true);
-                                          if (styleupList.isEmpty &&
-                                              widget.isMain == false) {
-                                            Navigator.pop(tempContext);
-                                          }
-                                        });
-                                      },
-                                    );
-                                  });
-                            }, (error) {
-                              debugPrint(error);
-                            });
-                          },
-                        );
-                      })
-                  :
-                  //신고
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12.0),
-                          topRight: Radius.circular(12.0),
-                        ),
-                      ),
-                      builder: (BuildContext context) {
-                        return SizedBox(
-                          height: 510.0,
-                          child: ReportSheetScreen(
-                            onCompleted: (int type) {
-                              ApiHelper.shared.insertStyleupReport(
-                                  styleupNo, memNo, type + 1, (success) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return ShownyDialog(
-                                        message: '신고가 완료되었습니다.',
-                                        primaryLabel: '확인',
-                                        primaryAction: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        },
-                                      );
-                                    });
-                              }, (error) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return ShownyDialog(
-                                        message: error,
-                                        primaryLabel: '확인',
-                                      );
-                                    });
-                              });
-                            },
-                          ),
-                        );
-                      },
-                    );
-            },
-          ),
-        );
-      },
-    );
-  }
+  //   showModalBottomSheet(
+  //     context: tempContext,
+  //     useRootNavigator: true,
+  //     enableDrag: false,
+  //     backgroundColor: Colors.transparent,
+  //     builder: (context2) {
+  //       return SizedBox(
+  //         height: 210.0,
+  //         child: SeeMoreActionSheet(
+  //           styleupNo: styleupNo,
+  //           memNo: memNo,
+  //           report: isMine ? false : true,
+  //           primaryLabel: isMine ? '삭제하기' : '신고하기',
+  //           primaryAction: () {
+  //             isMine
+  //                 ?
+  //                 //삭제
+  //                 showDialog(
+  //                     context: tempContext,
+  //                     builder: (context3) {
+  //                       return ShownyDialog(
+  //                         message: '게시글을 삭제하시겠습니까?',
+  //                         primaryLabel: '취소',
+  //                         secondaryLabel: '확인',
+  //                         secondaryAction: () {
+  //                           ApiHelper.shared.deleteStyleup(memNo, styleupNo,
+  //                               (success) {
+  //                             showDialog(
+  //                                 context: tempContext,
+  //                                 builder: (context2) {
+  //                                   return ShownyDialog(
+  //                                     message: '삭제가 완료되었습니다.',
+  //                                     primaryLabel: '확인',
+  //                                     primaryAction: () {
+  //                                       Navigator.pop(tempContext);
+  //                                       setState(() {
+  //                                         styleupList.removeAt(index);
+  //                                         debugPrint(
+  //                                             styleupList.length.toString());
+  //                                         debugPrint(
+  //                                             styleupList.length.toString());
+  //                                         Provider.of<GetMyProfileProvider>(
+  //                                                 context,
+  //                                                 listen: false)
+  //                                             .removeMyStyleupList();
+  //                                         Provider.of<GetMyProfileProvider>(
+  //                                                 context,
+  //                                                 listen: false)
+  //                                             .getMyStyleupList(context);
+  //                                         Provider.of<GetMyProfileProvider>(
+  //                                                 context,
+  //                                                 listen: false)
+  //                                             .removeMyBookmarkList();
+  //                                         Provider.of<GetMyProfileProvider>(
+  //                                                 context,
+  //                                                 listen: false)
+  //                                             .getMyBookmarkList(context);
+  //                                         // swiperController.move(index, animation: true);
+  //                                         if (styleupList.isEmpty &&
+  //                                             widget.isMain == false) {
+  //                                           Navigator.pop(tempContext);
+  //                                         }
+  //                                       });
+  //                                     },
+  //                                   );
+  //                                 });
+  //                           }, (error) {
+  //                             debugPrint(error);
+  //                           });
+  //                         },
+  //                       );
+  //                     })
+  //                 :
+  //                 //신고
+  //                 showModalBottomSheet(
+  //                     context: context,
+  //                     isScrollControlled: true,
+  //                     shape: const RoundedRectangleBorder(
+  //                       borderRadius: BorderRadius.only(
+  //                         topLeft: Radius.circular(12.0),
+  //                         topRight: Radius.circular(12.0),
+  //                       ),
+  //                     ),
+  //                     builder: (BuildContext context) {
+  //                       return SizedBox(
+  //                         height: 510.0,
+  //                         child: ReportSheetScreen(
+  //                           onCompleted: (int type) {
+  //                             ApiHelper.shared.insertStyleupReport(
+  //                                 styleupNo, memNo, type + 1, (success) {
+  //                               showDialog(
+  //                                   context: context,
+  //                                   builder: (context) {
+  //                                     return ShownyDialog(
+  //                                       message: '신고가 완료되었습니다.',
+  //                                       primaryLabel: '확인',
+  //                                       primaryAction: () {
+  //                                         Navigator.pop(context);
+  //                                         Navigator.pop(context);
+  //                                       },
+  //                                     );
+  //                                   });
+  //                             }, (error) {
+  //                               showDialog(
+  //                                   context: context,
+  //                                   builder: (context) {
+  //                                     return ShownyDialog(
+  //                                       message: error,
+  //                                       primaryLabel: '확인',
+  //                                     );
+  //                                   });
+  //                             });
+  //                           },
+  //                         ),
+  //                       );
+  //                     },
+  //                   );
+  //           },
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   void tapCommentButton(
     BuildContext context, {
@@ -223,6 +225,7 @@ class _StyleupScreenState extends State<StyleupScreen> {
   @override
   void initState() {
     super.initState();
+
     setState(() {
       styleupList = widget.styleupList;
     });
@@ -261,14 +264,15 @@ class _StyleupScreenState extends State<StyleupScreen> {
 
     // VideoPlayerController? videoController;
     // Future<void>? initVideoController;
-
+    print('styleup build');
     return PageView(
       controller: pageController,
       scrollDirection: Axis.vertical,
       physics: const CustomScrollPhysics(),
       children: List.generate(
-        widget.styleupList.length,
+        styleupList.length,
         (index) => StyleUpItem(
+          // key: ValueKey(styleupList[index].styleupNo),
           styleUp: styleupList[index],
           index: index,
           onSelect: () {

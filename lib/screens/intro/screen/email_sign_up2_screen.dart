@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/providers/user_model_provider.dart';
@@ -16,12 +17,17 @@ import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/components/sign_up_text_field.dart';
 import 'package:showny/screens/intro/screen/input_essential_information_screen.dart';
 import 'package:showny/utils/formatter.dart';
+import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/validator.dart';
 import 'package:provider/provider.dart';
 
 class EmailSignUp2Screen extends StatefulWidget {
   const EmailSignUp2Screen(
-      {super.key, required this.email, required this.password, required this.loginType, required this.snsId});
+      {super.key,
+      required this.email,
+      required this.password,
+      required this.loginType,
+      required this.snsId});
 
   static String routeName = '/email_sign_up2_screen';
 
@@ -64,15 +70,11 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
   }
 
   void signinSns(loginType, snsId) async {
-    ApiHelper.shared.signinSns(
-      snsId,
-      loginType,
-      (userModel) async {
-        Provider.of<UserProvider>(context, listen: false).updateUserInfo(userModel);
-        // Provider.of<ChatStyleProvider>(context, listen: false).initChat(userModel.memNo, userModel.nickNm, userModel.profileImage);
-      },
-      (error) {}
-    );
+    ApiHelper.shared.signinSns(snsId, loginType, (userModel) async {
+      Provider.of<UserProvider>(context, listen: false)
+          .updateUserInfo(userModel);
+      // Provider.of<ChatStyleProvider>(context, listen: false).initChat(userModel.memNo, userModel.nickNm, userModel.profileImage);
+    }, (error) {});
   }
 
   void showTermSheet(BuildContext context, void Function(String) onCompleted) {
@@ -135,17 +137,13 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
     setState(() => remainSeconds = 300);
   }
 
-  Future<bool> loginAction({
-    required String loginType,
-    required String email,
-    required String password,
-    required String snsId
-  }) async {
+  Future<bool> loginAction(
+      {required String loginType,
+      required String email,
+      required String password,
+      required String snsId}) async {
     try {
-      await storage.write(
-        key: "loginType", 
-        value: loginType
-      );
+      await storage.write(key: "loginType", value: loginType);
       await storage.write(
         key: 'email',
         value: email,
@@ -154,10 +152,7 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
         key: 'password',
         value: password,
       );
-      await storage.write(
-        key: "snsId", 
-        value: snsId
-      );
+      await storage.write(key: "snsId", value: snsId);
       return true;
     } catch (e) {
       debugPrint(e.toString());
@@ -176,19 +171,21 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
   Future<void> signInWithSmsCode(String code) async {
     if (_verificationId != null) {
       FirebaseAuth auth = FirebaseAuth.instance;
-      PhoneAuthCredential _phoneCredential = PhoneAuthProvider.credential(verificationId: _verificationId!, smsCode: code);
+      PhoneAuthCredential _phoneCredential = PhoneAuthProvider.credential(
+          verificationId: _verificationId!, smsCode: code);
       try {
-        UserCredential _user = await auth.signInWithCredential(_phoneCredential);
+        UserCredential _user =
+            await auth.signInWithCredential(_phoneCredential);
         setState(() {
           inValidCode = false;
           verifyOtp = true;
         });
-      } catch (error){
+      } catch (error) {
         var dialog = ShownyDialog(
           message: tr("email_sign_up_screen2.invalid_code_error"),
           primaryLabel: tr("common.confirm"),
         );
-        if(!mounted) return;
+        if (!mounted) return;
         showAlertDialog(context, dialog: dialog);
       }
     }
@@ -219,14 +216,20 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
           padding: EdgeInsets.zero,
           child: Container(
             decoration: ShapeDecoration(
-              color: verifyOtp ? const Color(0xFFEEEEEE) : sendOtpNum
-                  ? Colors.white
-                  : validPhoneNum
-                      ? Colors.black
-                      : const Color(0xFFEEEEEE),
+              color: verifyOtp
+                  ? const Color(0xFFEEEEEE)
+                  : sendOtpNum
+                      ? Colors.white
+                      : validPhoneNum
+                          ? ShownyStyle.mainPurple
+                          : const Color(0xFFEEEEEE),
               shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  color: verifyOtp ? Colors.transparent : sendOtpNum ? Colors.black : Colors.transparent,
+                  color: verifyOtp
+                      ? Colors.transparent
+                      : sendOtpNum
+                          ? ShownyStyle.mainPurple
+                          : Colors.transparent,
                 ),
                 borderRadius: BorderRadius.circular(12.0),
               ),
@@ -235,56 +238,61 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Center(
               child: Text(
-                verifyOtp ? tr("email_sign_up_screen2.otp_confirmation") : sendOtpNum ? tr("email_sign_up_screen2.resend_otp") : tr("email_sign_up_screen2.send_otp"),
+                verifyOtp
+                    ? tr("email_sign_up_screen2.otp_confirmation")
+                    : sendOtpNum
+                        ? tr("email_sign_up_screen2.resend_otp")
+                        : tr("email_sign_up_screen2.send_otp"),
                 style: Constants.defaultTextStyle.copyWith(
-                  color: verifyOtp ? const Color(0xFF555555) : sendOtpNum
-                      ? Colors.black
-                      : validPhoneNum
-                          ? Colors.white
-                          : const Color(0xFF555555),
+                  color: verifyOtp
+                      ? const Color(0xFF555555)
+                      : sendOtpNum
+                          ? ShownyStyle.mainPurple
+                          : validPhoneNum
+                              ? Colors.white
+                              : const Color(0xFF555555),
                 ),
               ),
             ),
           ),
           onPressed: () {
-            if(verifyOtp == true) {
+            if (verifyOtp == true) {
               return;
             }
             if (validPhoneNum) {
-              ApiHelper.shared.verifyPhoneNumberSend(phoneNumber,
-              (success) {
+              ApiHelper.shared.verifyPhoneNumberSend(phoneNumber, (success) {
                 FirebaseAuth auth = FirebaseAuth.instance;
                 auth.verifyPhoneNumber(
-                  timeout: const Duration(seconds: 120),
-                  phoneNumber: "+82$phoneNumber",
-                  verificationCompleted: (PhoneAuthCredential credential) {
-                    debugPrint("credential :: $credential");
-                  },
-                  verificationFailed: (FirebaseAuthException exception) {
-                    debugPrint("exception :: $exception");
-                    var dialog = ShownyDialog(
-                      message: tr("email_sign_up_screen2.invalid_phone_number"),
-                      primaryLabel: tr("common.confirm"),
-                    );
-                    showAlertDialog(context, dialog: dialog);
-                  },
-                  codeSent: (String verificationId, int? resendToken) {
-                    _verificationId = verificationId;
-                    debugPrint("verificationId :: $verificationId");
-                    debugPrint("resendToken :: $resendToken");
-                    var dialog = ShownyDialog(
-                      message: tr("email_sign_up_screen2.send_otp_complete"),
-                      primaryLabel: tr("common.confirm"),
-                    );
+                    timeout: const Duration(seconds: 120),
+                    phoneNumber: "+82$phoneNumber",
+                    verificationCompleted: (PhoneAuthCredential credential) {
+                      debugPrint("credential :: $credential");
+                    },
+                    verificationFailed: (FirebaseAuthException exception) {
+                      debugPrint("exception :: $exception");
+                      var dialog = ShownyDialog(
+                        message:
+                            tr("email_sign_up_screen2.invalid_phone_number"),
+                        primaryLabel: tr("common.confirm"),
+                      );
+                      showAlertDialog(context, dialog: dialog);
+                    },
+                    codeSent: (String verificationId, int? resendToken) {
+                      _verificationId = verificationId;
+                      debugPrint("verificationId :: $verificationId");
+                      debugPrint("resendToken :: $resendToken");
+                      var dialog = ShownyDialog(
+                        message: tr("email_sign_up_screen2.send_otp_complete"),
+                        primaryLabel: tr("common.confirm"),
+                      );
 
-                    showAlertDialog(context, dialog: dialog);
-                    startTimer();
-                  },
-                  codeAutoRetrievalTimeout: (String verificationId) {
-                    debugPrint("verificationId :: $verificationId");
-                  }
-                );
-              },(error) {
+                      showAlertDialog(context, dialog: dialog);
+                      startTimer();
+                    },
+                    codeAutoRetrievalTimeout: (String verificationId) {
+                      debugPrint("verificationId :: $verificationId");
+                    });
+              }, (error) {
                 debugPrint(error); // 전송 실패
                 var dialog = ShownyDialog(
                   message: error,
@@ -347,7 +355,7 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
             decoration: ShapeDecoration(
               color: (inValidOtp || remainSeconds == 0)
                   ? const Color(0xFFEEEEEE)
-                  : Colors.black,
+                  : ShownyStyle.mainPurple,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),
@@ -376,7 +384,9 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
           child: SignUpTextField(
             hintText: tr("email_sign_up_screen2.name"),
             error: inValidName,
-            errorText: (name.length < 3 || name.length > 20) ? tr("email_sign_up_screen2.invalid_name_error_length") : tr("email_sign_up_screen2.invalid_name_error_character"),
+            errorText: (name.length < 3 || name.length > 20)
+                ? tr("email_sign_up_screen2.invalid_name_error_length")
+                : tr("email_sign_up_screen2.invalid_name_error_character"),
             onChanged: (text) {
               setState(() => inValidName = false);
               name = text;
@@ -399,21 +409,13 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
 
   Future signupSns(loginType, email, snsId, name, phoneNumber) async {
     ApiHelper.shared.signup(
-        loginType,
-        email,
-        snsId,
-        snsId,
-        name,
-        phoneNumber,
-        true,
-        (success) {
-          signinSns(loginType, snsId);
-          Navigator.push(
-            context,
-            PageRouteBuilderRightLeft(child: const InputEssentialInfoScreen()));
-          loginAction(
-              loginType: loginType, email: email, password: '', snsId: snsId);
-          debugPrint('DEBUG: Sign up successful');
+        loginType, email, snsId, snsId, name, phoneNumber, true, (success) {
+      signinSns(loginType, snsId);
+      Navigator.push(context,
+          PageRouteBuilderRightLeft(child: const InputEssentialInfoScreen()));
+      loginAction(
+          loginType: loginType, email: email, password: '', snsId: snsId);
+      debugPrint('DEBUG: Sign up successful');
     }, (error) {
       var dialog = ShownyDialog(
         message: error,
@@ -433,7 +435,7 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          // automaticallyImplyLeading: false,
           title: Text(tr("email_sign_up_screen2.title")),
           titleTextStyle: FontHelper.bold_16_000000,
           centerTitle: true,
@@ -446,54 +448,70 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
                 const SizedBox(height: 40.0),
                 accountInfoTextField(),
                 const Spacer(),
-                SVButton(
-                  title: tr("common.complete"),
-                  titleColor:
-                      checkCondition() ? Colors.white : const Color(0xFF555555),
-                  backgroundColor:
-                      checkCondition() ? Colors.black : const Color(0xFFEEEEEE),
+                ShownyButton(
                   onPressed: checkCondition()
                       ? () {
-                        inValidName = !Validator.validNamePattern(name);
-                        setState(() => inValidName = !Validator.validNamePattern(name));
-                        if(inValidName == true) {
-                          return;
-                        }
-
-                        showTermSheet(context, (value) {
-                          if(widget.loginType == 'email') {
-                            ApiHelper.shared.signup(
-                                "email",
-                                widget.email,
-                                "",
-                                widget.password,
-                                name,
-                                phoneNumber,
-                                value, (success) {
-                              signIn(widget.email, widget.password);
-                              Navigator.push(
-                                context,
-                                PageRouteBuilderRightLeft(child: const InputEssentialInfoScreen()));
-                              loginAction(
-                                  loginType: "email", email: widget.email, password: widget.password, snsId: "");
-                              debugPrint('DEBUG: Sign up successful');
-                            }, (error) {
-                              var dialog = ShownyDialog(
-                                message: error,
-                                primaryLabel: tr("common.confirm"),
-                              );
-                              showAlertDialog(context, dialog: dialog);
-                              debugPrint(error);
-                            });
-                          } else {
-                            signupSns(widget.loginType, '', widget.snsId, name, phoneNumber);
+                          inValidName = !Validator.validNamePattern(name);
+                          setState(() =>
+                              inValidName = !Validator.validNamePattern(name));
+                          if (inValidName == true) {
+                            return;
                           }
-                        });
 
-                        debugPrint('DEBUG: tab complete button');
+                          showTermSheet(context, (value) {
+                            if (widget.loginType == 'email') {
+                              ApiHelper.shared.signup(
+                                  "email",
+                                  widget.email,
+                                  "",
+                                  widget.password,
+                                  name,
+                                  phoneNumber,
+                                  value, (success) {
+                                signIn(widget.email, widget.password);
+                                Navigator.push(
+                                    context,
+                                    PageRouteBuilderRightLeft(
+                                        child:
+                                            const InputEssentialInfoScreen()));
+                                loginAction(
+                                    loginType: "email",
+                                    email: widget.email,
+                                    password: widget.password,
+                                    snsId: "");
+                                debugPrint('DEBUG: Sign up successful');
+                              }, (error) {
+                                var dialog = ShownyDialog(
+                                  message: error,
+                                  primaryLabel: tr("common.confirm"),
+                                );
+                                showAlertDialog(context, dialog: dialog);
+                                debugPrint(error);
+                              });
+                            } else {
+                              signupSns(widget.loginType, '', widget.snsId,
+                                  name, phoneNumber);
+                            }
+                          });
+
+                          debugPrint('DEBUG: tab complete button');
                         }
                       : null,
+                  option: ShownyButtonOption.fill(
+                    text: tr("common.complete"),
+                    theme: ShownyButtonFillTheme.violet,
+                    style: ShownyButtonFillStyle.fullRegular,
+                  ),
                 ),
+                // SVButton(
+                //   title: tr("common.complete"),
+                //   titleColor:
+                //       checkCondition() ? Colors.white : const Color(0xFF555555),
+                //   backgroundColor: checkCondition()
+                //       ? ShownyStyle.mainPurple
+                //       : const Color(0xFFEEEEEE),
+
+                // ),
                 const SizedBox(height: 24.0),
               ],
             ),

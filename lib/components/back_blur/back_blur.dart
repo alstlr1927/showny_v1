@@ -1,16 +1,13 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:showny/components/error/image_error.dart';
 
 class BackBlurWidget extends StatelessWidget {
-  final double width;
-  final double height;
   final String image1;
   final String image2;
   const BackBlurWidget({
     super.key,
-    required this.width,
-    required this.height,
     required this.image1,
     required this.image2,
   });
@@ -22,8 +19,8 @@ class BackBlurWidget extends StatelessWidget {
         Row(
           children: [
             SizedBox(
-              width: width / 2,
-              height: height,
+              width: ScreenUtil().screenWidth / 2,
+              height: ScreenUtil().screenHeight,
               child: Image.network(
                 image1,
                 fit: BoxFit.cover,
@@ -32,8 +29,8 @@ class BackBlurWidget extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: width / 2,
-              height: height,
+              width: ScreenUtil().screenWidth / 2,
+              height: ScreenUtil().screenHeight,
               child: Image.network(
                 image2,
                 fit: BoxFit.cover,
@@ -47,8 +44,8 @@ class BackBlurWidget extends StatelessWidget {
           blur: 5,
           blurColor: Colors.black,
           child: SizedBox(
-            width: width,
-            height: height,
+            width: ScreenUtil().screenWidth,
+            height: double.infinity,
           ),
         ),
       ],
@@ -72,7 +69,7 @@ class BackBlurWidget2 extends StatelessWidget {
           height: double.infinity,
           child: Image.network(
             image,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitHeight,
             errorBuilder: (context, error, stackTrace) => const ImageError(),
           ),
         ),

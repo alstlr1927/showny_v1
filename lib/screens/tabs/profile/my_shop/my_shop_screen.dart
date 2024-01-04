@@ -64,98 +64,98 @@ class _MyShopScreenState extends State<MyShopScreen> {
                   const SizedBox(
                     width: 24,
                   ),
-                  Expanded(child: 
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "0",
-                            style: FontHelper.light_14_000000,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            "판매상품",
-                            style: FontHelper.regualr_12_000000,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "0",
-                            style: FontHelper.light_14_000000,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            "평점",
-                            style: FontHelper.regualr_12_000000,
-                          ),
-                        ],
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              "0",
+                              style: FontHelper.light_14_000000,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "판매상품",
+                              style: FontHelper.regualr_12_000000,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "0",
+                              style: FontHelper.light_14_000000,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "평점",
+                              style: FontHelper.regualr_12_000000,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  ),
-                  Expanded(child: 
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //           context,
-                          //           PageRouteBuilderRightLeft(
-                          //               child: OrderListScreen()));
-                        },
-                        child: Container(
-                          child: Column(
-                            children: [
-                              Text(
-                                "0",
-                                style: FontHelper.light_14_000000,
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              Text(
-                                "판매내역",
-                                style: FontHelper.regualr_12_000000,
-                              ),
-                            ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Navigator.push(
+                            //           context,
+                            //           PageRouteBuilderRightLeft(
+                            //               child: OrderListScreen()));
+                          },
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Text(
+                                  "0",
+                                  style: FontHelper.light_14_000000,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  "판매내역",
+                                  style: FontHelper.regualr_12_000000,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "OK",
-                            style: FontHelper.light_14_000000,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            "본인인증",
-                            style: FontHelper.regualr_12_000000,
-                          ),
-                        ],
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "OK",
+                              style: FontHelper.light_14_000000,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "본인인증",
+                              style: FontHelper.regualr_12_000000,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  ),
-                  Expanded(child: 
-                  Column(
+                  Expanded(
+                      child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
@@ -182,9 +182,7 @@ class _MyShopScreenState extends State<MyShopScreen> {
                         ],
                       ),
                     ],
-                  )
-                  )
-                  ,
+                  )),
                   const SizedBox(
                     width: 16,
                   ),
@@ -287,20 +285,20 @@ class _MyShopScreenState extends State<MyShopScreen> {
                     ? SizedBox(
                         height: MediaQuery.of(context).size.height * 0.5,
                         width: MediaQuery.of(context).size.width,
-                        child: const Center(child: 
-                        // ShopingEmptyBasketWidget()
-                        SizedBox()
-                        ))
+                        child: const Center(
+                            child:
+                                // ShopingEmptyBasketWidget()
+                                SizedBox()))
                     : GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: value
                             .fetchGetMemberMinishopProductModel!.data!.length,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 1,
                           crossAxisCount: 3,
-                          childAspectRatio: (size.width/3) / (((size.width/3)*5/4) + 100),
+                          childAspectRatio: (size.width / 3) /
+                              (((size.width / 3) * 5 / 4) + 100),
                         ),
                         itemBuilder: (context, index) {
                           return MyShopGridItem(
@@ -312,16 +310,20 @@ class _MyShopScreenState extends State<MyShopScreen> {
                                 "${value.fetchGetMemberMinishopProductModel!.data![index].price}",
                             imageUrl:
                                 "${value.fetchGetMemberMinishopProductModel!.data![index].productImageUrlList![0]}",
-                                onTap: () {
-                                  String productId = value.fetchGetMemberMinishopProductModel!.data![index].id ?? "";
-                                  if(productId == "") {
-                                    return;
-                                  }
-                                  // Navigator.push(
-                                  //   context,
-                                  //   PageRouteBuilderRightLeft(
-                                  //       child: ProductDetailScreen(productId: productId)));
-                                },
+                            onTap: () {
+                              String productId = value
+                                      .fetchGetMemberMinishopProductModel!
+                                      .data![index]
+                                      .id ??
+                                  "";
+                              if (productId == "") {
+                                return;
+                              }
+                              // Navigator.push(
+                              //   context,
+                              //   PageRouteBuilderRightLeft(
+                              //       child: ProductDetailScreen(productId: productId)));
+                            },
                           );
                         },
                       );
@@ -338,20 +340,20 @@ class _MyShopScreenState extends State<MyShopScreen> {
                     ? SizedBox(
                         height: MediaQuery.of(context).size.height * 0.5,
                         width: MediaQuery.of(context).size.width,
-                        child: const Center(child: 
-                        // ShopingEmptyBasketWidget()
-                        SizedBox()
-                        ))
+                        child: const Center(
+                            child:
+                                // ShopingEmptyBasketWidget()
+                                SizedBox()))
                     : GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: value
                             .fetchGetMemberMinishopProductModel!.data!.length,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 1,
                           crossAxisCount: 3,
-                          childAspectRatio: (size.width/3) / (((size.width/3)*5/4) + 100),
+                          childAspectRatio: (size.width / 3) /
+                              (((size.width / 3) * 5 / 4) + 100),
                         ),
                         itemBuilder: (context, index) {
                           return MyShopGridItem(
@@ -363,17 +365,21 @@ class _MyShopScreenState extends State<MyShopScreen> {
                                 "${value.fetchGetMemberMinishopProductModel!.data![index].price}",
                             imageUrl:
                                 "${value.fetchGetMemberMinishopProductModel!.data![index].productImageUrlList![0]}",
-                                onTap: () {
-                                  String productId = value.fetchGetMemberMinishopProductModel!.data![index].id ?? "";
-                                  if(productId == "") {
-                                    return;
-                                  }
+                            onTap: () {
+                              String productId = value
+                                      .fetchGetMemberMinishopProductModel!
+                                      .data![index]
+                                      .id ??
+                                  "";
+                              if (productId == "") {
+                                return;
+                              }
 
-                                  // Navigator.push(
-                                  //   context,
-                                  //   PageRouteBuilderRightLeft(
-                                  //       child: ProductDetailScreen(productId: productId)));
-                                },
+                              // Navigator.push(
+                              //   context,
+                              //   PageRouteBuilderRightLeft(
+                              //       child: ProductDetailScreen(productId: productId)));
+                            },
                           );
                         },
                       );
@@ -390,20 +396,20 @@ class _MyShopScreenState extends State<MyShopScreen> {
                     ? SizedBox(
                         height: MediaQuery.of(context).size.height * 0.5,
                         width: MediaQuery.of(context).size.width,
-                        child: const Center(child: 
-                        // ShopingEmptyBasketWidget()
-                        SizedBox()
-                        ))
+                        child: const Center(
+                            child:
+                                // ShopingEmptyBasketWidget()
+                                SizedBox()))
                     : GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: value
                             .fetchGetMemberMinishopProductModel!.data!.length,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 1,
                           crossAxisCount: 3,
-                          childAspectRatio: (size.width/3) / (((size.width/3)*5/4) + 100),
+                          childAspectRatio: (size.width / 3) /
+                              (((size.width / 3) * 5 / 4) + 100),
                         ),
                         itemBuilder: (context, index) {
                           return MyShopGridItem(
@@ -415,17 +421,21 @@ class _MyShopScreenState extends State<MyShopScreen> {
                                 "${value.fetchGetMemberMinishopProductModel!.data![index].price}",
                             imageUrl:
                                 "${value.fetchGetMemberMinishopProductModel!.data![index].productImageUrlList![0]}",
-                                onTap: () {
-                                  String productId = value.fetchGetMemberMinishopProductModel!.data![index].id ?? "";
-                                  if(productId == "") {
-                                    return;
-                                  }
+                            onTap: () {
+                              String productId = value
+                                      .fetchGetMemberMinishopProductModel!
+                                      .data![index]
+                                      .id ??
+                                  "";
+                              if (productId == "") {
+                                return;
+                              }
 
-                                  // Navigator.push(
-                                  //   context,
-                                  //   PageRouteBuilderRightLeft(
-                                  //       child: ProductDetailScreen(productId: productId)));
-                                },
+                              // Navigator.push(
+                              //   context,
+                              //   PageRouteBuilderRightLeft(
+                              //       child: ProductDetailScreen(productId: productId)));
+                            },
                           );
                         },
                       );
@@ -445,7 +455,7 @@ class _MyShopScreenState extends State<MyShopScreen> {
             //       style: TextStyle(
             //         color: Colors.white,
             //         fontSize: 12,
-            //         fontFamily: 'Spoqa Han Sans Neo',
+            //         fontFamily: 'pretendard',
             //         fontWeight: FontWeight.w700,
             //       ),
             //     ),

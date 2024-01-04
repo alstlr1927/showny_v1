@@ -75,12 +75,12 @@ ThemeData themeData() {
       //   fontWeight: FontWeight.w500,
       //   color: white,
       // ),
-        headlineLarge: TextStyle(
-          fontSize: 12,
-          fontFamily: "Spoqa Han Sans Neo",
-          color: greyLight,
-          fontWeight: FontWeight.w700,
-        ),
+      headlineLarge: TextStyle(
+        fontSize: 12,
+        fontFamily: "pretendard",
+        color: greyLight,
+        fontWeight: FontWeight.w700,
+      ),
       titleSmall: TextStyle(
         fontSize: 12,
         fontFamily: "NotoSansKRRegular",

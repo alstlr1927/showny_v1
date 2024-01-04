@@ -40,5 +40,7 @@ class Validator {
     return pattern.hasMatch(value);
   }
 
+  var kWhiteSpaceRegex = RegExp(r"\s");
+
   // final RegExp _validCharacters = RegExp(r'^[a-zA-Z0-9_.]*$');
 }

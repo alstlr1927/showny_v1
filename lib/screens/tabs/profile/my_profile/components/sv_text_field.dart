@@ -58,7 +58,7 @@ class SVTextField extends StatelessWidget {
       style: const TextStyle(
         color: Colors.black,
         fontSize: 14,
-        fontFamily: 'Spoqa Han Sans Neo',
+        fontFamily: 'pretendard',
         fontWeight: FontWeight.w400,
       ),
       controller: controller,
@@ -82,13 +82,13 @@ class SVTextField extends StatelessWidget {
         suffixStyle: const TextStyle(
           color: Color(0xFF555555),
           fontSize: 14,
-          fontFamily: 'Spoqa Han Sans Neo',
+          fontFamily: 'pretendard',
           fontWeight: FontWeight.w400,
         ),
         hintStyle: const TextStyle(
           color: Color(0xFF777777),
           fontSize: 14,
-          fontFamily: 'Spoqa Han Sans Neo',
+          fontFamily: 'pretendard',
           fontWeight: FontWeight.w400,
         ),
       ),

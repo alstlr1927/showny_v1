@@ -4,6 +4,8 @@ import 'package:showny/components/error/image_error.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/models/goods_item_model.dart';
 import 'package:showny/screens/tabs/home/components/wearing_items_sheet_screen_battle.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class ProductContainerBattle extends StatefulWidget {
   const ProductContainerBattle({
@@ -84,23 +86,23 @@ class _ProductContainerBattle extends State<ProductContainerBattle> {
                 itemInfo1: goodsDataList1, itemInfo2: goodsDataList2);
           },
           child: Container(
-            padding: const EdgeInsets.all(4),
+            padding: EdgeInsets.all(4.toWidth),
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(.4),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(2.0),
+                  borderRadius: BorderRadius.circular(4),
                   child: Image.network(goodsDataList1[0].goodsImg,
-                      width: 40.0,
-                      height: 40.0,
+                      width: 40.toWidth,
+                      height: 40.toWidth,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stack) =>
                           const ImageError()),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.toWidth),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -135,17 +137,13 @@ class _ProductContainerBattle extends State<ProductContainerBattle> {
                   },
                   padding: EdgeInsets.zero,
                   minSize: 0,
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: 50,
                     height: 30,
                     child: Center(
                       child: Text(
                         '더보기',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        style: ShownyStyle.overline(color: Colors.white),
                       ),
                     ),
                   ),

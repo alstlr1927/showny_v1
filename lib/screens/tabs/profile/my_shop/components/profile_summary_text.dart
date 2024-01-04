@@ -13,14 +13,14 @@ class ProfileSummaryText extends StatelessWidget {
   final textStyle = const TextStyle(
     color: Colors.black,
     fontSize: 14,
-    fontFamily: 'Spoqa Han Sans Neo',
+    fontFamily: 'pretendard',
     fontWeight: FontWeight.w300,
   );
 
   final textStyle2 = const TextStyle(
     color: Colors.black,
     fontSize: 10,
-    fontFamily: 'Spoqa Han Sans Neo',
+    fontFamily: 'pretendard',
     fontWeight: FontWeight.w400,
   );
 

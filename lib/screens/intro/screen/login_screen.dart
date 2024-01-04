@@ -14,6 +14,7 @@ import 'package:showny/screens/intro/screen/email_login_screen.dart';
 import 'package:showny/screens/intro/screen/email_sign_up2_screen.dart';
 import 'package:showny/screens/intro/screen/input_additional_information_screen.dart';
 import 'package:showny/screens/intro/screen/input_essential_information_screen.dart';
+import 'package:showny/screens/intro/screen/login_screen_v2.dart';
 import 'package:showny/screens/intro/screen/sign_up_screen.dart';
 import 'package:showny/screens/intro/screen/splash_screen.dart';
 import 'package:showny/screens/root_screen.dart';
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool hasAdditionalData = false;
 
   void turnOffSplashScreen() async {
-    await Future.delayed(const Duration(seconds: 1));
+    // await Future.delayed(const Duration(seconds: 1));
   }
 
   void showAlertDialog(BuildContext context, {required ShownyDialog dialog}) {
@@ -58,50 +59,49 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void didChangeDependencies() async {
-    final loginType = await storage.read(key: "loginType");
+    var loginType = await storage.read(key: "loginType");
     final snsId = await storage.read(key: "snsId");
     final email = await storage.read(key: 'email');
     final password = await storage.read(key: 'password');
 
+    loginType = '';
+
     debugPrint(email);
     debugPrint(password);
 
-    if(loginType == null || loginType == "") {
+    if (loginType == null || loginType == "") {
       setState(() {
         isSplashScreenOn = false;
         hasAdditionalData = true;
       });
       debugPrint('DEBUG: Login Required');
-    } else if(loginType == "email" && email != "" && password != "") {
-      ApiHelper.shared.signinEmail(
-        email,
-        password, 
-        (userModel) {
-          Provider.of<UserProvider>(context, listen: false).updateUserInfo(userModel);
-          // Provider.of<ChatStyleProvider>(context, listen: false).initChat(userModel.memNo, userModel.nickNm, userModel.profileImage);
-          setState(() => hasAdditionalData = (userModel.colorIdList.isNotEmpty));
-          if (!hasAdditionalData) {
-            var dialog = ShownyDialog(
-              message: tr('intro_popup.not_found_style_title'),
-              subMessage: tr('intro_popup.not_found_style_content'),
-              primaryLabel: tr('intro_popup.not_found_style_button1'),
-              secondaryLabel: tr('intro_popup.not_found_style_button2'),
-              primaryRoute: InputAdditionalInfoScreen.routeName,
-              secondaryRoute: RootScreen.routeName,
-            );
-            showAlertDialog(context, dialog: dialog);
-          } else {
-            Constants.currentUser = userModel;
-            Navigator.pushNamedAndRemoveUntil(
-                context, RootScreen.routeName, (route) => false);
-          }
-        },
-        (error) {
-          setState(() {
-            isSplashScreenOn = false;
-            hasAdditionalData = true;
-          });
+    } else if (loginType == "email" && email != "" && password != "") {
+      ApiHelper.shared.signinEmail(email, password, (userModel) {
+        Provider.of<UserProvider>(context, listen: false)
+            .updateUserInfo(userModel);
+        // Provider.of<ChatStyleProvider>(context, listen: false).initChat(userModel.memNo, userModel.nickNm, userModel.profileImage);
+        setState(() => hasAdditionalData = (userModel.colorIdList.isNotEmpty));
+        if (!hasAdditionalData) {
+          var dialog = ShownyDialog(
+            message: tr('intro_popup.not_found_style_title'),
+            subMessage: tr('intro_popup.not_found_style_content'),
+            primaryLabel: tr('intro_popup.not_found_style_button1'),
+            secondaryLabel: tr('intro_popup.not_found_style_button2'),
+            primaryRoute: InputAdditionalInfoScreen.routeName,
+            secondaryRoute: RootScreen.routeName,
+          );
+          showAlertDialog(context, dialog: dialog);
+        } else {
+          Constants.currentUser = userModel;
+          Navigator.pushNamedAndRemoveUntil(
+              context, RootScreen.routeName, (route) => false);
+        }
+      }, (error) {
+        setState(() {
+          isSplashScreenOn = false;
+          hasAdditionalData = true;
         });
+      });
     } else {
       signinSns(loginType, snsId);
     }
@@ -110,70 +110,63 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future signinSns(loginType, snsId) async {
+    ApiHelper.shared.signinSns(snsId, loginType, (userModel) async {
+      Provider.of<UserProvider>(context, listen: false)
+          .updateUserInfo(userModel);
+      // Provider.of<ChatStyleProvider>(context, listen: false).initChat(userModel.memNo, userModel.nickNm, userModel.profileImage);
 
-    ApiHelper.shared.signinSns(
-      snsId,
-      loginType,
-      (userModel) async {
-        Provider.of<UserProvider>(context, listen: false).updateUserInfo(userModel);
-        // Provider.of<ChatStyleProvider>(context, listen: false).initChat(userModel.memNo, userModel.nickNm, userModel.profileImage);
-
-        if (await loginAction(loginType: loginType, email: "", password: "", snsId: snsId) ==
-            true) {
-          // userProvider에 저장
-          debugPrint('Login Success');
-          if (mounted) {
-            if (userModel.birthday == "") {
-              Navigator.push(
-                  context,
-                  PageRouteBuilderRightLeft(
-                      child: const InputEssentialInfoScreen()));
-            } else if (userModel.colorIdList.isEmpty) {
-              var dialog = ShownyDialog(
-                message: tr("intro_popup.not_found_style_title"),
-                subMessage: tr("intro_popup.not_found_style_content"),
-                primaryLabel: tr("intro_popup.not_found_style_button1"),
-                secondaryLabel: tr("intro_popup.not_found_style_button2"),
-                primaryRoute: InputAdditionalInfoScreen.routeName,
-                secondaryRoute: RootScreen.routeName,
-                primaryAction: () {},
-              );
-              showAlertDialog(context, dialog: dialog);
-            } else {
-              Constants.currentUser = userModel;
-              Navigator.pushNamedAndRemoveUntil(
+      if (await loginAction(
+              loginType: loginType, email: "", password: "", snsId: snsId) ==
+          true) {
+        // userProvider에 저장
+        debugPrint('Login Success');
+        if (mounted) {
+          if (userModel.birthday == "") {
+            Navigator.push(
                 context,
-                RootScreen.routeName,
-                (route) => false,
-              );
-            }
+                PageRouteBuilderRightLeft(
+                    child: const InputEssentialInfoScreen()));
+          } else if (userModel.colorIdList.isEmpty) {
+            var dialog = ShownyDialog(
+              message: tr("intro_popup.not_found_style_title"),
+              subMessage: tr("intro_popup.not_found_style_content"),
+              primaryLabel: tr("intro_popup.not_found_style_button1"),
+              secondaryLabel: tr("intro_popup.not_found_style_button2"),
+              primaryRoute: InputAdditionalInfoScreen.routeName,
+              secondaryRoute: RootScreen.routeName,
+              primaryAction: () {},
+            );
+            showAlertDialog(context, dialog: dialog);
+          } else {
+            Constants.currentUser = userModel;
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              RootScreen.routeName,
+              (route) => false,
+            );
           }
         }
-      },
-      (error) {
-        Navigator.push(
+      }
+    }, (error) {
+      Navigator.push(
           context,
-          PageRouteBuilderRightLeft(child: EmailSignUp2Screen(
+          PageRouteBuilderRightLeft(
+              child: EmailSignUp2Screen(
             email: '',
             password: '',
             loginType: loginType,
             snsId: snsId,
           )));
-      }
-    );
+    });
   }
 
-  Future<bool> loginAction({
-    required String loginType,
-    required String email,
-    required String password,
-    required String snsId
-  }) async {
+  Future<bool> loginAction(
+      {required String loginType,
+      required String email,
+      required String password,
+      required String snsId}) async {
     try {
-      await storage.write(
-        key: "loginType", 
-        value: loginType
-      );
+      await storage.write(key: "loginType", value: loginType);
       await storage.write(
         key: 'email',
         value: email,
@@ -182,10 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
         key: 'password',
         value: password,
       );
-      await storage.write(
-        key: "snsId", 
-        value: snsId
-      );
+      await storage.write(key: "snsId", value: snsId);
       return true;
     } catch (e) {
       debugPrint(e.toString());
@@ -206,10 +196,9 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: const Color(0xFFFAE100),
           onPressed: () {
             debugPrint('DEBUG: tap kakao login button');
-            SnsLoginHelper.kakaoLogin(
-              (userId) {
-                signinSns("kakao", userId);    
-              });
+            SnsLoginHelper.kakaoLogin((userId) {
+              signinSns("kakao", userId);
+            });
           },
         ),
         const SizedBox(height: 16.0),
@@ -223,10 +212,9 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: const Color(0xFF03C75A),
           onPressed: () {
             debugPrint('DEBUG: tab naver login');
-            SnsLoginHelper.naverLogin(
-              (userId) {
-                signinSns("naver", userId);    
-              });
+            SnsLoginHelper.naverLogin((userId) {
+              signinSns("naver", userId);
+            });
           },
         ),
         const SizedBox(height: 16.0),
@@ -241,10 +229,9 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.white,
           onPressed: () {
             debugPrint('DEBUG: tab google login button');
-            SnsLoginHelper.googleLogin(
-              (userId) {
-                signinSns("google", userId);    
-              });
+            SnsLoginHelper.googleLogin((userId) {
+              signinSns("google", userId);
+            });
           },
         ),
         const SizedBox(height: 16.0),
@@ -259,10 +246,9 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.white,
           onPressed: () {
             debugPrint('DEBUG: tab apple login button');
-            SnsLoginHelper.appleLogin(
-              (userId) {
-                signinSns("apple", userId);    
-              });
+            SnsLoginHelper.appleLogin((userId) {
+              signinSns("apple", userId);
+            });
           },
         ),
         const SizedBox(height: 16.0),
@@ -276,9 +262,8 @@ class _LoginScreenState extends State<LoginScreen> {
           strokeColor: Colors.black,
           backgroundColor: Colors.white,
           onPressed: () {
-            Navigator.push(
-                      context,
-                      PageRouteBuilderRightLeft(child: const EmailLoginScreen()));
+            Navigator.push(context,
+                PageRouteBuilderRightLeft(child: const EmailLoginScreen()));
 
             debugPrint('DEBUG: tab email login button');
           },
@@ -289,9 +274,8 @@ class _LoginScreenState extends State<LoginScreen> {
           titleColor: Colors.white,
           backgroundColor: Colors.black,
           onPressed: () {
-            Navigator.push(
-                      context,
-                      PageRouteBuilderRightLeft(child: const SignUpScreen()));
+            Navigator.push(context,
+                PageRouteBuilderRightLeft(child: const SignUpScreen()));
 
             debugPrint('DEBUG: tab sign up showny button');
           },
@@ -319,9 +303,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
       onPressed: () {
-        UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+        UserProvider userProvider =
+            Provider.of<UserProvider>(context, listen: false);
         userProvider.updateUserInfo(UserModel());
-        
+
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (builder) => const RootScreen()),
@@ -334,35 +319,35 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Stack(
-            children: [
-              if (isLoggined && !hasEssentialData)
-                const InputEssentialInfoScreen()
-              else
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 96),
-                    Image.asset(
-                      'assets/logos/showny.png',
-                      width: 158,
-                      height: 24,
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: loginButtons(context),
-                    ),
-                    skipLoginButton(),
-                    const SizedBox(height: 24),
-                  ],
-                ),
-              if (isSplashScreenOn) const SplashScreen(),
-              if (!hasAdditionalData) const SplashScreen()
-            ],
-          ),
+      body: Center(
+        child: Stack(
+          children: [
+            if (isLoggined && !hasEssentialData) ...{
+              const InputEssentialInfoScreen()
+            } else ...{
+              const LoginScreenV2(),
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   children: [
+              //     const SizedBox(height: 96),
+              //     Image.asset(
+              //       'assets/logos/showny.png',
+              //       width: 158,
+              //       height: 24,
+              //     ),
+              //     const Spacer(),
+              //     Padding(
+              //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //       child: loginButtons(context),
+              //     ),
+              //     skipLoginButton(),
+              //     const SizedBox(height: 24),
+              //   ],
+              // ),
+            },
+            if (isSplashScreenOn) const SplashScreen(),
+            if (!hasAdditionalData) const SplashScreen()
+          ],
         ),
       ),
     );

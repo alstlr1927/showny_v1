@@ -32,50 +32,49 @@ class _ProfileNotLoggedInScreenState extends State<ProfileNotLoggedInScreen> {
       ),
       body: SafeArea(
           child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  tr('profile_screen.use_it_after_registering'),
-                  style: TextStyle(
-                    color: Color(0xFF777777),
-                    fontSize: 12,
-                    fontFamily: 'Spoqa Han Sans Neo',
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                CupertinoButton(
-                  minSize: 0.0,
-                  padding: EdgeInsets.zero,
-                  child: Container(
-                    width: 160.0,
-                    height: 48.0,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        tr('profile_screen.join'),
-                        style: Constants.defaultTextStyle
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      PageRouteBuilderRightLeft(child: const SignUpScreen()));
-                  },
-                ),
-              ],
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              tr('profile_screen.use_it_after_registering'),
+              style: TextStyle(
+                color: Color(0xFF777777),
+                fontSize: 12,
+                fontFamily: 'pretendard',
+                fontWeight: FontWeight.w400,
+              ),
             ),
-          )),
+            const SizedBox(
+              height: 16,
+            ),
+            CupertinoButton(
+              minSize: 0.0,
+              padding: EdgeInsets.zero,
+              child: Container(
+                width: 160.0,
+                height: 48.0,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Center(
+                  child: Text(
+                    tr('profile_screen.join'),
+                    style: Constants.defaultTextStyle
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    PageRouteBuilderRightLeft(child: const SignUpScreen()));
+              },
+            ),
+          ],
+        ),
+      )),
     );
   }
 }

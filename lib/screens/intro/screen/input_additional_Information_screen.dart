@@ -14,7 +14,6 @@ import 'package:showny/screens/root_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
 
-
 class InputAdditionalInfoScreen extends StatefulWidget {
   const InputAdditionalInfoScreen({super.key});
 
@@ -49,12 +48,13 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             onPressed: () {
               final dialog = ShownyDialog(
-                message:
-                    tr("input_additional_info_screen.info_dialog_message"),
-                primaryLabel: tr("input_additional_info_screen.info_dialog_skip"),
+                message: tr("input_additional_info_screen.info_dialog_message"),
+                primaryLabel:
+                    tr("input_additional_info_screen.info_dialog_skip"),
                 primaryRoute: RootScreen.routeName,
                 primaryAction: () {},
-                secondaryLabel: tr("input_additional_info_screen.info_dialog_input"),
+                secondaryLabel:
+                    tr("input_additional_info_screen.info_dialog_input"),
               );
               showDialog(context: context, builder: (context) => dialog);
             },
@@ -64,7 +64,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 12,
-                fontFamily: 'Spoqa Han Sans Neo',
+                fontFamily: 'pretendard',
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -86,7 +86,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                   style: const TextStyle(
                     color: Color(0xFF555555),
                     fontSize: 12,
-                    fontFamily: 'Spoqa Han Sans Neo',
+                    fontFamily: 'pretendard',
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -99,7 +99,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16,
-                        fontFamily: 'Spoqa Han Sans Neo',
+                        fontFamily: 'pretendard',
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -145,7 +145,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
-                            fontFamily: 'Spoqa Han Sans Neo',
+                            fontFamily: 'pretendard',
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -159,7 +159,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                           style: const TextStyle(
                             color: Color(0xFF777777),
                             fontSize: 12,
-                            fontFamily: 'Spoqa Han Sans Neo',
+                            fontFamily: 'pretendard',
                             fontWeight: FontWeight.w400,
                           ),
                         )
@@ -176,7 +176,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
-                            fontFamily: 'Spoqa Han Sans Neo',
+                            fontFamily: 'pretendard',
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -186,7 +186,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                           style: const TextStyle(
                             color: Color(0xFF777777),
                             fontSize: 12,
-                            fontFamily: 'Spoqa Han Sans Neo',
+                            fontFamily: 'pretendard',
                             fontWeight: FontWeight.w400,
                           ),
                         )

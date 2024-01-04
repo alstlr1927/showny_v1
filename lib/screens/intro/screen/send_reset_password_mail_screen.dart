@@ -23,10 +23,8 @@ class SendResetPasswordMailScreen extends StatefulWidget {
 
 class _SendResetPasswordMailScreenState
     extends State<SendResetPasswordMailScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(tr("send_reset_password_mail_screen.find_password")),
@@ -60,7 +58,7 @@ class _SendResetPasswordMailScreenState
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
-                    fontFamily: 'Spoqa Han Sans Neo',
+                    fontFamily: 'pretendard',
                     fontWeight: FontWeight.w700,
                   ),
                 ),

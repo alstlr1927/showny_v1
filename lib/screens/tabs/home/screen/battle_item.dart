@@ -1,19 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/providers/battle_item_provider.dart';
 import 'package:showny/screens/tabs/home/components/battle_user.dart';
 import 'package:showny/screens/tabs/home/components/product_container_battle.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class BattleItem extends StatefulWidget {
   final StyleupBattleItemModel battleItem;
+  final String title;
+  final String battleRound;
   final int index;
   const BattleItem({
     super.key,
     required this.battleItem,
     required this.index,
+    required this.title,
+    required this.battleRound,
   });
 
   @override
@@ -30,8 +37,7 @@ class _BattleItemState extends State<BattleItem> with TickerProviderStateMixin {
     print('isPoll : ${widget.battleItem.isPoll}');
     print('1 cnt : ${widget.battleItem.style1PollCnt}');
     print('2 cnt : ${widget.battleItem.style2PollCnt}');
-    final Size size = MediaQuery.of(context).size;
-    defaultImgWidth = size.width * .41;
+    defaultImgWidth = ScreenUtil().screenWidth * .41;
     return ChangeNotifierProvider<BattleItemProvider>(
         create: (_) => BattleItemProvider(this),
         builder: (context, _) {
@@ -41,7 +47,7 @@ class _BattleItemState extends State<BattleItem> with TickerProviderStateMixin {
                 onPanUpdate: prov.onPanUpdate,
                 onTapUp: (details) {
                   if (widget.battleItem.isPoll) return;
-                  if (details.localPosition.dx < size.width / 2) {
+                  if (details.localPosition.dx < ScreenUtil().screenWidth / 2) {
                     prov.startLeftAnimation();
                   } else {
                     prov.startRightAnimation();
@@ -51,8 +57,6 @@ class _BattleItemState extends State<BattleItem> with TickerProviderStateMixin {
                   alignment: Alignment.center,
                   children: [
                     BackBlurWidget(
-                      width: size.width,
-                      height: double.infinity,
                       image1: widget.battleItem.styleup1.thumbnailUrl,
                       image2: widget.battleItem.styleup2.thumbnailUrl,
                     ),
@@ -71,9 +75,54 @@ class _BattleItemState extends State<BattleItem> with TickerProviderStateMixin {
                       ),
                     },
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      // mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        _buildBattleListBtn(),
+                        SafeArea(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 45.toHeight),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "${widget.title} ${widget.battleRound}강전",
+                                  style: ShownyStyle.body2(
+                                      color: Colors.white,
+                                      weight: FontWeight.w700),
+                                ),
+                                SizedBox(height: 4.toHeight),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    CupertinoButton(
+                                      onPressed: () {
+                                        // Navigator.pushNamed(
+                                        //   context, BattleListScreen.routeName);
+                                      },
+                                      minSize: 0,
+                                      padding: EdgeInsets.zero,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '배틀 리스트',
+                                            style: ShownyStyle.overline(
+                                                color: Colors.white,
+                                                weight: FontWeight.w600),
+                                          ),
+                                          Image.asset(
+                                            'assets/icons/home/right_arrow.png',
+                                            width: 15.toWidth,
+                                            height: 15.toWidth,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
                         _buildBottomBanner(),
                       ],
                     ),
@@ -128,70 +177,6 @@ class _BattleItemState extends State<BattleItem> with TickerProviderStateMixin {
               ),
             )
           : null,
-    );
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: GestureDetector(
-        onTap: () {},
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-          padding: const EdgeInsets.all(4),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(.4),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(2),
-                child: Image.asset(
-                  'assets/images/1.jpg',
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(width: 12),
-              const Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'CIDER',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    '솔리드 컷아웃 하이웨스트 와이드 레그 팬츠',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              CupertinoButton(
-                onPressed: () {},
-                child: const Text(
-                  '더보기',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

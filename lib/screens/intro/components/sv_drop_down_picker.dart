@@ -36,73 +36,72 @@ class _SVDropdownPicker extends State<SVDropdownPicker> {
         showModalBottomSheet(
           context: context,
           builder: (BuildContext builder) {
-            return 
-            SizedBox(
+            return SizedBox(
               height: 248,
               child: Column(
-              
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  height: 48,
-                  decoration: const BoxDecoration(
-                    color: Color(0xffffffff),
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Color(0xff999999),
-                        width: 0.0,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    height: 48,
+                    decoration: const BoxDecoration(
+                      color: Color(0xffffffff),
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color(0xff999999),
+                          width: 0.0,
+                        ),
                       ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      CupertinoButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 5.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        CupertinoButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 5.0,
+                          ),
+                          child: Text(tr("common.cancel")),
                         ),
-                        child: Text(tr("common.cancel")),
-                      ),
-                      CupertinoButton(
-                        onPressed: () {
-                          if(widget.onChanged != null) {
-                            widget.onChanged!(_selectedIndex);
-                          }
-                          Navigator.pop(context);
-                        },
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 5.0,
-                        ),
-                        child: Text(tr("common.confirm")),
-                      )
-                    ],
+                        CupertinoButton(
+                          onPressed: () {
+                            if (widget.onChanged != null) {
+                              widget.onChanged!(_selectedIndex);
+                            }
+                            Navigator.pop(context);
+                          },
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 5.0,
+                          ),
+                          child: Text(tr("common.confirm")),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  height: 200,
-                  color: const Color(0xfff7f7f7),
-                  child: CupertinoPicker(
-                    scrollController: FixedExtentScrollController(initialItem: widget.selectedValue ?? 0),
-                    onSelectedItemChanged: (index) {
-                      setState(() {
-                        _selectedIndex = index;
-                      });
-                    },
-                    itemExtent: 40,
-                    children: widget.items.map((String item) {
-                      return Center(
-                        child: Text(item),
-                      );
-                    }).toList(),
-                  ),
-                )
-              ],
-            ),
+                  Container(
+                    height: 200,
+                    color: const Color(0xfff7f7f7),
+                    child: CupertinoPicker(
+                      scrollController: FixedExtentScrollController(
+                          initialItem: widget.selectedValue ?? 0),
+                      onSelectedItemChanged: (index) {
+                        setState(() {
+                          _selectedIndex = index;
+                        });
+                      },
+                      itemExtent: 40,
+                      children: widget.items.map((String item) {
+                        return Center(
+                          child: Text(item),
+                        );
+                      }).toList(),
+                    ),
+                  )
+                ],
+              ),
             );
           },
         );
@@ -120,11 +119,15 @@ class _SVDropdownPicker extends State<SVDropdownPicker> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              widget.selectedValue == null ? widget.hintText : widget.items[widget.selectedValue!],
+              widget.selectedValue == null
+                  ? widget.hintText
+                  : widget.items[widget.selectedValue!],
               style: TextStyle(
-                color: widget.selectedValue != null ? Colors.black : Colors.black38,
+                color: widget.selectedValue != null
+                    ? Colors.black
+                    : Colors.black38,
                 fontSize: 14,
-                fontFamily: 'Spoqa Han Sans Neo',
+                fontFamily: 'pretendard',
               ),
             ),
             Image.asset(

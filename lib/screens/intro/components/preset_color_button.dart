@@ -42,7 +42,7 @@ class PresetColorButton extends StatelessWidget {
             style: TextStyle(
               color: isSelected ? Colors.black : const Color(0xFFAAAAAA),
               fontSize: 12,
-              fontFamily: 'Spoqa Han Sans Neo',
+              fontFamily: 'pretendard',
               fontWeight: FontWeight.w400,
             ),
           )

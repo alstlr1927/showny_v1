@@ -7,6 +7,7 @@ import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dar
 class ToolBox extends StatefulWidget {
   const ToolBox({
     super.key,
+    required this.upDownType,
     required this.isVideo,
     required this.styleupNo,
     required this.memNo,
@@ -16,8 +17,10 @@ class ToolBox extends StatefulWidget {
     required this.tapBookmark,
     required this.tapShare,
     required this.tapSeeMore,
+    required this.tapUpDown,
   });
 
+  final int upDownType;
   final bool isVideo;
   final String styleupNo;
   final String memNo;
@@ -27,6 +30,7 @@ class ToolBox extends StatefulWidget {
   final Function(bool) tapBookmark;
   final Function() tapShare;
   final Function() tapSeeMore;
+  final Function(int) tapUpDown;
 
   @override
   State<ToolBox> createState() => _ToolBoxState();
@@ -48,7 +52,34 @@ class _ToolBoxState extends State<ToolBox> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (widget.tapTag != null && widget.isVideo == false)
+          if (widget.upDownType != 0) ...{},
+          CupertinoButton(
+            minSize: 0.0,
+            padding: EdgeInsets.zero,
+            onPressed: () {
+              if (widget.upDownType == 1) {
+                widget.tapUpDown(2);
+              } else {
+                widget.tapUpDown(1);
+              }
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              child: widget.upDownType == 1
+                  ? Image.asset(
+                      'assets/icons/home/styleup_up.png',
+                      width: 28.0,
+                      height: 28.0,
+                    )
+                  : Image.asset(
+                      'assets/icons/home/styleup_down.png',
+                      width: 28.0,
+                      height: 28.0,
+                    ),
+            ),
+          ),
+          SizedBox(height: interval),
+          if (widget.tapTag != null && widget.isVideo == false) ...{
             CupertinoButton(
               minSize: 0.0,
               padding: EdgeInsets.zero,
@@ -59,7 +90,8 @@ class _ToolBoxState extends State<ToolBox> {
                 height: 28.0,
               ),
             ),
-          SizedBox(height: interval),
+            SizedBox(height: interval),
+          },
           CupertinoButton(
             minSize: 0.0,
             padding: EdgeInsets.zero,

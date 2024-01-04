@@ -1,14 +1,14 @@
 import 'dart:ui' as ui;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/components/keep_alive_widget/keep_alive_widget.dart';
 
 import 'package:showny/providers/home_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 import 'package:showny/screens/tabs/home/screen/battle_screen.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_screen.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,36 +27,17 @@ class _HomeScreenState extends State<HomeScreen>
     provider = HomeProvider(this);
   }
 
-  Size calculateTextSize({
-    required String text,
-    required TextStyle style,
-    required BuildContext context,
-  }) {
-    final double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
-    final ui.TextDirection textDirection = Directionality.of(context);
-
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: text, style: style),
-      textDirection: textDirection,
-      textScaleFactor: textScaleFactor,
-    )..layout(minWidth: 0, maxWidth: double.infinity);
-
-    return textPainter.size;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeProvider>.value(
         value: provider,
         builder: (context, _) {
           return Consumer<HomeProvider>(builder: (ctx, prov, child) {
+            print('home build');
             return Stack(
               children: [
                 PageView(
                   physics: prov.getPhysics(),
-                  // physics: const NeverScrollableScrollPhysics(),
-                  // physics: const ClampingScrollPhysics(),
                   controller: prov.pageController,
                   onPageChanged: prov.setTab,
                   children: [
@@ -66,20 +47,18 @@ class _HomeScreenState extends State<HomeScreen>
                           styleupList: prov.styleUpList,
                           isMain: true),
                     ),
-                    KeepAliveWidget(
-                      child: BattleScreen(
-                        battleList: prov.styleUpBattle?.battleItemList ?? [],
-                        onPageChanged: prov.setCurrentBattle,
-                        title: prov.styleUpBattle?.title ?? '',
-                        battleRound: prov.styleUpBattle?.round ?? '',
-                        isMain: true,
-                      ),
+                    BattleScreen(
+                      battleList: prov.styleUpBattle?.battleItemList ?? [],
+                      onPageChanged: prov.setCurrentBattle,
+                      title: prov.styleUpBattle?.title ?? '',
+                      battleRound: prov.styleUpBattle?.round ?? '',
+                      isMain: true,
                     ),
                   ],
                 ),
                 SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 15),
+                    padding: EdgeInsets.only(top: 15.toWidth),
                     child: TabBar(
                       controller: prov.tabController,
                       dividerColor: Colors.transparent,
@@ -87,15 +66,11 @@ class _HomeScreenState extends State<HomeScreen>
                       indicatorSize: TabBarIndicatorSize.label,
                       labelColor: Colors.white,
                       unselectedLabelColor: Colors.white,
-                      labelPadding: const EdgeInsets.only(bottom: 3),
-                      labelStyle: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      unselectedLabelStyle: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
+                      labelPadding: EdgeInsets.only(bottom: 3.toWidth),
+                      labelStyle: ShownyStyle.body2(
+                          color: Colors.white, weight: FontWeight.w700),
+                      unselectedLabelStyle:
+                          ShownyStyle.caption(color: Colors.white),
                       tabs: const [
                         Text('스타일업'),
                         Text('배틀'),

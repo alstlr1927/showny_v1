@@ -24,7 +24,6 @@ class MyShopGridItem extends StatefulWidget {
 }
 
 class _MyShopGridItemState extends State<MyShopGridItem> {
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -33,7 +32,7 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AspectRatio(
-            aspectRatio: 4/5,
+            aspectRatio: 4 / 5,
             child: Container(
               decoration: ShapeDecoration(
                 image: DecorationImage(
@@ -58,24 +57,28 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
                 const SizedBox(
                   height: 8,
                 ),
-                widget.brandName != "" ? Text(
-                  widget.brandName,
-                  style: const TextStyle(
-                    color: Color(0xFF777777),
-                    fontSize: 10,
-                    fontFamily: 'Spoqa Han Sans Neo',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ) : const SizedBox(),
-                widget.brandName != "" ? const SizedBox(
-                  height: 8,
-                ) : const SizedBox(),
+                widget.brandName != ""
+                    ? Text(
+                        widget.brandName,
+                        style: const TextStyle(
+                          color: Color(0xFF777777),
+                          fontSize: 10,
+                          fontFamily: 'pretendard',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                    : const SizedBox(),
+                widget.brandName != ""
+                    ? const SizedBox(
+                        height: 8,
+                      )
+                    : const SizedBox(),
                 Text(
                   widget.title,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 12,
-                    fontFamily: 'Spoqa Han Sans Neo',
+                    fontFamily: 'pretendard',
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -83,11 +86,11 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
                   height: 8,
                 ),
                 Text(
-                   '${Formatter.formatNumber(int.parse(widget.price.replaceAll(',', '')))} 원',
+                  '${Formatter.formatNumber(int.parse(widget.price.replaceAll(',', '')))} 원',
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 12,
-                    fontFamily: 'Spoqa Han Sans Neo',
+                    fontFamily: 'pretendard',
                     fontWeight: FontWeight.w700,
                   ),
                 )

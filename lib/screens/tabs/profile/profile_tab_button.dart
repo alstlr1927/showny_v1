@@ -25,7 +25,7 @@ class ProfieTabButton<T extends CategoryMixin> extends StatelessWidget {
                 ? Colors.black
                 : const Color(0xFF444444),
             fontSize: 12,
-            fontFamily: 'Spoqa Han Sans Neo',
+            fontFamily: 'pretendard',
             fontWeight:
                 category == currentCategory ? FontWeight.w700 : FontWeight.w400,
           ),

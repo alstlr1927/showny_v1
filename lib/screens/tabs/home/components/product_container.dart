@@ -4,6 +4,8 @@ import 'package:showny/components/error/image_error.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/models/goods_item_model.dart';
 import 'package:showny/screens/tabs/home/components/wearing_items_sheet_screen.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class ProductContainer extends StatefulWidget {
   const ProductContainer({
@@ -44,23 +46,23 @@ class _ProductContainerState extends State<ProductContainer> {
             showMoreItem(context, itemInfo: goodsDataList);
           },
           child: Container(
-            padding: const EdgeInsets.all(4),
+            padding: EdgeInsets.all(4.toWidth),
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(.4),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: BorderRadius.circular(4),
                   child: Image.network(goodsDataList[0].goodsImg,
-                      width: 40.0,
-                      height: 40.0,
+                      width: 40.toWidth,
+                      height: 40.toWidth,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stack) =>
                           const ImageError()),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.toWidth),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -68,20 +70,14 @@ class _ProductContainerState extends State<ProductContainer> {
                   children: [
                     Text(
                       goodsDataList[0].brandNm,
-                      style: Constants.defaultTextStyle.copyWith(
-                        color: Colors.white,
-                        fontSize: 10,
-                      ),
+                      style: ShownyStyle.overline(color: Colors.white),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       goodsDataList[0].goodsNm,
-                      style: Constants.defaultTextStyle.copyWith(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: ShownyStyle.overline(
+                          color: Colors.white, weight: FontWeight.w700),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -94,17 +90,13 @@ class _ProductContainerState extends State<ProductContainer> {
                   },
                   padding: EdgeInsets.zero,
                   minSize: 0,
-                  child: const SizedBox(
+                  child: SizedBox(
                     width: 50,
                     height: 30,
                     child: Center(
                       child: Text(
                         '더보기',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        style: ShownyStyle.overline(color: Colors.white),
                       ),
                     ),
                   ),

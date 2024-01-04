@@ -39,7 +39,7 @@ class CheckboxGenderListTile extends StatelessWidget {
             style: const TextStyle(
               color: Colors.black,
               fontSize: 14,
-              fontFamily: 'Spoqa Han Sans Neo',
+              fontFamily: 'pretendard',
               fontWeight: FontWeight.w400,
             ),
           ),

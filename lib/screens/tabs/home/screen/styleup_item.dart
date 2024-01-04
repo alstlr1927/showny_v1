@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/components/custom_long_press/custom_long_press.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/styleup_model.dart';
+import 'package:showny/providers/home_provider.dart';
 import 'package:showny/providers/styleup_item_provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/tabs/home/components/drag_item_tag.dart';
@@ -12,6 +15,8 @@ import 'package:showny/screens/tabs/home/components/product_container.dart';
 import 'package:showny/screens/tabs/home/components/tool_box.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_image.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_video.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:video_player/video_player.dart';
 
 class StyleUpItem extends StatefulWidget {
@@ -54,8 +59,8 @@ class _StyleUpItemState extends State<StyleUpItem> {
             builder: (context, layout) {
               return Stack(
                 children: [
-                  _buildStyleUp(prov, layout),
-                  _buildOptions(prov),
+                  _buildStyleUp(prov),
+                  _buildOptions(prov, layout),
                   _buildSelectLayer(prov),
                   _buildProductLayer(prov),
                 ],
@@ -67,7 +72,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
     );
   }
 
-  Widget _buildStyleUp(StyleUpItemProvider prov, BoxConstraints layout) {
+  Widget _buildStyleUp(StyleUpItemProvider prov) {
     return Stack(
       children: [
         if (isImage) ...{
@@ -84,22 +89,19 @@ class _StyleUpItemState extends State<StyleUpItem> {
             onLongPressMoveUpdate: prov.onLongPressMoveUpdate,
             onLongPressEnd: prov.onLongPressEnd,
             onLongPressUp: prov.onLongPressUp,
-            child: isImage
-                ? Column(
-                    children: [
-                      StyleUpImage(imageList: widget.styleUp.imgUrlList),
-                      _buildDescription(prov),
-                    ],
-                  )
-                : Stack(
-                    children: [
-                      StyleUpVideo(
-                        videoUrl: widget.styleUp.videoUrl,
-                        videoController: prov.videoController!,
-                      ),
-                      _buildDescription(prov),
-                    ],
+            child: Stack(
+              children: [
+                if (isImage) ...{
+                  StyleUpImage(imageList: widget.styleUp.imgUrlList),
+                } else ...{
+                  StyleUpVideo(
+                    videoUrl: widget.styleUp.videoUrl,
+                    videoController: prov.videoController!,
                   ),
+                },
+                _buildDescription(prov),
+              ],
+            ),
           ),
         ),
         if (!isImage) ...{
@@ -121,7 +123,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
     );
   }
 
-  Widget _buildOptions(StyleUpItemProvider prov) {
+  Widget _buildOptions(StyleUpItemProvider prov, BoxConstraints layout) {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
@@ -129,6 +131,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
       alignment: Alignment.topRight,
       child: !prov.showTags
           ? ToolBox(
+              upDownType: widget.styleUp.upDownType,
               isVideo: widget.styleUp.type == "video" ? true : false,
               styleupNo: widget.styleUp.styleupNo,
               memNo: user.memNo,
@@ -143,6 +146,8 @@ class _StyleUpItemState extends State<StyleUpItem> {
                   contentMemNo: widget.styleUp.memNo,
                   memNo: user.memNo,
                   index: widget.index),
+              tapUpDown: prov.updateUpDownType,
+
               // tapSeeMore: () {
               //   // tapSeeMoreButton(
               //   //     styleupNo: widget.styleUp.styleupNo,
@@ -178,7 +183,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 56),
+              margin: EdgeInsets.symmetric(horizontal: 26.toWidth),
               color: const Color(0xffd8d8d8),
               height: 1,
             ),
@@ -249,76 +254,72 @@ class _StyleUpItemState extends State<StyleUpItem> {
 
   Widget _buildDescription(StyleUpItemProvider prov) {
     UserProvider userProv = Provider.of<UserProvider>(context, listen: false);
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        height: 210,
-        width: double.infinity,
-        padding:
-            const EdgeInsets.only(left: 20, right: 20, top: 16, bottom: 24),
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(200),
-                  child: Image.network(
-                    widget.styleUp.userInfo.profileImage,
-                    width: 40,
-                    height: 40,
-                    fit: BoxFit.cover,
+    return LayoutBuilder(builder: (context, layout) {
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          // height: 190.toWidth,
+          width: double.infinity,
+          constraints: BoxConstraints(
+            minHeight: layout.maxHeight - (ScreenUtil().screenWidth * 4 / 3),
+          ),
+          padding: EdgeInsets.all(16.toWidth),
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(200),
+                    child: Image.network(
+                      widget.styleUp.userInfo.profileImage,
+                      width: 40.toWidth,
+                      height: 40.toWidth,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  widget.styleUp.userInfo.nickNm,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  SizedBox(width: 8.toWidth),
+                  Text(
+                    widget.styleUp.userInfo.nickNm,
+                    style: ShownyStyle.body1(
+                      color: Colors.white,
+                      weight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                if (userProv.user.memNo != widget.styleUp.userInfo.memNo) ...{
-                  FollowingButton(
-                    isFollow: widget.styleUp.userInfo.isFollow,
-                    memNo: widget.styleUp.memNo,
-                    onCompleted: prov.setIsFollow,
-                  ),
-                },
-                // Text(
-                //   widget.styleUp.upDownType == 1
-                //       ? 'UP'
-                //       : (widget.styleUp.upDownType == 2 ? 'DOWN' : ''),
-                //   style: const TextStyle(
-                //     color: Colors.white,
-                //     fontSize: 16,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              widget.styleUp.description,
-              maxLines: 2,
-              style: const TextStyle(
-                overflow: TextOverflow.ellipsis,
-                color: Colors.white,
+                  SizedBox(width: 8.toWidth),
+                  if (userProv.user.memNo != widget.styleUp.userInfo.memNo &&
+                      !widget.styleUp.userInfo.isFollow) ...{
+                    FollowingButton(
+                      isFollow: widget.styleUp.userInfo.isFollow,
+                      memNo: widget.styleUp.memNo,
+                      onCompleted: prov.setIsFollow,
+                    ),
+                  },
+                ],
               ),
-            ),
-            const Spacer(),
-            _buildBottomBanner(),
-            const SizedBox(height: 10),
-          ],
+              SizedBox(height: 10.toHeight),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: prov.setExtendedText,
+                child: Text(
+                  widget.styleUp.description,
+                  maxLines: prov.isExtendedText ? 15 : 2,
+                  style: ShownyStyle.caption(color: Colors.white),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(height: 14.toHeight),
+              _buildBottomBanner(),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildBottomBanner() {
@@ -334,20 +335,19 @@ class _StyleUpItemState extends State<StyleUpItem> {
   }
 
   Widget _buildProductLayer(StyleUpItemProvider prov) {
-    final Size size = MediaQuery.of(context).size;
     return prov.showTags
         ? GestureDetector(
             onTap: () => prov.setShowTags(false),
             child: Container(
-              width: size.width,
-              height: size.height,
+              width: ScreenUtil().screenWidth,
+              height: ScreenUtil().screenHeight,
               color: Colors.black.withOpacity(.7),
               child: Stack(
                 children: [
                   ...widget.styleUp.goodsDataList[prov.curImgIdx].map((item) {
                     return Positioned(
-                      left: item.left * size.width,
-                      top: item.top * size.width * 6 / 4,
+                      left: item.left * ScreenUtil().screenWidth,
+                      top: item.top * ScreenUtil().screenWidth * 6 / 4,
                       child: tagWidget(
                         goodsNm: item.goodsNm,
                         price: item.goodsPrice.formatPrice(),

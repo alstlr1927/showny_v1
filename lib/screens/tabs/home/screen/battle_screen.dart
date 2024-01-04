@@ -1,11 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:share_plus/share_plus.dart';
-
 import 'package:showny/api/new_api/api_helper.dart';
-import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/models/styleup_model.dart';
@@ -221,6 +218,8 @@ class _BattleScreenState extends State<BattleScreen> {
         return BattleItem(
           battleItem: widget.battleList[index],
           index: index,
+          battleRound: widget.battleRound,
+          title: widget.title,
         );
       }),
     );

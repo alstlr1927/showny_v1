@@ -6,7 +6,7 @@ class Constants {
 
   // Theme
   static ThemeData theme = ThemeData(
-    fontFamily: 'Spoqa Han Sans Neo',
+    fontFamily: 'pretendard',
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
       iconTheme: const IconThemeData(color: Colors.black),
@@ -20,7 +20,7 @@ class Constants {
   static var defaultTextStyle = const TextStyle(
     color: Colors.black,
     fontSize: 14,
-    fontFamily: 'Spoqa Han Sans Neo',
+    fontFamily: 'pretendard',
     fontWeight: FontWeight.w400,
   );
 

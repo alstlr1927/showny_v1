@@ -4,6 +4,7 @@ import 'package:showny/api/new_api/api_helper.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class FollowingButton extends StatefulWidget {
   const FollowingButton({
@@ -34,13 +35,14 @@ class _FollowingButtonState extends State<FollowingButton> {
       color: widget.isFollow
           ? Colors.black.withOpacity(0.4)
           : const Color(0xff5900FF),
-      borderRadius: BorderRadius.circular(2.0),
+      borderRadius: BorderRadius.circular(4),
       child: Text(
         widget.isFollow == true ? '팔로잉' : '팔로우',
-        style: Constants.defaultTextStyle.copyWith(
-          color: Colors.white,
-          fontSize: 11,
-        ),
+        style: ShownyStyle.overline(color: Colors.white),
+        // style: Constants.defaultTextStyle.copyWith(
+        //   color: Colors.white,
+        //   fontSize: 11,
+        // ),
       ),
       onPressed: () {
         if (widget.isFollow) {

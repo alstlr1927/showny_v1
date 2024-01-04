@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:showny/components/title_text_field/text_field_theme/text_field_theme.dart';
 import 'package:showny/constants.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class SignUpTextField extends StatelessWidget {
   SignUpTextField({
@@ -31,21 +33,38 @@ class SignUpTextField extends StatelessWidget {
     return TextField(
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: Constants.textFieldHintStyle.copyWith(
-          color: const Color(0xFF555555),
-        ),
+        hintStyle: ShownyStyle.body2(
+            color: TextFieldColor.textField_hint_text, weight: FontWeight.w600),
         errorText: error ? errorText : null,
         errorStyle: Constants.textFieldErrorStyle,
-        enabledBorder: outlineInputBorder,
-        focusedBorder: outlineInputBorder,
-        errorBorder: outlineInputBorder,
-        focusedErrorBorder: outlineInputBorder,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+              color: TextFieldColor.textField_default_line, width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+              color: TextFieldColor.textField_focus_line, width: 1),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+              color: TextFieldColor.textField_default_line, width: 1),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+              color: TextFieldColor.textField_focus_line, width: 1),
+        ),
         filled: true,
-        fillColor: const Color(0xFFEEEEEE),
+        fillColor: Colors.white,
         suffixIcon: Center(widthFactor: 2, child: suffix),
         counterText: '',
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       ),
-      style: Constants.textFieldHintStyle.copyWith(color: Colors.black),
+      style: ShownyStyle.body2(color: TextFieldColor.textField_text),
       cursorColor: Colors.black,
       obscureText: obscureText,
       onChanged: onChanged,
