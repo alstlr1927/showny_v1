@@ -12,8 +12,7 @@ import 'package:showny/screens/intro/screen/input_additional_information_screen.
 import 'package:showny/screens/tabs/profile/my_profile/components/sv_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
-
-import '../../tabs/profile/my_profile/components/sv_dropdown.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class InputEssentialInfoScreen extends StatefulWidget {
   const InputEssentialInfoScreen({super.key});
@@ -81,7 +80,7 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
                       backgroundColor: (isMale == null)
                           ? const Color(0xFFEEEEEE)
                           : isMale!
-                              ? Colors.black
+                              ? ShownyStyle.mainPurple
                               : const Color(0xFFEEEEEE),
                       titleColor: (isMale == null)
                           ? const Color(0xFF555555)
@@ -102,7 +101,7 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
                       backgroundColor: (isMale == null)
                           ? const Color(0xFFEEEEEE)
                           : !isMale!
-                              ? Colors.black
+                              ? ShownyStyle.mainPurple
                               : const Color(0xFFEEEEEE),
                       titleColor: (isMale == null)
                           ? const Color(0xFF555555)
@@ -200,7 +199,7 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
                             : Colors.white,
                         backgroundColor: isIDVerified
                             ? const Color(0xFFEEEEEE)
-                            : Colors.black,
+                            : ShownyStyle.mainPurple,
                         onPressed: () {
                           if (idController.text.trim().isEmpty) {
                             return;
@@ -334,7 +333,7 @@ class _InputEssentialInfoScreenState extends State<InputEssentialInfoScreen> {
               const Spacer(),
               SVButton(
                 title: tr("common.complete"),
-                backgroundColor: Colors.black,
+                backgroundColor: ShownyStyle.mainPurple,
                 titleColor:
                     isActivated ? Colors.white : const Color(0xFF555555),
                 onPressed: isActivated

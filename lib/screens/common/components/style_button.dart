@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/models/style.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class StyleButton extends StatelessWidget {
   const StyleButton({
@@ -25,9 +26,11 @@ class StyleButton extends StatelessWidget {
       child: Container(
         width: (MediaQuery.of(context).size.width - 56.0) / 4,
         decoration: ShapeDecoration(
+          color: isSelected ? ShownyStyle.mainPurple : ShownyStyle.white,
           shape: RoundedRectangleBorder(
             side: BorderSide(
-              color: isSelected ? Colors.black : const Color(0xFFEEEEEE),
+              color:
+                  isSelected ? ShownyStyle.mainPurple : const Color(0xFFEEEEEE),
             ),
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -38,7 +41,7 @@ class StyleButton extends StatelessWidget {
             child: Text(
               style.converToString,
               style: Constants.defaultTextStyle.copyWith(
-                color: isSelected ? Colors.black : const Color(0xFFAAAAAA),
+                color: isSelected ? ShownyStyle.white : const Color(0xFFAAAAAA),
               ),
             ),
           ),

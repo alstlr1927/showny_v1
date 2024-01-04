@@ -27,11 +27,11 @@ class SVButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 48.0,
+      height: 48.toWidth,
       decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
         side: BorderSide(color: strokeColor ?? Colors.transparent, width: 0.5),
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(8),
       )),
       child: CupertinoButton(
         padding: EdgeInsets.zero,

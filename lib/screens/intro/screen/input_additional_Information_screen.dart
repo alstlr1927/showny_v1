@@ -13,6 +13,8 @@ import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/root_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class InputAdditionalInfoScreen extends StatefulWidget {
   const InputAdditionalInfoScreen({super.key});
@@ -39,7 +41,13 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(tr("input_additional_info_screen.title")),
+        title: Text(
+          tr("input_additional_info_screen.title"),
+          style: ShownyStyle.body2(
+            color: ShownyStyle.black,
+            weight: FontWeight.w600,
+          ),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
@@ -74,7 +82,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
       body: SingleChildScrollView(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsetsDirectional.all(16),
+            padding: EdgeInsetsDirectional.all(16.toWidth),
             child: Column(
               children: [
                 const SizedBox(
@@ -83,12 +91,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                 Text(
                   tr("input_additional_info_screen.info_label_exposure"),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color(0xFF555555),
-                    fontSize: 12,
-                    fontFamily: 'pretendard',
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: ShownyStyle.caption(color: const Color(0xFF555555)),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,58 +99,41 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                     const SizedBox(height: 29),
                     Text(
                       tr("input_additional_info_screen.label_body_type"),
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontFamily: 'pretendard',
-                        fontWeight: FontWeight.w400,
-                      ),
+                      style: ShownyStyle.body2(
+                          color: ShownyStyle.black, weight: FontWeight.w600),
                     ),
                     const SizedBox(height: 18),
-                    SizedBox(
-                      height: 90,
-                      child: GridView.builder(
-                        // shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: BodyType.values.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                mainAxisSpacing: 8.0,
-                                childAspectRatio: 1.4),
-                        itemBuilder: (BuildContext context, int index) {
-                          return BodyTypeButton(
-                            enableMultiSelect: false,
-                            bodyType: BodyType.values[index],
-                            selectedBodyType: selectedBodyType,
-                            itemPadding: 12,
-                            itemWidth: 60,
-                            isSelected: selectedBodyType?.index == index,
-                            onPressed: (bodyType) {
-                              setState(() {
-                                if (selectedBodyType == bodyType) {
-                                  selectedBodyType = null;
-                                } else {
-                                  selectedBodyType = bodyType;
-                                }
-                              });
-                              activateCompleteButton();
-                            },
-                          );
-                        },
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(5, (index) {
+                        return BodyTypeButton(
+                          enableMultiSelect: false,
+                          bodyType: BodyType.values[index],
+                          selectedBodyType: selectedBodyType,
+                          itemPadding: 12.toWidth,
+                          itemWidth: 55.toWidth,
+                          isSelected: selectedBodyType?.index == index,
+                          onPressed: (bodyType) {
+                            setState(() {
+                              if (selectedBodyType == bodyType) {
+                                selectedBodyType = null;
+                              } else {
+                                selectedBodyType = bodyType;
+                              }
+                            });
+                            activateCompleteButton();
+                          },
+                        );
+                      }),
                     ),
                     const SizedBox(height: 58),
                     Row(
                       children: [
                         Text(
                           tr("input_additional_info_screen.label_select_styles"),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontFamily: 'pretendard',
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: ShownyStyle.body2(
+                              color: ShownyStyle.black,
+                              weight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -173,12 +159,9 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                       children: [
                         Text(
                           tr("input_additional_info_screen.label_select_colors"),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontFamily: 'pretendard',
-                            fontWeight: FontWeight.w400,
-                          ),
+                          style: ShownyStyle.body2(
+                              color: ShownyStyle.black,
+                              weight: FontWeight.w600),
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -237,7 +220,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                         ? Colors.white
                         : const Color(0xFF555555),
                     backgroundColor: isActiveCompleteButton
-                        ? Colors.black
+                        ? ShownyStyle.mainPurple
                         : const Color(0xFFEEEEEE),
                     onPressed: isActiveCompleteButton
                         ? () {
@@ -266,7 +249,8 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                               debugPrint(error);
                             });
                           }
-                        : null)
+                        : null),
+                SizedBox(height: ShownyStyle.defaultBottomPadding()),
               ],
             ),
           ),

@@ -435,7 +435,7 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          // automaticallyImplyLeading: false,
+          automaticallyImplyLeading: false,
           title: Text(tr("email_sign_up_screen2.title")),
           titleTextStyle: FontHelper.bold_16_000000,
           centerTitle: true,

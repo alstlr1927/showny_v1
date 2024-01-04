@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class PresetColorButton extends StatelessWidget {
   const PresetColorButton({
@@ -39,13 +40,11 @@ class PresetColorButton extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             presetColor.convertToString,
-            style: TextStyle(
+            style: ShownyStyle.caption(
               color: isSelected ? Colors.black : const Color(0xFFAAAAAA),
-              fontSize: 12,
-              fontFamily: 'pretendard',
-              fontWeight: FontWeight.w400,
+              weight: FontWeight.w600,
             ),
-          )
+          ),
         ],
       ),
     );

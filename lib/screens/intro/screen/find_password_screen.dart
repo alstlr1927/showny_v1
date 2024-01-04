@@ -12,6 +12,7 @@ import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/components/sign_up_text_field.dart';
 import 'package:showny/screens/intro/screen/email_login_screen.dart';
 import 'package:showny/screens/intro/screen/send_reset_password_mail_screen.dart';
+import 'package:showny/utils/showny_style.dart';
 
 import '../../../utils/validator.dart';
 
@@ -44,8 +45,10 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(tr("find_password_screen.find_password"),
-          style: FontHelper.bold_16_000000,),
+          title: Text(
+            tr("find_password_screen.find_password"),
+            style: FontHelper.bold_16_000000,
+          ),
           leading: CupertinoButton(
             padding: EdgeInsets.zero,
             child: Image.asset(
@@ -105,41 +108,39 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
                       ? Colors.white
                       : const Color(0xFF555555),
                   backgroundColor: (email.isNotEmpty && !inValidEmailSub)
-                      ? Colors.black
+                      ? ShownyStyle.mainPurple
                       : const Color(0xFFEEEEEE),
                   onPressed: () {
                     isLoading = true;
 
-                    ApiHelper.shared.findPassword(
-                      email,
-                      (success) {
-                        Navigator.push(
-                          context, PageRouteBuilderRightLeft(
-                          child: SendResetPasswordMailScreen(
-                            sendSuccess: success,
-                            recentRouteName: EmailLoginScreen.routeName,
-                            mailAddress: email,
-                          ),
-                        ));
-                        isLoading = false;
-                      }, 
-                      (error) {
-                        var dialog = ShownyDialog(
-                          message: tr("find_password_screen.not_found_email"),
-                          primaryRoute: routeName,
-                          secondaryRoute: SignUpScreen.routeName,
-                          primaryLabel: tr("common.cancel"),
-                          secondaryLabel: tr("find_password_screen.signup"),
-                        );
+                    ApiHelper.shared.findPassword(email, (success) {
+                      Navigator.push(
+                          context,
+                          PageRouteBuilderRightLeft(
+                            child: SendResetPasswordMailScreen(
+                              sendSuccess: success,
+                              recentRouteName: EmailLoginScreen.routeName,
+                              mailAddress: email,
+                            ),
+                          ));
+                      isLoading = false;
+                    }, (error) {
+                      var dialog = ShownyDialog(
+                        message: tr("find_password_screen.not_found_email"),
+                        primaryRoute: routeName,
+                        secondaryRoute: SignUpScreen.routeName,
+                        primaryLabel: tr("common.cancel"),
+                        secondaryLabel: tr("find_password_screen.signup"),
+                      );
 
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return dialog;
-                          },
-                        );
-                        isLoading = false;
-                      });
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return dialog;
+                        },
+                      );
+                      isLoading = false;
+                    });
 
                     debugPrint('DEBUG: tab reset password button');
                   },

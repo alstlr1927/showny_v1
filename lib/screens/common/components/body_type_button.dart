@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/models/body.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class BodyTypeButton extends StatefulWidget {
   const BodyTypeButton({
@@ -47,7 +48,7 @@ class _BodyTypeButtonState extends State<BodyTypeButton> {
               shape: RoundedRectangleBorder(
                 side: BorderSide(
                   color: widget.isSelected
-                      ? Colors.black
+                      ? ShownyStyle.mainPurple
                       : const Color(0xFFEEEEEE),
                   width: widget.isSelected ? 2 : 1,
                 ),
