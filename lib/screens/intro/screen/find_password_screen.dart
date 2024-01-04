@@ -7,6 +7,8 @@ import 'package:showny/constants.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
+import 'package:showny/screens/intro/screen/email_login_v2.dart';
+import 'package:showny/screens/intro/screen/email_sign_up_v2.dart';
 import 'package:showny/screens/intro/screen/sign_up_screen.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/components/sign_up_text_field.dart';
@@ -119,7 +121,7 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
                           PageRouteBuilderRightLeft(
                             child: SendResetPasswordMailScreen(
                               sendSuccess: success,
-                              recentRouteName: EmailLoginScreen.routeName,
+                              recentRouteName: EmailLoginV2.routeName,
                               mailAddress: email,
                             ),
                           ));
@@ -128,7 +130,7 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
                       var dialog = ShownyDialog(
                         message: tr("find_password_screen.not_found_email"),
                         primaryRoute: routeName,
-                        secondaryRoute: SignUpScreen.routeName,
+                        secondaryRoute: EmailSignUpV2.routeName,
                         primaryLabel: tr("common.cancel"),
                         secondaryLabel: tr("find_password_screen.signup"),
                       );

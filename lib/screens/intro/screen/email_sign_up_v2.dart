@@ -12,7 +12,7 @@ import 'package:showny/utils/validator.dart';
 
 class EmailSignUpV2 extends StatefulWidget {
   const EmailSignUpV2({super.key});
-
+  static String routeName = '/sign_up_screen';
   @override
   State<EmailSignUpV2> createState() => _EmailSignUpV2State();
 }

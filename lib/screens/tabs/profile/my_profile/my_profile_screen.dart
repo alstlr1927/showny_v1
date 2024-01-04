@@ -14,6 +14,8 @@ import 'package:showny/screens/tabs/profile/my_profile/screens/profile_follower_
 import 'package:showny/screens/tabs/profile/my_profile/screens/profile_following_screen.dart';
 import 'package:showny/screens/tabs/profile/profile_tab_button.dart';
 import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({
@@ -40,7 +42,7 @@ class _MyProfileScreenState extends State<MyProfileScreen>
     Provider.of<GetMyProfileProvider>(context, listen: false)
         .getMyBookmarkList(context);
 
-    _tabController = TabController(length: 2, vsync: this)
+    _tabController = TabController(length: 3, vsync: this)
       ..addListener(() {
         setState(() {
           tabIndex = _tabController.index;
@@ -76,253 +78,241 @@ class _MyProfileScreenState extends State<MyProfileScreen>
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 22),
+            const SizedBox(height: 14),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 110,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 88,
-                          height: 88,
-                          decoration: ShapeDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                userProvider.user.profileImage != ""
-                                    ? userProvider.user.profileImage
-                                    : 'https://via.placeholder.com/88x88',
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(200),
-                            ),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x28000000),
-                                blurRadius: 1,
-                                offset: Offset(0, 0),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
+                  Container(
+                    width: 84.toWidth,
+                    height: 84.toWidth,
+                    decoration: ShapeDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          userProvider.user.profileImage != ""
+                              ? userProvider.user.profileImage
+                              : 'https://via.placeholder.com/88x88',
                         ),
-                        const SizedBox(
-                          width: 29,
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 24,
-                                      child: Text(
-                                        (userProvider.user.postCount)
-                                            .toString(),
-                                        textAlign: TextAlign.center,
-                                        style: FontHelper.light_14_000000,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 24,
-                                      child: Text(
-                                        tr('profile_2.post'),
-                                        style: FontHelper.regualr_12_000000,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                  child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      PageRouteBuilderRightLeft(
-                                          child: ProfileFollowerScreen(
-                                              profileMemNo:
-                                                  userProvider.user.memNo)));
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 24,
-                                      width: 80,
-                                      child: Text(
-                                        (userProvider.user.followerCount)
-                                            .toString(),
-                                        textAlign: TextAlign.center,
-                                        style: FontHelper.light_14_000000,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 24,
-                                      width: 80,
-                                      child: Text(
-                                        tr('profile_screen.followers'),
-                                        textAlign: TextAlign.center,
-                                        style: FontHelper.regualr_12_000000,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                              Expanded(
-                                  child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      PageRouteBuilderRightLeft(
-                                          child: ProfileFollowingScreen(
-                                        profileMemNo: userProvider.user.memNo,
-                                      )));
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 24,
-                                      width: 80,
-                                      child: Text(
-                                        (userProvider.user.followCount)
-                                            .toString(),
-                                        textAlign: TextAlign.center,
-                                        style: FontHelper.light_14_000000,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 24,
-                                      width: 80,
-                                      child: Text(
-                                        tr('product_detail.seller_information.following_text'),
-                                        textAlign: TextAlign.center,
-                                        style: FontHelper.regualr_12_000000,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 16,
+                        fit: BoxFit.cover,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(200),
+                      ),
+                      shadows: const [
+                        BoxShadow(
+                          color: Color(0x28000000),
+                          blurRadius: 1,
+                          offset: Offset(0, 0),
+                          spreadRadius: 0,
                         )
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userProvider.user.nickNm,
-                        style: FontHelper.bold_12_000000,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        userProvider.user.introduce,
-                        style: FontHelper.regualr_12_000000,
-                      )
-                    ],
+                  const SizedBox(height: 21),
+                  Text(
+                    userProvider.user.nickNm,
+                    style: ShownyStyle.caption(
+                        color: ShownyStyle.black, weight: FontWeight.w700),
                   ),
-                  const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: List.generate(
-                      userProvider.user.styleIdList.length,
-                      (index) {
-                        return SizedBox(
-                            height: 28,
-                            child: Container(
-                              height: 28,
-                              // color: const Color(0xFFEFEFEF),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFEFEFEF),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
-                              child: Text(
-                                tags?[index] ?? "",
-                                textAlign: TextAlign.center,
-                                style: Constants.defaultTextStyle
-                                    .copyWith(fontSize: 11.0),
-                              ),
-                            ));
-                      },
-                    ),
+                  const SizedBox(height: 6),
+                  Text(
+                    userProvider.user.introduce,
+                    style: ShownyStyle.overline(
+                        color: ShownyStyle.black, weight: FontWeight.w400),
+                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(
-                    height: 12,
-                  ),
+                  const SizedBox(height: 14),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     PageRouteBuilderRightLeft(
-                            //         child: EditProfileScreen(
-                            //       disposed: () => WidgetsBinding.instance
-                            //           .addPostFrameCallback(
-                            //               (_) => setState(() {})),
-                            //     )));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0.0,
-                              foregroundColor: Colors.black,
-                              backgroundColor:
-                                  const Color(0xFFEFEFEF), // Text color
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(6.0), // Border radius
-                              ),
-                              minimumSize: const Size(double.infinity, 28)),
-                          child: Text(
-                            tr('profile_edit.profile_edit'),
-                            style: FontHelper.regualr_12_000000,
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 65.toWidth,
+                            height: 46,
+                            child: Column(
+                              children: [
+                                Text(
+                                  (userProvider.user.postCount).toString(),
+                                  style: ShownyStyle.body2(
+                                      weight: FontWeight.w600,
+                                      color: ShownyStyle.black),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Spacer(),
+                                Text(
+                                  tr('profile_2.post'),
+                                  style: ShownyStyle.overline(
+                                      weight: FontWeight.w400,
+                                      color: ShownyStyle.black),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Share.share(
-                                'https://www.instagram.com/outfitbattles_korea/');
-                          },
-                          style: ElevatedButton.styleFrom(
-                              elevation: 0.0,
-                              foregroundColor: Colors.black,
-                              backgroundColor:
-                                  const Color(0xFFEFEFEF), // Text color
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(6.0), // Border radius
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilderRightLeft(
+                                      child: ProfileFollowerScreen(
+                                          profileMemNo:
+                                              userProvider.user.memNo)));
+                            },
+                            child: SizedBox(
+                              width: 65.toWidth,
+                              height: 46,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    (userProvider.user.followerCount)
+                                        .toString(),
+                                    style: ShownyStyle.body2(
+                                        weight: FontWeight.w600,
+                                        color: ShownyStyle.black),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    tr('profile_screen.followers'),
+                                    style: ShownyStyle.overline(
+                                        weight: FontWeight.w400,
+                                        color: ShownyStyle.black),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
-                              minimumSize: const Size(double.infinity, 28)),
-                          child: Text(tr('profile_edit.share_profile'),
-                              style: FontHelper.regualr_12_000000),
-                        ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilderRightLeft(
+                                      child: ProfileFollowingScreen(
+                                    profileMemNo: userProvider.user.memNo,
+                                  )));
+                            },
+                            child: SizedBox(
+                              width: 65.toWidth,
+                              height: 46,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    (userProvider.user.followCount).toString(),
+                                    style: ShownyStyle.body2(
+                                        weight: FontWeight.w600,
+                                        color: ShownyStyle.black),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    tr('product_detail.seller_information.following_text'),
+                                    style: ShownyStyle.overline(
+                                        weight: FontWeight.w400,
+                                        color: ShownyStyle.black),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
+                  // const SizedBox(height: 12),
+                  // const SizedBox(height: 16),
+                  // Wrap(
+                  //   spacing: 8,
+                  //   runSpacing: 8,
+                  //   children: List.generate(
+                  //     userProvider.user.styleIdList.length,
+                  //     (index) {
+                  //       return SizedBox(
+                  //           height: 28,
+                  //           child: Container(
+                  //             height: 28,
+                  //             // color: const Color(0xFFEFEFEF),
+                  //             decoration: BoxDecoration(
+                  //               color: const Color(0xFFEFEFEF),
+                  //               borderRadius: BorderRadius.circular(12),
+                  //             ),
+                  //             padding: const EdgeInsets.symmetric(
+                  //                 horizontal: 12, vertical: 6),
+                  //             child: Text(
+                  //               tags?[index] ?? "",
+                  //               textAlign: TextAlign.center,
+                  //               style: Constants.defaultTextStyle
+                  //                   .copyWith(fontSize: 11.0),
+                  //             ),
+                  //           ));
+                  //     },
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 12,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: ElevatedButton(
+                  //         onPressed: () {
+                  //           // Navigator.push(
+                  //           //     context,
+                  //           //     PageRouteBuilderRightLeft(
+                  //           //         child: EditProfileScreen(
+                  //           //       disposed: () => WidgetsBinding.instance
+                  //           //           .addPostFrameCallback(
+                  //           //               (_) => setState(() {})),
+                  //           //     )));
+                  //         },
+                  //         style: ElevatedButton.styleFrom(
+                  //             elevation: 0.0,
+                  //             foregroundColor: Colors.black,
+                  //             backgroundColor:
+                  //                 const Color(0xFFEFEFEF), // Text color
+                  //             shape: RoundedRectangleBorder(
+                  //               borderRadius:
+                  //                   BorderRadius.circular(6.0), // Border radius
+                  //             ),
+                  //             minimumSize: const Size(double.infinity, 28)),
+                  //         child: Text(
+                  //           tr('profile_edit.profile_edit'),
+                  //           style: FontHelper.regualr_12_000000,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 8,
+                  //     ),
+                  //     Expanded(
+                  //       child: ElevatedButton(
+                  //         onPressed: () {
+                  //           Share.share(
+                  //               'https://www.instagram.com/outfitbattles_korea/');
+                  //         },
+                  //         style: ElevatedButton.styleFrom(
+                  //             elevation: 0.0,
+                  //             foregroundColor: Colors.black,
+                  //             backgroundColor:
+                  //                 const Color(0xFFEFEFEF), // Text color
+                  //             shape: RoundedRectangleBorder(
+                  //               borderRadius:
+                  //                   BorderRadius.circular(6.0), // Border radius
+                  //             ),
+                  //             minimumSize: const Size(double.infinity, 28)),
+                  //         child: Text(tr('profile_edit.share_profile'),
+                  //             style: FontHelper.regualr_12_000000),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
+            const SizedBox(height: 12),
             TabBar(
                 indicatorColor: Colors.transparent,
                 controller: _tabController,
@@ -346,6 +336,15 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                             width: 24,
                             height: 24),
                   ),
+                  Tab(
+                    icon: _tabController.index == 1
+                        ? Image.asset("assets/icons/profile_my_bookmark.png",
+                            width: 24, height: 24)
+                        : Image.asset(
+                            "assets/icons/profile_my_bookmark_off.png",
+                            width: 24,
+                            height: 24),
+                  ),
                 ]),
             SizedBox(
               height: _tabController.index == 0
@@ -356,7 +355,10 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                               ((getMyProfileProvider.myBookmarkList.length) / 3)
                                   .ceil()) +
                           48
-                      : 0,
+                      : (((size.width / 3) * 20 / 13) *
+                              ((getMyProfileProvider.myBookmarkList.length) / 3)
+                                  .ceil()) +
+                          48,
               child: TabBarView(controller: _tabController, children: [
                 GridView.builder(
                   shrinkWrap: true,
