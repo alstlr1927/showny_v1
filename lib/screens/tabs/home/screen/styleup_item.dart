@@ -9,17 +9,21 @@ import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/home_provider.dart';
 import 'package:showny/providers/styleup_item_provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/tabs/home/components/drag_item_tag.dart';
 import 'package:showny/screens/tabs/home/components/following_button.dart';
 import 'package:showny/screens/tabs/home/components/product_container.dart';
 import 'package:showny/screens/tabs/home/components/tool_box.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_image.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_video.dart';
+import 'package:showny/screens/tabs/profile/other_profile_screen.dart';
+import 'package:showny/screens/tabs/profile/profile_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:video_player/video_player.dart';
 
 class StyleUpItem extends StatefulWidget {
+  final bool isMain;
   final StyleupModel styleUp;
   final VoidCallback? onSelect;
   final int index;
@@ -28,6 +32,7 @@ class StyleUpItem extends StatefulWidget {
     required this.styleUp,
     this.onSelect,
     required this.index,
+    this.isMain = false,
   });
 
   @override
@@ -55,17 +60,39 @@ class _StyleUpItemState extends State<StyleUpItem> {
       create: (_) => StyleUpItemProvider(this),
       builder: (context, _) {
         return Consumer<StyleUpItemProvider>(builder: (context, prov, child) {
-          return LayoutBuilder(
-            builder: (context, layout) {
-              return Stack(
-                children: [
-                  _buildStyleUp(prov),
-                  _buildOptions(prov, layout),
-                  _buildSelectLayer(prov),
-                  _buildProductLayer(prov),
-                ],
-              );
-            },
+          return Material(
+            child: Column(
+              children: [
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (context, layout) {
+                      return Stack(
+                        children: [
+                          _buildStyleUp(prov),
+                          _buildOptions(prov, layout),
+                          _buildSelectLayer(prov),
+                          _buildProductLayer(prov),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                if (!widget.isMain) ...{
+                  Container(
+                    width: double.infinity,
+                    height: 56 + MediaQuery.of(context).padding.bottom,
+                    color: Colors.black,
+                    padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 5.toWidth),
+                        _buildBottomBanner(),
+                      ],
+                    ),
+                  ),
+                },
+              ],
+            ),
           );
         });
       },
@@ -269,52 +296,82 @@ class _StyleUpItemState extends State<StyleUpItem> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
-                    child: Image.network(
-                      widget.styleUp.userInfo.profileImage,
-                      width: 40.toWidth,
-                      height: 40.toWidth,
-                      fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  if (Provider.of<UserProvider>(context, listen: false)
+                          .user
+                          .memNo ==
+                      widget.styleUp.userInfo.memNo) {
+                    // Navigator.push(
+                    //     context,
+                    //     PageRouteBuilderRightLeft(
+                    //         child: ProfileScreen(
+                    //       isBack: true,
+                    //     )));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OtherProfileScreen(
+                            memNo: widget.styleUp.userInfo.memNo,
+                          ),
+                        ));
+                  }
+                },
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(200),
+                      child: Image.network(
+                        widget.styleUp.userInfo.profileImage,
+                        width: 40.toWidth,
+                        height: 40.toWidth,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 8.toWidth),
-                  Text(
-                    widget.styleUp.userInfo.nickNm,
-                    style: ShownyStyle.body1(
-                      color: Colors.white,
-                      weight: FontWeight.w700,
+                    SizedBox(width: 8.toWidth),
+                    Text(
+                      widget.styleUp.userInfo.nickNm,
+                      style: ShownyStyle.body1(
+                        color: Colors.white,
+                        weight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 8.toWidth),
-                  if (userProv.user.memNo != widget.styleUp.userInfo.memNo &&
-                      !widget.styleUp.userInfo.isFollow) ...{
-                    FollowingButton(
-                      isFollow: widget.styleUp.userInfo.isFollow,
-                      memNo: widget.styleUp.memNo,
-                      onCompleted: prov.setIsFollow,
-                    ),
-                  },
-                ],
+                    SizedBox(width: 8.toWidth),
+                    if (userProv.user.memNo != widget.styleUp.userInfo.memNo &&
+                        !widget.styleUp.userInfo.isFollow) ...{
+                      FollowingButton(
+                        isFollow: widget.styleUp.userInfo.isFollow,
+                        memNo: widget.styleUp.memNo,
+                        onCompleted: prov.setIsFollow,
+                      ),
+                    },
+                  ],
+                ),
               ),
               SizedBox(height: 10.toHeight),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: prov.setExtendedText,
-                child: Text(
-                  widget.styleUp.description,
-                  maxLines: prov.isExtendedText ? 15 : 2,
-                  style: ShownyStyle.caption(color: Colors.white),
-                  overflow: TextOverflow.ellipsis,
+                child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: 40.toWidth,
+                  ),
+                  child: Text(
+                    widget.styleUp.description,
+                    maxLines: prov.isExtendedText ? 15 : 2,
+                    style: ShownyStyle.caption(color: Colors.white),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
               SizedBox(height: 14.toHeight),
-              _buildBottomBanner(),
+              if (widget.isMain) ...{
+                _buildBottomBanner(),
+              }
             ],
           ),
         ),

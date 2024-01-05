@@ -66,19 +66,20 @@ class _BattleScreenState extends State<BattleScreen> {
           child: GestureDetector(onTap: () {
             if (Provider.of<UserProvider>(context, listen: false).user.memNo ==
                 profile.memNo) {
-              Navigator.push(
-                  context,
-                  PageRouteBuilderRightLeft(
-                      child: ProfileScreen(
-                    isBack: true,
-                  )));
+              // Navigator.push(
+              //     context,
+              //     PageRouteBuilderRightLeft(
+              //         child: ProfileScreen(
+              //       isBack: true,
+              //     )));
             } else {
               Navigator.push(
                   context,
-                  PageRouteBuilderRightLeft(
-                      child: OtherProfileScreen(
-                    memNo: profile.memNo,
-                  )));
+                  MaterialPageRoute(
+                    builder: (context) => OtherProfileScreen(
+                      memNo: profile.memNo,
+                    ),
+                  ));
             }
           }),
         ),
@@ -95,19 +96,20 @@ class _BattleScreenState extends State<BattleScreen> {
           onTap: () {
             if (Provider.of<UserProvider>(context, listen: false).user.memNo ==
                 profile.memNo) {
-              Navigator.push(
-                  context,
-                  PageRouteBuilderRightLeft(
-                      child: ProfileScreen(
-                    isBack: true,
-                  )));
+              // Navigator.push(
+              //     context,
+              //     PageRouteBuilderRightLeft(
+              //         child: ProfileScreen(
+              //       isBack: true,
+              //     )));
             } else {
               Navigator.push(
                   context,
-                  PageRouteBuilderRightLeft(
-                      child: OtherProfileScreen(
-                    memNo: profile.memNo,
-                  )));
+                  MaterialPageRoute(
+                    builder: (context) => OtherProfileScreen(
+                      memNo: profile.memNo,
+                    ),
+                  ));
             }
           },
         )

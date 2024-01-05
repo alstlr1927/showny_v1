@@ -118,47 +118,10 @@ class StyleUpItemProvider with ChangeNotifier {
   }
 
   Future onLongPressEnd(LongPressEndDetails details) async {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(state.context, listen: false);
-    HomeProvider homeProvider =
-        Provider.of<HomeProvider>(state.context, listen: false);
     if (selected == 1) {
       updateUpDownType(1);
-      // ApiHelper.shared.styleupUpDown(
-      //   state.widget.styleUp.styleupNo,
-      //   userProvider.user.memNo,
-      //   1,
-      //   (success) {
-      //     // state.widget.styleUp.upDownType = 1;
-      //     homeProvider.setStyleUpDown(
-      //         styleUpNo: state.widget.styleUp.styleupNo, value: 1);
-      //     state.widget.onSelect?.call();
-      //     notifyListeners();
-      //   },
-      //   (error) {
-      //     // 서버 오류 메시지
-      //     debugPrint('error : ${error.toString()}');
-      //   },
-      // );
     } else if (selected == 2) {
       updateUpDownType(2);
-      // ApiHelper.shared.styleupUpDown(
-      //   state.widget.styleUp.styleupNo,
-      //   userProvider.user.memNo,
-      //   2,
-      //   (success) {
-      //     // updown type = 2
-      //     homeProvider.setStyleUpDown(
-      //         styleUpNo: state.widget.styleUp.styleupNo, value: 2);
-      //     // next page
-      //     state.widget.onSelect?.call();
-      //     notifyListeners();
-      //   },
-      //   (error) {
-      //     // 서버 오류 메시지
-      //     debugPrint('error : ${error.toString()}');
-      //   },
-      // );
     }
 
     selected = 0;
@@ -169,16 +132,18 @@ class StyleUpItemProvider with ChangeNotifier {
   void updateUpDownType(int value) {
     UserProvider userProvider =
         Provider.of<UserProvider>(state.context, listen: false);
-    HomeProvider homeProvider =
-        Provider.of<HomeProvider>(state.context, listen: false);
+
     ApiHelper.shared.styleupUpDown(
       state.widget.styleUp.styleupNo,
       userProvider.user.memNo,
       value,
       (success) {
-        // state.widget.styleUp.upDownType = 1;
-        homeProvider.setStyleUpDown(
-            styleUpNo: state.widget.styleUp.styleupNo, value: value);
+        if (state.widget.isMain) {
+          HomeProvider homeProvider =
+              Provider.of<HomeProvider>(state.context, listen: false);
+          homeProvider.setStyleUpDown(
+              styleUpNo: state.widget.styleUp.styleupNo, value: value);
+        }
         state.widget.onSelect?.call();
         notifyListeners();
       },

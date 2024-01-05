@@ -6,11 +6,11 @@ import 'package:showny/api/new_api/api_helper.dart';
 import 'package:showny/models/user_model.dart';
 import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/tabs/profile/my_profile/components/sv_inline_button.dart';
-import 'package:provider/provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/tabs/profile/my_profile/components/sv_inline_button.dart';
 import 'package:showny/screens/tabs/profile/other_profile_screen.dart';
 import 'package:showny/screens/tabs/profile/profile_screen.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 import '../../../../../constants.dart';
 
@@ -69,15 +69,7 @@ class ProfileFollowerScreenState extends State<ProfileFollowerScreen> {
         appBar: AppBar(
           title: Text(tr('profile_screen.followers')),
           centerTitle: true,
-          leading: CupertinoButton(
-            padding: EdgeInsets.zero,
-            child: Image.asset(
-              'assets/icons/back_button.png',
-              width: 20.0,
-              height: 20.0,
-            ),
-            onPressed: () => Navigator.pop(context),
-          ),
+          scrolledUnderElevation: 0,
         ),
         body: ListView.separated(
           separatorBuilder: (context, index) {
@@ -85,93 +77,108 @@ class ProfileFollowerScreenState extends State<ProfileFollowerScreen> {
           },
           itemCount: followerList.length,
           itemBuilder: (context, index) {
-            debugPrint(followerList[index].profileImage);
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                height: 40,
-                child: ListTile(
-                    title: GestureDetector(
-                      onTap: () {
-                        if(Provider.of<UserProvider>(context, listen: false).user.memNo == followerList[index].memNo) {
-                          Navigator.push(
+            return SizedBox(
+              height: 40.toWidth,
+              child: ListTile(
+                  title: GestureDetector(
+                    onTap: () {
+                      if (Provider.of<UserProvider>(context, listen: false)
+                              .user
+                              .memNo ==
+                          followerList[index].memNo) {
+                        // Navigator.push(
+                        //     context,
+                        //     PageRouteBuilderRightLeft(
+                        //         child: ProfileScreen(
+                        //       isBack: true,
+                        //     )));
+                      } else {
+                        Navigator.push(
                             context,
-                            PageRouteBuilderRightLeft(
-                                child: ProfileScreen(isBack: true,)));
-                        } else {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilderRightLeft(
-                                child: OtherProfileScreen(
-                              memNo: followerList[index].memNo,
-                            )));
-                        }
-                      },
-                      child: Text(followerList[index].nickNm,
-                          style: Constants.defaultTextStyle),
+                            MaterialPageRoute(
+                              builder: (context) => OtherProfileScreen(
+                                memNo: followerList[index].memNo,
+                              ),
+                            ));
+                      }
+                    },
+                    child: Text(
+                      followerList[index].nickNm,
+                      style: ShownyStyle.caption(
+                          color: ShownyStyle.black, weight: FontWeight.w400),
                     ),
-                    leading: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: ShapeDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(followerList[index].profileImage),
-                          fit: BoxFit.cover,
-                        ),
-                        shape: const OvalBorder(),
+                  ),
+                  leading: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: ShapeDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(followerList[index].profileImage),
+                        fit: BoxFit.cover,
                       ),
-                      child: GestureDetector(onTap: () {
-                        if(Provider.of<UserProvider>(context, listen: false).user.memNo == followerList[index].memNo) {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilderRightLeft(
-                                child: ProfileScreen(isBack: true,)));
-                        } else {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilderRightLeft(
-                                child: OtherProfileScreen(
-                              memNo: followerList[index].memNo,
-                            )));
-                        }
-                      }),
+                      shape: const OvalBorder(),
                     ),
-                    trailing: followerList[index].memNo != user.memNo ? SVInlineButton(
-                      strokeColor: followerList[index].isFollow
-                          ? const Color(0xffcccccc)
-                          : Colors.black,
-                      constraints: const BoxConstraints(minWidth: 64),
-                      onPressed: () {
-                        setState(() {
-                          followerList[index].isFollow =
-                              !followerList[index].isFollow;
-                        });
-                        if (followerList[index].isFollow) {
-                          ApiHelper.shared.followUser(
-                              user.memNo, followerList[index].memNo, (success) {
-                            getProfile();
-                          }, (error) {});
-                        } else {
-                          ApiHelper.shared.unFollowUser(
-                              user.memNo, followerList[index].memNo, (success) {
-                            getProfile();
-                          }, (error) {});
-                        }
-                      },
-                      text: followerList[index].isFollow == true
-                          ? tr(
-                              'product_detail.seller_information.following_text')
-                          : tr('profile_screen.follow'),
-                      textColor: followerList[index].isFollow
-                          ? Colors.black
-                          : Colors.white,
-                      backgroundColor: followerList[index].isFollow
-                          ? Colors.white
-                          : Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 20),
-                    ) : const SizedBox()),
-              ),
+                    child: GestureDetector(onTap: () {
+                      if (Provider.of<UserProvider>(context, listen: false)
+                              .user
+                              .memNo ==
+                          followerList[index].memNo) {
+                        // Navigator.push(
+                        //     context,
+                        //     PageRouteBuilderRightLeft(
+                        //         child: ProfileScreen(
+                        //       isBack: true,
+                        //     )));
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OtherProfileScreen(
+                                memNo: followerList[index].memNo,
+                              ),
+                            ));
+                      }
+                    }),
+                  ),
+                  trailing: followerList[index].memNo != user.memNo
+                      ? SVInlineButton(
+                          strokeColor: followerList[index].isFollow
+                              ? const Color(0xffcccccc)
+                              : ShownyStyle.mainPurple,
+                          constraints: const BoxConstraints(minWidth: 64),
+                          onPressed: () {
+                            setState(() {
+                              followerList[index].isFollow =
+                                  !followerList[index].isFollow;
+                            });
+                            if (followerList[index].isFollow) {
+                              ApiHelper.shared.followUser(
+                                  user.memNo, followerList[index].memNo,
+                                  (success) {
+                                getProfile();
+                              }, (error) {});
+                            } else {
+                              ApiHelper.shared.unFollowUser(
+                                  user.memNo, followerList[index].memNo,
+                                  (success) {
+                                getProfile();
+                              }, (error) {});
+                            }
+                          },
+                          text: followerList[index].isFollow == true
+                              ? tr(
+                                  'product_detail.seller_information.following_text')
+                              : tr('profile_screen.follow'),
+                          textColor: followerList[index].isFollow
+                              ? Colors.black
+                              : Colors.white,
+                          backgroundColor: followerList[index].isFollow
+                              ? Colors.white
+                              : ShownyStyle.mainPurple,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 20),
+                        )
+                      : const SizedBox()),
             );
           },
         ));

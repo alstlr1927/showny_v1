@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:showny/models/user_model.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class Constants {
   static String appName = 'SHOWNY';
@@ -10,7 +11,10 @@ class Constants {
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: AppBarTheme(
       iconTheme: const IconThemeData(color: Colors.black),
-      titleTextStyle: appBarTitleStyle,
+      titleTextStyle: ShownyStyle.body2(
+        color: Colors.black,
+        weight: FontWeight.w600,
+      ),
       backgroundColor: Colors.white,
       elevation: 0,
     ),

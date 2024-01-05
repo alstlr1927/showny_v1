@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:showny/helper/font_helper.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/tabs/profile/my_shop/provider/report_provider.dart';
 import 'package:showny/utils/images.dart';
 
@@ -37,239 +35,53 @@ class _MyShopScreenState extends State<MyShopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    final user = userProvider.user;
-
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        Row(
           children: [
-            const SizedBox(height: 22),
-            Container(
-              height: 110,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(0.0),
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(user.profileImage),
-                      radius: 44,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 24,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              "0",
-                              style: FontHelper.light_14_000000,
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "판매상품",
-                              style: FontHelper.regualr_12_000000,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "0",
-                              style: FontHelper.light_14_000000,
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "평점",
-                              style: FontHelper.regualr_12_000000,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Navigator.push(
-                            //           context,
-                            //           PageRouteBuilderRightLeft(
-                            //               child: OrderListScreen()));
-                          },
-                          child: Container(
-                            child: Column(
-                              children: [
-                                Text(
-                                  "0",
-                                  style: FontHelper.light_14_000000,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  "판매내역",
-                                  style: FontHelper.regualr_12_000000,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "OK",
-                              style: FontHelper.light_14_000000,
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              "본인인증",
-                              style: FontHelper.regualr_12_000000,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "0",
-                            style: FontHelper.light_14_000000,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            "후기",
-                            style: FontHelper.regualr_12_000000,
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          const Text(""),
-                          const SizedBox(
-                            height: 0,
-                          ),
-                          Text(tr("")),
-                        ],
-                      ),
-                    ],
-                  )),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user.nickNm,
-                    style: FontHelper.bold_12_000000,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    user.introduce,
-                    style: FontHelper.regualr_12_000000,
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Row(
-                children: [
-                  ProfieTabButton<MyShopPageCategory>(
-                      onTap: () {
-                        setState(() {
-                          category = MyShopPageCategory.all;
-                          Provider.of<FetchGetMemberMinishopProductProvider>(
-                                  context,
-                                  listen: false)
-                              .updateStatus(2, context);
-                        });
-                      },
-                      category: MyShopPageCategory.all,
-                      currentCategory: category),
-                  Container(
-                      width: 1, height: 12, color: const Color(0xFF444444)),
-                  ProfieTabButton<MyShopPageCategory>(
-                      onTap: () {
-                        setState(() {
-                          category = MyShopPageCategory.onSale;
-                          Provider.of<FetchGetMemberMinishopProductProvider>(
-                                  context,
-                                  listen: false)
-                              .updateStatus(0, context);
-                        });
-                      },
-                      category: MyShopPageCategory.onSale,
-                      currentCategory: category),
-                  Container(
-                      width: 1, height: 12, color: const Color(0xFF444444)),
-                  ProfieTabButton<MyShopPageCategory>(
-                      onTap: () {
-                        setState(() {
-                          category = MyShopPageCategory.soldOut;
-                          Provider.of<FetchGetMemberMinishopProductProvider>(
-                                  context,
-                                  listen: false)
-                              .updateStatus(1, context);
-                        });
-                      },
-                      category: MyShopPageCategory.soldOut,
-                      currentCategory: category),
-                  Container(
-                      width: 1, height: 12, color: const Color(0xFF444444)),
-                  ProfieTabButton<MyShopPageCategory>(
-                      onTap: () {
-                        setState(() {
-                          category = MyShopPageCategory.review;
-                        });
-                      },
-                      category: MyShopPageCategory.review,
-                      currentCategory: category),
-                ],
-              ),
-            ),
-            const SizedBox(height: 25),
-            pageAtCategory(MediaQuery.of(context).size),
+            ProfieTabButton<MyShopPageCategory>(
+                onTap: () {
+                  setState(() {
+                    category = MyShopPageCategory.all;
+                    Provider.of<FetchGetMemberMinishopProductProvider>(context,
+                            listen: false)
+                        .updateStatus(2, context);
+                  });
+                },
+                count: 12,
+                category: MyShopPageCategory.all,
+                currentCategory: category),
+            ProfieTabButton<MyShopPageCategory>(
+                onTap: () {
+                  setState(() {
+                    category = MyShopPageCategory.onSale;
+                    Provider.of<FetchGetMemberMinishopProductProvider>(context,
+                            listen: false)
+                        .updateStatus(0, context);
+                  });
+                },
+                count: 8,
+                category: MyShopPageCategory.onSale,
+                currentCategory: category),
+            ProfieTabButton<MyShopPageCategory>(
+                onTap: () {
+                  setState(() {
+                    category = MyShopPageCategory.soldOut;
+                    Provider.of<FetchGetMemberMinishopProductProvider>(context,
+                            listen: false)
+                        .updateStatus(1, context);
+                  });
+                },
+                count: 4,
+                category: MyShopPageCategory.soldOut,
+                currentCategory: category),
           ],
-        ));
+        ),
+        Expanded(
+          child: pageAtCategory(MediaQuery.of(context).size),
+        ),
+      ],
+    );
   }
 
   Widget pageAtCategory(Size size) {
@@ -282,23 +94,18 @@ class _MyShopScreenState extends State<MyShopScreen> {
                     child: CircularProgressIndicator(),
                   )
                 : value.fetchGetMemberMinishopProductModel!.data!.isEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.5,
-                        width: MediaQuery.of(context).size.width,
-                        child: const Center(
-                            child:
-                                // ShopingEmptyBasketWidget()
-                                SizedBox()))
+                    ? const SizedBox()
                     : GridView.builder(
                         shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         itemCount: value
                             .fetchGetMemberMinishopProductModel!.data!.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 1,
+                          crossAxisSpacing: 1,
                           crossAxisCount: 3,
-                          childAspectRatio: (size.width / 3) /
-                              (((size.width / 3) * 5 / 4) + 100),
+                          childAspectRatio: 9 / 16,
                         ),
                         itemBuilder: (context, index) {
                           return MyShopGridItem(
@@ -308,8 +115,8 @@ class _MyShopScreenState extends State<MyShopScreen> {
                                 "${value.fetchGetMemberMinishopProductModel!.data![index].name}",
                             price:
                                 "${value.fetchGetMemberMinishopProductModel!.data![index].price}",
-                            imageUrl:
-                                "${value.fetchGetMemberMinishopProductModel!.data![index].productImageUrlList![0]}",
+                            imageUrl: value.fetchGetMemberMinishopProductModel!
+                                .data![index].productImageUrlList![0],
                             onTap: () {
                               String productId = value
                                       .fetchGetMemberMinishopProductModel!
@@ -711,7 +518,7 @@ enum MyShopPageCategory with CategoryMixin {
   String get name {
     switch (this) {
       case MyShopPageCategory.all:
-        return "전체";
+        return "전체상품";
       case MyShopPageCategory.onSale:
         return "판매중";
       case MyShopPageCategory.soldOut:

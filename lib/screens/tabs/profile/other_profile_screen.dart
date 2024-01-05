@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
 import 'package:showny/helper/font_helper.dart';
-import 'package:showny/screens/common/components/app_bar_widget.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/models/minishop_product_review_model.dart';
@@ -18,6 +17,8 @@ import 'package:showny/screens/tabs/profile/my_profile/screens/profile_following
 import 'package:showny/screens/tabs/profile/my_shop/components/my_shop_grid_item.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
 
 class OtherProfileScreen extends StatefulWidget {
@@ -150,23 +151,9 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
       appBar: AppBar(
         title: Text(
           otherProfile?.memId ?? "",
-          style: FontHelper.appBarTitle,
         ),
+        scrolledUnderElevation: 0,
         centerTitle: true,
-        automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Image.asset(
-              arrowBackward,
-              height: 18,
-              width: 9,
-            ),
-          ),
-        ),
       ),
       body: WillPopScope(
           onWillPop: () async {
@@ -186,13 +173,11 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(
-                        height: 24,
-                      ),
+                      const SizedBox(height: 24),
                       Center(
                         child: Container(
-                          width: 88,
-                          height: 88,
+                          width: 88.toWidth,
+                          height: 88.toWidth,
                           decoration: ShapeDecoration(
                             image: DecorationImage(
                               image: NetworkImage(
@@ -216,32 +201,33 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 15,
+                      const SizedBox(height: 15),
+                      Text(
+                        '${otherProfile?.nickNm}',
+                        style: ShownyStyle.caption(
+                            color: ShownyStyle.black, weight: FontWeight.w700),
                       ),
-                      Text(otherProfile?.nickNm ?? "",
-                          style: const TextStyle(fontSize: 11)),
-                      const SizedBox(
-                        height: 4,
-                      ),
+                      const SizedBox(height: 6),
                       Padding(
-                          padding: const EdgeInsets.only(left: 24, right: 24),
-                          child: Text(
-                            otherProfile?.introduce ?? "",
-                            style: const TextStyle(fontSize: 10),
-                          )),
-                      const SizedBox(
-                        height: 12,
+                        padding: const EdgeInsets.only(left: 24, right: 24),
+                        child: Text(
+                          '${otherProfile?.introduce}',
+                          style: ShownyStyle.overline(
+                              color: ShownyStyle.black,
+                              weight: FontWeight.w400),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
+                      const SizedBox(height: 22),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SVInlineButton(
                             strokeColor: otherProfile?.isFollow ?? false
-                                ? const Color(0xffcccccc)
+                                ? ShownyStyle.mainPurple
                                 : Colors.black,
-                            constraints: const BoxConstraints(
-                                minWidth: 80, minHeight: 24),
+                            constraints: BoxConstraints(
+                                minWidth: 80.toWidth, minHeight: 24.toWidth),
                             onPressed: () {
                               setState(() {
                                 otherProfile?.isFollow =
@@ -263,23 +249,21 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                                 ? "팔로잉"
                                 : "팔로우",
                             textColor: otherProfile?.isFollow ?? false
-                                ? Colors.black
+                                ? ShownyStyle.mainPurple
                                 : Colors.white,
                             backgroundColor: otherProfile?.isFollow ?? false
                                 ? Colors.white
-                                : Colors.black,
+                                : ShownyStyle.mainPurple,
                             padding: const EdgeInsets.symmetric(
                                 vertical: 6, horizontal: 20),
                           ),
-                          const SizedBox(
-                            width: 4,
-                          ),
+                          SizedBox(width: 4.toWidth),
                           Container(
-                              height: 24,
-                              width: 24,
+                              height: 24.toWidth,
+                              width: 24.toWidth,
                               decoration: BoxDecoration(
-                                  color: greyExtraLight,
-                                  borderRadius: BorderRadius.circular(5)),
+                                  color: const Color(0xffefefef),
+                                  borderRadius: BorderRadius.circular(4)),
                               child: GestureDetector(
                                 onTap: () {
                                   if (otherProfile != null) {
@@ -297,8 +281,11 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                                   }
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Image.asset(send),
+                                  padding: EdgeInsets.all(4.toWidth),
+                                  child: Image.asset(
+                                    'assets/icons/profile/dm_icon.png',
+                                    width: 16.toWidth,
+                                  ),
                                 ),
                               ))
                         ],
@@ -585,7 +572,9 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                                             SliverGridDelegateWithFixedCrossAxisCount(
                                           mainAxisSpacing: 1,
                                           crossAxisCount: 3,
-                                          childAspectRatio: (size.width/3) / (((size.width/3)*5/4) + 100),
+                                          childAspectRatio: (size.width / 3) /
+                                              (((size.width / 3) * 5 / 4) +
+                                                  100),
                                         ),
                                         itemBuilder: (context, index) {
                                           return MyShopGridItem(
@@ -627,7 +616,9 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                                             SliverGridDelegateWithFixedCrossAxisCount(
                                           mainAxisSpacing: 1,
                                           crossAxisCount: 3,
-                                          childAspectRatio: (size.width/3) / (((size.width/3)*5/4) + 100),
+                                          childAspectRatio: (size.width / 3) /
+                                              (((size.width / 3) * 5 / 4) +
+                                                  100),
                                         ),
                                         itemBuilder: (context, index) {
                                           return MyShopGridItem(
@@ -670,7 +661,9 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                                             SliverGridDelegateWithFixedCrossAxisCount(
                                           mainAxisSpacing: 1,
                                           crossAxisCount: 3,
-                                          childAspectRatio: (size.width/3) / (((size.width/3)*5/4) + 100),
+                                          childAspectRatio: (size.width / 3) /
+                                              (((size.width / 3) * 5 / 4) +
+                                                  100),
                                         ),
                                         itemBuilder: (context, index) {
                                           return MyShopGridItem(

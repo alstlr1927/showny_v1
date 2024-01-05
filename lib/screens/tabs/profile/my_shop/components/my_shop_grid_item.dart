@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/utils/formatter.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 import '../../../../../providers/FetchGetMemberMinishopProductProvider.dart';
 
@@ -32,7 +34,7 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AspectRatio(
-            aspectRatio: 4 / 5,
+            aspectRatio: 1 / 1,
             child: Container(
               decoration: ShapeDecoration(
                 image: DecorationImage(
@@ -50,48 +52,45 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
+            padding: EdgeInsets.symmetric(horizontal: 8.toWidth),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
                   height: 8,
                 ),
-                widget.brandName != ""
-                    ? Text(
-                        widget.brandName,
-                        style: const TextStyle(
-                          color: Color(0xFF777777),
-                          fontSize: 10,
-                          fontFamily: 'pretendard',
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )
-                    : const SizedBox(),
-                widget.brandName != ""
-                    ? const SizedBox(
-                        height: 8,
-                      )
-                    : const SizedBox(),
                 Text(
-                  widget.title,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                    fontFamily: 'pretendard',
-                    fontWeight: FontWeight.w400,
+                  widget.brandName.isEmpty ? '-' : widget.brandName,
+                  style: ShownyStyle.overline(
+                    color: Color(0xFF777777),
+                    weight: FontWeight.w700,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                Container(
+                  constraints: BoxConstraints(minHeight: 40.toWidth),
+                  child: Text(
+                    widget.title.isEmpty ? '-' : widget.title,
+                    style: ShownyStyle.caption(
+                      color: Colors.black,
+                      weight: FontWeight.w500,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const SizedBox(
-                  height: 8,
+                  height: 0,
                 ),
                 Text(
                   '${Formatter.formatNumber(int.parse(widget.price.replaceAll(',', '')))} 원',
-                  style: const TextStyle(
+                  style: ShownyStyle.caption(
                     color: Colors.black,
-                    fontSize: 12,
-                    fontFamily: 'pretendard',
-                    fontWeight: FontWeight.w700,
+                    weight: FontWeight.w700,
                   ),
                 )
               ],

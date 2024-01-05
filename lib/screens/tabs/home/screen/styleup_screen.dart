@@ -1,27 +1,10 @@
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:showny/api/new_api/api_helper.dart';
-import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/styleup_model.dart';
-import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
-import 'package:showny/screens/intro/components/showny_dialog.dart';
-import 'package:showny/screens/intro/screen/login_popup_screen.dart';
-import 'package:showny/screens/tabs/home/components/drag_item_tag.dart';
-import 'package:showny/screens/tabs/home/components/product_container.dart';
-import 'package:showny/screens/tabs/home/components/see_more_action_sheet.dart';
-import 'package:showny/screens/tabs/home/components/tool_box.dart';
-import 'package:showny/screens/tabs/home/components/up_down_buttons.dart';
-import 'package:provider/provider.dart';
-import 'package:showny/screens/tabs/home/screen/report_sheet_screen.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_item.dart';
-import 'package:showny/screens/tabs/home/screen/styleup_screen_profile.dart';
-import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
 import 'package:showny/utils/images.dart';
 import 'package:video_player/video_player.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class StyleupScreen extends StatefulWidget {
   const StyleupScreen(
@@ -57,7 +40,7 @@ class _StyleupScreenState extends State<StyleupScreen> {
 
   // String? reportValue;
 
-  PageController pageController = PageController();
+  late PageController pageController;
 
   // void tapSeeMoreButton(
   //     {required String styleupNo,
@@ -227,6 +210,7 @@ class _StyleupScreenState extends State<StyleupScreen> {
     super.initState();
 
     setState(() {
+      pageController = PageController(initialPage: widget.initIndex);
       styleupList = widget.styleupList;
     });
   }
@@ -264,24 +248,26 @@ class _StyleupScreenState extends State<StyleupScreen> {
 
     // VideoPlayerController? videoController;
     // Future<void>? initVideoController;
-    print('styleup build');
-    return PageView(
-      controller: pageController,
-      scrollDirection: Axis.vertical,
-      physics: const CustomScrollPhysics(),
-      children: List.generate(
-        styleupList.length,
-        (index) => StyleUpItem(
-          // key: ValueKey(styleupList[index].styleupNo),
-          styleUp: styleupList[index],
-          index: index,
-          onSelect: () {
-            pageController.animateToPage(
-              index + 1,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeIn,
-            );
-          },
+
+    return Scaffold(
+      body: PageView(
+        controller: pageController,
+        scrollDirection: Axis.vertical,
+        physics: const CustomScrollPhysics(),
+        children: List.generate(
+          styleupList.length,
+          (index) => StyleUpItem(
+            isMain: widget.isMain,
+            styleUp: styleupList[index],
+            index: index,
+            onSelect: () {
+              pageController.animateToPage(
+                index + 1,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeIn,
+              );
+            },
+          ),
         ),
       ),
     );

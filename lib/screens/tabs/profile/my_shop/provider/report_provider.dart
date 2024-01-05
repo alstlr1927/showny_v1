@@ -44,7 +44,7 @@ class ReportProvider with ChangeNotifier {
 
   getStoreCartListData(BuildContext context) {
     UserProvider userProvider =
-    Provider.of<UserProvider>(context, listen: false);
+        Provider.of<UserProvider>(context, listen: false);
     if (!_isStoreCartLoading) {
       setIsStoreCartLoading(true);
     }
@@ -70,22 +70,27 @@ class ReportProvider with ChangeNotifier {
 
   updateReview(
       {required BuildContext context,
-        required String productReviewId,
-        required String reportTypeNo}) {
+      required String productReviewId,
+      required String reportTypeNo}) {
     UserProvider userProvider =
-    Provider.of<UserProvider>(context, listen: false);
+        Provider.of<UserProvider>(context, listen: false);
     if (!_isReviewUpdating) {
       setIsReviewUpdating(true);
     }
     ApiService()
         .updateMiniShopProductReview(
-        memNo: userProvider.user.memNo,
-        productReviewId: productReviewId,
-        reportTypeNo: reportTypeNo)
+            memNo: userProvider.user.memNo,
+            productReviewId: productReviewId,
+            reportTypeNo: reportTypeNo)
         .then((success) {
       if (success) {
         setIsReviewUpdating(false);
       }
     });
+  }
+
+  @override
+  void notifyListeners() {
+    super.notifyListeners();
   }
 }
