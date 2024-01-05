@@ -7,17 +7,24 @@ import 'package:showny/utils/images.dart';
 import 'package:video_player/video_player.dart';
 
 class StyleupScreen extends StatefulWidget {
-  const StyleupScreen(
-      {super.key,
-      required this.initIndex,
-      required this.styleupList,
-      this.updateShowMenu,
-      required this.isMain});
+  const StyleupScreen({
+    super.key,
+    required this.initIndex,
+    required this.styleupList,
+    this.updateShowMenu,
+    required this.isMain,
+    this.afterFollowAction,
+    this.afterUpDownAction,
+  });
 
   final bool isMain;
   final int initIndex;
   final List<StyleupModel> styleupList;
   final Function? updateShowMenu;
+  final Function({required String styleUpNo, required bool value})?
+      afterFollowAction;
+  final Function({required String styleUpNo, required int value})?
+      afterUpDownAction;
 
   @override
   State<StyleupScreen> createState() => _StyleupScreenState();
@@ -260,6 +267,8 @@ class _StyleupScreenState extends State<StyleupScreen> {
             isMain: widget.isMain,
             styleUp: styleupList[index],
             index: index,
+            afterFollowAction: widget.afterFollowAction,
+            afterUpDownAction: widget.afterUpDownAction,
             onSelect: () {
               pageController.animateToPage(
                 index + 1,

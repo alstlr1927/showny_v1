@@ -74,6 +74,7 @@ class HomeProvider with ChangeNotifier {
   void setStyleUpFollow({required String styleUpNo, required bool value}) {
     int idx =
         styleUpList.indexWhere((element) => element.styleupNo == styleUpNo);
+
     if (idx != -1) {
       styleUpList[idx].userInfo.isFollow = value;
       notifyListeners();

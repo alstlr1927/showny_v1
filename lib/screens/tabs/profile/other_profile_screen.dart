@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
-import 'package:showny/helper/font_helper.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/models/minishop_product_review_model.dart';
@@ -138,6 +137,15 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
     });
   }
 
+  void setStyleUpDown({required String styleUpNo, required int value}) {
+    int idx =
+        styleupList.indexWhere((element) => element.styleupNo == styleUpNo);
+    if (idx != -1) {
+      styleupList[idx].upDownType = value;
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
@@ -173,222 +181,7 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 24),
-                      Center(
-                        child: Container(
-                          width: 88.toWidth,
-                          height: 88.toWidth,
-                          decoration: ShapeDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                otherProfile?.profileImage != ""
-                                    ? otherProfile?.profileImage ?? ""
-                                    : 'https://via.placeholder.com/88x88',
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(200),
-                            ),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x28000000),
-                                blurRadius: 1,
-                                offset: Offset(0, 0),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 15),
-                      Text(
-                        '${otherProfile?.nickNm}',
-                        style: ShownyStyle.caption(
-                            color: ShownyStyle.black, weight: FontWeight.w700),
-                      ),
-                      const SizedBox(height: 6),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24, right: 24),
-                        child: Text(
-                          '${otherProfile?.introduce}',
-                          style: ShownyStyle.overline(
-                              color: ShownyStyle.black,
-                              weight: FontWeight.w400),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SVInlineButton(
-                            strokeColor: otherProfile?.isFollow ?? false
-                                ? ShownyStyle.mainPurple
-                                : Colors.black,
-                            constraints: BoxConstraints(
-                                minWidth: 80.toWidth, minHeight: 24.toWidth),
-                            onPressed: () {
-                              setState(() {
-                                otherProfile?.isFollow =
-                                    !(otherProfile?.isFollow ?? false);
-                              });
-                              if (otherProfile?.isFollow ?? false) {
-                                ApiHelper.shared.followUser(
-                                    user.memNo, otherProfile?.memNo, (success) {
-                                  getProfile();
-                                }, (error) {});
-                              } else {
-                                ApiHelper.shared.unFollowUser(
-                                    user.memNo, otherProfile?.memNo, (success) {
-                                  getProfile();
-                                }, (error) {});
-                              }
-                            },
-                            text: (otherProfile?.isFollow ?? false) == true
-                                ? "팔로잉"
-                                : "팔로우",
-                            textColor: otherProfile?.isFollow ?? false
-                                ? ShownyStyle.mainPurple
-                                : Colors.white,
-                            backgroundColor: otherProfile?.isFollow ?? false
-                                ? Colors.white
-                                : ShownyStyle.mainPurple,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 20),
-                          ),
-                          SizedBox(width: 4.toWidth),
-                          Container(
-                              height: 24.toWidth,
-                              width: 24.toWidth,
-                              decoration: BoxDecoration(
-                                  color: const Color(0xffefefef),
-                                  borderRadius: BorderRadius.circular(4)),
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (otherProfile != null) {
-                                    // context
-                                    //     .read<ChatStyleProvider>()
-                                    //     .connectToServer(
-                                    //         otherUserId: otherProfile!.memNo,
-                                    //         type: "style");
-                                    // Navigator.push(
-                                    //     context,
-                                    //     PageRouteBuilderRightLeft(
-                                    //         child: StyleChatDetailScreen(
-                                    //       otherUserName: otherProfile!.nickNm,
-                                    //     )));
-                                  }
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.toWidth),
-                                  child: Image.asset(
-                                    'assets/icons/profile/dm_icon.png',
-                                    width: 16.toWidth,
-                                  ),
-                                ),
-                              ))
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            children: [
-                              SizedBox(
-                                width: 80,
-                                height: 24,
-                                child: Text(
-                                  "${otherProfile?.postCount ?? 0}",
-                                  style: const TextStyle(fontSize: 14),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 80,
-                                height: 24,
-                                child: Text(
-                                  "게시물",
-                                  style: TextStyle(fontSize: 10),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
-                            ],
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageRouteBuilderRightLeft(
-                                    child: ProfileFollowerScreen(
-                                        profileMemNo: otherProfile?.memNo),
-                                  )).then((value) {
-                                setState(() {});
-                              });
-                            },
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  width: 80,
-                                  height: 24,
-                                  child: Text(
-                                    "${otherProfile?.followerCount ?? 0}",
-                                    style: const TextStyle(fontSize: 14),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 80,
-                                  height: 24,
-                                  child: Text(
-                                    "팔로워",
-                                    style: TextStyle(fontSize: 10),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageRouteBuilderRightLeft(
-                                      child: ProfileFollowingScreen(
-                                          profileMemNo: otherProfile?.memNo)));
-                            },
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  width: 80,
-                                  height: 24,
-                                  child: Text(
-                                    "${otherProfile?.followCount ?? 0}",
-                                    style: const TextStyle(fontSize: 14),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 80,
-                                  height: 24,
-                                  child: Text(
-                                    "팔로잉",
-                                    style: TextStyle(fontSize: 10),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 22,
-                      ),
+                      _buildProfileInfo(user),
                       TabBar(
                         controller: _tabController,
                         indicatorColor: Colors.transparent,
@@ -439,13 +232,16 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                                   item: styleupList[index],
                                   onSelected: () {
                                     Navigator.push(
-                                        context,
-                                        PageRouteBuilderRightLeft(
-                                            child: StyleupScreen(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => StyleupScreen(
                                           isMain: false,
                                           initIndex: index,
                                           styleupList: styleupList,
-                                        )));
+                                          afterUpDownAction: setStyleUpDown,
+                                        ),
+                                      ),
+                                    );
                                   },
                                 );
                               },
@@ -713,6 +509,221 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                     ],
                   ),
                 )),
+    );
+  }
+
+  Widget _buildProfileInfo(UserModel user) {
+    return Column(
+      children: [
+        const SizedBox(height: 24),
+        Center(
+          child: Container(
+            width: 88.toWidth,
+            height: 88.toWidth,
+            decoration: ShapeDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  otherProfile?.profileImage != ""
+                      ? otherProfile?.profileImage ?? ""
+                      : 'https://via.placeholder.com/88x88',
+                ),
+                fit: BoxFit.cover,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(200),
+              ),
+              shadows: const [
+                BoxShadow(
+                  color: Color(0x28000000),
+                  blurRadius: 1,
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
+        Text(
+          '${otherProfile?.nickNm}',
+          style: ShownyStyle.caption(
+              color: ShownyStyle.black, weight: FontWeight.w700),
+        ),
+        const SizedBox(height: 6),
+        Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24),
+          child: Text(
+            '${otherProfile?.introduce}',
+            style: ShownyStyle.overline(
+                color: ShownyStyle.black, weight: FontWeight.w400),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const SizedBox(height: 22),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SVInlineButton(
+              strokeColor: otherProfile?.isFollow ?? false
+                  ? ShownyStyle.mainPurple
+                  : Colors.black,
+              constraints:
+                  BoxConstraints(minWidth: 80.toWidth, minHeight: 24.toWidth),
+              onPressed: () {
+                setState(() {
+                  otherProfile?.isFollow = !(otherProfile?.isFollow ?? false);
+                });
+                if (otherProfile?.isFollow ?? false) {
+                  ApiHelper.shared.followUser(user.memNo, otherProfile?.memNo,
+                      (success) {
+                    getProfile();
+                  }, (error) {});
+                } else {
+                  ApiHelper.shared.unFollowUser(user.memNo, otherProfile?.memNo,
+                      (success) {
+                    getProfile();
+                  }, (error) {});
+                }
+              },
+              text: (otherProfile?.isFollow ?? false) == true ? "팔로잉" : "팔로우",
+              textColor: otherProfile?.isFollow ?? false
+                  ? ShownyStyle.mainPurple
+                  : Colors.white,
+              backgroundColor: otherProfile?.isFollow ?? false
+                  ? Colors.white
+                  : ShownyStyle.mainPurple,
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+            ),
+            SizedBox(width: 4.toWidth),
+            Container(
+                height: 24.toWidth,
+                width: 24.toWidth,
+                decoration: BoxDecoration(
+                    color: const Color(0xffefefef),
+                    borderRadius: BorderRadius.circular(4)),
+                child: GestureDetector(
+                  onTap: () {
+                    if (otherProfile != null) {
+                      // context
+                      //     .read<ChatStyleProvider>()
+                      //     .connectToServer(
+                      //         otherUserId: otherProfile!.memNo,
+                      //         type: "style");
+                      // Navigator.push(
+                      //     context,
+                      //     PageRouteBuilderRightLeft(
+                      //         child: StyleChatDetailScreen(
+                      //       otherUserName: otherProfile!.nickNm,
+                      //     )));
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(4.toWidth),
+                    child: Image.asset(
+                      'assets/icons/profile/dm_icon.png',
+                      width: 16.toWidth,
+                    ),
+                  ),
+                ))
+          ],
+        ),
+        const SizedBox(
+          height: 24,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  width: 80,
+                  height: 24,
+                  child: Text(
+                    "${otherProfile?.postCount ?? 0}",
+                    style: const TextStyle(fontSize: 14),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(
+                  width: 80,
+                  height: 24,
+                  child: Text(
+                    "게시물",
+                    style: TextStyle(fontSize: 10),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageRouteBuilderRightLeft(
+                      child: ProfileFollowerScreen(
+                          profileMemNo: otherProfile?.memNo),
+                    )).then((value) {
+                  setState(() {});
+                });
+              },
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 80,
+                    height: 24,
+                    child: Text(
+                      "${otherProfile?.followerCount ?? 0}",
+                      style: const TextStyle(fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 80,
+                    height: 24,
+                    child: Text(
+                      "팔로워",
+                      style: TextStyle(fontSize: 10),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageRouteBuilderRightLeft(
+                        child: ProfileFollowingScreen(
+                            profileMemNo: otherProfile?.memNo)));
+              },
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 80,
+                    height: 24,
+                    child: Text(
+                      "${otherProfile?.followCount ?? 0}",
+                      style: const TextStyle(fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 80,
+                    height: 24,
+                    child: Text(
+                      "팔로잉",
+                      style: TextStyle(fontSize: 10),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ],
     );
   }
 }

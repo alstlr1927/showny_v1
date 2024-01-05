@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/components/custom_long_press/custom_long_press.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/styleup_model.dart';
-import 'package:showny/providers/home_provider.dart';
 import 'package:showny/providers/styleup_item_provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/tabs/home/components/drag_item_tag.dart';
 import 'package:showny/screens/tabs/home/components/following_button.dart';
 import 'package:showny/screens/tabs/home/components/product_container.dart';
@@ -17,7 +14,6 @@ import 'package:showny/screens/tabs/home/components/tool_box.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_image.dart';
 import 'package:showny/screens/tabs/home/screen/styleup_video.dart';
 import 'package:showny/screens/tabs/profile/other_profile_screen.dart';
-import 'package:showny/screens/tabs/profile/profile_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:video_player/video_player.dart';
@@ -27,12 +23,19 @@ class StyleUpItem extends StatefulWidget {
   final StyleupModel styleUp;
   final VoidCallback? onSelect;
   final int index;
+
+  final Function({required String styleUpNo, required bool value})?
+      afterFollowAction;
+  final Function({required String styleUpNo, required int value})?
+      afterUpDownAction;
   const StyleUpItem({
     super.key,
     required this.styleUp,
     this.onSelect,
     required this.index,
     this.isMain = false,
+    this.afterFollowAction,
+    this.afterUpDownAction,
   });
 
   @override
@@ -60,6 +63,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
       create: (_) => StyleUpItemProvider(this),
       builder: (context, _) {
         return Consumer<StyleUpItemProvider>(builder: (context, prov, child) {
+          print('reubild');
           return Material(
             child: Column(
               children: [

@@ -49,10 +49,10 @@ class StyleUpItemProvider with ChangeNotifier {
   }
 
   void setIsFollow(bool value) {
-    HomeProvider homeProv =
-        Provider.of<HomeProvider>(state.context, listen: false);
-    homeProv.setStyleUpFollow(
-        styleUpNo: state.widget.styleUp.styleupNo, value: value);
+    if (state.widget.afterFollowAction != null) {
+      state.widget.afterFollowAction!(
+          styleUpNo: state.widget.styleUp.styleupNo, value: value);
+    }
   }
 
   void setShowTags(bool value) {
@@ -138,10 +138,8 @@ class StyleUpItemProvider with ChangeNotifier {
       userProvider.user.memNo,
       value,
       (success) {
-        if (state.widget.isMain) {
-          HomeProvider homeProvider =
-              Provider.of<HomeProvider>(state.context, listen: false);
-          homeProvider.setStyleUpDown(
+        if (state.widget.afterUpDownAction != null) {
+          state.widget.afterUpDownAction!(
               styleUpNo: state.widget.styleUp.styleupNo, value: value);
         }
         state.widget.onSelect?.call();

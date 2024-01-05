@@ -41,11 +41,11 @@ class _HomeScreenState extends State<HomeScreen>
                   controller: prov.pageController,
                   onPageChanged: prov.setTab,
                   children: [
-                    KeepAliveWidget(
-                      child: StyleupScreen(
-                          initIndex: 0,
-                          styleupList: prov.styleUpList,
-                          isMain: true),
+                    StyleupScreen(
+                      initIndex: 0,
+                      styleupList: prov.styleUpList,
+                      isMain: true,
+                      afterFollowAction: prov.setStyleUpFollow,
                     ),
                     BattleScreen(
                       battleList: prov.styleUpBattle?.battleItemList ?? [],

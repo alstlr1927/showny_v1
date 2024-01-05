@@ -89,6 +89,8 @@ class _MyProfileScreenState extends State<MyProfileScreen>
                                   initIndex: index,
                                   styleupList:
                                       getMyProfileProvider.myStyleupList,
+                                  afterUpDownAction:
+                                      getMyProfileProvider.setStyleUpDown,
                                 ),
                               )
                               // PageRouteBuilderRightLeft(child: TestScreen()
