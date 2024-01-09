@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:showny/api/new_api/api_service.dart';
-import 'package:showny/screens/tabs/profile/model/get_store_canclelist_response_model.dart';
+import 'package:showny/screens/profile/model/get_store_canclelist_response_model.dart';
 
-class GetStoreCancelListProvider extends ChangeNotifier{
+class GetStoreCancelListProvider extends ChangeNotifier {
   GetStoreCancelListModel? _getStoreCancelListModel;
 
   GetStoreCancelListModel? get getStoreCancelListModel =>
@@ -21,8 +21,10 @@ class GetStoreCancelListProvider extends ChangeNotifier{
     if (!_isStoreCancelListLoading) {
       setIsStoreCancelListLoading(true);
     }
-    ApiService().getStoreCancelListApi(memNo: memNo).then((getStoreCancelListSuccess) {
-      if(getStoreCancelListSuccess!.success!){
+    ApiService()
+        .getStoreCancelListApi(memNo: memNo)
+        .then((getStoreCancelListSuccess) {
+      if (getStoreCancelListSuccess!.success!) {
         _getStoreCancelListModel = getStoreCancelListSuccess;
         setIsStoreCancelListLoading(false);
         notifyListeners();

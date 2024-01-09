@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
-import 'package:showny/screens/tabs/home/components/following_button.dart';
-import 'package:showny/screens/tabs/profile/other_profile_screen.dart';
-import 'package:showny/screens/tabs/profile/profile_screen.dart';
+import 'package:showny/screens/home/widgets/following_button.dart';
+import 'package:showny/screens/profile/other_profile_screen.dart';
+import 'package:showny/screens/profile/profile_screen.dart';
 
 class StyleupScreenProfile extends StatefulWidget {
   const StyleupScreenProfile({super.key, required this.styleupModel});
@@ -48,18 +47,23 @@ class _StyleupScreenProfile extends State<StyleupScreenProfile> {
               ),
               child: GestureDetector(
                 onTap: () {
-                  if(Provider.of<UserProvider>(context, listen: false).user.memNo == styleupData.userInfo.memNo) {
+                  if (Provider.of<UserProvider>(context, listen: false)
+                          .user
+                          .memNo ==
+                      styleupData.userInfo.memNo) {
                     Navigator.push(
-                      context,
-                      PageRouteBuilderRightLeft(
-                          child: ProfileScreen(isBack: true,)));
+                        context,
+                        PageRouteBuilderRightLeft(
+                            child: ProfileScreen(
+                          isBack: true,
+                        )));
                   } else {
                     Navigator.push(
-                      context,
-                      PageRouteBuilderRightLeft(
-                          child: OtherProfileScreen(
-                        memNo: styleupData.userInfo.memNo,
-                      )));
+                        context,
+                        PageRouteBuilderRightLeft(
+                            child: OtherProfileScreen(
+                          memNo: styleupData.userInfo.memNo,
+                        )));
                   }
                 },
               ),
@@ -67,34 +71,39 @@ class _StyleupScreenProfile extends State<StyleupScreenProfile> {
             const SizedBox(width: 8.0),
             GestureDetector(
               onTap: () {
-                if(Provider.of<UserProvider>(context, listen: false).user.memNo == styleupData.userInfo.memNo) {
+                if (Provider.of<UserProvider>(context, listen: false)
+                        .user
+                        .memNo ==
+                    styleupData.userInfo.memNo) {
                   Navigator.push(
-                    context,
-                    PageRouteBuilderRightLeft(
-                        child: ProfileScreen(isBack: true,)));
+                      context,
+                      PageRouteBuilderRightLeft(
+                          child: ProfileScreen(
+                        isBack: true,
+                      )));
                 } else {
                   Navigator.push(
-                    context,
-                    PageRouteBuilderRightLeft(
-                        child: OtherProfileScreen(
-                      memNo: styleupData.userInfo.memNo,
-                    )));
+                      context,
+                      PageRouteBuilderRightLeft(
+                          child: OtherProfileScreen(
+                        memNo: styleupData.userInfo.memNo,
+                      )));
                 }
               },
               child: Text(
-              styleupData.userInfo.nickNm,
-              style: const TextStyle(
-                shadows: [
-                  Shadow(
-                    blurRadius: 2.0,
-                    color: Colors.black87,
-                  ),
-                ],
-                fontSize: 16.0,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+                styleupData.userInfo.nickNm,
+                style: const TextStyle(
+                  shadows: [
+                    Shadow(
+                      blurRadius: 2.0,
+                      color: Colors.black87,
+                    ),
+                  ],
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
-            ),
             ),
             const SizedBox(width: 8.0),
             styleupData.userInfo.isFollow == false
@@ -110,7 +119,7 @@ class _StyleupScreenProfile extends State<StyleupScreenProfile> {
         ),
         const SizedBox(height: 16),
         Padding(
-          padding: const EdgeInsets.only(left:2, right: 58),
+          padding: const EdgeInsets.only(left: 2, right: 58),
           child: GestureDetector(
             onTap: () {
               setState(() {
@@ -133,8 +142,7 @@ class _StyleupScreenProfile extends State<StyleupScreenProfile> {
               ),
               overflow: TextOverflow.ellipsis,
               maxLines: isExpandDescription == true ? 15 : 2,
-            )
-            ,
+            ),
           ),
         )
       ],

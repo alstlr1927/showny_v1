@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:showny/api/new_api/api_service.dart';
-import 'package:showny/screens/tabs/profile/model/get_myshopping_response_model.dart';
-import 'package:showny/screens/tabs/profile/model/get_profile_response_model.dart';
+import 'package:showny/screens/profile/model/get_myshopping_response_model.dart';
+import 'package:showny/screens/profile/model/get_profile_response_model.dart';
 
-class GetProfileProvider extends ChangeNotifier{
+class GetProfileProvider extends ChangeNotifier {
   GetMyShoppingResponseModel? _getMyShoppingResponseModel;
   GetProfileResponseModel? _getProfileResponseModel;
-
 
   GetMyShoppingResponseModel? get getMyShoppingResponseModel =>
       _getMyShoppingResponseModel;
@@ -33,8 +32,10 @@ class GetProfileProvider extends ChangeNotifier{
     if (!_isShoppingLoading) {
       setIsShoppingLoading(true);
     }
-    ApiService().getMyShoppingApi(memNo: memNo, orderNo: orderNo).then((getMyShoppingSuccess) {
-      if(getMyShoppingSuccess!.success!){
+    ApiService()
+        .getMyShoppingApi(memNo: memNo, orderNo: orderNo)
+        .then((getMyShoppingSuccess) {
+      if (getMyShoppingSuccess!.success!) {
         _getMyShoppingResponseModel = getMyShoppingSuccess;
         setIsShoppingLoading(false);
         notifyListeners();
@@ -46,9 +47,7 @@ class GetProfileProvider extends ChangeNotifier{
     if (!_isProfileLoading) {
       setIsProfileLoading(true);
     }
-    ApiService()
-        .getProfileApi(memNo: memNo)
-        .then((getProfileSuccess) {
+    ApiService().getProfileApi(memNo: memNo).then((getProfileSuccess) {
       if (getProfileSuccess!.success!) {
         _getProfileResponseModel = getProfileSuccess;
         setIsProfileLoading(false);

@@ -25,6 +25,7 @@ import 'package:showny/screens/tabs/profile/provider/get_cancel_infodetail_provi
 import 'package:showny/screens/tabs/profile/provider/get_profile_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/getstore_cancel_list_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/getstore_cartlist_provider.dart';
+import 'package:showny/utils/image_cache_delegate.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'firebase_options.dart';
@@ -38,6 +39,7 @@ class OverFlowGlowBehavior extends ScrollBehavior {
 }
 
 Future<void> main() async {
+  CustomImageCache();
   WidgetsFlutterBinding.ensureInitialized();
 
   //Sendbird

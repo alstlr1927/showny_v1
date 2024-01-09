@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/showny_image/showny_image.dart';
 import 'package:showny/utils/formatter.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
@@ -35,21 +36,25 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
         children: [
           AspectRatio(
             aspectRatio: 1 / 1,
-            child: Container(
-              decoration: ShapeDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.imageUrl),
-                  fit: BoxFit.cover,
-                ),
-                shape: const RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 0.50,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+            child: ShownyImage(
+              imageUrl: widget.imageUrl,
+              fit: BoxFit.cover,
             ),
+            // child: Container(
+            //   decoration: ShapeDecoration(
+            //     image: DecorationImage(
+            //       image: NetworkImage(widget.imageUrl),
+            //       fit: BoxFit.cover,
+            //     ),
+            //     shape: const RoundedRectangleBorder(
+            //       side: BorderSide(
+            //         width: 0.50,
+            //         strokeAlign: BorderSide.strokeAlignCenter,
+            //         color: Colors.white,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.toWidth),

@@ -17,7 +17,7 @@ import 'package:showny/screens/intro/screen/input_essential_information_screen.d
 import 'package:showny/screens/intro/screen/login_screen_v2.dart';
 import 'package:showny/screens/intro/screen/sign_up_screen.dart';
 import 'package:showny/screens/intro/screen/splash_screen.dart';
-import 'package:showny/screens/root_screen.dart';
+import 'package:showny/screens/main/root_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -88,13 +88,13 @@ class _LoginScreenState extends State<LoginScreen> {
             primaryLabel: tr('intro_popup.not_found_style_button1'),
             secondaryLabel: tr('intro_popup.not_found_style_button2'),
             primaryRoute: InputAdditionalInfoScreen.routeName,
-            secondaryRoute: RootScreen.routeName,
+            secondaryRoute: MainLanding.routeName,
           );
           showAlertDialog(context, dialog: dialog);
         } else {
           Constants.currentUser = userModel;
           Navigator.pushNamedAndRemoveUntil(
-              context, RootScreen.routeName, (route) => false);
+              context, MainLanding.routeName, (route) => false);
         }
       }, (error) {
         setState(() {
@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
               primaryLabel: tr("intro_popup.not_found_style_button1"),
               secondaryLabel: tr("intro_popup.not_found_style_button2"),
               primaryRoute: InputAdditionalInfoScreen.routeName,
-              secondaryRoute: RootScreen.routeName,
+              secondaryRoute: MainLanding.routeName,
               primaryAction: () {},
             );
             showAlertDialog(context, dialog: dialog);
@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Constants.currentUser = userModel;
             Navigator.pushNamedAndRemoveUntil(
               context,
-              RootScreen.routeName,
+              MainLanding.routeName,
               (route) => false,
             );
           }

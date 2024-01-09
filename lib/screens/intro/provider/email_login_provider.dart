@@ -11,7 +11,7 @@ import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/screen/email_sign_up2_screen.dart';
 import 'package:showny/screens/intro/screen/input_additional_Information_screen.dart';
 import 'package:showny/screens/intro/screen/input_essential_information_screen.dart';
-import 'package:showny/screens/root_screen.dart';
+import 'package:showny/screens/main/root_screen.dart';
 import 'package:showny/utils/validator.dart';
 
 import '../../../providers/user_model_provider.dart';
@@ -131,7 +131,7 @@ class EmailLoginProvider with ChangeNotifier {
                 primaryLabel: tr("intro_popup.not_found_style_button1"),
                 secondaryLabel: tr("intro_popup.not_found_style_button2"),
                 primaryRoute: InputAdditionalInfoScreen.routeName,
-                secondaryRoute: RootScreen.routeName,
+                secondaryRoute: MainLanding.routeName,
                 primaryAction: () {},
               );
               showAlertDialog(state.context, dialog: dialog);
@@ -139,7 +139,7 @@ class EmailLoginProvider with ChangeNotifier {
               Constants.currentUser = userModel;
               Navigator.pushNamedAndRemoveUntil(
                 state.context,
-                RootScreen.routeName,
+                MainLanding.routeName,
                 (route) => false,
               );
             }
@@ -225,7 +225,7 @@ class EmailLoginProvider with ChangeNotifier {
               primaryLabel: tr("intro_popup.not_found_style_button1"),
               secondaryLabel: tr("intro_popup.not_found_style_button2"),
               primaryRoute: InputAdditionalInfoScreen.routeName,
-              secondaryRoute: RootScreen.routeName,
+              secondaryRoute: MainLanding.routeName,
               primaryAction: () {},
             );
             showAlertDialog(state.context, dialog: dialog);
@@ -233,7 +233,7 @@ class EmailLoginProvider with ChangeNotifier {
             Constants.currentUser = userModel;
             Navigator.pushNamedAndRemoveUntil(
               state.context,
-              RootScreen.routeName,
+              MainLanding.routeName,
               (route) => false,
             );
           }

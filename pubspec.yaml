@@ -75,6 +75,8 @@ dependencies:
   flutter_screenutil: ^5.9.0
   rxdart: ^0.27.7
   extended_nested_scroll_view: ^6.2.1
+  flutter_cache_manager: ^3.3.1
+  octo_image: ^2.0.0
 
 dev_dependencies:
   build_runner: ^2.4.6
@@ -94,6 +96,7 @@ flutter:
     - assets/icons/home/
     - assets/icons/login/
     - assets/icons/profile/
+    - assets/icons/shopping/
     - assets/mock_images/
     - assets/images/
     - assets/translations/

@@ -11,7 +11,7 @@ import 'package:showny/routes.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/components/login_sheet.dart';
 import 'package:showny/screens/intro/provider/login_provider.dart';
-import 'package:showny/screens/root_screen.dart';
+import 'package:showny/screens/main/root_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:video_player/video_player.dart';
@@ -170,7 +170,8 @@ class _LoginScreenV2State extends State<LoginScreenV2> {
 
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (builder) => const RootScreen()),
+                    MaterialPageRoute(
+                        builder: (builder) => const MainLanding()),
                     (route) => false);
                 debugPrint('DEBUG: tab skip login button');
               },

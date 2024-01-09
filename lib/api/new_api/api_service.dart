@@ -6,11 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:showny/models/GetMemberMinishopProductReviewModel.dart';
 import 'package:showny/models/StoreOrderListModel.dart';
-import 'package:showny/screens/tabs/profile/model/get_myshopping_response_model.dart';
-import 'package:showny/screens/tabs/profile/model/get_profile_response_model.dart';
-import 'package:showny/screens/tabs/profile/model/get_store_canclelist_response_model.dart';
-import 'package:showny/screens/tabs/profile/model/get_store_cart_list_response_model.dart';
-import 'package:showny/screens/tabs/profile/model/getcancle_info_detail_response_model.dart';
+import 'package:showny/screens/profile/model/get_myshopping_response_model.dart';
+import 'package:showny/screens/profile/model/get_profile_response_model.dart';
+import 'package:showny/screens/profile/model/get_store_canclelist_response_model.dart';
+import 'package:showny/screens/profile/model/get_store_cart_list_response_model.dart';
+import 'package:showny/screens/profile/model/getcancle_info_detail_response_model.dart';
 
 import '../../models/FetchGetMemberMinishopProductModel.dart';
 import '../../models/GetMemberMinishopProductSheetModel.dart';
@@ -294,9 +294,10 @@ class ApiService {
     }
   }
 
-  Future<FetchGetMemberMinishopProductModel>
-      fetchGetMemberMinishopProduct(memNo, status, page) async {
-    var data = FormData.fromMap({'memNo': memNo, 'status': '$status', 'page': '$page'});
+  Future<FetchGetMemberMinishopProductModel> fetchGetMemberMinishopProduct(
+      memNo, status, page) async {
+    var data = FormData.fromMap(
+        {'memNo': memNo, 'status': '$status', 'page': '$page'});
 
     var dio = Dio();
     var response = await dio.request(
@@ -347,15 +348,12 @@ class ApiService {
     }
   }
 
-  Future<bool> updateMinishopProductStatus({String? memNo,String? productId,String? status}) async {
+  Future<bool> updateMinishopProductStatus(
+      {String? memNo, String? productId, String? status}) async {
     var headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-    var data = {
-      'memNo': memNo,
-      'productId': productId,
-      'status': status
-    };
+    var data = {'memNo': memNo, 'productId': productId, 'status': status};
     var dio = Dio();
 
     try {
@@ -382,7 +380,10 @@ class ApiService {
     }
   }
 
-  Future<bool> updateMiniShopProductReview({required String memNo,required String productReviewId,required String reportTypeNo}) async {
+  Future<bool> updateMiniShopProductReview(
+      {required String memNo,
+      required String productReviewId,
+      required String reportTypeNo}) async {
     var data = FormData.fromMap({
       'memNo': memNo,
       'productReviewId': productReviewId,

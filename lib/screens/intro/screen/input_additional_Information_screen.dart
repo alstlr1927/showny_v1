@@ -10,9 +10,9 @@ import 'package:showny/screens/common/components/style_button.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/components/preset_color_button.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
-import 'package:showny/screens/root_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/main/root_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
@@ -59,7 +59,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                 message: tr("input_additional_info_screen.info_dialog_message"),
                 primaryLabel:
                     tr("input_additional_info_screen.info_dialog_skip"),
-                primaryRoute: RootScreen.routeName,
+                primaryRoute: MainLanding.routeName,
                 primaryAction: () {},
                 secondaryLabel:
                     tr("input_additional_info_screen.info_dialog_input"),
@@ -244,7 +244,7 @@ class _InputAdditionalInfoScreenState extends State<InputAdditionalInfoScreen> {
                                     (selectedBodyType!.index + 1);
                               });
                               Navigator.pushNamedAndRemoveUntil(context,
-                                  RootScreen.routeName, (route) => false);
+                                  MainLanding.routeName, (route) => false);
                             }, (error) {
                               debugPrint(error);
                             });

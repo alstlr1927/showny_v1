@@ -2,17 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/models/user_model.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/tabs/profile/my_profile/components/sv_inline_button.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/tabs/profile/other_profile_screen.dart';
-import 'package:showny/screens/tabs/profile/profile_screen.dart';
+import 'package:showny/screens/profile/other_profile_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
-
-import '../../../../../constants.dart';
-import '../../../../common/components/app_bar_widget.dart';
 
 class ProfileFollowingScreen extends StatefulWidget {
   const ProfileFollowingScreen({
@@ -107,27 +103,14 @@ class ProfileFollowerScreenState extends State<ProfileFollowingScreen> {
                           color: ShownyStyle.black, weight: FontWeight.w400),
                     ),
                   ),
-                  leading: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: ShapeDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(followingList[index].profileImage),
-                        fit: BoxFit.cover,
-                      ),
-                      shape: const OvalBorder(),
-                    ),
-                    child: GestureDetector(onTap: () {
+                  leading: ProfileContainer.size40(
+                    url: followingList[index].profileImage,
+                    onPressed: () {
                       if (Provider.of<UserProvider>(context, listen: false)
                               .user
                               .memNo ==
                           followingList[index].memNo) {
-                        // Navigator.push(
-                        //     context,
-                        //     PageRouteBuilderRightLeft(
-                        //         child: ProfileScreen(
-                        //       isBack: true,
-                        //     )));
+                        //
                       } else {
                         Navigator.push(
                             context,
@@ -137,7 +120,7 @@ class ProfileFollowerScreenState extends State<ProfileFollowingScreen> {
                               ),
                             ));
                       }
-                    }),
+                    },
                   ),
                   trailing: followingList[index].memNo != user.memNo
                       ? SVInlineButton(

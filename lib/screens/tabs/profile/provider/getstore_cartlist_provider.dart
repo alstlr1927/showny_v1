@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:showny/api/new_api/api_service.dart';
-import 'package:showny/screens/tabs/profile/model/get_store_cart_list_response_model.dart'
-as products;
+import 'package:showny/screens/profile/model/get_store_cart_list_response_model.dart'
+    as products;
 
 class GetStoreCartListProvider extends ChangeNotifier {
   List<products.Data> _productsList = [];
@@ -12,14 +12,14 @@ class GetStoreCartListProvider extends ChangeNotifier {
 
   void increment(String goodsNo) {
     var product =
-    _productsList.firstWhere((element) => element.goodsNo! == goodsNo);
+        _productsList.firstWhere((element) => element.goodsNo! == goodsNo);
     product.goodsCnt = (int.parse(product.goodsCnt!) + 1).toString();
     notifyListeners();
   }
 
   void decrement(String goodsNo) {
     var product =
-    _productsList.firstWhere((element) => element.goodsNo! == goodsNo);
+        _productsList.firstWhere((element) => element.goodsNo! == goodsNo);
     if (int.parse(product.goodsCnt!) > 0) {
       product.goodsCnt = (int.parse(product.goodsCnt!) - 1).toString();
     }
@@ -36,7 +36,7 @@ class GetStoreCartListProvider extends ChangeNotifier {
     return cnt != _productsList.length;
   }
 
-  remove(int index){
+  remove(int index) {
     _productsList.removeAt(index);
     notifyListeners();
   }
@@ -50,7 +50,8 @@ class GetStoreCartListProvider extends ChangeNotifier {
   }
 
   void toggleCheckbox(int index) {
-    _productsList[index].isSelected = !(_productsList[index].isSelected ?? false);
+    _productsList[index].isSelected =
+        !(_productsList[index].isSelected ?? false);
     notifyListeners();
   }
 
@@ -60,7 +61,6 @@ class GetStoreCartListProvider extends ChangeNotifier {
     _isStoreCartLoading = value;
     notifyListeners();
   }
-
 
   getStoreCartListData(String memNo, int page) {
     if (!_isStoreCartLoading) {

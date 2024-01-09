@@ -1,15 +1,19 @@
 import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/tabs/profile/myshopping/pages/product_list_widget.dart';
 import 'package:showny/screens/tabs/profile/provider/request_return_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/get_profile_provider.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
+
+import '../../../../profile/model/get_myshopping_response_model.dart';
 
 class MyShoppingPage extends StatefulWidget {
   const MyShoppingPage({Key? key}) : super(key: key);
@@ -46,351 +50,489 @@ class _MyShoppingPageState extends State<MyShoppingPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          user.memId,
+          '내 쇼핑',
           style: ShownyStyle.body1(
             color: ShownyStyle.black,
             weight: FontWeight.w600,
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Consumer<GetProfileProvider>(
-          builder: (context, getProfileProvider, child) =>
-              getProfileProvider.getIsShoppingLoading() ||
-                      getProfileProvider.getIsProfileLoading()
-                  ? const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 200),
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      body: Consumer<GetProfileProvider>(
+        builder: (context, getProfileProvider, child) => getProfileProvider
+                    .getIsShoppingLoading() ||
+                getProfileProvider.getIsProfileLoading()
+            ? const Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 200),
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 12.toWidth),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.toWidth),
+                    child: Text(
+                      user.memId,
+                      style: ShownyStyle.body2(
+                          color: ShownyStyle.black, weight: FontWeight.w700),
+                    ),
+                  ),
+                  SizedBox(height: 18.toWidth),
+                  _buildPointCouponArea(),
+                  _buildOrderStateArea(getProfileProvider
+                      .getMyShoppingResponseModel!.data!.first),
+                  _divider(),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    height: 110,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 22),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          height: 110,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                        const SizedBox(
+                          width: 24,
+                        ),
+                        Expanded(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "${getProfileProvider.getProfileResponseModel!.data!.profileImage}"),
-                                  radius: 44,
-                                ),
+                              Column(
+                                children: [
+                                  Text(
+                                    getProfileProvider
+                                            .getMyShoppingResponseModel!
+                                            .data![0]
+                                            .chargeCnt ??
+                                        "0",
+                                    style: FontHelper.light_14_000000,
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    tr("my_shopping.payment"),
+                                    style: FontHelper.regualr_12_000000,
+                                  ),
+                                ],
                               ),
                               const SizedBox(
-                                width: 24,
+                                height: 12,
                               ),
-                              Expanded(
+                              Column(
+                                children: [
+                                  Text(
+                                    getProfileProvider
+                                            .getMyShoppingResponseModel!
+                                            .data![0]
+                                            .point ??
+                                        "0",
+                                    style: FontHelper.light_14_000000,
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    tr("my_shopping.point"),
+                                    style: FontHelper.regualr_12_000000,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // Navigator.push(
+                                //     context,
+                                //     PageRouteBuilderRightLeft(
+                                //         child: OrderListScreen()));
+                              },
+                              child: Container(
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Column(
-                                      children: [
-                                        Text(
-                                          getProfileProvider
-                                                  .getMyShoppingResponseModel!
-                                                  .data![0]
-                                                  .chargeCnt ??
-                                              "0",
-                                          style: FontHelper.light_14_000000,
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Text(
-                                          tr("my_shopping.payment"),
-                                          style: FontHelper.regualr_12_000000,
-                                        ),
-                                      ],
+                                    Text(
+                                      getProfileProvider
+                                              .getMyShoppingResponseModel!
+                                              .data![0]
+                                              .deliveryCnt ??
+                                          "",
+                                      style: FontHelper.light_14_000000,
                                     ),
                                     const SizedBox(
-                                      height: 12,
+                                      height: 8,
                                     ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          getProfileProvider
-                                                  .getMyShoppingResponseModel!
-                                                  .data![0]
-                                                  .point ??
-                                              "0",
-                                          style: FontHelper.light_14_000000,
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Text(
-                                          tr("my_shopping.point"),
-                                          style: FontHelper.regualr_12_000000,
-                                        ),
-                                      ],
+                                    Text(
+                                      tr("my_shopping.delivery_progress"),
+                                      style: FontHelper.regualr_12_000000,
                                     ),
                                   ],
                                 ),
                               ),
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     PageRouteBuilderRightLeft(
-                                      //         child: OrderListScreen()));
-                                    },
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            getProfileProvider
-                                                    .getMyShoppingResponseModel!
-                                                    .data![0]
-                                                    .deliveryCnt ??
-                                                "",
-                                            style: FontHelper.light_14_000000,
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Text(
-                                            tr("my_shopping.delivery_progress"),
-                                            style: FontHelper.regualr_12_000000,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        getProfileProvider
-                                                .getMyShoppingResponseModel!
-                                                .data![0]
-                                                .couponCnt ??
-                                            "",
-                                        style: FontHelper.light_14_000000,
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        tr("my_shopping.coupen"),
-                                        style: FontHelper.regualr_12_000000,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        getProfileProvider
-                                                .getMyShoppingResponseModel!
-                                                .data![0]
-                                                .confirmedCnt ??
-                                            "0",
-                                        style: FontHelper.light_14_000000,
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        tr("my_shopping.purchase_conformation"),
-                                        style: FontHelper.regualr_12_000000,
-                                      ),
-                                      const SizedBox(
-                                        height: 12,
-                                      ),
-                                      const Text(""),
-                                      const SizedBox(
-                                        height: 0,
-                                      ),
-                                      Text(tr("")),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  getProfileProvider.getMyShoppingResponseModel!
+                                          .data![0].couponCnt ??
+                                      "",
+                                  style: FontHelper.light_14_000000,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  tr("my_shopping.coupen"),
+                                  style: FontHelper.regualr_12_000000,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )),
+                        Expanded(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  getProfileProvider.getMyShoppingResponseModel!
+                                          .data![0].confirmedCnt ??
+                                      "0",
+                                  style: FontHelper.light_14_000000,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  tr("my_shopping.purchase_conformation"),
+                                  style: FontHelper.regualr_12_000000,
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                const Text(""),
+                                const SizedBox(
+                                  height: 0,
+                                ),
+                                Text(tr("")),
+                              ],
+                            ),
+                          ],
+                        )),
                         const SizedBox(
-                          height: 12,
+                          width: 16,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                getProfileProvider.getProfileResponseModel!
-                                        .data!.nickNm ??
-                                    "",
-                                style: FontHelper.bold_12_000000,
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                getProfileProvider.getProfileResponseModel!
-                                        .data!.introduce ??
-                                    "",
-                                style: FontHelper.regualr_12_000000,
-                              )
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Consumer<RequestReturnProvider>(
-                          builder: (context, value, child) => SizedBox(
-                              height: 40,
-                              child: Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      value.setSelectedIndex(0);
-                                      log(value.selectedIndex.toString());
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Text(
-                                        "${shoppingData[0]}",
-                                        style: 0 == value.selectedIndex
-                                            ? themeData()
-                                                .textTheme
-                                                .titleSmall
-                                                ?.copyWith(
-                                                    fontWeight: FontWeight.bold)
-                                                .apply(color: black)
-                                            : themeData()
-                                                .textTheme
-                                                .titleSmall!
-                                                .apply(color: black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      width: 1,
-                                      height: 12,
-                                      color: const Color(0xFF444444)),
-                                  GestureDetector(
-                                    onTap: () {
-                                      value.setSelectedIndex(1);
-                                      log(value.selectedIndex.toString());
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Text(
-                                        "${shoppingData[1]}",
-                                        style: 1 == value.selectedIndex
-                                            ? themeData()
-                                                .textTheme
-                                                .titleSmall
-                                                ?.copyWith(
-                                                    fontWeight: FontWeight.bold)
-                                                .apply(color: black)
-                                            : themeData()
-                                                .textTheme
-                                                .titleSmall!
-                                                .apply(color: black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                      width: 1,
-                                      height: 12,
-                                      color: const Color(0xFF444444)),
-                                  GestureDetector(
-                                    onTap: () {
-                                      value.setSelectedIndex(2);
-                                      log(value.selectedIndex.toString());
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Text(
-                                        "${shoppingData[2]}",
-                                        style: 2 == value.selectedIndex
-                                            ? themeData()
-                                                .textTheme
-                                                .titleSmall
-                                                ?.copyWith(
-                                                    fontWeight: FontWeight.bold)
-                                                .apply(color: black)
-                                            : themeData()
-                                                .textTheme
-                                                .titleSmall!
-                                                .apply(color: black),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-
-                              // ListView.builder(
-                              //   itemCount: shoppingData.length,
-                              //   shrinkWrap: true,
-                              //   scrollDirection: Axis.horizontal,
-                              //   physics: const NeverScrollableScrollPhysics(),
-                              //   itemBuilder: (context, index) {
-                              //     return GestureDetector(
-                              //       onTap: () {
-                              //         value.setSelectedIndex(index);
-                              //         log(value.selectedIndex.toString());
-                              //       },
-                              //       child: Container(
-                              //         padding: const EdgeInsets.only(right: 25.0),
-                              //         child: Text(
-                              //           "${shoppingData[index]}",
-                              //           style: index == value.selectedIndex
-                              //               ? themeData()
-                              //                   .textTheme
-                              //                   .titleSmall
-                              //                   ?.copyWith(fontWeight: FontWeight.bold)
-                              //                   .apply(color: black)
-                              //               : themeData()
-                              //                   .textTheme
-                              //                   .titleSmall!
-                              //                   .apply(color: black),
-                              //         ),
-                              //       ),
-                              //     );
-                              //   },
-                              // ),
-                              ),
-                        ),
-                        (Provider.of<RequestReturnProvider>(context)
-                                    .selectedIndex ==
-                                1)
-                            ? const SizedBox()
-                            : (Provider.of<RequestReturnProvider>(context)
-                                        .selectedIndex ==
-                                    2)
-                                ? const SizedBox()
-                                : const SizedBox(),
                       ],
                     ),
-        ),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getProfileProvider
+                                  .getProfileResponseModel!.data!.nickNm ??
+                              "",
+                          style: FontHelper.bold_12_000000,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          getProfileProvider
+                                  .getProfileResponseModel!.data!.introduce ??
+                              "",
+                          style: FontHelper.regualr_12_000000,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Consumer<RequestReturnProvider>(
+                    builder: (context, value, child) => SizedBox(
+                      height: 40,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              value.setSelectedIndex(0);
+                              log(value.selectedIndex.toString());
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                "${shoppingData[0]}",
+                                style: 0 == value.selectedIndex
+                                    ? themeData()
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(fontWeight: FontWeight.bold)
+                                        .apply(color: black)
+                                    : themeData()
+                                        .textTheme
+                                        .titleSmall!
+                                        .apply(color: black),
+                              ),
+                            ),
+                          ),
+                          Container(
+                              width: 1,
+                              height: 12,
+                              color: const Color(0xFF444444)),
+                          GestureDetector(
+                            onTap: () {
+                              value.setSelectedIndex(1);
+                              log(value.selectedIndex.toString());
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                "${shoppingData[1]}",
+                                style: 1 == value.selectedIndex
+                                    ? themeData()
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(fontWeight: FontWeight.bold)
+                                        .apply(color: black)
+                                    : themeData()
+                                        .textTheme
+                                        .titleSmall!
+                                        .apply(color: black),
+                              ),
+                            ),
+                          ),
+                          Container(
+                              width: 1,
+                              height: 12,
+                              color: const Color(0xFF444444)),
+                          GestureDetector(
+                            onTap: () {
+                              value.setSelectedIndex(2);
+                              log(value.selectedIndex.toString());
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                "${shoppingData[2]}",
+                                style: 2 == value.selectedIndex
+                                    ? themeData()
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(fontWeight: FontWeight.bold)
+                                        .apply(color: black)
+                                    : themeData()
+                                        .textTheme
+                                        .titleSmall!
+                                        .apply(color: black),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+
+                      // ListView.builder(
+                      //   itemCount: shoppingData.length,
+                      //   shrinkWrap: true,
+                      //   scrollDirection: Axis.horizontal,
+                      //   physics: const NeverScrollableScrollPhysics(),
+                      //   itemBuilder: (context, index) {
+                      //     return GestureDetector(
+                      //       onTap: () {
+                      //         value.setSelectedIndex(index);
+                      //         log(value.selectedIndex.toString());
+                      //       },
+                      //       child: Container(
+                      //         padding: const EdgeInsets.only(right: 25.0),
+                      //         child: Text(
+                      //           "${shoppingData[index]}",
+                      //           style: index == value.selectedIndex
+                      //               ? themeData()
+                      //                   .textTheme
+                      //                   .titleSmall
+                      //                   ?.copyWith(fontWeight: FontWeight.bold)
+                      //                   .apply(color: black)
+                      //               : themeData()
+                      //                   .textTheme
+                      //                   .titleSmall!
+                      //                   .apply(color: black),
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
+                    ),
+                  ),
+                  (Provider.of<RequestReturnProvider>(context).selectedIndex ==
+                          1)
+                      ? const SizedBox()
+                      : (Provider.of<RequestReturnProvider>(context)
+                                  .selectedIndex ==
+                              2)
+                          ? const SizedBox()
+                          : const SizedBox(),
+                ],
+              ),
       ),
+    );
+  }
+
+  Widget _buildPointCouponArea() {
+    return Container(
+      width: ScreenUtil().screenWidth,
+      padding: EdgeInsets.fromLTRB(25.toWidth, 10.toWidth, 0, 10.toWidth),
+      color: ShownyStyle.mainPurple,
+      child: Row(
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                width: ScreenUtil().screenWidth * .3,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/icons/shopping/point.png',
+                      width: 16.toWidth,
+                    ),
+                    SizedBox(width: 10.toWidth),
+                    Text(
+                      '포인트',
+                      style: ShownyStyle.overline(color: ShownyStyle.white),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '8407 P',
+                      style: ShownyStyle.overline(
+                          color: ShownyStyle.white, weight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 8.toWidth),
+              SizedBox(
+                width: ScreenUtil().screenWidth * .3,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/icons/shopping/coupon.png',
+                      width: 16.toWidth,
+                    ),
+                    SizedBox(width: 10.toWidth),
+                    Text(
+                      '마이쿠폰',
+                      style: ShownyStyle.overline(color: ShownyStyle.white),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '15',
+                      style: ShownyStyle.overline(
+                          color: ShownyStyle.white, weight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const Spacer(),
+          CupertinoButton(
+            onPressed: () {},
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '자세히 보기',
+                  style: ShownyStyle.overline(color: ShownyStyle.white),
+                ),
+                SizedBox(width: 4.5.toWidth),
+                Image.asset(
+                  'assets/icons/shopping/right_arrow.png',
+                  width: 10.toWidth,
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOrderStateArea(Data myShopping) {
+    return Container(
+      margin:
+          EdgeInsets.symmetric(vertical: 14.toWidth, horizontal: 24.toWidth),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _orderStateItem(
+            title: tr("order_list_page.order_list"),
+            count: '-',
+            icon: 'assets/icons/shopping/order_list.png',
+          ),
+          _orderStateItem(
+            title: tr("my_shopping.payment"),
+            count: myShopping.chargeCnt ?? '',
+            icon: 'assets/icons/shopping/purchase.png',
+          ),
+          _orderStateItem(
+            title: tr("order_list_page.purchase_confirmation"),
+            count: myShopping.confirmedCnt ?? '',
+            icon: 'assets/icons/shopping/purchase_confirm.png',
+          ),
+          _orderStateItem(
+            title: '배송중',
+            count: myShopping.deliveryCnt ?? '',
+            icon: 'assets/icons/shopping/shipping.png',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _orderStateItem(
+      {required String title, required String count, required String icon}) {
+    return Container(
+      width: 70.toWidth,
+      padding: EdgeInsets.symmetric(vertical: 5.toWidth),
+      child: Column(
+        children: [
+          Image.asset(
+            icon,
+            width: 28.toWidth,
+          ),
+          Text(
+            title,
+            style: ShownyStyle.overline(color: ShownyStyle.black),
+          ),
+          Text(
+            count,
+            style: ShownyStyle.caption(
+                color: ShownyStyle.black, weight: FontWeight.w700),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _divider() {
+    return Container(
+      width: double.infinity,
+      height: 1,
+      color: ShownyStyle.gray040,
     );
   }
 }

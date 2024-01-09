@@ -10,7 +10,7 @@ import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/screen/email_sign_up2_screen.dart';
 import 'package:showny/screens/intro/screen/input_additional_information_screen.dart';
 import 'package:showny/screens/intro/screen/input_essential_information_screen.dart';
-import 'package:showny/screens/root_screen.dart';
+import 'package:showny/screens/main/root_screen.dart';
 
 class LoginProvider with ChangeNotifier {
   State state;
@@ -40,7 +40,7 @@ class LoginProvider with ChangeNotifier {
               primaryLabel: tr("intro_popup.not_found_style_button1"),
               secondaryLabel: tr("intro_popup.not_found_style_button2"),
               primaryRoute: InputAdditionalInfoScreen.routeName,
-              secondaryRoute: RootScreen.routeName,
+              secondaryRoute: MainLanding.routeName,
               primaryAction: () {},
             );
             showAlertDialog(state.context, dialog: dialog);
@@ -48,7 +48,7 @@ class LoginProvider with ChangeNotifier {
             Constants.currentUser = userModel;
             Navigator.pushNamedAndRemoveUntil(
               state.context,
-              RootScreen.routeName,
+              MainLanding.routeName,
               (route) => false,
             );
           }

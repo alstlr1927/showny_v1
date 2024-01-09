@@ -3,18 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:showny/screens/intro/screen/email_login_v2.dart';
 import 'package:showny/screens/intro/screen/email_sign_up_v2.dart';
 import 'package:showny/screens/intro/screen/input_additional_information_screen.dart';
-import 'package:showny/screens/intro/screen/email_login_screen.dart';
 import 'package:showny/screens/intro/screen/login_screen.dart';
-import 'package:showny/screens/intro/screen/login_screen_v2.dart';
-import 'package:showny/screens/intro/screen/sign_up_screen.dart';
-import 'package:showny/screens/root_screen.dart';
-import 'package:showny/screens/tabs/profile/other_profile_screen.dart';
-import 'package:showny/screens/tabs/profile/profile_screen.dart';
+import 'package:showny/screens/main/root_screen.dart';
+import 'package:showny/screens/profile/other_profile_screen.dart';
+import 'package:showny/screens/profile/profile_screen.dart';
 
 const pageTransitionDuration = Duration(milliseconds: 400);
 
 final routes = {
-  RootScreen.routeName: (context) => const RootScreen(),
+  MainLanding.routeName: (context) => const MainLanding(),
 
   // Login
   LoginScreen.routeName: (context) => const LoginScreen(),

@@ -16,7 +16,7 @@ import 'package:showny/screens/intro/provider/email_login_provider.dart';
 import 'package:showny/screens/intro/screen/email_sign_up_screen.dart';
 import 'package:showny/screens/intro/screen/email_sign_up_v2.dart';
 import 'package:showny/screens/intro/screen/find_password_screen.dart';
-import 'package:showny/screens/root_screen.dart';
+import 'package:showny/screens/main/root_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/validator.dart';
@@ -251,7 +251,7 @@ class _EmailLoginV2State extends State<EmailLoginV2> {
 
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (builder) => const RootScreen()),
+                MaterialPageRoute(builder: (builder) => const MainLanding()),
                 (route) => false);
             debugPrint('DEBUG: tab skip login button');
           },

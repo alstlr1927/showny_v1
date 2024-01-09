@@ -14,7 +14,7 @@ import 'package:showny/screens/intro/screen/email_sign_up_v2.dart';
 import 'package:showny/screens/intro/screen/input_additional_information_screen.dart';
 import 'package:showny/screens/intro/screen/input_essential_information_screen.dart';
 import 'package:showny/screens/intro/screen/sign_up_screen.dart';
-import 'package:showny/screens/root_screen.dart';
+import 'package:showny/screens/main/root_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginPopupScreen extends StatefulWidget {
@@ -67,7 +67,7 @@ class _LoginPopupScreen extends State<LoginPopupScreen> {
               primaryLabel: tr("intro_popup.not_found_style_button1"),
               secondaryLabel: tr("intro_popup.not_found_style_button2"),
               primaryRoute: InputAdditionalInfoScreen.routeName,
-              secondaryRoute: RootScreen.routeName,
+              secondaryRoute: MainLanding.routeName,
               primaryAction: () {},
             );
             showAlertDialog(context, dialog: dialog);
@@ -75,7 +75,7 @@ class _LoginPopupScreen extends State<LoginPopupScreen> {
             Constants.currentUser = userModel;
             Navigator.pushNamedAndRemoveUntil(
               context,
-              RootScreen.routeName,
+              MainLanding.routeName,
               (route) => false,
             );
           }
