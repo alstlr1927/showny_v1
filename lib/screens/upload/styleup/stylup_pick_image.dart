@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
-import 'package:showny/screens/upload/providers/styleup_pick_provider.dart';
+import 'package:showny/screens/upload/styleup/providers/styleup_pick_provider.dart';
+import 'package:showny/screens/upload/styleup/stylup_input_info.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
@@ -34,7 +38,18 @@ class _StylupPickImageState extends State<StylupPickImage> {
                 scrolledUnderElevation: 0,
                 actions: [
                   ShownyButton(
-                    onPressed: () {},
+                    onPressed: prov.selectedFiles.isEmpty
+                        ? null
+                        : () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StyleupInputInfo(
+                                    fileList: prov.selectedFiles,
+                                    type: 'img',
+                                  ),
+                                ));
+                          },
                     option: ShownyButtonOption.text(
                       text: '다음',
                       theme: ShownyButtonTextTheme.black,
@@ -45,7 +60,7 @@ class _StylupPickImageState extends State<StylupPickImage> {
               ),
               body: Column(
                 children: [
-                  _buildSeletedArea(),
+                  _buildSeletedArea(ctx),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 8.toWidth),
                     child: Row(
@@ -185,11 +200,34 @@ class _StylupPickImageState extends State<StylupPickImage> {
         });
   }
 
-  Widget _buildSeletedArea() {
-    return Container(
-      width: ScreenUtil().screenWidth,
-      height: ScreenUtil().screenWidth,
-      color: Colors.amber,
+  Widget _buildSeletedArea(BuildContext context) {
+    StyleupPickProvider pickProv =
+        Provider.of<StyleupPickProvider>(context, listen: false);
+
+    return GestureDetector(
+      onTap: () async {
+        ImagePicker picker = ImagePicker();
+        // XFile? pickFile = await picker.pickImage(source: ImageSource.gallery);
+        List<XFile> pickFiles = await picker.pickMultiImage();
+        if (pickFiles.isEmpty) return;
+        pickProv.setSelectFile(pickFiles);
+      },
+      child: Container(
+        width: ScreenUtil().screenWidth,
+        height: ScreenUtil().screenWidth,
+        color: Colors.white,
+        child: pickProv.selectedFiles.isEmpty
+            ? Center(
+                child: Icon(
+                  Icons.add,
+                  size: 40.toWidth,
+                ),
+              )
+            : Image.file(
+                File(pickProv.selectedFiles.first.path),
+                fit: BoxFit.cover,
+              ),
+      ),
     );
   }
 }

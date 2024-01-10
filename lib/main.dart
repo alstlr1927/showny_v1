@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,8 @@ import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/routes.dart';
 import 'package:showny/screens/intro/provider/login_provider.dart';
 import 'package:showny/screens/intro/screen/login_screen.dart';
+import 'package:showny/screens/shop/store/providers/store_detail_filter_provider.dart';
+import 'package:showny/screens/shop/store/providers/store_search_provider.dart';
 import 'package:showny/screens/tabs/profile/my_shop/provider/report_provider.dart';
 import 'package:showny/screens/tabs/profile/other_profile_tab2_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
@@ -69,6 +72,7 @@ Future<void> main() async {
 }
 
 var formatter = NumberFormat("#,###");
+var eventBus = EventBus();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -116,6 +120,15 @@ class MyApp extends StatelessWidget {
         ),
         prod.ChangeNotifierProvider(
           create: (context) => GetMyProfileProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => StoreSearchProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => StoreDetailFilterProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => GetStoreCartListProvider(),
         ),
       ],
       child: ScreenUtilInit(

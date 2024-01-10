@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 enum FileType { image, video }
@@ -11,13 +12,20 @@ class StyleupPickProvider with ChangeNotifier {
   List<AssetEntity> imageList = [];
   List<AssetEntity> videoList = [];
 
-  File? selectedFile;
+  List<XFile> selectedFiles = [];
+  // File? selectedFile;
 
   FileType fileType = FileType.image;
 
   // image / video
   bool get multiMode => _multiMode;
   bool _multiMode = false;
+
+  void setSelectFile(List<XFile> files) {
+    selectedFiles.clear();
+    selectedFiles = [...files];
+    notifyListeners();
+  }
 
   Future<void> _getGalleryImages() async {
     imageList.clear();

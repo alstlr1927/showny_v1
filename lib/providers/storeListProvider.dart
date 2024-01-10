@@ -10,12 +10,9 @@ class StoreListProvider extends ChangeNotifier {
 
   StoreOrderListResponse? get brandResponse => _brandResponse;
 
-
   bool _isBrandSearchLoading = true;
 
-
   bool getIsBrandSearchLoading() => _isBrandSearchLoading;
-
 
   setIsBrandSearchLoading(bool value) {
     _isBrandSearchLoading = value;
@@ -24,11 +21,13 @@ class StoreListProvider extends ChangeNotifier {
 
   getBrandSearch(String memNo, BuildContext context) {
     UserProvider userProvider =
-    Provider.of<UserProvider>(context, listen: false);
+        Provider.of<UserProvider>(context, listen: false);
     if (!_isBrandSearchLoading) {
       setIsBrandSearchLoading(true);
     }
-    ApiService().fetchStoreOrderList(memNo: userProvider.user.memNo).then((getBrandSearchSuccess) {
+    ApiService()
+        .fetchStoreOrderList(memNo: userProvider.user.memNo)
+        .then((getBrandSearchSuccess) {
       if (getBrandSearchSuccess!.success!) {
         _brandResponse = getBrandSearchSuccess;
         setIsBrandSearchLoading(false);

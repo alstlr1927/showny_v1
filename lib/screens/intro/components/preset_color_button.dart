@@ -29,7 +29,7 @@ class PresetColorButton extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100.0), // Adjust as needed
+              shape: BoxShape.circle,
               border: Border.all(
                 color: isSelected ? Colors.black : Colors.transparent,
                 width: 1.0, // Border width

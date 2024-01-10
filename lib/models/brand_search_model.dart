@@ -11,9 +11,9 @@ class BrandResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'success': success,
-        'data': List<dynamic>.from(data.map((x) => x.toJson())),
-      };
+    'success': success,
+    'data': List<dynamic>.from(data.map((x) => x.toJson())),
+  };
 }
 
 class BrandData {
@@ -21,8 +21,7 @@ class BrandData {
   String cateNm;
   String brandImgUrl;
 
-  BrandData(
-      {required this.cateCd, required this.cateNm, required this.brandImgUrl});
+  BrandData({required this.cateCd, required this.cateNm, required this.brandImgUrl});
 
   factory BrandData.fromJson(Map<String, dynamic> json) {
     return BrandData(
@@ -33,8 +32,8 @@ class BrandData {
   }
 
   Map<String, dynamic> toJson() => {
-        'cateCd': cateCd,
-        'cateNm': cateNm,
-        'brandImgUrl': brandImgUrl,
-      };
+    'cateCd': cateCd,
+    'cateNm': cateNm,
+    'brandImgUrl': brandImgUrl,
+  };
 }

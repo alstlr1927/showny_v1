@@ -78,6 +78,7 @@ dependencies:
   flutter_cache_manager: ^3.3.1
   octo_image: ^2.0.0
   mime: ^1.0.4
+  event_bus: ^2.0.0
   
 
 dependency_overrides:

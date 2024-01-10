@@ -63,27 +63,29 @@ class _ProductContainerState extends State<ProductContainer> {
                   ),
                 ),
                 SizedBox(width: 12.toWidth),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      goodsDataList[0].brandNm,
-                      style: ShownyStyle.overline(color: Colors.white),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      goodsDataList[0].goodsNm,
-                      style: ShownyStyle.overline(
-                          color: Colors.white, weight: FontWeight.w700),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        goodsDataList[0].brandNm,
+                        style: ShownyStyle.overline(color: Colors.white),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        goodsDataList[0].goodsNm,
+                        style: ShownyStyle.overline(
+                            color: Colors.white, weight: FontWeight.w700),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
-                const Spacer(),
+                // const Spacer(),
                 CupertinoButton(
                   onPressed: () {
                     showMoreItem(context, itemInfo: goodsDataList);

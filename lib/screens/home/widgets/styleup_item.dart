@@ -300,13 +300,15 @@ class _StyleUpItemState extends State<StyleUpItem> {
   Widget _buildDescription(StyleUpItemProvider prov) {
     UserProvider userProv = Provider.of<UserProvider>(context, listen: false);
     return LayoutBuilder(builder: (context, layout) {
+      double min = layout.maxHeight - (ScreenUtil().screenWidth * 4 / 3);
+
       return Align(
         alignment: Alignment.bottomCenter,
         child: Container(
           // height: 190.toWidth,
-          width: double.infinity,
+          // width: double.infinity,
           constraints: BoxConstraints(
-            minHeight: layout.maxHeight - (ScreenUtil().screenWidth * 4 / 3),
+            minHeight: min <= 0 ? 0 : min,
           ),
           padding: EdgeInsets.all(16.toWidth),
           decoration: const BoxDecoration(

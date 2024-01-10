@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showny/components/lazy_indexed_stack/lazy_indexed_stack.dart';
 import 'package:showny/components/page_route.dart';
-import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/intro/screen/login_popup_screen.dart';
 import 'package:showny/screens/home/home_screen.dart';
 import 'package:showny/screens/main/providers/main_landing_provider.dart';
 import 'package:showny/screens/main/types/types.dart';
 
 import 'package:showny/screens/profile/profile_screen.dart';
-import 'package:showny/screens/upload/stylup_pick_image.dart';
 import 'package:showny/screens/upload/upload_wrapper.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
