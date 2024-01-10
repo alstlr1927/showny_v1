@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 import 'package:showny/screens/home/widgets/styleup_item.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:video_player/video_player.dart';
 
 class StyleupScreen extends StatefulWidget {
@@ -47,6 +49,7 @@ class _StyleupScreenState extends State<StyleupScreen> {
   // String? reportValue;
 
   late PageController pageController;
+  // VideoPlayerController? videoController;
 
   // void tapSeeMoreButton(
   //     {required String styleupNo,
@@ -225,6 +228,7 @@ class _StyleupScreenState extends State<StyleupScreen> {
   void dispose() {
     super.dispose();
     pageController.dispose();
+    // videoController?.dispose();
   }
 
   @override
@@ -256,28 +260,84 @@ class _StyleupScreenState extends State<StyleupScreen> {
     // Future<void>? initVideoController;
 
     return Scaffold(
-      body: PageView(
-        controller: pageController,
-        scrollDirection: Axis.vertical,
-        physics: const CustomScrollPhysics(),
-        children: List.generate(
-          styleupList.length,
-          (index) => StyleUpItem(
-            isMain: widget.isMain,
-            styleUp: styleupList[index],
-            index: index,
-            afterFollowAction: widget.afterFollowAction,
-            afterUpDownAction: widget.afterUpDownAction,
-            onSelect: () {
-              pageController.animateToPage(
-                index + 1,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeIn,
+      backgroundColor: Colors.black,
+
+      body: Stack(
+        children: [
+          PageView.builder(
+            allowImplicitScrolling: true,
+            controller: pageController,
+            scrollDirection: Axis.vertical,
+            physics: const CustomScrollPhysics(),
+            itemCount: styleupList.length,
+            itemBuilder: (context, index) {
+              return StyleUpItem(
+                isMain: widget.isMain,
+                styleUp: styleupList[index],
+                index: index,
+                afterFollowAction: widget.afterFollowAction,
+                afterUpDownAction: widget.afterUpDownAction,
+                onSelect: () {
+                  pageController.animateToPage(
+                    index + 1,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeIn,
+                  );
+                },
               );
             },
           ),
-        ),
+          if (!widget.isMain) ...{
+            SafeArea(
+              child: SizedBox(
+                height: 48.toWidth,
+                child: Row(
+                  children: [
+                    CupertinoButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          },
+        ],
       ),
+      // body: PageView(
+      //   controller: pageController,
+      //   scrollDirection: Axis.vertical,
+      //   physics: const CustomScrollPhysics(),
+      //   children: List.generate(styleupList.length, (index) {
+      //     // if (styleupList[index].type != 'img') {
+      //     //   videoController = VideoPlayerController.networkUrl(
+      //     //       Uri.parse(styleupList[index].videoUrl));
+
+      //     //   videoController?.setLooping(true);
+      //     //   videoController?.initialize().then((value) {});
+      //     // }
+
+      //     return StyleUpItem(
+      //       isMain: widget.isMain,
+      //       styleUp: styleupList[index],
+      //       index: index,
+      //       afterFollowAction: widget.afterFollowAction,
+      //       afterUpDownAction: widget.afterUpDownAction,
+      //       onSelect: () {
+      //         pageController.animateToPage(
+      //           index + 1,
+      //           duration: const Duration(milliseconds: 300),
+      //           curve: Curves.easeIn,
+      //         );
+      //       },
+      //     );
+      //   }),
+      // ),
     );
 
     // return Scaffold(

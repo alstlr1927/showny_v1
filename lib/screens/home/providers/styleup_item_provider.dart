@@ -37,6 +37,9 @@ class StyleUpItemProvider with ChangeNotifier {
   // cur img idx
   int curImgIdx = 0;
 
+  // video initiallize
+  bool isInitializing = true;
+
   void setExtendedText() {
     isExtendedText = !isExtendedText;
     notifyListeners();
@@ -324,10 +327,10 @@ class StyleUpItemProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    if (videoController != null) {
-      videoController?.pause();
-      videoController?.dispose();
-    }
+    // if (videoController != null) {
+    //   videoController?.pause();
+    //   videoController?.dispose();
+    // }
 
     super.dispose();
   }
@@ -336,8 +339,10 @@ class StyleUpItemProvider with ChangeNotifier {
     if (state.widget.styleUp.type != 'img') {
       videoController = VideoPlayerController.networkUrl(
           Uri.parse(state.widget.styleUp.videoUrl));
+
       videoController?.setLooping(true);
       videoController?.initialize().then((value) {
+        isInitializing = false;
         notifyListeners();
       });
     }

@@ -64,7 +64,6 @@ class _StyleUpItemState extends State<StyleUpItem> {
       create: (_) => StyleUpItemProvider(this),
       builder: (context, _) {
         return Consumer<StyleUpItemProvider>(builder: (context, prov, child) {
-          print('reubild');
           return Material(
             child: Column(
               children: [
@@ -73,7 +72,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
                     builder: (context, layout) {
                       return Stack(
                         children: [
-                          _buildStyleUp(prov),
+                          _buildStyleUp(prov, layout),
                           _buildOptions(prov, layout),
                           _buildSelectLayer(prov),
                           _buildProductLayer(prov),
@@ -104,7 +103,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
     );
   }
 
-  Widget _buildStyleUp(StyleUpItemProvider prov) {
+  Widget _buildStyleUp(StyleUpItemProvider prov, BoxConstraints layout) {
     return Stack(
       children: [
         if (isImage) ...{
@@ -129,6 +128,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
                   StyleUpVideo(
                     videoUrl: widget.styleUp.videoUrl,
                     videoController: prov.videoController!,
+                    layout: layout,
                   ),
                 },
                 _buildDescription(prov),
@@ -232,10 +232,18 @@ class _StyleUpItemState extends State<StyleUpItem> {
   Widget _buildSelectArea(
       {required int selected, required String type, required int areaIdx}) {
     bool isSelect = selected == areaIdx;
-    TextStyle selectedStyle = const TextStyle(
-        fontSize: 44, color: Colors.white, fontWeight: FontWeight.w800);
-    TextStyle unSelectedStyle = const TextStyle(
-        fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold);
+    TextStyle selectedStyle = TextStyle(
+        fontSize: ScreenUtil().setSp(44),
+        color: Colors.white,
+        fontWeight: FontWeight.w800,
+        leadingDistribution: TextLeadingDistribution.even,
+        fontFamily: 'pretendard');
+    TextStyle unSelectedStyle = TextStyle(
+        fontSize: ScreenUtil().setSp(36),
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        leadingDistribution: TextLeadingDistribution.even,
+        fontFamily: 'pretendard');
     return Flexible(
       flex: 1,
       child: Container(
@@ -259,11 +267,16 @@ class _StyleUpItemState extends State<StyleUpItem> {
         width: prov.virtualPadAreaDiameter,
         height: prov.virtualPadAreaDiameter,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: prov.selected != 0
-              ? Colors.white.withOpacity(.6)
-              : Colors.white.withOpacity(.3),
-        ),
+            shape: BoxShape.circle,
+            color: prov.selected != 0
+                ? Colors.white.withOpacity(.6)
+                : Colors.white.withOpacity(.3),
+            gradient: RadialGradient(
+              colors: [
+                Colors.white.withOpacity(.3),
+                Colors.white,
+              ],
+            )),
       ),
     );
   }

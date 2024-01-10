@@ -1,58 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:showny/components/keep_alive_widget/keep_alive_widget.dart';
 
-import 'package:showny/screens/home/providers/feed_provider.dart';
+import 'package:showny/screens/home/providers/home_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/screens/home/battle_screen.dart';
 import 'package:showny/screens/home/styleup_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
-class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<FeedScreen> createState() => _FeedScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen>
+class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  late FeedProvider provider;
+  late HomeProvider provider;
 
   @override
   void initState() {
     super.initState();
-    provider = FeedProvider(this);
+    provider = HomeProvider(this);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<FeedProvider>.value(
+    return ChangeNotifierProvider<HomeProvider>.value(
         value: provider,
         builder: (context, _) {
-          return Consumer<FeedProvider>(builder: (ctx, prov, child) {
+          return Consumer<HomeProvider>(builder: (ctx, prov, child) {
             return Stack(
               children: [
-                PageView(
+                PageView.builder(
+                  itemCount: 2,
                   physics: prov.getPhysics(),
                   controller: prov.pageController,
                   onPageChanged: prov.setTab,
-                  children: [
-                    StyleupScreen(
-                      initIndex: 0,
-                      styleupList: prov.styleUpList,
-                      isMain: true,
-                      afterFollowAction: prov.setStyleUpFollow,
-                      afterUpDownAction: prov.setStyleUpDown,
-                    ),
-                    BattleScreen(
-                      battleList: prov.styleUpBattle?.battleItemList ?? [],
-                      onPageChanged: prov.setCurrentBattle,
-                      title: prov.styleUpBattle?.title ?? '',
-                      battleRound: prov.styleUpBattle?.round ?? '',
-                      isMain: true,
-                    ),
-                  ],
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return KeepAliveWidget(
+                        child: StyleupScreen(
+                          initIndex: 0,
+                          styleupList: prov.styleUpList,
+                          isMain: true,
+                          afterFollowAction: prov.setStyleUpFollow,
+                          afterUpDownAction: prov.setStyleUpDown,
+                        ),
+                      );
+                    } else {
+                      return BattleScreen(
+                        battleList: prov.styleUpBattle?.battleItemList ?? [],
+                        onPageChanged: prov.setCurrentBattle,
+                        title: prov.styleUpBattle?.title ?? '',
+                        battleRound: prov.styleUpBattle?.round ?? '',
+                        isMain: true,
+                      );
+                    }
+                  },
                 ),
+                // PageView(
+                //   physics: prov.getPhysics(),
+                //   controller: prov.pageController,
+                //   onPageChanged: prov.setTab,
+                //   children: [
+                //     StyleupScreen(
+                //       initIndex: 0,
+                //       styleupList: prov.styleUpList,
+                //       isMain: true,
+                //       afterFollowAction: prov.setStyleUpFollow,
+                //       afterUpDownAction: prov.setStyleUpDown,
+                //     ),
+                //     BattleScreen(
+                //       battleList: prov.styleUpBattle?.battleItemList ?? [],
+                //       onPageChanged: prov.setCurrentBattle,
+                //       title: prov.styleUpBattle?.title ?? '',
+                //       battleRound: prov.styleUpBattle?.round ?? '',
+                //       isMain: true,
+                //     ),
+                //   ],
+                // ),
                 SafeArea(
                   child: Padding(
                     padding: EdgeInsets.only(top: 15.toWidth),

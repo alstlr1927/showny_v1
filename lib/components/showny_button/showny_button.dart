@@ -39,20 +39,20 @@ class ShownyButtonState extends State<ShownyButton>
   }
 }
 
-class _BaseButton extends StatefulWidget {
+class BaseButton extends StatefulWidget {
   final Function? onPressed;
   final Widget child;
 
-  _BaseButton({
+  BaseButton({
     this.onPressed,
     required this.child,
   });
 
   @override
-  _BaseButtonState createState() => _BaseButtonState();
+  BaseButtonState createState() => BaseButtonState();
 }
 
-class _BaseButtonState extends State<_BaseButton>
+class BaseButtonState extends State<BaseButton>
     with SingleTickerProviderStateMixin {
   final double pressedOpacity = 0.5;
   final Duration kFadeOutDuration = Duration(milliseconds: 50);
@@ -77,7 +77,7 @@ class _BaseButtonState extends State<_BaseButton>
   }
 
   @override
-  void didUpdateWidget(_BaseButton old) {
+  void didUpdateWidget(BaseButton old) {
     super.didUpdateWidget(old);
     _setTween();
   }
@@ -187,7 +187,7 @@ class _FillState extends State<_Fill> with SingleTickerProviderStateMixin {
     TextStyle textStyle = style.textStyle
         .copyWith(color: enabled ? theme.textColor : theme.disabledTextColor);
 
-    return _BaseButton(
+    return BaseButton(
         onPressed: enabled
             ? () async {
                 setProgress(inProgress: true);
@@ -310,7 +310,7 @@ class _LineState extends State<_Line> with SingleTickerProviderStateMixin {
     String? text = widget.option.text;
     TextStyle textStyle = style.textStyle
         .copyWith(color: enabled ? theme.textColor : theme.disabledTextColor);
-    return _BaseButton(
+    return BaseButton(
         onPressed: enabled
             ? () async {
                 setProgress(inProgress: true);
@@ -428,7 +428,7 @@ class _IconState extends State<_Icon> with SingleTickerProviderStateMixin {
     double size = style.size;
     Color backgroundColor = enabled ? theme.textColor : theme.disabledTextColor;
     IconData? icon = widget.option.icon;
-    return _BaseButton(
+    return BaseButton(
         onPressed: enabled
             ? () async {
                 setProgress(inProgress: true);
@@ -517,7 +517,7 @@ class _TextState extends State<_Text> with SingleTickerProviderStateMixin {
     TextStyle textStyle = style.textStyle
         .copyWith(color: enabled ? theme.textColor : theme.disabledTextColor);
 
-    return _BaseButton(
+    return BaseButton(
         onPressed: enabled
             ? () async {
                 setProgress(inProgress: true);

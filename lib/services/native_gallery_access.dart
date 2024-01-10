@@ -4,13 +4,14 @@ import 'package:flutter/services.dart';
 class NativeGalleryAccess {
   static const platform = MethodChannel('showny_channel/gallery');
 
-  static Future<String?> openGallery() async {
+  Future<List<String>> getGalleryImages() async {
     try {
-      final String? result = await platform.invokeMethod('openGallery');
-      return result;
+      final List<String> images =
+          await platform.invokeListMethod('getGalleryImages') as List<String>;
+      return images;
     } on PlatformException catch (e) {
-      debugPrint('Failed to open gallery : ${e.message}');
-      return null;
+      debugPrint('get Gallery error : $e');
+      return [];
     }
   }
 }

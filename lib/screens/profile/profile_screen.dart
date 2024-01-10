@@ -8,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/intro/screen/login_screen.dart';
+import 'package:showny/screens/profile/temp_setting.dart';
 import 'package:showny/screens/profile/widgets/tab_profile_bookmark.dart';
 import 'package:showny/screens/profile/widgets/tab_profile_feed.dart';
 import 'package:showny/screens/tabs/profile/my_profile/screens/profile_follower_screen.dart';
@@ -284,6 +285,11 @@ class _ProfileScreenState extends State<ProfileScreen>
           minSize: 0.0,
           padding: EdgeInsets.symmetric(horizontal: 7.toWidth),
           onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TempSetting(),
+                ));
             // Navigator.push(
             //     context, PageRouteBuilderRightLeft(
             //     child: const SettingPage()));

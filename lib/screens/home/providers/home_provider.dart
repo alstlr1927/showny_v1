@@ -9,7 +9,7 @@ import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart'
 import 'package:showny/screens/home/battle_screen.dart';
 import 'package:showny/screens/home/styleup_screen.dart';
 
-class FeedProvider with ChangeNotifier {
+class HomeProvider with ChangeNotifier {
   State state;
 
   // late List<Widget> homeMenu;
@@ -36,7 +36,7 @@ class FeedProvider with ChangeNotifier {
 
   ScrollPhysics getPhysics() {
     if (curPageIdx == 0 || isBattleSelected) {
-      return const CustomScrollPhysics();
+      return const ClampingScrollPhysics();
     }
     return const NeverScrollableScrollPhysics();
   }
@@ -163,7 +163,7 @@ class FeedProvider with ChangeNotifier {
     super.dispose();
   }
 
-  FeedProvider(this.state) {
+  HomeProvider(this.state) {
     pageController = PageController();
     tabController = TabController(length: 2, vsync: state as TickerProvider);
     // homeMenu = [

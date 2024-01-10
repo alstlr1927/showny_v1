@@ -331,6 +331,10 @@ class ShownyButtonTextTheme extends ShownyButtonTheme {
       textColor: ShownyButtonColors.button_text_gray,
       disabledTextColor: ShownyButtonColors.button_disabled_text_gray);
 
+  static ShownyButtonTextTheme get black => ShownyButtonTextTheme(
+      textColor: ShownyButtonColors.button_text_black,
+      disabledTextColor: ShownyButtonColors.button_disabled_text_gray);
+
   static ShownyButtonTextTheme get violet => ShownyButtonTextTheme(
       textColor: ShownyButtonColors.button_text_violet,
       disabledTextColor: ShownyButtonColors.button_disabled_text_gray);
@@ -397,6 +401,7 @@ class ShownyButtonColors {
   static const button_text_white = ShownyStyle.white;
   static const button_text_gray = ShownyStyle.gray070;
   static const button_text_deepGray = ShownyStyle.gray090;
+  static const button_text_black = ShownyStyle.black;
   static const button_text_violet = ShownyStyle.mainPurple;
   static const button_text_negationRed = ShownyStyle.mainRed;
 

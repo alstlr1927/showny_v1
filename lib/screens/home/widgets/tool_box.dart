@@ -52,32 +52,33 @@ class _ToolBoxState extends State<ToolBox> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (widget.upDownType != 0) ...{},
-          CupertinoButton(
-            minSize: 0.0,
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (widget.upDownType == 1) {
-                widget.tapUpDown(2);
-              } else {
-                widget.tapUpDown(1);
-              }
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              child: widget.upDownType == 1
-                  ? Image.asset(
-                      'assets/icons/home/styleup_up.png',
-                      width: 28.0,
-                      height: 28.0,
-                    )
-                  : Image.asset(
-                      'assets/icons/home/styleup_down.png',
-                      width: 28.0,
-                      height: 28.0,
-                    ),
+          if (widget.upDownType != 0) ...{
+            CupertinoButton(
+              minSize: 0.0,
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                if (widget.upDownType == 1) {
+                  widget.tapUpDown(2);
+                } else {
+                  widget.tapUpDown(1);
+                }
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                child: widget.upDownType == 1
+                    ? Image.asset(
+                        'assets/icons/home/styleup_up.png',
+                        width: 28.0,
+                        height: 28.0,
+                      )
+                    : Image.asset(
+                        'assets/icons/home/styleup_down.png',
+                        width: 28.0,
+                        height: 28.0,
+                      ),
+              ),
             ),
-          ),
+          },
           SizedBox(height: interval),
           if (widget.tapTag != null && widget.isVideo == false) ...{
             CupertinoButton(

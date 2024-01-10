@@ -1,14 +1,18 @@
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class StyleUpVideo extends StatefulWidget {
   final String videoUrl;
   final VideoPlayerController videoController;
+  final BoxConstraints layout;
   const StyleUpVideo({
     super.key,
     required this.videoUrl,
     required this.videoController,
+    required this.layout,
   });
 
   @override
@@ -38,48 +42,62 @@ class _StyleUpVideoState extends State<StyleUpVideo> {
 
   @override
   Widget build(BuildContext context) {
-    return VisibilityDetector(
-      key: Key(widget.videoUrl),
-      onVisibilityChanged: (info) {
-        if (info.visibleFraction == 0) {
-          widget.videoController.pause();
-        } else {
-          widget.videoController.play();
-        }
-      },
-      child: Column(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                if (widget.videoController.value.isPlaying) {
-                  widget.videoController.pause();
-                } else {
-                  widget.videoController.play();
-                }
-              },
-              child: VideoPlayer(widget.videoController),
-            ),
-          ),
-          // Slider(
-          //   value: _isSeeking
-          //       ? _controller.value.position.inSeconds.toDouble()
-          //       : _controller.value.position.inSeconds.toDouble(),
-          //   min: 0,
-          //   max: _controller.value.duration.inSeconds.toDouble(),
-          //   onChanged: (value) {
-          //     _isSeeking = true;
-          //     _controller.seekTo(Duration(seconds: value.toInt()));
-          //     setState(() {});
-          //   },
-          //   onChangeEnd: (value) {
-          //     setState(() {
-          //       _isSeeking = false;
-          //       _controller.seekTo(Duration(seconds: value.toInt()));
-          //     });
-          //   },
-          // ),
-        ],
+    double videoWid = widget.videoController.value.size.width;
+    double videoHei = widget.videoController.value.size.height;
+    return SizedBox(
+      width: widget.layout.maxWidth,
+      height: widget.layout.maxHeight,
+      child: VisibilityDetector(
+        key: Key(widget.videoUrl),
+        onVisibilityChanged: (info) {
+          if (info.visibleFraction == 0) {
+            widget.videoController.pause();
+          } else {
+            widget.videoController.play();
+          }
+        },
+        child: GestureDetector(
+          onTap: () {
+            print('ratio : ${widget.videoController.value.aspectRatio}');
+            if (widget.videoController.value.isPlaying) {
+              widget.videoController.pause();
+            } else {
+              widget.videoController.play();
+            }
+          },
+          child: videoHei <= videoWid
+              ? Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        width: widget.layout.maxWidth,
+                        height: widget.layout.maxHeight - 10,
+                        color: Colors.black,
+                      ),
+                    ),
+                    AspectRatio(
+                      aspectRatio: widget.videoController.value.aspectRatio,
+                      child: VideoPlayer(
+                        widget.videoController,
+                      ),
+                    ),
+                  ],
+                )
+              // : VideoPlayer(widget.videoController),
+              : AspectRatio(
+                  aspectRatio: widget.videoController.value.aspectRatio,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: widget.videoController.value.size.width,
+                      height: widget.videoController.value.size.height,
+                      child: VideoPlayer(widget.videoController),
+                    ),
+                  ),
+                ),
+        ),
       ),
     );
   }

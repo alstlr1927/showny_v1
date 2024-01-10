@@ -69,6 +69,9 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
       setState(() {
         this.styleupList = styleupList;
       });
+      // for (var i in styleupList) {
+      //   print('type : ${i.upDownType}');
+      // }
     }, (error) {});
 
     ApiHelper.shared.getMinishopProductList(widget.memNo, 2, 0,

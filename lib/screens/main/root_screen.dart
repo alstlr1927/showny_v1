@@ -7,12 +7,13 @@ import 'package:showny/components/lazy_indexed_stack/lazy_indexed_stack.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/intro/screen/login_popup_screen.dart';
-import 'package:showny/screens/home/feed_screen.dart';
+import 'package:showny/screens/home/home_screen.dart';
 import 'package:showny/screens/main/providers/main_landing_provider.dart';
 import 'package:showny/screens/main/types/types.dart';
 
 import 'package:showny/screens/profile/profile_screen.dart';
-import 'package:showny/screens/tabs/upload/upload_screen.dart';
+import 'package:showny/screens/upload/stylup_pick_image.dart';
+import 'package:showny/screens/upload/upload_wrapper.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
@@ -103,7 +104,7 @@ class MainLandingState extends State<MainLanding> {
                             child: LazyIndexedStack(
                               index: prov.currentType.pageIndex,
                               children: [
-                                const FeedScreen(),
+                                const HomeScreen(),
                                 const SizedBox(),
                                 const SizedBox(),
                                 const SizedBox(),
@@ -241,33 +242,6 @@ class MainLandingState extends State<MainLanding> {
   }
 }
 
-class BottomTabButton extends StatelessWidget {
-  const BottomTabButton({
-    super.key,
-    required this.icon,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final String icon;
-  final bool isSelected;
-  final Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Bounceable(
-      onTap: onTap,
-      child: Image.asset(
-        isSelected
-            ? 'assets/icons/${icon}_black.png'
-            : 'assets/icons/$icon.png',
-        height: 24.0,
-        width: 24.0,
-      ),
-    );
-  }
-}
-
 class _BottomActions extends StatefulWidget {
   const _BottomActions({Key? key}) : super(key: key);
 
@@ -387,12 +361,16 @@ class __BottomActionsState extends State<_BottomActions> {
                             behavior: HitTestBehavior.translucent,
                             onTap: () {
                               HapticFeedback.lightImpact();
+                              MainLandingType prev = prov.currentType;
+                              prov.setPage(type: MainLandingType.upload);
                               Navigator.push(
                                 context,
                                 FadePageRoute(
-                                  builder: (context) => const UploadScreen(),
+                                  builder: (context) => const UploadWrapper(),
                                 ),
-                              );
+                              ).then((value) {
+                                prov.setPage(type: prev);
+                              });
                               // if (isActive) {
                               //   scrollToTop();
                               // } else {

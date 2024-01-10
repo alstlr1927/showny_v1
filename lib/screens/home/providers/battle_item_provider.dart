@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
 import 'package:showny/models/battle_vote_response_model.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
-import 'package:showny/screens/home/providers/feed_provider.dart';
+import 'package:showny/screens/home/providers/home_provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
 
 import '../widgets/battle_item.dart';
@@ -17,7 +17,7 @@ class BattleItemProvider with ChangeNotifier {
   bool isSelectMode = false;
   int focused = -1;
 
-  late FeedProvider homeProv;
+  late HomeProvider homeProv;
 
   // animation
   late AnimationController _animation;
@@ -193,7 +193,7 @@ class BattleItemProvider with ChangeNotifier {
   }
 
   BattleItemProvider(this.state) {
-    homeProv = Provider.of<FeedProvider>(state.context, listen: false);
+    homeProv = Provider.of<HomeProvider>(state.context, listen: false);
     _initSetting();
   }
 
