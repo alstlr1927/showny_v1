@@ -18,4 +18,8 @@ class GoodsOptionModel {
     data['value'] = value;
     return data;
   }
+
+  GoodsOptionModel.clone(GoodsOptionModel source)
+      : name = source.name,
+        value = List<String>.from(source.value);
 }

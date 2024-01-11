@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:showny/components/keep_alive_widget/keep_alive_widget.dart';
+import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 
 import 'package:showny/screens/home/providers/home_provider.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +51,16 @@ class _HomeScreenState extends State<HomeScreen>
                         ),
                       );
                     } else {
+                      // return PageView.builder(
+                      //   physics: const CustomScrollPhysics(),
+                      //   scrollDirection: Axis.vertical,
+                      //   itemCount: 8,
+                      //   itemBuilder: (context, i) {
+                      //     return Container(
+                      //       color: Colors.green[100 + 100 * i],
+                      //     );
+                      //   },
+                      // );
                       return BattleScreen(
                         battleList: prov.styleUpBattle?.battleItemList ?? [],
                         onPageChanged: prov.setCurrentBattle,

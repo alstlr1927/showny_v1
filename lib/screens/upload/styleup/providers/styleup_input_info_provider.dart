@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:showny/api/new_api/api_helper.dart';
 import 'package:showny/models/store_good_model.dart';
+import 'package:showny/models/style.dart';
+import 'package:showny/models/user_model.dart';
+import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/intro/components/preset_color_button.dart';
+import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/upload/styleup/styleup_item_tag.dart';
+import 'package:showny/screens/upload/styleup/styleup_style_tag.dart';
 import 'package:showny/screens/upload/styleup/stylup_input_info.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class StyleupInputInfoProvider with ChangeNotifier {
   State<StyleupInputInfo> state;
@@ -20,6 +28,9 @@ class StyleupInputInfoProvider with ChangeNotifier {
   String tagText = '';
   List<String> selectedStyleTags = [];
 
+  // style tag
+  List<Style> selectedStyles = [];
+
   // main color
   List<PresetColor> selectedColors = [];
 
@@ -27,7 +38,7 @@ class StyleupInputInfoProvider with ChangeNotifier {
   Season? selectedSeason;
 
   // item tag
-  List<List<StoreGoodModel?>?>? goodsDataList;
+  List<List<StoreGoodModel?>?> goodsDataList = [];
 
   // carousel idx
   int viewIdx = 0;
@@ -49,6 +60,11 @@ class StyleupInputInfoProvider with ChangeNotifier {
 
   void setTagText(String val) {
     tagText = val;
+    notifyListeners();
+  }
+
+  void setStyles(List<Style> styles) {
+    selectedStyles = [...styles];
     notifyListeners();
   }
 
@@ -97,16 +113,142 @@ class StyleupInputInfoProvider with ChangeNotifier {
 
   void onClickItemTagTile() {
     String type = state.widget.type;
+    print('styleup info  : ${goodsDataList.first.hashCode}');
+
     Navigator.push(
         state.context,
         MaterialPageRoute(
           builder: (context) => StyleupItemTag(
             onCompleted: (v) {},
-            type: state.widget.type,
-            goodsDataList: goodsDataList,
+            type: type,
+            goodsDataList: deepCopyGoodsDataList(goodsDataList),
             imgFileList: type == 'img' ? state.widget.fileList : [],
           ),
         ));
+  }
+
+  void onClickStyleTagTile() {
+    Navigator.push(
+        state.context,
+        MaterialPageRoute(
+          builder: (context) => StyleupStyleTag(
+            selectedStyles: selectedStyles,
+            onSelected: setStyles,
+          ),
+        ));
+  }
+
+  void handleUploadButton() {
+    UserProvider userProvider =
+        Provider.of<UserProvider>(state.context, listen: false);
+    final user = userProvider.user;
+    if (state.widget.type == 'img') {
+      // img upload
+      // uploadImage(user);
+    } else {
+      // video upload
+      // uploadVideo(user);
+    }
+
+    Navigator.pop(state.context);
+    Navigator.pop(state.context);
+  }
+
+  void uploadImage(UserModel user) {
+    debugPrint("API - 스타일업(이미지) 업로드 시작");
+    final colorIds =
+        selectedColors.map((color) => color.apiId.toString()).toList();
+    final seasonID = ((selectedSeason?.index ?? 0) + 1).toString();
+
+    debugPrint("""
+            imageUrlList - ${["./test1.png", "./test2.png", "./test3.png"]}
+            memNo - ${user.memNo}
+            description - $description
+            styles - ${user.memNo}
+            colors - $colorIds 
+            season - $seasonID
+              """);
+
+    ApiHelper.shared.insertStyleupImage(state.widget.fileList, user.memNo,
+        description, user.memNo, colorIds, seasonID, goodsDataList, (success) {
+      debugPrint("API - 스타일업 업로드 성공");
+      final dialog = ShownyDialog(
+        message: "스타일업 게시물이 업로드되었습니다.",
+        primaryLabel: "확인",
+        primaryAction: () {
+          // TODO on Complete
+          // widget.onCompleted();
+          Navigator.of(state.context).pop();
+          Navigator.of(state.context).pop();
+        },
+      );
+      showDialog(
+        context: state.context,
+        builder: (context) => dialog,
+      );
+    }, (error) {
+      debugPrint(error);
+      const dialog = ShownyDialog(
+        message: "업로드에 실패하였습니다.",
+        primaryLabel: "확인",
+      );
+      showDialog(
+        context: state.context,
+        builder: (context) => dialog,
+      );
+    });
+  }
+
+  void uploadVideo(UserModel user) {
+    debugPrint("API - 스타일업(비디오) 업로드 시작");
+    final colorIds =
+        selectedColors.map((color) => color.apiId.toString()).toList();
+    final seasonID = ((selectedSeason?.index ?? 0) + 1).toString();
+
+    ApiHelper.shared.insertStyleupVideo(
+        state.widget.fileList.first.path,
+        state.widget.thumb,
+        user.memNo,
+        description,
+        user.memNo,
+        colorIds,
+        seasonID,
+        goodsDataList, (success) {
+      debugPrint("API - 스타일업 업로드 성공");
+      final dialog = ShownyDialog(
+        message: "스타일업 게시물이 업로드되었습니다.",
+        primaryLabel: "확인",
+        primaryAction: () {
+          // TODO on Complete
+          // widget.onCompleted();
+          Navigator.of(state.context).pop();
+          Navigator.of(state.context).pop();
+        },
+      );
+      showDialog(
+        context: state.context,
+        builder: (context) => dialog,
+      );
+    }, (error) {
+      debugPrint(error);
+      const dialog = ShownyDialog(
+        message: "업로드에 실패하였습니다.2",
+        primaryLabel: "확인",
+      );
+      showDialog(
+        context: state.context,
+        builder: (context) => dialog,
+      );
+    });
+  }
+
+  List<List<StoreGoodModel?>?> deepCopyGoodsDataList(
+      List<List<StoreGoodModel?>?> original) {
+    return original
+        .map((list) => list
+            ?.map((item) => item != null ? StoreGoodModel.clone(item) : null)
+            .toList())
+        .toList();
   }
 
   @override
@@ -133,11 +275,10 @@ class StyleupInputInfoProvider with ChangeNotifier {
       for (int i = 0; i < fileCount; i++) {
         List<StoreGoodModel?> goodsDataListTemp =
             List<StoreGoodModel?>.filled(6, null);
-        goodsDataList![i] = goodsDataListTemp;
+        goodsDataList[i] = goodsDataListTemp;
       }
     } else {
       goodsDataList = List.filled(1, List<StoreGoodModel?>.filled(6, null));
     }
-    print('print : ${goodsDataList}');
   }
 }

@@ -14,11 +14,13 @@ import 'package:showny/utils/showny_util.dart';
 
 class StyleupInputInfo extends StatefulWidget {
   final List<XFile> fileList;
+  final XFile? thumb;
   final String type;
   const StyleupInputInfo({
     super.key,
     required this.fileList,
     required this.type,
+    this.thumb,
   });
 
   @override
@@ -72,7 +74,7 @@ class _StyleupInputInfoState extends State<StyleupInputInfo> {
                     _buildDivider(),
                     _buildTileButton(
                       title: '스타일 선택',
-                      onPressed: () {},
+                      onPressed: provider.onClickStyleTagTile,
                     ),
                     _buildDivider(),
                     _buildStyleTag(),
@@ -98,53 +100,63 @@ class _StyleupInputInfoState extends State<StyleupInputInfo> {
             Provider.of<StyleupInputInfoProvider>(context, listen: false);
         return ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: AspectRatio(
-            aspectRatio: 3 / 4,
-            child: Stack(
-              children: [
-                CarouselSlider(
-                  items: widget.fileList.map((xfile) {
-                    return Builder(builder: (context) {
-                      return Container(
-                        color: Colors.grey.withOpacity(0.5),
-                        child: Image.file(File(xfile.path), fit: BoxFit.cover),
-                      );
-                    });
-                  }).toList(),
-                  options: CarouselOptions(
-                    aspectRatio: 3 / 4,
-                    viewportFraction: 1,
-                    enableInfiniteScroll: false,
-                    onPageChanged: (index, reason) {
-                      infoProv.changeIdx(index);
-                    },
-                  ),
-                ),
-                Consumer<StyleupInputInfoProvider>(
-                    builder: (context, prov, child) {
-                  return Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: widget.fileList.asMap().entries.map((entry) {
-                        return Container(
-                          width: 8.toWidth,
-                          height: 8.toWidth,
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 4.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(
-                                prov.viewIdx == entry.key ? 1.0 : 0.3),
+          child: widget.type == 'img'
+              ? AspectRatio(
+                  aspectRatio: 3 / 4,
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                        items: widget.fileList.map((xfile) {
+                          return Builder(builder: (context) {
+                            return Container(
+                              color: Colors.grey.withOpacity(0.5),
+                              child: Image.file(File(xfile.path),
+                                  fit: BoxFit.cover),
+                            );
+                          });
+                        }).toList(),
+                        options: CarouselOptions(
+                          aspectRatio: 3 / 4,
+                          viewportFraction: 1,
+                          enableInfiniteScroll: false,
+                          onPageChanged: (index, reason) {
+                            infoProv.changeIdx(index);
+                          },
+                        ),
+                      ),
+                      Consumer<StyleupInputInfoProvider>(
+                          builder: (context, prov, child) {
+                        return Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:
+                                widget.fileList.asMap().entries.map((entry) {
+                              return Container(
+                                width: 8.toWidth,
+                                height: 8.toWidth,
+                                margin: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 4.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white.withOpacity(
+                                      prov.viewIdx == entry.key ? 1.0 : 0.3),
+                                ),
+                              );
+                            }).toList(),
                           ),
                         );
-                      }).toList(),
-                    ),
-                  );
-                }),
-              ],
-            ),
-          ),
+                      }),
+                    ],
+                  ),
+                )
+              : AspectRatio(
+                  aspectRatio: 3 / 4,
+                  child: Image.file(
+                    File(widget.thumb!.path),
+                    fit: BoxFit.cover,
+                  ),
+                ),
         );
       }),
     );
@@ -435,26 +447,28 @@ class _StyleupInputInfoState extends State<StyleupInputInfo> {
 
   Widget _buildRegistButton() {
     return SliverToBoxAdapter(
-      child: Column(
-        children: [
-          Text(
-            '아이템 태그 & 스타일 태그로 게시물을 더 많이 노출해 보세요!',
-            style: ShownyStyle.caption(color: ShownyStyle.gray070),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 20.toWidth),
-          ShownyButton(
-            onPressed: () {
-              //
-            },
-            option: ShownyButtonOption.fill(
-              text: '등록',
-              theme: ShownyButtonFillTheme.violet,
-              style: ShownyButtonFillStyle.fullRegular,
+      child: Builder(builder: (context) {
+        StyleupInputInfoProvider prov =
+            Provider.of<StyleupInputInfoProvider>(context, listen: false);
+        return Column(
+          children: [
+            Text(
+              '아이템 태그 & 스타일 태그로 게시물을 더 많이 노출해 보세요!',
+              style: ShownyStyle.caption(color: ShownyStyle.gray070),
+              textAlign: TextAlign.center,
             ),
-          ),
-        ],
-      ),
+            SizedBox(height: 20.toWidth),
+            ShownyButton(
+              onPressed: prov.handleUploadButton,
+              option: ShownyButtonOption.fill(
+                text: '등록',
+                theme: ShownyButtonFillTheme.violet,
+                style: ShownyButtonFillStyle.fullRegular,
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 

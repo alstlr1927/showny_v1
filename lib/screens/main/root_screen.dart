@@ -90,122 +90,123 @@ class MainLandingState extends State<MainLanding> {
             child: Scaffold(
               body: Stack(
                 children: [
-                  Scaffold(
-                    extendBody: false,
-                    body: Column(
-                      children: [
-                        Consumer<MainLandingProvider>(
-                            builder: (ctx, prov, child) {
-                          return Expanded(
-                            child: LazyIndexedStack(
-                              index: prov.currentType.pageIndex,
-                              children: [
-                                const HomeScreen(),
-                                const SizedBox(),
-                                const SizedBox(),
-                                const SizedBox(),
-                                ProfileScreen(),
-                              ],
-                            ),
-                          );
-                        }),
-                        const _BottomActions(),
-                      ],
-                    ),
-                    // bottomNavigationBar: Container(
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //         color: Colors.black.withOpacity(0.04),
-                    //         blurRadius: 8.0,
-                    //         offset: const Offset(0, -4),
-                    //       )
-                    //     ],
-                    //   ),
-                    //   child: SafeArea(
-                    //     child: SizedBox(
-                    //       height: 56,
-                    //       child: Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //         children: [
-                    //           BottomTabButton(
-                    //             icon: "home",
-                    //             isSelected: getTabSelected(0),
-                    //             onTap: () => setState(() => _currentIdx = 0),
-                    //           ),
-                    //           BottomTabButton(
-                    //             icon: "feed",
-                    //             isSelected: getTabSelected(1),
-                    //             onTap: () => setState(() {
-                    //               UserProvider userProvider =
-                    //                   Provider.of<UserProvider>(context,
-                    //                       listen: false);
-                    //               final user = userProvider.user;
-
-                    //               debugPrint(user.memNo);
-                    //               if (user.memNo == "") {
-                    //                 showModalBottomSheet(
-                    //                     context: context,
-                    //                     isScrollControlled: true,
-                    //                     shape: const RoundedRectangleBorder(
-                    //                       borderRadius: BorderRadius.only(
-                    //                         topLeft: Radius.circular(12.0),
-                    //                         topRight: Radius.circular(12.0),
-                    //                       ),
-                    //                     ),
-                    //                     builder: (BuildContext context) {
-                    //                       return const LoginPopupScreen();
-                    //                     });
-                    //                 return;
-                    //               }
-                    //               _currentIdx = 1;
-                    //             }),
-                    //           ),
-                    //           BottomTabButton(
-                    //             icon: "shop",
-                    //             isSelected: getTabSelected(2),
-                    //             onTap: () => setState(() => _currentIdx = 2),
-                    //           ),
-                    //           BottomTabButton(
-                    //             icon: "networking",
-                    //             isSelected: getTabSelected(3),
-                    //             onTap: () => setState(() {
-                    //               UserProvider userProvider =
-                    //                   Provider.of<UserProvider>(context,
-                    //                       listen: false);
-                    //               final user = userProvider.user;
-
-                    //               debugPrint(user.memNo);
-                    //               if (user.memNo == "") {
-                    //                 showModalBottomSheet(
-                    //                     context: context,
-                    //                     isScrollControlled: true,
-                    //                     shape: const RoundedRectangleBorder(
-                    //                       borderRadius: BorderRadius.only(
-                    //                         topLeft: Radius.circular(12.0),
-                    //                         topRight: Radius.circular(12.0),
-                    //                       ),
-                    //                     ),
-                    //                     builder: (BuildContext context) {
-                    //                       return const LoginPopupScreen();
-                    //                     });
-                    //                 return;
-                    //               }
-                    //               _currentIdx = 3;
-                    //             }),
-                    //           ),
-                    //           BottomTabButton(
-                    //             icon: "profile",
-                    //             isSelected: getTabSelected(4),
-                    //             onTap: () => setState(() => _currentIdx = 4),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                  Column(
+                    children: [
+                      Consumer<MainLandingProvider>(
+                          builder: (ctx, prov, child) {
+                        return Expanded(
+                          child: IndexedStack(
+                            index: prov.currentType.pageIndex,
+                            children: [
+                              HomeScreen(),
+                              const SizedBox(),
+                              const SizedBox(),
+                              const SizedBox(),
+                              ProfileScreen(),
+                            ],
+                          ),
+                        );
+                      }),
+                      const _BottomActions(),
+                    ],
                   ),
+                  // Scaffold(
+                  //   extendBody: false,
+                  //   body:
+                  //   // bottomNavigationBar: Container(
+                  //   //   decoration: BoxDecoration(
+                  //   //     color: Colors.white,
+                  //   //     boxShadow: [
+                  //   //       BoxShadow(
+                  //   //         color: Colors.black.withOpacity(0.04),
+                  //   //         blurRadius: 8.0,
+                  //   //         offset: const Offset(0, -4),
+                  //   //       )
+                  //   //     ],
+                  //   //   ),
+                  //   //   child: SafeArea(
+                  //   //     child: SizedBox(
+                  //   //       height: 56,
+                  //   //       child: Row(
+                  //   //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //   //         children: [
+                  //   //           BottomTabButton(
+                  //   //             icon: "home",
+                  //   //             isSelected: getTabSelected(0),
+                  //   //             onTap: () => setState(() => _currentIdx = 0),
+                  //   //           ),
+                  //   //           BottomTabButton(
+                  //   //             icon: "feed",
+                  //   //             isSelected: getTabSelected(1),
+                  //   //             onTap: () => setState(() {
+                  //   //               UserProvider userProvider =
+                  //   //                   Provider.of<UserProvider>(context,
+                  //   //                       listen: false);
+                  //   //               final user = userProvider.user;
+
+                  //   //               debugPrint(user.memNo);
+                  //   //               if (user.memNo == "") {
+                  //   //                 showModalBottomSheet(
+                  //   //                     context: context,
+                  //   //                     isScrollControlled: true,
+                  //   //                     shape: const RoundedRectangleBorder(
+                  //   //                       borderRadius: BorderRadius.only(
+                  //   //                         topLeft: Radius.circular(12.0),
+                  //   //                         topRight: Radius.circular(12.0),
+                  //   //                       ),
+                  //   //                     ),
+                  //   //                     builder: (BuildContext context) {
+                  //   //                       return const LoginPopupScreen();
+                  //   //                     });
+                  //   //                 return;
+                  //   //               }
+                  //   //               _currentIdx = 1;
+                  //   //             }),
+                  //   //           ),
+                  //   //           BottomTabButton(
+                  //   //             icon: "shop",
+                  //   //             isSelected: getTabSelected(2),
+                  //   //             onTap: () => setState(() => _currentIdx = 2),
+                  //   //           ),
+                  //   //           BottomTabButton(
+                  //   //             icon: "networking",
+                  //   //             isSelected: getTabSelected(3),
+                  //   //             onTap: () => setState(() {
+                  //   //               UserProvider userProvider =
+                  //   //                   Provider.of<UserProvider>(context,
+                  //   //                       listen: false);
+                  //   //               final user = userProvider.user;
+
+                  //   //               debugPrint(user.memNo);
+                  //   //               if (user.memNo == "") {
+                  //   //                 showModalBottomSheet(
+                  //   //                     context: context,
+                  //   //                     isScrollControlled: true,
+                  //   //                     shape: const RoundedRectangleBorder(
+                  //   //                       borderRadius: BorderRadius.only(
+                  //   //                         topLeft: Radius.circular(12.0),
+                  //   //                         topRight: Radius.circular(12.0),
+                  //   //                       ),
+                  //   //                     ),
+                  //   //                     builder: (BuildContext context) {
+                  //   //                       return const LoginPopupScreen();
+                  //   //                     });
+                  //   //                 return;
+                  //   //               }
+                  //   //               _currentIdx = 3;
+                  //   //             }),
+                  //   //           ),
+                  //   //           BottomTabButton(
+                  //   //             icon: "profile",
+                  //   //             isSelected: getTabSelected(4),
+                  //   //             onTap: () => setState(() => _currentIdx = 4),
+                  //   //           ),
+                  //   //         ],
+                  //   //       ),
+                  //   //     ),
+                  //   //   ),
+                  //   // ),
+                  // ),
                   isFirstUse
                       ? SizedBox(
                           width: double.infinity,

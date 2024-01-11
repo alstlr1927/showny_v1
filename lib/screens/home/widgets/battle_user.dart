@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/components/error/image_error.dart';
 import 'package:showny/components/showny_image/showny_image.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';

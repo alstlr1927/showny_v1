@@ -49,7 +49,7 @@ class StoreGoodModel {
     this.top = 0,
   }) {
     eventBus.on<StoreGoodModel>().listen((event) {
-      if(event.goodsNo == goodsNo) {
+      if (event.goodsNo == goodsNo) {
         goodsNm = event.goodsNm;
         goodsPrice = event.goodsPrice;
         goodsDiscount = event.goodsDiscount;
@@ -73,7 +73,6 @@ class StoreGoodModel {
   }
 
   factory StoreGoodModel.fromJson(Map<String, dynamic> json) {
-
     var goodsOptionList = (json['optionList'] as List)
         .map((item) => GoodsOptionModel.fromJson(item))
         .toList();
@@ -141,4 +140,30 @@ class StoreGoodModel {
       'top': top,
     };
   }
+
+  StoreGoodModel.clone(StoreGoodModel source)
+      : goodsNo = source.goodsNo,
+        goodsNm = source.goodsNm,
+        goodsPrice = source.goodsPrice,
+        goodsDiscount = source.goodsDiscount,
+        goodsImageUrlList = List<String>.from(source.goodsImageUrlList),
+        brandNm = source.brandNm,
+        brandCd = source.brandCd,
+        brandImgUrl = source.brandImgUrl,
+        isHeart = source.isHeart,
+        heartCount = source.heartCount,
+        reviewCount = source.reviewCount,
+        grade = source.grade,
+        goodsDescription = source.goodsDescription,
+        optionList = source.optionList
+            .map((option) => GoodsOptionModel.clone(option))
+            .toList(),
+        productGuideInfo = source.productGuideInfo,
+        productNoticeInfo = source.productNoticeInfo
+            .map((e) => Map<String, String>.from(e))
+            .toList(),
+        sellerInfo =
+            source.sellerInfo.map((e) => Map<String, String>.from(e)).toList(),
+        left = source.left,
+        top = source.top;
 }

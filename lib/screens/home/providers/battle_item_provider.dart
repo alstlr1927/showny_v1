@@ -17,7 +17,7 @@ class BattleItemProvider with ChangeNotifier {
   bool isSelectMode = false;
   int focused = -1;
 
-  late HomeProvider homeProv;
+  // late HomeProvider homeProv;
 
   // animation
   late AnimationController _animation;
@@ -87,27 +87,27 @@ class BattleItemProvider with ChangeNotifier {
       if (val == 0) {
         StyleupBattleItemModel? copy = await selectLeft();
         if (copy != null) {
-          homeProv.setBattleData(
-            roundNo: state.widget.battleItem.battleRoundNo,
-            copy: copy,
-          );
+          // homeProv.setBattleData(
+          //   roundNo: state.widget.battleItem.battleRoundNo,
+          //   copy: copy,
+          // );
         } else {
           // error
         }
       } else if (val == 1) {
         StyleupBattleItemModel? copy = await selectRight();
         if (copy != null) {
-          homeProv.setBattleData(
-            roundNo: state.widget.battleItem.battleRoundNo,
-            copy: copy,
-          );
+          // homeProv.setBattleData(
+          //   roundNo: state.widget.battleItem.battleRoundNo,
+          //   copy: copy,
+          // );
         } else {
           // error
         }
       }
-      homeProv.setIsBattleSelected(true);
+      // homeProv.setIsBattleSelected(true);
     } else {
-      homeProv.setIsBattleSelected(false);
+      // homeProv.setIsBattleSelected(false);
     }
 
     focused = val;
@@ -175,26 +175,31 @@ class BattleItemProvider with ChangeNotifier {
     if (item.isPoll) {
       if (item.pollTag == 1) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          homeProv.setIsBattleSelected(true);
+          // homeProv.setIsBattleSelected(true);
         });
         selectedLeft();
       } else if (item.pollTag == 2) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          homeProv.setIsBattleSelected(true);
+          // homeProv.setIsBattleSelected(true);
         });
         selectedRight();
       }
     } else {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        homeProv.setIsBattleSelected(false);
+        // homeProv.setIsBattleSelected(false);
       });
       setupLeftAnimation();
     }
   }
 
   BattleItemProvider(this.state) {
-    homeProv = Provider.of<HomeProvider>(state.context, listen: false);
-    _initSetting();
+    // homeProv = Provider.of<HomeProvider>(state.context, listen: false);
+    // _initSetting();
+    _animation = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: state as TickerProvider,
+    );
+    setupLeftAnimation();
   }
 
   void selectedLeft() {

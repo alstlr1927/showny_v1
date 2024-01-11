@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/constants.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class ShownyDialog extends StatelessWidget {
   const ShownyDialog({
@@ -39,9 +41,10 @@ class ShownyDialog extends StatelessWidget {
     return CupertinoButton(
       padding: EdgeInsets.zero,
       child: SizedBox(
-        height: 48.0,
+        height: 48.toWidth,
         child: Center(
-          child: Text(label, style: Constants.defaultTextStyle),
+          child:
+              Text(label, style: ShownyStyle.body2(color: ShownyStyle.black)),
         ),
       ),
       onPressed: () {
@@ -58,28 +61,28 @@ class ShownyDialog extends StatelessWidget {
       shadowColor: Colors.transparent,
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: SizedBox(
-        width: 310,
+        width: 310.toWidth,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 32.0, horizontal: 16.0),
+              padding: EdgeInsets.symmetric(
+                  vertical: 32.toWidth, horizontal: 16.toWidth),
               child: Column(
                 children: [
                   Text(
                     message,
-                    style: Constants.defaultTextStyle,
+                    style: ShownyStyle.body2(color: ShownyStyle.black),
                     textAlign: TextAlign.center,
                   ),
                   if (subMessage != null) const SizedBox(height: 8.0),
                   if (subMessage != null)
                     Text(
                       subMessage!,
-                      style: Constants.textFieldErrorStyle,
+                      style: ShownyStyle.caption(color: ShownyStyle.black),
                       textAlign: TextAlign.center,
                     ),
                 ],
@@ -87,7 +90,7 @@ class ShownyDialog extends StatelessWidget {
             ),
             Container(
               color: const Color(0xFF999999),
-              width: 310.0,
+              width: 310.toWidth,
               height: 1.0,
             ),
             Row(
@@ -107,7 +110,7 @@ class ShownyDialog extends StatelessWidget {
                 if (secondaryLabel != null)
                   Container(
                     width: 1.0,
-                    height: 48.0,
+                    height: 48.toWidth,
                     color: const Color(0xFF999999),
                   ),
                 if (secondaryLabel != null)

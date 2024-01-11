@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:showny/models/goods_data.dart';
+import 'package:showny/models/store_good_model.dart';
+
+import 'package:showny/models/store_good_model.dart';
 
 class DraggableTag extends StatefulWidget {
   final String goodsNm;
   final String price;
   final String size;
   final Function(Offset) onChangePosition;
-  final GoodsData goodsData;
+  final StoreGoodModel goodsData;
   final Size viewSize;
   final bool moveTags;
 

@@ -1,26 +1,23 @@
-import 'dart:io';
-
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/models/store_good_model.dart';
-import 'package:showny/screens/shop/store/store_search_page_screen.dart';
-import 'package:showny/screens/upload/styleup/providers/styleup_item_tag.dart';
+import 'package:showny/screens/upload/styleup/providers/styleup_item_tag_provider.dart';
+import 'package:showny/screens/upload/styleup/widgets/item_tag_carousel.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
 class StyleupItemTag extends StatefulWidget {
   final String type;
-  final List<List<StoreGoodModel?>?>? goodsDataList;
+  final List<List<StoreGoodModel?>?> goodsDataList;
   final Function(List<List<StoreGoodModel?>?>?) onCompleted;
   final List<XFile> imgFileList;
 
   const StyleupItemTag({
     super.key,
     required this.type,
-    this.goodsDataList,
+    required this.goodsDataList,
     required this.onCompleted,
     this.imgFileList = const [],
   });
@@ -30,37 +27,53 @@ class StyleupItemTag extends StatefulWidget {
 }
 
 class _StyleupItemTagState extends State<StyleupItemTag> {
+  late StyleupItemTagProvider provider;
+
+  @override
+  void initState() {
+    super.initState();
+    provider = StyleupItemTagProvider(this);
+    // goodsDataList = [...widget.goodsDataList];
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print('type : ${widget.type}');
-    print('goods : ${widget.goodsDataList}');
-    print('goods : ${widget.imgFileList}');
-    return ChangeNotifierProvider<StyleupItemTagProvider>(
-        create: (_) => StyleupItemTagProvider(this),
+    return ChangeNotifierProvider<StyleupItemTagProvider>.value(
+        value: provider,
         builder: (context, _) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('아이템 태그'),
-              scrolledUnderElevation: 0,
-              actions: [
-                ShownyButton(
-                  option: ShownyButtonOption.text(
-                    text: '완료',
-                    theme: ShownyButtonTextTheme.black,
-                    style: ShownyButtonTextStyle.regular,
+          return Consumer<StyleupItemTagProvider>(
+              builder: (context, prov, child) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('아이템 태그'),
+                scrolledUnderElevation: 0,
+                actions: [
+                  ShownyButton(
+                    option: ShownyButtonOption.text(
+                      text: '완료',
+                      theme: ShownyButtonTextTheme.black,
+                      style: ShownyButtonTextStyle.regular,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 24.toWidth),
-                  _buildImageArea(),
                 ],
               ),
-            ),
-          );
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 24.toWidth),
+                    if (widget.type == 'img') ...{
+                      _buildImageArea(),
+                    },
+                  ],
+                ),
+              ),
+            );
+          });
         });
   }
 
@@ -70,40 +83,43 @@ class _StyleupItemTagState extends State<StyleupItemTag> {
           Provider.of<StyleupItemTagProvider>(context, listen: false);
       return Column(
         children: [
-          CarouselSlider(
-            items: widget.imgFileList.map((xfile) {
-              return Listener(
-                onPointerDown: (event) {
-                  print('x : ${event.localPosition.dx}');
-                  print('y : ${event.localPosition.dy}');
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StoreSearchScreen(
-                          onSelected: (p0) {
-                            //
-                          },
-                        ),
-                      ));
-                },
-                child: Container(
-                  color: Colors.grey.withOpacity(0.5),
-                  child: Image.file(
-                    File(xfile.path),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              );
-            }).toList(),
-            options: CarouselOptions(
-              aspectRatio: 3 / 4,
-              viewportFraction: 1,
-              enableInfiniteScroll: false,
-              onPageChanged: (index, reason) {
-                itemProv.imgIndexChange(index);
-              },
-            ),
+          ItemTagCarouselImageViewer(
+            imgFileList: widget.imgFileList,
+            goodsDataList: itemProv.goodsDataList,
+            initIndex: 0,
+            onChangePageIndex: itemProv.imgIndexChange,
+            onTap: () {
+              itemProv.showItemTagSheet();
+            },
           ),
+          // CarouselSlider(
+          //   items: widget.imgFileList.map((xfile) {
+          //     return GestureDetector(
+          //       onTap: () {
+          //         itemProv.showItemTagSheet();
+          //       },
+          //       onTapDown: (details) {
+          //         debugPrint('x : ${details.localPosition.dx}');
+          //         debugPrint('y : ${details.localPosition.dy}');
+          //       },
+          //       child: Container(
+          //         color: Colors.grey.withOpacity(0.5),
+          //         child: Image.file(
+          //           File(xfile.path),
+          //           fit: BoxFit.cover,
+          //         ),
+          //       ),
+          //     );
+          //   }).toList(),
+          //   options: CarouselOptions(
+          //     aspectRatio: 3 / 4,
+          //     viewportFraction: 1,
+          //     enableInfiniteScroll: false,
+          //     onPageChanged: (index, reason) {
+          //       itemProv.imgIndexChange(index);
+          //     },
+          //   ),
+          // ),
           Consumer<StyleupItemTagProvider>(builder: (context, prov, child) {
             return Align(
               alignment: Alignment.bottomCenter,

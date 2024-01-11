@@ -253,32 +253,18 @@
       "product9_category": "어반드레스"
     }
   },
-  "mini_shop_search": {
+  "search": {
     "hint": "검색어를 입력해주세요.",
     "recent_search": {
       "title": "최근 검색어",
-      "search_1": "프라다",
-      "search_2": "나이키",
-      "search_3": "메종마르지엘라",
-      "search_4": "51percent",
-      "no_recent_search": "최근 검색 없음"
+      "no_recent_search": "최근 검색어 없음"
     },
     "popular_search": {
       "title": "인기 검색어",
-      "popular_1": "여름 샌들",
-      "popular_2": "ZARA",
-      "popular_3": "BOTTEGA VENETA",
-      "popular_4": "CHANEL",
-      "popular_5": "adidas(아디다스)",
-      "popular_6": "51percent",
-      "popular_7": "H&M",
-      "popular_8": "COS",
-      "popular_9": "유니클로",
-      "popular_10": "닥터마틴",
       "no_popular_searches": "인기 검색어 없음"
     }
   },
-  "mini_shop_search2": {
+  "search2": {
     "hint": "검색어를 입력해주세요.",
     "search_result": "검색한 결과 64건",
     "no_results_found": "검색된 결과가 없습니다."
@@ -289,15 +275,6 @@
     "see_more_brands": "상품 랭킹 리스트",
     "most_sold_products": "가장 많이 판매된 상품을 확인해 보세요.",
     "brand_list": "브랜드 리스트"
-  },
-  "details": {
-    "product_description": "상품 설명",
-    "review": "후기",
-    "inquiry": "문의",
-    "delivery_return": "배송/반품/고시",
-    "product_inquiry": "전체 상품 문의",
-    "contactUs": "문의하기",
-    "purchase": "구매하기"
   },
   "my_shopping": {
     "quantity": "수량",
@@ -323,6 +300,8 @@
     "delivery_fee": "배송비",
     "amount_payment": "결제 금액",
     "request_return": "반품 신청",
+    "return_details_breakdown": "반품 상세 내역",
+    "reason_for_return": "반품 사유",
     "buyer_responsibility": "구매자 책임사유",
     "seller_responsibility": "판매자 책임사유",
     "return_success": "반품이 정상적으로 접수되었습니다.",
@@ -398,6 +377,7 @@
     "change_id": "아이디 변경",
     "double_check": "중복확인",
     "check": "변경",
+    "confirm": "확인",
     "id_change_success": "아이디 변경이 완료되었습니다.",
     "find_password": "비밀번호 찾기",
     "change_password": "비밀번호 변경",
@@ -491,6 +471,13 @@
     "battle": "아웃핏 배틀 코리아 N차 배틀 N강전",
     "battle_list": "배틀 리스트"
   },
+  "battle_list": {
+    "battle_list": "배틀 리스트",
+    "entire_battle" : "전체 배틀",
+    "ongoing_battle" : "진행중인 배틀",
+    "voted_battle" : "투표한 배틀",
+    "ended_battle" : "종료된 배틀"
+  },
   "profile_screen": {
     "profile": "프로필",
     "use_it_after_registering": "회원가입 후 사용이 가능합니다.",
@@ -532,33 +519,14 @@
       "sales_history_value": "8"
     },
     "product_catalogue": {
-      "headline": "님이 판매중인 상품",
-      "brand": {
-        "brand_1": "팔렛",
-        "brand_3": "어반드레스"
-      },
-      "title": {
-        "title_1": "[젤라비 PICK] 스포츠 클럽 풋볼 져지 블랙",
-        "title_2": "여 모노그램 로고 반팔티 셔츠 J218885",
-        "title_3": "BACK RIBBON SQUARE Short-sl..."
-      },
-      "price": {
-        "price_1": "53,100 원",
-        "price_2": "72,090 원",
-        "price_3": "33,600 원"
-      }
+      "headline": "님이 판매중인 상품"
     },
     "seller_feed": {
       "headline": "님의 피드",
       "see_more": "더보기",
       "like": "좋아요",
       "comments": "댓글",
-      "purchase": "구매하기",
-      "description": {
-        "des_1": "디자인은 여전히 예쁘지만 초창기보다 질도 낮아지고 브랜딩에만 급급한느낌... 여전히 좋아하는 브랜드라 더 아쉬워요...",
-        "des_2": "프린팅이 생각보다 선명한 것은 아니네요 그래도 옷의 전체적인 색감이 매우 좋습니다",
-        "des_3": "너무 잘산거같아요 여름에 입어도 괜찮구 ㅎㅎ 바람이 잘통해요"
-      }
+      "purchase": "구매하기"
     },
     "style": "스타일",
     "actual_size_value": "기장 72 어깨 48 가슴 52",
@@ -686,6 +654,7 @@
     "product_purchase_review": "상품 구매 후기"
   },
   "store": {
+    "store": "스토어",
     "tabs": {
       "home": "홈",
       "ranking": "랭킹",
@@ -693,6 +662,39 @@
     },
     "home_title": "배틀 속 이 상품",
     "home_desc": "배틀 참여자들이 착장한 상품들",
+    "search_result": "로 검색한 결과",
+    "search_result_count": "건",
+    "main_category": {
+      "men": "MEN",
+      "women": "WOMEN",
+      "brands": "BRAND"
+    },
+    "sub_category": {
+      "all": "전체",
+      "outer": "아우터",
+      "tops": "상의",
+      "bottoms": "하의",
+      "shoes": "신발",
+      "accessories": "액세서리",
+      "stuff": "잡화"
+    },
+    "dropdown_filter": {
+      "filter1": "추천순",
+      "filter2": "신상품(재임고)순",
+      "filter3": "낮은 가격순",
+      "filter4": "높은 가격순",
+      "filter5": "후기순",
+      "filter6": "판매순"
+    },
+    "details": {
+      "product_description": "상품 설명",
+      "review": "후기",
+      "inquiry": "문의",
+      "delivery_return": "배송/반품/고시",
+      "product_inquiry": "전체 상품 문의",
+      "contactUs": "문의하기",
+      "purchase": "구매하기"
+    },
     "filter": {
       "title": "필터",
       "options": {
@@ -841,26 +843,27 @@
     "delivery_address_list": "배송지 목록",
     "change_delivery_address": "배송지 변경",
     "order_delivery_request_hint": "배송 시 요청사항을 입력해 주세요.",
-    "please_complete_all_form_data": "모든 양식 데이터를 작성해 주세요",
+    "please_complete_all_form_data": "PG 모듈 불러오기를 실패했습니다. error: invalid cors https",
     "shipping_address_not_found": "배송 주소를 찾을 수 없습니다",
     "delivery_address_list_delete_text": "삭제",
     "delivery_address_list_select_text": "선택",
     "delivery_address2": "배송지명",
-    "delivery_address_hint": "우리집^_^'",
+    "delivery_address_hint": "",
     "selected_product_information": "상품정보",
     "selected_product_coupon": "쿠폰 사용",
     "selected_product_discount_text": "원 할인",
     "selected_product_no_discount_text": "0원 할인",
     "earn_points": "포인트 적립",
-    "earn_point_value": "437 원",
-    "quantity_text": "수량 : 1개",
+    "earn_point_value": "0 원",
+    "quantity_text": "수량 : ",
+    "quantity_text2": "개",
     "tier_discount_of_the_month": "이달의 등급 할인",
     "redeem_your_points": "포인트 사용",
     "redeem_point_hint_text": "0 원",
     "maximum_use": "최대 사용",
-    "total_amount": "보유적립금 68,400 원",
+    "total_amount": "보유적립금 0원",
     "discount_total": "할인합계",
-    "discount_value": "10,520 원",
+    "discount_value": "0 원",
     "discount_amount": "할인 금액",
     "payment_info_select_card_company": "카드사를 선택해주세요.",
     "payment_info_select_installment_month": "할부 개월 수를 선택해주세요.",
@@ -899,9 +902,9 @@
     "add_address": "주소 추가",
     "complete": "완료",
     "delivery_address": "배송지명",
-    "house_address": "우리집^_^",
+    "delivery_address_hint": "배송지 주소를 입력해주세요.",
     "name": "이름",
-    "name_hint": "홍길동",
+    "name_hint": "이름을 입력해주세요.",
     "contact": "연락처",
     "phone_number": "전화번호",
     "does_not_exit": "없음",
@@ -921,5 +924,8 @@
   "address_detail": {
     "current_address": "현재 배송지",
     "edit_address": "주소 수정"
+  },
+  "upload_minishop_product": {
+    "sure_to_delete": "이미지 삭제를 하시겠습니까?"
   }
 }

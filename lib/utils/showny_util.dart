@@ -157,3 +157,9 @@ class Device {
     return padding.top > 0 || padding.bottom > 0;
   }
 }
+
+class ShownyUtil {
+  static List<List<T>> deepCopy2DArray<T>(List<List<T>> original) {
+    return original.map((list) => List<T>.from(list)).toList();
+  }
+}

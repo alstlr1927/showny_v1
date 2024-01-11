@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/models/style.dart';
 import 'package:showny/utils/showny_style.dart';

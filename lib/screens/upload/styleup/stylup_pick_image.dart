@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
+import 'package:showny/screens/home/widgets/see_more_action_sheet.dart';
 import 'package:showny/screens/upload/styleup/providers/styleup_pick_provider.dart';
 import 'package:showny/screens/upload/styleup/stylup_input_info.dart';
 import 'package:showny/utils/showny_style.dart';
@@ -46,7 +47,8 @@ class _StylupPickImageState extends State<StylupPickImage> {
                                 MaterialPageRoute(
                                   builder: (context) => StyleupInputInfo(
                                     fileList: prov.selectedFiles,
-                                    type: 'img',
+                                    type: prov.fileType,
+                                    thumb: prov.thumbnail,
                                   ),
                                 ));
                           },
@@ -72,7 +74,7 @@ class _StylupPickImageState extends State<StylupPickImage> {
                             child: Row(
                               children: [
                                 Text(
-                                  prov.getCurFileTypKr(),
+                                  '이미지',
                                   style: ShownyStyle.body2(
                                       color: ShownyStyle.black),
                                 ),
@@ -103,7 +105,7 @@ class _StylupPickImageState extends State<StylupPickImage> {
                               ),
                             ),
                           ],
-                          value: prov.fileType.name,
+                          // value: prov.fileType.name,
                           onChanged: prov.setFileType,
                           menuItemStyleData: const MenuItemStyleData(
                             height: 40,
@@ -206,27 +208,34 @@ class _StylupPickImageState extends State<StylupPickImage> {
 
     return GestureDetector(
       onTap: () async {
-        ImagePicker picker = ImagePicker();
-        // XFile? pickFile = await picker.pickImage(source: ImageSource.gallery);
-        List<XFile> pickFiles = await picker.pickMultiImage();
-        if (pickFiles.isEmpty) return;
-        pickProv.setSelectFile(pickFiles);
+        pickProv.fileSelectBottomSheet();
       },
       child: Container(
         width: ScreenUtil().screenWidth,
         height: ScreenUtil().screenWidth,
         color: Colors.white,
-        child: pickProv.selectedFiles.isEmpty
-            ? Center(
-                child: Icon(
-                  Icons.add,
-                  size: 40.toWidth,
-                ),
-              )
-            : Image.file(
+        child: Builder(builder: (context) {
+          if (pickProv.selectedFiles.isNotEmpty) {
+            if (pickProv.fileType == 'img') {
+              return Image.file(
                 File(pickProv.selectedFiles.first.path),
                 fit: BoxFit.cover,
-              ),
+              );
+            }
+            if (pickProv.fileType == 'video') {
+              return Image.file(
+                File(pickProv.thumbnail!.path),
+                fit: BoxFit.cover,
+              );
+            }
+          }
+          return Center(
+            child: Icon(
+              Icons.add,
+              size: 40.toWidth,
+            ),
+          );
+        }),
       ),
     );
   }
