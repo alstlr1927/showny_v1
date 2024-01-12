@@ -65,12 +65,12 @@ class _BattleItemState extends State<BattleItem> with TickerProviderStateMixin {
                       defaultImgWidth: defaultImgWidth,
                       item: widget.battleItem,
                     ),
-                    // if (prov.focused == 0) ...{
-                    //   BattleUser.left(
-                    //     defaultImgWidth: defaultImgWidth,
-                    //     item: widget.battleItem,
-                    //   ),
-                    // },
+                    if (prov.focused == 0) ...{
+                      BattleUser.left(
+                        defaultImgWidth: defaultImgWidth,
+                        item: widget.battleItem,
+                      ),
+                    },
                     Column(
                       // mainAxisAlignment: MainAxisAlignment.end,
                       children: [

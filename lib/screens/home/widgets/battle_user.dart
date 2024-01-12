@@ -127,11 +127,12 @@ class _BattleUserState extends State<BattleUser> {
                           SizedBox(height: 4.toWidth),
                           LayoutBuilder(
                             builder: (context, layout) {
-                              WidgetsBinding.instance
-                                  .addPersistentFrameCallback((timeStamp) {
-                                rating = pollCnt / (pollCnt + otherPollCnt);
-                                setState(() {});
-                              });
+                              // WidgetsBinding.instance
+                              //     .addPersistentFrameCallback((timeStamp) {
+                              //   rating = pollCnt / (pollCnt + otherPollCnt);
+                              //   setState(() {});
+                              // });
+                              rating = pollCnt / (pollCnt + otherPollCnt);
                               return Row(
                                 children: [
                                   AnimatedContainer(

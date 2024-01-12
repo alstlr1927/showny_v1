@@ -407,7 +407,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
             child: Container(
               width: ScreenUtil().screenWidth,
               height: ScreenUtil().screenHeight,
-              color: Colors.black.withOpacity(.7),
+              color: Colors.transparent,
               child: Stack(
                 children: [
                   ...widget.styleUp.goodsDataList[prov.curImgIdx].map((item) {
