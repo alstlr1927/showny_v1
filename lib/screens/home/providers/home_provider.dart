@@ -5,9 +5,6 @@ import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/models/styleup_battle_model.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
-import 'package:showny/screens/home/battle_screen.dart';
-import 'package:showny/screens/home/styleup_screen.dart';
 
 class HomeProvider with ChangeNotifier {
   State state;
@@ -126,7 +123,6 @@ class HomeProvider with ChangeNotifier {
       (styleupBattleModel) {
         debugPrint("Battle list loaded successfully");
         styleUpBattle = styleupBattleModel;
-        debugPrint(styleupBattleModel.battleItemList.length.toString());
         // styleUpBattle?.battleItemList.first.isPoll = false;
         // styleUpBattle?.battleItemList.first.pollTag = 0;
         // styleUpBattle?.battleItemList[1].isPoll = false;

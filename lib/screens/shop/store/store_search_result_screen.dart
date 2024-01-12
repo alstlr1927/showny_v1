@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/helper/font_helper.dart';
 import 'package:showny/models/brand_search_model.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
@@ -272,7 +271,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Image.asset(
                       'assets/images/bottom_sheet_arrow.png',
                       width: 40,

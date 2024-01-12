@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:showny/models/store_good_model.dart';
 
-import 'package:showny/models/store_good_model.dart';
 import 'package:showny/utils/showny_style.dart';
 
 class DraggableTag extends StatefulWidget {
@@ -48,6 +47,7 @@ class _DraggableTagState extends State<DraggableTag> {
       top: position.dy,
       child: widget.moveTags == true
           ? Draggable(
+              childWhenDragging: Container(),
               feedback: tagWidget(
                 goodsNm: widget.goodsNm,
                 price: widget.price,
@@ -81,45 +81,40 @@ Widget tagWidget({
   required String price,
   required String size,
 }) {
-  return Container(
-    width: 150,
-    padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
-    decoration: BoxDecoration(
-      color: Colors.black.withOpacity(.6),
-      borderRadius: BorderRadius.circular(4),
-      // boxShadow: [
-      //   BoxShadow(
-      //     color: Colors.grey.withOpacity(0.5),
-      //     spreadRadius: 5,
-      //     blurRadius: 7,
-      //     offset: const Offset(0, 3),
-      //   ),
-      // ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          goodsNm,
-          style: ShownyStyle.caption(color: ShownyStyle.gray030),
-          overflow: TextOverflow.ellipsis,
-        ),
-        const SizedBox(height: 2.0),
-        Text(
-          '$price 원',
-          style: ShownyStyle.caption(
-              color: ShownyStyle.gray030, weight: FontWeight.bold),
-        ),
-        if (size != "") const SizedBox(height: 2.0),
-        if (size != "")
+  return Material(
+    color: Colors.transparent,
+    child: Container(
+      width: 130,
+      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(.6),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Text(
-            '$size 사이즈',
-            style: ShownyStyle.caption(
-              color: ShownyStyle.gray030,
-              weight: FontWeight.bold,
-            ),
+            goodsNm,
+            style: ShownyStyle.overline(color: ShownyStyle.gray030),
+            overflow: TextOverflow.ellipsis,
           ),
-      ],
+          const SizedBox(height: 2.0),
+          Text(
+            price,
+            style: ShownyStyle.overline(
+                color: ShownyStyle.gray030, weight: FontWeight.bold),
+          ),
+          if (size != "") const SizedBox(height: 2.0),
+          if (size != "")
+            Text(
+              '$size 사이즈',
+              style: ShownyStyle.overline(
+                color: ShownyStyle.gray030,
+                weight: FontWeight.bold,
+              ),
+            ),
+        ],
+      ),
     ),
   );
 }

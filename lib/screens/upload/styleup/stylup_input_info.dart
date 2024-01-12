@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
+import 'package:showny/models/store_good_model.dart';
+import 'package:showny/models/style.dart';
 import 'package:showny/screens/intro/components/preset_color_button.dart';
 import 'package:showny/screens/upload/styleup/providers/styleup_input_info_provider.dart';
 import 'package:showny/utils/showny_style.dart';
@@ -67,15 +69,9 @@ class _StyleupInputInfoState extends State<StyleupInputInfo> {
                     _buildInputDescription(),
                     _buildEmpty(24),
                     _buildDivider(),
-                    _buildTileButton(
-                      title: '아이템 태그',
-                      onPressed: provider.onClickItemTagTile,
-                    ),
+                    _buildTileButton(isStyle: false),
                     _buildDivider(),
-                    _buildTileButton(
-                      title: '스타일 선택',
-                      onPressed: provider.onClickStyleTagTile,
-                    ),
+                    _buildTileButton(isStyle: true),
                     _buildDivider(),
                     _buildStyleTag(),
                     _buildEmpty(24),
@@ -217,35 +213,76 @@ class _StyleupInputInfoState extends State<StyleupInputInfo> {
   }
 
   Widget _buildTileButton({
-    required String title,
-    VoidCallback? onPressed,
+    required bool isStyle,
   }) {
-    return SliverToBoxAdapter(
-      child: GestureDetector(
-        onTap: onPressed,
-        behavior: HitTestBehavior.translucent,
-        child: Container(
-          padding:
-              EdgeInsets.symmetric(horizontal: 8.toWidth, vertical: 14.toWidth),
-          child: Row(
-            children: [
-              Text(
-                title,
-                style: ShownyStyle.caption(
-                    color: ShownyStyle.black, weight: FontWeight.w700),
-              ),
-              const Spacer(),
-              Image.asset(
-                'assets/icons/upload/right_arrow.png',
-                width: 16.toWidth,
-                height: 16.toWidth,
-                fit: BoxFit.cover,
-              )
-            ],
+    VoidCallback? onPressed;
+    String title = '';
+    String description = '';
+
+    return Consumer<StyleupInputInfoProvider>(builder: (context, prov, child) {
+      if (isStyle) {
+        title = '스타일 선택';
+        onPressed = prov.onClickStyleTagTile;
+        if (prov.selectedStyles.isNotEmpty) {
+          description =
+              '${prov.selectedStyles.first.converToString} 외 ${prov.selectedStyles.length - 1} 건';
+        }
+      } else {
+        title = '아이템 태그';
+        onPressed = prov.onClickItemTagTile;
+        int cnt = 0;
+        for (List<StoreGoodModel?>? i in prov.goodsDataList) {
+          if (i != null) {
+            for (StoreGoodModel? j in i) {
+              if (j != null) {
+                cnt++;
+              }
+            }
+          }
+        }
+        if (cnt >= 1) {
+          description = '$cnt';
+        }
+      }
+      return SliverToBoxAdapter(
+        child: GestureDetector(
+          onTap: onPressed,
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: 8.toWidth, vertical: 14.toWidth),
+            child: Row(
+              children: [
+                Text(
+                  title,
+                  style: ShownyStyle.caption(
+                      color: ShownyStyle.black, weight: FontWeight.w700),
+                ),
+                const Spacer(),
+                if (isStyle) ...{
+                  Text(
+                    description,
+                    style: ShownyStyle.caption(color: ShownyStyle.mainPurple),
+                  ),
+                } else ...{
+                  Text(
+                    description,
+                    style: ShownyStyle.caption(color: ShownyStyle.mainPurple),
+                  ),
+                },
+                SizedBox(width: 4.toWidth),
+                Image.asset(
+                  'assets/icons/upload/right_arrow.png',
+                  width: 16.toWidth,
+                  height: 16.toWidth,
+                  fit: BoxFit.cover,
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildStyleTag() {

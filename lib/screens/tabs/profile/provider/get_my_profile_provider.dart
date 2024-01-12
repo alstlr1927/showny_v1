@@ -20,6 +20,7 @@ class GetMyProfileProvider extends ChangeNotifier {
         (styleupModelList) {
       myStyleupList = List.from(myStyleupList)..addAll(styleupModelList);
       notifyListeners();
+      debugPrint('api call getMyStyleUpList');
     }, (error) {});
   }
 

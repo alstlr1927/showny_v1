@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:showny/constants.dart';
@@ -20,7 +19,7 @@ class ItemTagCarouselImageViewer extends StatefulWidget {
   });
 
   final List<XFile>? imgFileList;
-  final Function()? onTap;
+  final Function(TapUpDetails details)? onTap;
   final List<List<StoreGoodModel?>?> goodsDataList;
   final Function(int) onChangePageIndex;
   final int initIndex;
@@ -91,7 +90,7 @@ class _ItemTagCarouselImageViewerState
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: ((context, constraints) {
-      viewSize = Size(constraints.maxWidth, constraints.maxWidth * (5 / 4));
+      viewSize = Size(constraints.maxWidth, constraints.maxWidth * (4 / 3));
       return Stack(
         children: [
           Stack(
@@ -107,7 +106,8 @@ class _ItemTagCarouselImageViewerState
                       child: Stack(
                         children: [
                           GestureDetector(
-                            onTap: widget.onTap,
+                            onTapUp: widget.onTap,
+                            // onTap: widget.onTap,
                             child: SizedBox(
                               width: viewSize.width,
                               height: viewSize.height,
@@ -173,7 +173,7 @@ class _ItemTagCarouselImageViewerState
                   });
                 }).toList(),
                 options: CarouselOptions(
-                  aspectRatio: 1 / (5 / 4),
+                  aspectRatio: 3 / 4,
                   viewportFraction: 1,
                   enableInfiniteScroll: false,
                   onPageChanged: (index, reason) {

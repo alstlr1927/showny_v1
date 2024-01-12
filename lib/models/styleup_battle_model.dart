@@ -16,11 +16,11 @@ class StyleupBattleModel {
 
   factory StyleupBattleModel.fromJson(Map<String, dynamic> json) {
     debugPrint("StyleupBattleModelStyleupBattleModel Parse");
-    debugPrint(json.toString());
+    // debugPrint(json.toString());
     var battleItemList2 = (json['battleItemList'] as List)
         .map((item) => StyleupBattleItemModel.fromJson(item))
         .toList();
-    debugPrint(battleItemList2.toString());
+    // debugPrint(battleItemList2.toString());
     debugPrint("StyleupBattleModelStyleupBattleModel Parse2");
 
     return StyleupBattleModel(

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/routes.dart';
 import 'package:showny/screens/shop/store/store_search_page_screen.dart';
 import 'package:showny/screens/upload/styleup/styleup_item_tag.dart';
 import 'package:showny/screens/upload/styleup/widgets/select_item_category.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class StyleupItemTagProvider with ChangeNotifier {
   State<StyleupItemTag> state;
 
   int imgIdx = 0;
   List<List<StoreGoodModel?>?> goodsDataList = [];
-  List<List<StoreGoodModel?>?> originGoodsDataList = [];
 
   void imgIndexChange(int val) {
     imgIdx = val;
@@ -22,7 +23,24 @@ class StyleupItemTagProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void showItemTagSheet() {
+  void onClickAddItemBox(int idx) {
+    Navigator.push(
+        state.context,
+        MaterialPageRoute(
+          builder: (context) => StoreSearchScreen(
+            onSelected: (goodsData) {
+              goodsData.left = 0.4;
+              goodsData.top = 0.4;
+              setStoreGoodModel(goodsData, idx);
+            },
+          ),
+        ));
+  }
+
+  void showItemTagSheet(TapUpDetails details) {
+    double width = ScreenUtil().screenWidth - 32.toWidth;
+    double height = width * 4 / 3;
+
     Navigator.push(
         state.context,
         SheetRoute(
@@ -34,8 +52,8 @@ class StyleupItemTagProvider with ChangeNotifier {
                   MaterialPageRoute(
                     builder: (context) => StoreSearchScreen(
                       onSelected: (goodsData) {
-                        goodsData.left = 0.4;
-                        goodsData.top = 0.4;
+                        goodsData.left = details.localPosition.dx / width;
+                        goodsData.top = details.localPosition.dy / height;
                         setStoreGoodModel(goodsData, idx);
                       },
                     ),
@@ -43,42 +61,6 @@ class StyleupItemTagProvider with ChangeNotifier {
             },
           ),
         ));
-
-    // showModalBottomSheet(
-    //   context: state.context,
-    //   builder: (context) => Container(
-    //     width: ScreenUtil().screenWidth,
-    //     height: 430,
-    //     decoration: BoxDecoration(
-    //       color: Colors.white,
-    //       borderRadius: BorderRadius.circular(12),
-    //     ),
-    //     child: Column(
-    //       children: [
-    //         SizedBox(height: 24.toWidth),
-    //         Text(
-    //           '카테고리',
-    //           style: ShownyStyle.body2(
-    //               color: ShownyStyle.black, weight: FontWeight.w700),
-    //         ),
-    //         SizedBox(height: 24.toWidth),
-    //         ...ItemCategory.values
-    //             .asMap()
-    //             .entries
-    //             .map(
-    //               (category) => Container(
-    //                 color: Colors.white,
-    //                 width: 200,
-    //                 alignment: Alignment.center,
-    //                 padding: EdgeInsets.symmetric(vertical: 6.toWidth),
-    //                 child: Text(category.value.convertToString),
-    //               ),
-    //             )
-    //             .superJoin(Container(height: 10.toWidth)),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   @override
@@ -95,8 +77,6 @@ class StyleupItemTagProvider with ChangeNotifier {
 
   StyleupItemTagProvider(this.state) {
     goodsDataList = [...state.widget.goodsDataList];
-    originGoodsDataList = [...state.widget.goodsDataList];
-    print('item tag  : ${goodsDataList.first.hashCode}');
     notifyListeners();
   }
 }

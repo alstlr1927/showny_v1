@@ -7,10 +7,10 @@ import 'package:showny/models/user_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/intro/components/preset_color_button.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
+import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
 import 'package:showny/screens/upload/styleup/styleup_item_tag.dart';
 import 'package:showny/screens/upload/styleup/styleup_style_tag.dart';
 import 'package:showny/screens/upload/styleup/stylup_input_info.dart';
-import 'package:showny/utils/showny_util.dart';
 
 class StyleupInputInfoProvider with ChangeNotifier {
   State<StyleupInputInfo> state;
@@ -107,22 +107,25 @@ class StyleupInputInfoProvider with ChangeNotifier {
     } else {
       selectedSeason = season;
     }
-    print(season);
+
     notifyListeners();
   }
 
   void onClickItemTagTile() {
     String type = state.widget.type;
-    print('styleup info  : ${goodsDataList.first.hashCode}');
 
     Navigator.push(
         state.context,
         MaterialPageRoute(
           builder: (context) => StyleupItemTag(
-            onCompleted: (v) {},
+            onCompleted: (goodsList) {
+              goodsDataList = deepCopyGoodsDataList(goodsList!);
+              notifyListeners();
+            },
             type: type,
             goodsDataList: deepCopyGoodsDataList(goodsDataList),
-            imgFileList: type == 'img' ? state.widget.fileList : [],
+            imgFileList:
+                type == 'img' ? state.widget.fileList : [state.widget.thumb!],
           ),
         ));
   }
@@ -142,16 +145,32 @@ class StyleupInputInfoProvider with ChangeNotifier {
     UserProvider userProvider =
         Provider.of<UserProvider>(state.context, listen: false);
     final user = userProvider.user;
-    if (state.widget.type == 'img') {
-      // img upload
-      // uploadImage(user);
-    } else {
-      // video upload
-      // uploadVideo(user);
-    }
-
-    Navigator.pop(state.context);
-    Navigator.pop(state.context);
+    final dialog = ShownyDialog(
+      message: "스타일업 등록을 완료하시겠습니까?",
+      primaryLabel: "취소",
+      primaryAction: () {},
+      secondaryLabel: '완료',
+      secondaryAction: () {
+        if (state.widget.type == 'img') {
+          // img upload
+          uploadImage(user);
+        } else {
+          // video upload
+          uploadVideo(user);
+        }
+      },
+    );
+    showDialog(
+      context: state.context,
+      builder: (context) => dialog,
+    );
+    // if (state.widget.type == 'img') {
+    //   // img upload
+    //   uploadImage(user);
+    // } else {
+    //   // video upload
+    //   uploadVideo(user);
+    // }
   }
 
   void uploadImage(UserModel user) {
@@ -172,20 +191,17 @@ class StyleupInputInfoProvider with ChangeNotifier {
     ApiHelper.shared.insertStyleupImage(state.widget.fileList, user.memNo,
         description, user.memNo, colorIds, seasonID, goodsDataList, (success) {
       debugPrint("API - 스타일업 업로드 성공");
-      final dialog = ShownyDialog(
-        message: "스타일업 게시물이 업로드되었습니다.",
-        primaryLabel: "확인",
-        primaryAction: () {
-          // TODO on Complete
-          // widget.onCompleted();
-          Navigator.of(state.context).pop();
-          Navigator.of(state.context).pop();
-        },
-      );
-      showDialog(
-        context: state.context,
-        builder: (context) => dialog,
-      );
+      Provider.of<GetMyProfileProvider>(state.context, listen: false)
+          .removeMyStyleupList();
+      Provider.of<GetMyProfileProvider>(state.context, listen: false)
+          .getProfileData(state.context);
+      Provider.of<GetMyProfileProvider>(state.context, listen: false)
+          .getMyStyleupList(state.context);
+      Provider.of<GetMyProfileProvider>(state.context, listen: false)
+          .getMyBookmarkList(state.context);
+
+      Navigator.of(state.context).pop();
+      Navigator.of(state.context).pop();
     }, (error) {
       debugPrint(error);
       const dialog = ShownyDialog(
@@ -207,7 +223,7 @@ class StyleupInputInfoProvider with ChangeNotifier {
 
     ApiHelper.shared.insertStyleupVideo(
         state.widget.fileList.first.path,
-        state.widget.thumb,
+        state.widget.thumb?.path,
         user.memNo,
         description,
         user.memNo,
@@ -215,20 +231,18 @@ class StyleupInputInfoProvider with ChangeNotifier {
         seasonID,
         goodsDataList, (success) {
       debugPrint("API - 스타일업 업로드 성공");
-      final dialog = ShownyDialog(
-        message: "스타일업 게시물이 업로드되었습니다.",
-        primaryLabel: "확인",
-        primaryAction: () {
-          // TODO on Complete
-          // widget.onCompleted();
-          Navigator.of(state.context).pop();
-          Navigator.of(state.context).pop();
-        },
-      );
-      showDialog(
-        context: state.context,
-        builder: (context) => dialog,
-      );
+
+      Provider.of<GetMyProfileProvider>(state.context, listen: false)
+          .removeMyStyleupList();
+      Provider.of<GetMyProfileProvider>(state.context, listen: false)
+          .getProfileData(state.context);
+      Provider.of<GetMyProfileProvider>(state.context, listen: false)
+          .getMyStyleupList(state.context);
+      Provider.of<GetMyProfileProvider>(state.context, listen: false)
+          .getMyBookmarkList(state.context);
+
+      Navigator.of(state.context).pop();
+      Navigator.of(state.context).pop();
     }, (error) {
       debugPrint(error);
       const dialog = ShownyDialog(

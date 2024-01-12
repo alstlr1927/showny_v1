@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:showny/screens/upload/battle/select_battle.dart';
 import 'package:showny/screens/upload/styleup/stylup_pick_image.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
@@ -50,21 +51,7 @@ class _UploadWrapperState extends State<UploadWrapper> {
             index: curIdx,
             children: [
               const StylupPickImage(),
-              Scaffold(
-                appBar: AppBar(
-                  title: const Text('배틀'),
-                  scrolledUnderElevation: 0,
-                ),
-                body: Container(
-                  color: Colors.red[100],
-                  child: Center(
-                    child: Text(
-                      '배틀',
-                      style: ShownyStyle.title(),
-                    ),
-                  ),
-                ),
-              ),
+              const SelectBattle(),
               Scaffold(
                 appBar: AppBar(
                   title: const Text('미니샵'),
