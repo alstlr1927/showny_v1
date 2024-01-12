@@ -26,13 +26,13 @@ class BattleItemProvider with ChangeNotifier {
   late Animation<Offset> positionA;
   late Animation<Offset> positionB;
 
-  Future<StyleupBattleItemModel?> selectLeft() async {
+  Future selectLeft() async {
     UserProvider userProvider =
         Provider.of<UserProvider>(state.context, listen: false);
     final user = userProvider.user;
     StyleupBattleItemModel item = state.widget.battleItem;
 
-    ApiHelper.shared.selectStyleupBattleItem(
+    await ApiHelper.shared.selectStyleupBattleItem(
       state.widget.battleItem.battleRoundNo,
       item.styleup1.styleupNo,
       item.styleup2.styleupNo,
@@ -41,26 +41,26 @@ class BattleItemProvider with ChangeNotifier {
         StyleupBattleItemModel copy = state.widget.battleItem.copyWith(
           isPoll: true,
           pollTag: 1,
-          style1PollCnt: battleVoteResponse.style1PollCnt + 1,
+          style1PollCnt: battleVoteResponse.style1PollCnt,
           style2PollCnt: battleVoteResponse.style2PollCnt,
         );
-        return copy;
+        homeProv.setBattleData(
+          roundNo: state.widget.battleItem.battleRoundNo,
+          copy: copy,
+        );
+        homeProv.setIsBattleSelected(true);
       },
-      (error) {
-        return null;
-      },
+      (error) {},
     );
-
-    return null;
   }
 
-  Future<StyleupBattleItemModel?> selectRight() async {
+  Future selectRight() async {
     UserProvider userProvider =
         Provider.of<UserProvider>(state.context, listen: false);
     final user = userProvider.user;
     StyleupBattleItemModel item = state.widget.battleItem;
 
-    ApiHelper.shared.selectStyleupBattleItem(
+    await ApiHelper.shared.selectStyleupBattleItem(
       state.widget.battleItem.battleRoundNo,
       item.styleup2.styleupNo,
       item.styleup1.styleupNo,
@@ -70,42 +70,26 @@ class BattleItemProvider with ChangeNotifier {
           isPoll: true,
           pollTag: 2,
           style1PollCnt: battleVoteResponse.style1PollCnt,
-          style2PollCnt: battleVoteResponse.style2PollCnt + 1,
+          style2PollCnt: battleVoteResponse.style2PollCnt,
         );
-        return copy;
-      },
-      (error) {
-        return null;
-      },
-    );
 
-    return null;
+        homeProv.setBattleData(
+          roundNo: state.widget.battleItem.battleRoundNo,
+          copy: copy,
+        );
+        homeProv.setIsBattleSelected(true);
+      },
+      (error) {},
+    );
   }
 
   Future setFocused(int val) async {
     if (val != -1) {
       if (val == 0) {
-        StyleupBattleItemModel? copy = await selectLeft();
-        if (copy != null) {
-          homeProv.setBattleData(
-            roundNo: state.widget.battleItem.battleRoundNo,
-            copy: copy,
-          );
-        } else {
-          // error
-        }
+        await selectLeft();
       } else if (val == 1) {
-        StyleupBattleItemModel? copy = await selectRight();
-        if (copy != null) {
-          homeProv.setBattleData(
-            roundNo: state.widget.battleItem.battleRoundNo,
-            copy: copy,
-          );
-        } else {
-          // error
-        }
+        await selectRight();
       }
-      homeProv.setIsBattleSelected(true);
     } else {
       homeProv.setIsBattleSelected(false);
     }
@@ -169,9 +153,6 @@ class BattleItemProvider with ChangeNotifier {
     );
 
     StyleupBattleItemModel item = state.widget.battleItem;
-    print('isPoll : ${item.isPoll}');
-    print('pollTag : ${item.pollTag}');
-
     if (item.isPoll) {
       if (item.pollTag == 1) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -208,6 +189,7 @@ class BattleItemProvider with ChangeNotifier {
     positionB =
         Tween<Offset>(begin: const Offset(.6, 0), end: const Offset(.6, 0))
             .animate(_animation);
+    notifyListeners();
   }
 
   void selectedRight() {
@@ -221,6 +203,7 @@ class BattleItemProvider with ChangeNotifier {
     positionB =
         Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, 0))
             .animate(_animation);
+    notifyListeners();
   }
 
   void setupLeftAnimation() {

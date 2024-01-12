@@ -25,7 +25,7 @@ class _StyleUpVideoState extends State<StyleUpVideo> {
   @override
   void initState() {
     super.initState();
-
+    print('link : ${widget.videoUrl}');
     // _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
     // _controller.setLooping(true);
     // _controller.initialize().then((_) {

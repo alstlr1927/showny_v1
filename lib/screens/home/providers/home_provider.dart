@@ -127,6 +127,10 @@ class HomeProvider with ChangeNotifier {
         debugPrint("Battle list loaded successfully");
         styleUpBattle = styleupBattleModel;
         debugPrint(styleupBattleModel.battleItemList.length.toString());
+        // styleUpBattle?.battleItemList.first.isPoll = false;
+        // styleUpBattle?.battleItemList.first.pollTag = 0;
+        // styleUpBattle?.battleItemList[1].isPoll = false;
+        // styleUpBattle?.battleItemList[1].pollTag = 0;
         // homeMenu[1] = BattleScreen(
         //   battleList: styleupBattleModel.battleItemList,
         //   onPageChanged: (p0) {

@@ -31,7 +31,6 @@ class BattleUser extends StatefulWidget {
 }
 
 class _BattleUserState extends State<BattleUser> {
-  final double imgRatio = 9 / 16;
   final Duration aniDuration = const Duration(milliseconds: 200);
   double rating = 0.0;
   late StyleupModel styleup;
@@ -52,10 +51,22 @@ class _BattleUserState extends State<BattleUser> {
   }
 
   @override
-  void setState(VoidCallback fn) {
-    if (mounted) {
-      super.setState(fn);
+  void didUpdateWidget(covariant BattleUser oldWidget) {
+    if (widget.isLeft) {
+      styleup = widget.item.styleup1;
+      pollCnt = widget.item.style1PollCnt;
+      otherPollCnt = widget.item.style2PollCnt;
+    } else {
+      styleup = widget.item.styleup2;
+      pollCnt = widget.item.style2PollCnt;
+      otherPollCnt = widget.item.style1PollCnt;
     }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  Future<int> _futureValueInt() async {
+    await Future.delayed(const Duration(milliseconds: 200));
+    return (pollCnt / (pollCnt + otherPollCnt) * 100).toInt();
   }
 
   @override
@@ -135,38 +146,61 @@ class _BattleUserState extends State<BattleUser> {
                               rating = pollCnt / (pollCnt + otherPollCnt);
                               return Row(
                                 children: [
-                                  AnimatedContainer(
-                                    duration: const Duration(milliseconds: 400),
-                                    width: layout.maxWidth * rating,
-                                    height: 20.toWidth,
-                                    alignment: Alignment.centerLeft,
-                                    padding: EdgeInsets.only(left: 8.toWidth),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xff5900FF),
-                                      gradient: LinearGradient(
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                        colors: [
-                                          const Color(0xff5900FF)
-                                              .withOpacity(.3),
-                                          const Color(0xff5900FF)
-                                        ],
-                                      ),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Text(
-                                      rating == 0
-                                          ? ''
-                                          : '${getRatingInteger(my: pollCnt, other: otherPollCnt)}%',
-                                      style: ShownyStyle.overline(
-                                          color: Colors.white,
-                                          weight: FontWeight.w700),
-                                      // style: TextStyle(
-                                      //     color: Colors.white,
-                                      //     fontSize: 10,
-                                      //     fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
+                                  FutureBuilder<int>(
+                                      initialData: 0,
+                                      future: _futureValueInt(),
+                                      builder: (context, snapshot) {
+                                        return Stack(
+                                          children: [
+                                            AnimatedContainer(
+                                              duration: const Duration(
+                                                  milliseconds: 400),
+                                              width: layout.maxWidth *
+                                                  snapshot.data! /
+                                                  100,
+                                              height: 20.toWidth,
+                                              alignment: Alignment.centerLeft,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xff5900FF),
+                                                gradient: LinearGradient(
+                                                  begin: Alignment.centerLeft,
+                                                  end: Alignment.centerRight,
+                                                  colors: [
+                                                    const Color(0xff5900FF)
+                                                        .withOpacity(.3),
+                                                    const Color(0xff5900FF)
+                                                  ],
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                              ),
+                                            ),
+                                            Align(
+                                              child: Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 8.toWidth),
+                                                height: 20.toWidth,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  rating == 0
+                                                      ? ''
+                                                      : '${getRatingInteger(my: pollCnt, other: otherPollCnt)}%',
+                                                  style: ShownyStyle.overline(
+                                                      color: Colors.white,
+                                                      weight: FontWeight.w700),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  // style: TextStyle(
+                                                  //     color: Colors.white,
+                                                  //     fontSize: 10,
+                                                  //     fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }),
                                 ],
                               );
                             },

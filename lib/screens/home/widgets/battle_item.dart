@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
+import 'package:showny/models/styleup_model.dart';
 import 'package:showny/screens/home/providers/battle_item_provider.dart';
 import 'package:showny/screens/home/widgets/battle_user.dart';
 import 'package:showny/screens/home/widgets/product_container_battle.dart';
