@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/models/store_good_model.dart';
-import 'package:showny/routes.dart';
 import 'package:showny/screens/shop/store/store_search_page_screen.dart';
 import 'package:showny/screens/upload/styleup/styleup_item_tag.dart';
 import 'package:showny/screens/upload/styleup/widgets/select_item_category.dart';
@@ -26,15 +26,15 @@ class StyleupItemTagProvider with ChangeNotifier {
   void onClickAddItemBox(int idx) {
     Navigator.push(
         state.context,
-        MaterialPageRoute(
-          builder: (context) => StoreSearchScreen(
-            onSelected: (goodsData) {
-              goodsData.left = 0.4;
-              goodsData.top = 0.4;
-              setStoreGoodModel(goodsData, idx);
-            },
-          ),
-        ));
+        ShownyPageRoute(
+            builder: (context) => StoreSearchScreen(
+                  onSelected: (goodsData) {
+                    goodsData.left = 0.4;
+                    goodsData.top = 0.4;
+                    setStoreGoodModel(goodsData, idx);
+                  },
+                ),
+            settings: const RouteSettings(name: PageName.STORE_SEARCH)));
   }
 
   void showItemTagSheet(TapUpDetails details) {
@@ -49,15 +49,16 @@ class StyleupItemTagProvider with ChangeNotifier {
               Navigator.pop(context);
               Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => StoreSearchScreen(
-                      onSelected: (goodsData) {
-                        goodsData.left = details.localPosition.dx / width;
-                        goodsData.top = details.localPosition.dy / height;
-                        setStoreGoodModel(goodsData, idx);
-                      },
-                    ),
-                  ));
+                  ShownyPageRoute(
+                      builder: (context) => StoreSearchScreen(
+                            onSelected: (goodsData) {
+                              goodsData.left = details.localPosition.dx / width;
+                              goodsData.top = details.localPosition.dy / height;
+                              setStoreGoodModel(goodsData, idx);
+                            },
+                          ),
+                      settings:
+                          const RouteSettings(name: PageName.STORE_SEARCH)));
             },
           ),
         ));

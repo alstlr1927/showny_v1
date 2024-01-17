@@ -3,16 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/helper/font_helper.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/screen/email_login_v2.dart';
 import 'package:showny/screens/intro/screen/email_sign_up_v2.dart';
-import 'package:showny/screens/intro/screen/sign_up_screen.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/components/sign_up_text_field.dart';
-import 'package:showny/screens/intro/screen/email_login_screen.dart';
 import 'package:showny/screens/intro/screen/send_reset_password_mail_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 
@@ -117,14 +115,15 @@ class _FindPasswordScreenState extends State<FindPasswordScreen> {
 
                     ApiHelper.shared.findPassword(email, (success) {
                       Navigator.push(
-                          context,
-                          PageRouteBuilderRightLeft(
-                            child: SendResetPasswordMailScreen(
-                              sendSuccess: success,
-                              recentRouteName: EmailLoginV2.routeName,
-                              mailAddress: email,
-                            ),
-                          ));
+                        context,
+                        ShownyPageRoute(
+                          builder: (context) => SendResetPasswordMailScreen(
+                            sendSuccess: success,
+                            recentRouteName: PageName.EMAIL_LOGIN,
+                            mailAddress: email,
+                          ),
+                        ),
+                      );
                       isLoading = false;
                     }, (error) {
                       var dialog = ShownyDialog(

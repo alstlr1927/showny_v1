@@ -75,7 +75,7 @@ class _UploadWrapperState extends State<UploadWrapper> {
               width: ScreenUtil().screenWidth,
               height: 50,
               margin: EdgeInsets.only(
-                bottom: ShownyStyle.safeAreaPadding(),
+                bottom: ShownyStyle.defaultBottomPadding(),
                 right: 35.toWidth,
                 left: 35.toWidth,
               ),

@@ -1,19 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:showny/components/indicator/showny_indicator.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/components/title_text_field/title_text_field.dart';
 import 'package:showny/models/user_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/provider/email_login_provider.dart';
-import 'package:showny/screens/intro/screen/email_sign_up_screen.dart';
 import 'package:showny/screens/intro/screen/email_sign_up_v2.dart';
 import 'package:showny/screens/intro/screen/find_password_screen.dart';
 import 'package:showny/screens/main/root_screen.dart';
@@ -164,9 +161,9 @@ class _EmailLoginV2State extends State<EmailLoginV2> {
             onPressed: () {
               Navigator.push(
                   context,
-                  PageRouteBuilderRightLeft(
-                    child: FindPasswordScreen(
-                        recentRouteName: EmailLoginV2.routeName),
+                  ShownyPageRoute(
+                    builder: (context) => const FindPasswordScreen(
+                        recentRouteName: PageName.EMAIL_LOGIN),
                   ));
 
               debugPrint('DEBUG: tab skip login button');
@@ -230,8 +227,12 @@ class _EmailLoginV2State extends State<EmailLoginV2> {
         const SizedBox(height: 30),
         LoginButton(
           onPressed: () {
-            Navigator.push(context,
-                PageRouteBuilderRightLeft(child: const EmailSignUpV2()));
+            Navigator.push(
+              context,
+              ShownyPageRoute(
+                  builder: (context) => const EmailSignUpV2(),
+                  settings: const RouteSettings(name: PageName.EMAIL_SIGNUP)),
+            );
 
             debugPrint('DEBUG: tab email sign up button');
           },
@@ -251,7 +252,9 @@ class _EmailLoginV2State extends State<EmailLoginV2> {
 
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (builder) => const MainLanding()),
+                ShownyPageRoute(
+                    builder: (builder) => const MainLanding(),
+                    settings: const RouteSettings(name: PageName.LANDING)),
                 (route) => false);
             debugPrint('DEBUG: tab skip login button');
           },

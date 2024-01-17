@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/common/comment_sheet/comment_sheet_screen.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/home/widgets/see_more_action_sheet.dart';
 import 'package:showny/screens/home/widgets/report_sheet_screen.dart';
@@ -164,6 +166,14 @@ class StyleUpItemProvider with ChangeNotifier {
   }
 
   void onClickComment({required String styleupNo, required String memNo}) {
+    Navigator.push(
+        state.context,
+        SheetRoute(
+          builder: (context) => CommentSheetScreen(
+            memNo: memNo,
+            styleupNo: styleupNo,
+          ),
+        ));
     // showModalBottomSheet(
     //   context: state.context,
     //   isScrollControlled: true,

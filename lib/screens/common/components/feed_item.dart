@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:showny/components/showny_image/showny_image.dart';
 
@@ -8,16 +6,13 @@ import 'package:showny/models/styleup_model.dart';
 class FeedItem extends StatelessWidget {
   const FeedItem({
     super.key,
-    // this.naviagtorKey,
     required this.item,
     this.isBattleUpload = false,
-    this.selectedStyleup,
     required this.onSelected,
   });
 
   final StyleupModel item;
   final bool isBattleUpload;
-  final StyleupModel? selectedStyleup;
   final Function() onSelected;
 
   @override

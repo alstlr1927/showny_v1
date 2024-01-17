@@ -16,7 +16,7 @@ import 'package:showny/providers/FetchGetMemberMinishopProductProvider.dart';
 import 'package:showny/providers/storeListProvider.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/routes.dart';
-import 'package:showny/screens/intro/provider/login_provider.dart';
+import 'package:showny/screens/common/history_observer.dart';
 import 'package:showny/screens/intro/screen/login_screen.dart';
 import 'package:showny/screens/shop/store/providers/store_detail_filter_provider.dart';
 import 'package:showny/screens/shop/store/providers/store_search_provider.dart';
@@ -32,6 +32,10 @@ import 'package:showny/utils/image_cache_delegate.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'firebase_options.dart';
+
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
+final GlobalKey<NavigatorState> nav = GlobalKey<NavigatorState>();
 
 class OverFlowGlowBehavior extends ScrollBehavior {
   @override
@@ -172,6 +176,10 @@ class MyApp extends StatelessWidget {
           routes: routes,
           navigatorKey: NavigatorKeys.navigatorKeyMain,
           home: const LoginScreen(),
+          navigatorObservers: [
+            routeObserver,
+            NavigationHistoryObserver(),
+          ],
         ),
         // child: MaterialApp(
         //   title: Constants.appName,

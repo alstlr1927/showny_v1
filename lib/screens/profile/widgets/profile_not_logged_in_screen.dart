@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/constants.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/intro/screen/email_sign_up_v2.dart';
 
 class ProfileNotLoggedInScreen extends StatefulWidget {
@@ -68,8 +68,12 @@ class _ProfileNotLoggedInScreenState extends State<ProfileNotLoggedInScreen> {
                 ),
               ),
               onPressed: () {
-                Navigator.push(context,
-                    PageRouteBuilderRightLeft(child: const EmailSignUpV2()));
+                Navigator.push(
+                    context,
+                    ShownyPageRoute(
+                        builder: (context) => const EmailSignUpV2(),
+                        settings:
+                            const RouteSettings(name: PageName.EMAIL_SIGNUP)));
               },
             ),
           ],

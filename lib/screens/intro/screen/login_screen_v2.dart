@@ -1,13 +1,12 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/helper/sns_login_helper.dart';
 import 'package:showny/models/user_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 
-import 'package:showny/routes.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/components/login_sheet.dart';
 import 'package:showny/screens/intro/provider/login_provider.dart';
@@ -170,8 +169,7 @@ class _LoginScreenV2State extends State<LoginScreenV2> {
 
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
-                        builder: (builder) => const MainLanding()),
+                    ShownyPageRoute(builder: (builder) => const MainLanding()),
                     (route) => false);
                 debugPrint('DEBUG: tab skip login button');
               },

@@ -49,7 +49,7 @@ class ShownyDialog extends StatelessWidget {
       ),
       onPressed: () {
         onPressed();
-        Navigator.pop(context);
+        Navigator.of(context).pop(true);
         navigateTo(context, routeName);
       },
     );

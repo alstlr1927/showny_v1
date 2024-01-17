@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/models/user_model.dart';
 import 'package:showny/screens/tabs/profile/my_profile/components/sv_inline_button.dart';
@@ -90,11 +91,12 @@ class ProfileFollowerScreenState extends State<ProfileFollowingScreen> {
                       } else {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => OtherProfileScreen(
-                                memNo: followingList[index].memNo,
-                              ),
-                            ));
+                            ShownyPageRoute(
+                                builder: (context) => OtherProfileScreen(
+                                      memNo: followingList[index].memNo,
+                                    ),
+                                settings: const RouteSettings(
+                                    name: PageName.OTHER_PROFILE)));
                       }
                     },
                     child: Text(
@@ -114,11 +116,12 @@ class ProfileFollowerScreenState extends State<ProfileFollowingScreen> {
                       } else {
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => OtherProfileScreen(
-                                memNo: followingList[index].memNo,
-                              ),
-                            ));
+                            ShownyPageRoute(
+                                builder: (context) => OtherProfileScreen(
+                                      memNo: followingList[index].memNo,
+                                    ),
+                                settings: const RouteSettings(
+                                    name: PageName.OTHER_PROFILE)));
                       }
                     },
                   ),

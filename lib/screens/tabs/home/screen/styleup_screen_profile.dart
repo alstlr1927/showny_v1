@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/home/widgets/following_button.dart';
 import 'package:showny/screens/profile/other_profile_screen.dart';
 import 'package:showny/screens/profile/profile_screen.dart';
@@ -51,19 +51,22 @@ class _StyleupScreenProfile extends State<StyleupScreenProfile> {
                           .user
                           .memNo ==
                       styleupData.userInfo.memNo) {
-                    Navigator.push(
-                        context,
-                        PageRouteBuilderRightLeft(
-                            child: ProfileScreen(
-                          isBack: true,
-                        )));
+                    // Navigator.push(
+                    //     context,
+                    //     PageRouteBuilderRightLeft(
+                    //         child: ProfileScreen(
+                    //       isBack: true,
+                    //     )));
                   } else {
                     Navigator.push(
-                        context,
-                        PageRouteBuilderRightLeft(
-                            child: OtherProfileScreen(
-                          memNo: styleupData.userInfo.memNo,
-                        )));
+                      context,
+                      ShownyPageRoute(
+                          builder: (context) => OtherProfileScreen(
+                                memNo: styleupData.userInfo.memNo,
+                              ),
+                          settings: const RouteSettings(
+                              name: PageName.OTHER_PROFILE)),
+                    );
                   }
                 },
               ),
@@ -75,19 +78,21 @@ class _StyleupScreenProfile extends State<StyleupScreenProfile> {
                         .user
                         .memNo ==
                     styleupData.userInfo.memNo) {
-                  Navigator.push(
-                      context,
-                      PageRouteBuilderRightLeft(
-                          child: ProfileScreen(
-                        isBack: true,
-                      )));
+                  // Navigator.push(
+                  //     context,
+                  //     PageRouteBuilderRightLeft(
+                  //         child: ProfileScreen(
+                  //       isBack: true,
+                  //     )));
                 } else {
                   Navigator.push(
                       context,
-                      PageRouteBuilderRightLeft(
-                          child: OtherProfileScreen(
-                        memNo: styleupData.userInfo.memNo,
-                      )));
+                      ShownyPageRoute(
+                          builder: (context) => OtherProfileScreen(
+                                memNo: styleupData.userInfo.memNo,
+                              ),
+                          settings: const RouteSettings(
+                              name: PageName.OTHER_PROFILE)));
                 }
               },
               child: Text(

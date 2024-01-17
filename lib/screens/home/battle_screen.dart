@@ -1,5 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/models/user_model.dart';
 import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
@@ -58,11 +59,12 @@ class _BattleScreenState extends State<BattleScreen> {
             } else {
               Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => OtherProfileScreen(
-                      memNo: profile.memNo,
-                    ),
-                  ));
+                  ShownyPageRoute(
+                      builder: (context) => OtherProfileScreen(
+                            memNo: profile.memNo,
+                          ),
+                      settings:
+                          const RouteSettings(name: PageName.OTHER_PROFILE)));
             }
           }),
         ),
@@ -83,11 +85,12 @@ class _BattleScreenState extends State<BattleScreen> {
             } else {
               Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => OtherProfileScreen(
-                      memNo: profile.memNo,
-                    ),
-                  ));
+                  ShownyPageRoute(
+                      builder: (context) => OtherProfileScreen(
+                            memNo: profile.memNo,
+                          ),
+                      settings:
+                          const RouteSettings(name: PageName.OTHER_PROFILE)));
             }
           },
         )

@@ -2,18 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/helper/sns_login_helper.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
-import 'package:showny/screens/intro/screen/email_login_screen.dart';
 import 'package:showny/screens/intro/screen/email_login_v2.dart';
 import 'package:showny/screens/intro/screen/email_sign_up_v2.dart';
 import 'package:showny/screens/intro/screen/input_additional_information_screen.dart';
 import 'package:showny/screens/intro/screen/input_essential_information_screen.dart';
-import 'package:showny/screens/intro/screen/sign_up_screen.dart';
 import 'package:showny/screens/main/root_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -58,8 +56,9 @@ class _LoginPopupScreen extends State<LoginPopupScreen> {
           if (userModel.birthday == "") {
             Navigator.push(
                 context,
-                PageRouteBuilderRightLeft(
-                    child: const InputEssentialInfoScreen()));
+                ShownyPageRoute(
+                  builder: (context) => const InputEssentialInfoScreen(),
+                ));
           } else if (userModel.colorIdList.isEmpty) {
             var dialog = ShownyDialog(
               message: tr("intro_popup.not_found_style_title"),
@@ -91,8 +90,11 @@ class _LoginPopupScreen extends State<LoginPopupScreen> {
         loginType, email, snsId, snsId, name, phoneNumber, true, (success) {
       loginAction(loginType: loginType, email: "", password: "", snsId: snsId);
       ApiHelper.shared.signinSns(snsId, loginType, (success) {
-        Navigator.push(context,
-            PageRouteBuilderRightLeft(child: const InputEssentialInfoScreen()));
+        Navigator.push(
+            context,
+            ShownyPageRoute(
+              builder: (context) => const InputEssentialInfoScreen(),
+            ));
       }, (error) {});
       debugPrint('DEBUG: Sign up successful');
     }, (error) {
@@ -207,8 +209,14 @@ class _LoginPopupScreen extends State<LoginPopupScreen> {
           strokeColor: Colors.black,
           backgroundColor: Colors.white,
           onPressed: () {
-            Navigator.push(context,
-                PageRouteBuilderRightLeft(child: const EmailLoginV2()));
+            Navigator.push(
+                context,
+                ShownyPageRoute(
+                  builder: (context) => const EmailLoginV2(),
+                  settings: const RouteSettings(
+                    name: PageName.EMAIL_LOGIN,
+                  ),
+                ));
 
             debugPrint('DEBUG: tab email login button');
           },
@@ -219,8 +227,12 @@ class _LoginPopupScreen extends State<LoginPopupScreen> {
           titleColor: Colors.white,
           backgroundColor: Colors.black,
           onPressed: () {
-            Navigator.push(context,
-                PageRouteBuilderRightLeft(child: const EmailSignUpV2()));
+            Navigator.push(
+                context,
+                ShownyPageRoute(
+                    builder: (context) => const EmailSignUpV2(),
+                    settings:
+                        const RouteSettings(name: PageName.EMAIL_SIGNUP)));
 
             debugPrint('DEBUG: tab sign up showny button');
           },

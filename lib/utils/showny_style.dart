@@ -233,7 +233,7 @@ class ShownyStyle {
 
   static double safeAreaPadding() {
     if (ScreenUtil().bottomBarHeight == 0) {
-      return 34.0;
+      return 0.0;
     } else {
       return ScreenUtil().bottomBarHeight;
     }

@@ -6,12 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
-import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/screen/term_sheet_screen.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/components/sign_up_text_field.dart';
@@ -411,8 +410,12 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
     ApiHelper.shared.signup(
         loginType, email, snsId, snsId, name, phoneNumber, true, (success) {
       signinSns(loginType, snsId);
-      Navigator.push(context,
-          PageRouteBuilderRightLeft(child: const InputEssentialInfoScreen()));
+      Navigator.push(
+        context,
+        ShownyPageRoute(
+          builder: (context) => const InputEssentialInfoScreen(),
+        ),
+      );
       loginAction(
           loginType: loginType, email: email, password: '', snsId: snsId);
       debugPrint('DEBUG: Sign up successful');
@@ -471,9 +474,10 @@ class _EmailSignUp2ScreenState extends State<EmailSignUp2Screen> {
                                 signIn(widget.email, widget.password);
                                 Navigator.push(
                                     context,
-                                    PageRouteBuilderRightLeft(
-                                        child:
-                                            const InputEssentialInfoScreen()));
+                                    ShownyPageRoute(
+                                      builder: (context) =>
+                                          const InputEssentialInfoScreen(),
+                                    ));
                                 loginAction(
                                     loginType: "email",
                                     email: widget.email,

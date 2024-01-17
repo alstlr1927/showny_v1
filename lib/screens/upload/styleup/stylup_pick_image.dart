@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/screens/home/widgets/see_more_action_sheet.dart';
 import 'package:showny/screens/upload/styleup/providers/styleup_pick_provider.dart';
@@ -44,7 +45,7 @@ class _StylupPickImageState extends State<StylupPickImage> {
                         : () {
                             Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                ShownyPageRoute(
                                   builder: (context) => StyleupInputInfo(
                                     fileList: prov.selectedFiles,
                                     type: prov.fileType,

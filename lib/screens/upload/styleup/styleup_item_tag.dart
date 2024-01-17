@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
@@ -341,16 +342,17 @@ class _StyleupItemTagState extends State<StyleupItemTag> {
                                         listen: false);
                                 Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) => StoreSearchScreen(
-                                        onSelected: (goodsData) {
-                                          goodsData.left = tag.left;
-                                          goodsData.top = tag.top;
-                                          itemProv.setStoreGoodModel(
-                                              goodsData, index);
-                                        },
-                                      ),
-                                    ));
+                                    ShownyPageRoute(
+                                        builder: (context) => StoreSearchScreen(
+                                              onSelected: (goodsData) {
+                                                goodsData.left = tag.left;
+                                                goodsData.top = tag.top;
+                                                itemProv.setStoreGoodModel(
+                                                    goodsData, index);
+                                              },
+                                            ),
+                                        settings: const RouteSettings(
+                                            name: PageName.STORE_SEARCH)));
                               },
                               bgColor: ShownyStyle.black,
                               text: '변경',

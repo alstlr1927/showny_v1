@@ -30,7 +30,8 @@ class StyleupCommentModel {
       heartCount: json['heartCount'] as int,
       createdAt: json['created_at'] as String,
       childCommentList: (json['childCommenList'] as List<dynamic>?)
-              ?.map((e) => StyleupCommentModel.fromJson(e as Map<String, dynamic>))
+              ?.map((e) =>
+                  StyleupCommentModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       userInfo: UserModel.fromJson(json['userInfo'] as Map<String, dynamic>),

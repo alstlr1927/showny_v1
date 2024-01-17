@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:showny/components/drag_to_dispose/drag_to_dispose.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/helper/sns_login_helper.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/intro/provider/login_provider.dart';
 import 'package:showny/screens/intro/screen/email_login_v2.dart';
 import 'package:showny/utils/showny_style.dart';
@@ -81,8 +81,10 @@ class OtherLoginSheet extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                           context,
-                          PageRouteBuilderRightLeft(
-                              child: const EmailLoginV2()));
+                          ShownyPageRoute(
+                              builder: (context) => const EmailLoginV2(),
+                              settings: const RouteSettings(
+                                  name: PageName.EMAIL_LOGIN)));
 
                       debugPrint('DEBUG: tab email login button');
                     }),

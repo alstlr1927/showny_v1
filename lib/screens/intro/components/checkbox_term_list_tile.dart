@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/intro/screen/term_page_screen.dart';
@@ -45,10 +46,11 @@ class CheckboxTermListTile extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.push(
-                context, 
-                PageRouteBuilderRightLeft(
-                child: TermPageScreen(term: term,),
-              ));
+                context,
+                ShownyPageRoute(
+                  builder: (context) => TermPageScreen(term: term),
+                ),
+              );
 
               debugPrint('DEBUG: tab navigate to $title');
             },

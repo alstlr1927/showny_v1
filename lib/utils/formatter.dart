@@ -40,8 +40,14 @@ class Formatter {
     }
   }
 
-  static String formatDateString(String inputDate) {
-    DateTime date = DateTime.parse(inputDate);
-    return DateFormat('yyyy-MM-dd').format(date);
+  static String formatDateString(String inputDate,
+      {bool onlyMonthDay = false}) {
+    if (onlyMonthDay) {
+      DateTime date = DateTime.parse(inputDate);
+      return DateFormat('MM.dd').format(date);
+    } else {
+      DateTime date = DateTime.parse(inputDate);
+      return DateFormat('yyyy-MM-dd').format(date);
+    }
   }
 }

@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/components/custom_long_press/custom_long_press.dart';
+import 'package:showny/components/logger/showny_logger.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/styleup_model.dart';
@@ -84,7 +86,8 @@ class _StyleUpItemState extends State<StyleUpItem> {
                 if (!widget.isMain) ...{
                   Container(
                     width: double.infinity,
-                    height: 56 + MediaQuery.of(context).padding.bottom,
+                    // height: 56 + MediaQuery.of(context).padding.bottom,
+                    height: 44.toWidth + ShownyStyle.defaultBottomPadding(),
                     color: Colors.black,
                     padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                     child: Column(
@@ -300,15 +303,12 @@ class _StyleUpItemState extends State<StyleUpItem> {
   Widget _buildDescription(StyleUpItemProvider prov) {
     UserProvider userProv = Provider.of<UserProvider>(context, listen: false);
     return LayoutBuilder(builder: (context, layout) {
-      double min = layout.maxHeight - (ScreenUtil().screenWidth * 4 / 3);
-
+      // double min = layout.maxHeight - (ScreenUtil().screenWidth * 4 / 3);
       return Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          // height: 190.toWidth,
-          // width: double.infinity,
           constraints: BoxConstraints(
-            minHeight: min <= 0 ? 0 : min,
+            minHeight: 140.toWidth,
           ),
           padding: EdgeInsets.all(16.toWidth),
           decoration: const BoxDecoration(
@@ -320,20 +320,23 @@ class _StyleUpItemState extends State<StyleUpItem> {
             mainAxisSize: MainAxisSize.min,
             children: [
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   if (Provider.of<UserProvider>(context, listen: false)
                           .user
                           .memNo ==
                       widget.styleUp.userInfo.memNo) {
                     //
                   } else {
-                    Navigator.push(
+                    prov.videoController?.pause();
+                    await Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => OtherProfileScreen(
-                            memNo: widget.styleUp.userInfo.memNo,
-                          ),
-                        ));
+                        ShownyPageRoute(
+                            builder: (context) => OtherProfileScreen(
+                                  memNo: widget.styleUp.userInfo.memNo,
+                                ),
+                            settings: const RouteSettings(
+                                name: PageName.OTHER_PROFILE)));
+                    prov.videoController?.play();
                   }
                 },
                 child: Row(
@@ -380,6 +383,8 @@ class _StyleUpItemState extends State<StyleUpItem> {
               SizedBox(height: 14.toHeight),
               if (widget.isMain) ...{
                 _buildBottomBanner(),
+              } else ...{
+                SizedBox(height: 36.toHeight),
               }
             ],
           ),
@@ -396,7 +401,9 @@ class _StyleUpItemState extends State<StyleUpItem> {
               styleNo: widget.styleUp.styleupNo,
               currentImageIdx: 0,
             )
-          : null,
+          : SizedBox(
+              height: 48.toWidth,
+            ),
     );
   }
 

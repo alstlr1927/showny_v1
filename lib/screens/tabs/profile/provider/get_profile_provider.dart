@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:showny/api/new_api/api_service.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/screens/profile/model/get_myshopping_response_model.dart';
 import 'package:showny/screens/profile/model/get_profile_response_model.dart';
 
@@ -21,11 +22,14 @@ class GetProfileProvider extends ChangeNotifier {
   setIsProfileLoading(bool value) {
     _isProfileLoading = value;
     notifyListeners();
+
+    ShownyLog().e('profile loading : $value');
   }
 
   setIsShoppingLoading(bool value) {
     _isShoppingLoading = value;
     notifyListeners();
+    ShownyLog().e('shop loading : $value');
   }
 
   getMyShoppingData(String memNo, String orderNo) {
@@ -54,5 +58,10 @@ class GetProfileProvider extends ChangeNotifier {
         notifyListeners();
       }
     });
+  }
+
+  @override
+  void notifyListeners() {
+    super.notifyListeners();
   }
 }

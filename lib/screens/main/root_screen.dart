@@ -35,13 +35,7 @@ class MainLandingState extends State<MainLanding> {
   void initState() {
     super.initState();
     provider = MainLandingProvider(this);
-    // _tabs = [
-    //   const FeedScreen(),
-    //   const SizedBox(),
-    //   const SizedBox(),
-    //   const SizedBox(),
-    //   ProfileScreen(),
-    // ];
+
     _lastPressedAt ??= DateTime.now().subtract(const Duration(seconds: 3));
     isFirstCheck();
     if (widget.isChangeIndex ?? false) {
@@ -98,7 +92,7 @@ class MainLandingState extends State<MainLanding> {
                           child: IndexedStack(
                             index: prov.currentType.pageIndex,
                             children: [
-                              HomeScreen(),
+                              const HomeScreen(),
                               const SizedBox(),
                               const SizedBox(),
                               const SizedBox(),
@@ -261,13 +255,14 @@ class __BottomActionsState extends State<_BottomActions> {
 
   @override
   Widget build(BuildContext context) {
-    var sheetHeight = 44.toWidth + ShownyStyle.safeAreaPadding();
+    var sheetHeight = 44.toWidth + ShownyStyle.defaultBottomPadding();
     return Consumer<MainLandingProvider>(builder: (ctx, prov, child) {
       return Stack(
         children: [
           Container(
             height: sheetHeight,
-            padding: EdgeInsets.only(bottom: ShownyStyle.safeAreaPadding()),
+            padding:
+                EdgeInsets.only(bottom: ShownyStyle.defaultBottomPadding()),
             decoration: const BoxDecoration(
               color: ShownyStyle.white,
               boxShadow: [

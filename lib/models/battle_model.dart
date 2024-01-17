@@ -34,4 +34,27 @@ class BattleModel {
       progress: json['progress'] as String,
     );
   }
+
+  BattleModel copyWith({
+    String? styleupBattleNo,
+    String? title,
+    String? thumbnailUrl,
+    String? recruitmentStart,
+    String? recruitmentEnd,
+    String? participationStart,
+    String? participationEnd,
+    String? status,
+    String? progress,
+  }) =>
+      BattleModel(
+        styleupBattleNo: styleupBattleNo ?? this.styleupBattleNo,
+        title: title ?? this.title,
+        thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+        recruitmentStart: recruitmentStart ?? this.recruitmentStart,
+        recruitmentEnd: recruitmentEnd ?? this.recruitmentEnd,
+        participationStart: participationStart ?? this.participationStart,
+        participationEnd: participationEnd ?? this.participationEnd,
+        status: status ?? this.status,
+        progress: progress ?? this.progress,
+      );
 }

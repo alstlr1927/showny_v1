@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/title_text_field/field_controller.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/helper/sns_login_helper.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/screen/email_sign_up2_screen.dart';
 import 'package:showny/screens/intro/screen/input_additional_Information_screen.dart';
@@ -122,8 +122,9 @@ class EmailLoginProvider with ChangeNotifier {
             if (userModel.birthday == "") {
               Navigator.push(
                   state.context,
-                  PageRouteBuilderRightLeft(
-                      child: const InputEssentialInfoScreen()));
+                  ShownyPageRoute(
+                    builder: (context) => const InputEssentialInfoScreen(),
+                  ));
             } else if (userModel.colorIdList.isEmpty) {
               var dialog = ShownyDialog(
                 message: tr("intro_popup.not_found_style_title"),
@@ -216,8 +217,9 @@ class EmailLoginProvider with ChangeNotifier {
           if (userModel.birthday == "") {
             Navigator.push(
                 state.context,
-                PageRouteBuilderRightLeft(
-                    child: const InputEssentialInfoScreen()));
+                ShownyPageRoute(
+                  builder: (context) => const InputEssentialInfoScreen(),
+                ));
           } else if (userModel.colorIdList.isEmpty) {
             var dialog = ShownyDialog(
               message: tr("intro_popup.not_found_style_title"),
@@ -243,13 +245,14 @@ class EmailLoginProvider with ChangeNotifier {
       setIsLoading(false);
       Navigator.push(
           state.context,
-          PageRouteBuilderRightLeft(
-              child: EmailSignUp2Screen(
-            email: '',
-            password: '',
-            loginType: loginType,
-            snsId: snsId,
-          )));
+          ShownyPageRoute(
+            builder: (context) => EmailSignUp2Screen(
+              email: '',
+              password: '',
+              loginType: loginType,
+              snsId: snsId,
+            ),
+          ));
     });
   }
 

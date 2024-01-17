@@ -107,7 +107,9 @@ class _ProductContainerState extends State<ProductContainer> {
             ),
           ));
     } else {
-      return const SizedBox();
+      return SizedBox(
+        height: 48.toWidth,
+      );
     }
   }
 

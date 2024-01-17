@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/screens/common/components/feed_item.dart';
 import 'package:showny/screens/home/styleup_screen.dart';
@@ -29,7 +30,7 @@ class TabProfileBookmark extends StatelessWidget {
           onSelected: () {
             Navigator.push(
                 context,
-                MaterialPageRoute(
+                ShownyPageRoute(
                   builder: (context) => StyleupScreen(
                     isMain: false,
                     initIndex: index,

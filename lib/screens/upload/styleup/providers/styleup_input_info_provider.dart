@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/models/style.dart';
 import 'package:showny/models/user_model.dart';
@@ -116,7 +117,7 @@ class StyleupInputInfoProvider with ChangeNotifier {
 
     Navigator.push(
         state.context,
-        MaterialPageRoute(
+        ShownyPageRoute(
           builder: (context) => StyleupItemTag(
             onCompleted: (goodsList) {
               goodsDataList = deepCopyGoodsDataList(goodsList!);
@@ -133,7 +134,7 @@ class StyleupInputInfoProvider with ChangeNotifier {
   void onClickStyleTagTile() {
     Navigator.push(
         state.context,
-        MaterialPageRoute(
+        ShownyPageRoute(
           builder: (context) => StyleupStyleTag(
             selectedStyles: selectedStyles,
             onSelected: setStyles,

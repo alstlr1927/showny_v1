@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/models/style.dart';
+import 'package:showny/screens/common/history_observer.dart';
 import 'package:showny/screens/intro/components/preset_color_button.dart';
 import 'package:showny/screens/upload/styleup/providers/styleup_input_info_provider.dart';
 import 'package:showny/utils/showny_style.dart';
@@ -105,9 +107,12 @@ class _StyleupInputInfoState extends State<StyleupInputInfo> {
                         items: widget.fileList.map((xfile) {
                           return Builder(builder: (context) {
                             return Container(
+                              width: double.infinity,
                               color: Colors.grey.withOpacity(0.5),
-                              child: Image.file(File(xfile.path),
-                                  fit: BoxFit.cover),
+                              child: Image.file(
+                                File(xfile.path),
+                                fit: BoxFit.cover,
+                              ),
                             );
                           });
                         }).toList(),

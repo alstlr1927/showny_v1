@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/intro/screen/login_screen.dart';
@@ -255,9 +256,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyShoppingPage(),
-                        ));
+                        ShownyPageRoute(
+                            builder: (context) => const MyShoppingPage(),
+                            settings: const RouteSettings(
+                                name: PageName.MY_SHOPPING)));
                   },
                   child: Image.asset(
                     'assets/icons/profile/shopping_list.png',
@@ -287,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           onPressed: () {
             Navigator.push(
                 context,
-                MaterialPageRoute(
+                ShownyPageRoute(
                   builder: (context) => const TempSetting(),
                 ));
             // Navigator.push(
@@ -451,7 +453,7 @@ class _ProfileInfo extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              ShownyPageRoute(
                                 builder: (context) => ProfileFollowerScreen(
                                     profileMemNo: userProvider.user.memNo),
                               ),
@@ -465,7 +467,7 @@ class _ProfileInfo extends StatelessWidget {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              ShownyPageRoute(
                                 builder: (context) => ProfileFollowingScreen(
                                   profileMemNo: userProvider.user.memNo,
                                 ),

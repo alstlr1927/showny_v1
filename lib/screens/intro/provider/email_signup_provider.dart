@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/components/title_text_field/field_controller.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/screen/email_sign_up2_screen.dart';
 import 'package:showny/utils/validator.dart';
@@ -96,8 +96,8 @@ class EmailSignUpProvider with ChangeNotifier {
       setIsLoading(false);
       Navigator.push(
           state.context,
-          PageRouteBuilderRightLeft(
-            child: EmailSignUp2Screen(
+          ShownyPageRoute(
+            builder: (context) => EmailSignUp2Screen(
               email: email,
               password: password,
               loginType: 'email',
