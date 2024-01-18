@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/components/custom_long_press/custom_long_press.dart';
-import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/extension/ext_int.dart';
@@ -66,8 +65,9 @@ class _StyleUpItemState extends State<StyleUpItem> {
       create: (_) => StyleUpItemProvider(this),
       builder: (context, _) {
         return Consumer<StyleUpItemProvider>(builder: (context, prov, child) {
-          return Material(
-            child: Column(
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Column(
               children: [
                 Expanded(
                   child: LayoutBuilder(

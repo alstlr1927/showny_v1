@@ -82,6 +82,7 @@ class MainLandingState extends State<MainLanding> {
               return true;
             },
             child: Scaffold(
+              resizeToAvoidBottomInset: false,
               body: Stack(
                 children: [
                   Column(
@@ -92,7 +93,7 @@ class MainLandingState extends State<MainLanding> {
                           child: IndexedStack(
                             index: prov.currentType.pageIndex,
                             children: [
-                              const HomeScreen(),
+                              HomeScreen(),
                               const SizedBox(),
                               const SizedBox(),
                               const SizedBox(),

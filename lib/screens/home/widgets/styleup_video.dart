@@ -1,6 +1,7 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -52,8 +53,10 @@ class _StyleUpVideoState extends State<StyleUpVideo> {
         onVisibilityChanged: (info) {
           if (info.visibleFraction == 0) {
             widget.videoController.pause();
-          } else {
-            widget.videoController.play();
+          } else if (info.visibleFraction == 1) {
+            widget.videoController.seekTo(Duration.zero).then((value) {
+              widget.videoController.play();
+            });
           }
         },
         child: GestureDetector(

@@ -172,6 +172,7 @@ class StyleUpItemProvider with ChangeNotifier {
           builder: (context) => CommentSheetScreen(
             memNo: memNo,
             styleupNo: styleupNo,
+            vController: videoController,
           ),
         ));
     // showModalBottomSheet(

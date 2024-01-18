@@ -4,6 +4,7 @@ import 'package:showny/models/styleup_model.dart';
 import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 import 'package:showny/screens/home/widgets/styleup_item.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:video_player/video_player.dart';
 
@@ -259,10 +260,11 @@ class _StyleupScreenState extends State<StyleupScreen> {
     // VideoPlayerController? videoController;
     // Future<void>? initVideoController;
 
-    return Scaffold(
-      backgroundColor: Colors.black,
-
-      body: Stack(
+    return Material(
+      color: ShownyStyle.black,
+      // backgroundColor: Colors.black,
+      // resizeToAvoidBottomInset: false,
+      child: Stack(
         children: [
           PageView.builder(
             allowImplicitScrolling: true,

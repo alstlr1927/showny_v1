@@ -16,20 +16,11 @@ class HomeProvider with ChangeNotifier {
 
   var showTag = false;
 
-  /////////
-
   late PageController pageController;
   late TabController tabController;
 
-  // Widget get currentScreen => homeMenu[selectedMenuIdx];
-
   int curPageIdx = 0;
   bool isBattleSelected = false;
-
-  // void setSelectedMenuIdx(int idx) {
-  //   selectedMenuIdx = idx;
-  //   notifyListeners();
-  // }
 
   ScrollPhysics getPhysics() {
     if (curPageIdx == 0 || isBattleSelected) {

@@ -2,25 +2,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:keyboard_attachable/keyboard_attachable.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/drag_to_dispose/drag_to_dispose.dart';
+import 'package:showny/components/keep_alive_widget/keep_alive_widget.dart';
+import 'package:showny/components/logger/showny_logger.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
+import 'package:showny/components/title_text_field/comment_text_field.dart';
+import 'package:showny/components/user_profile/profile_container.dart';
+import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/common/comment_sheet/providers/comment_sheet_provider.dart';
 import 'package:showny/screens/common/comment_sheet/widgets/comment_page.dart';
 import 'package:showny/screens/common/comment_sheet/widgets/recomment_page.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../../components/bottom_sheet/theme/bottom_sheet_theme.dart';
 import '../../../components/divider/default_divider.dart';
 
 class CommentSheetScreen extends StatefulWidget {
+  final VideoPlayerController? vController;
   final String memNo;
   final String styleupNo;
   const CommentSheetScreen({
     super.key,
     required this.memNo,
     required this.styleupNo,
+    this.vController,
   });
 
   @override
@@ -51,73 +59,77 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
       builder: (context, _) {
         return Consumer<CommentSheetProvider>(
           builder: (context, prov, child) {
-            return DragToDispose(
-              onPageClosed: () {
-                if (mounted) {
-                  Navigator.pop(context);
-                }
-              },
-              maxHeight: maxHeight,
-              disposeController: prov.disposeController,
-              dragEnable: true,
-              backdropTapClosesPanel: true,
-              header: pageHeader(title: '댓글'),
-              panelBuilder: (controller, ac) {
-                return Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    FooterLayout(
-                      child: Column(
-                        children: [
-                          Flexible(
-                            // child: CommentPage(commentList: prov.commentList),
-                            child: PageView(
-                              controller: prov.pageController,
-                              physics: const NeverScrollableScrollPhysics(),
-                              onPageChanged: prov.setPageIdx,
-                              children: [
-                                CommentPage(commentList: prov.commentList),
-                                RecommentPage(
-                                    recommentList: prov.childCommentList)
-                              ],
-                            ),
+            return GestureDetector(
+              onTap: prov.unfocusAll,
+              child: DragToDispose(
+                onPageClosed: () {
+                  if (mounted) {
+                    Navigator.pop(context);
+                  }
+                },
+                maxHeight: maxHeight,
+                disposeController: prov.disposeController,
+                dragEnable: true,
+                backdropTapClosesPanel: true,
+                header: pageHeader(title: '댓글'),
+                panelBuilder: (controller, ac) {
+                  return Scaffold(
+                    resizeToAvoidBottomInset: true,
+                    extendBody: true,
+                    body: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        FooterLayout(
+                          child: Column(
+                            children: [
+                              Flexible(
+                                // child: CommentPage(commentList: prov.commentList),
+                                child: PageView(
+                                  controller: prov.pageController,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  onPageChanged: prov.setPageIdx,
+                                  children: [
+                                    KeepAliveWidget(
+                                        child: CommentPage(
+                                            commentList: prov.commentList)),
+                                    KeepAliveWidget(
+                                      child: RecommentPage(
+                                        parent: prov.parentComment,
+                                        recommentList: prov.childCommentList,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        // Column(
+                        //   children: [
+                        //     ShownyButton(
+                        //       onPressed: () {},
+                        //       option: ShownyButtonOption.fill(
+                        //         text: 'dd',
+                        //         theme: ShownyButtonFillTheme.violet,
+                        //         style: ShownyButtonFillStyle.fullRegular,
+                        //       ),
+                        //     ),
+                        //     ShownyButton(
+                        //       onPressed: () {},
+                        //       option: ShownyButtonOption.fill(
+                        //         text: 'dd',
+                        //         theme: ShownyButtonFillTheme.violet,
+                        //         style: ShownyButtonFillStyle.fullRegular,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        _buildCommentInput(controller),
+                      ],
                     ),
-                  ],
-                );
-              },
-              // header: Material(
-              //   borderRadius: const BorderRadius.only(
-              //       topLeft: Radius.circular(12),
-              //       topRight: Radius.circular(12)),
-              //   child: Container(
-              //     height: 520,
-              //     decoration: const BoxDecoration(
-              //       color: ShownyStyle.white,
-              //       borderRadius: BorderRadius.only(
-              //           topLeft: Radius.circular(12),
-              //           topRight: Radius.circular(12)),
-              //     ),
-              //     child: Column(
-              //       children: [
-              //         const SizedBox(
-              //           height: 20,
-              //         ),
-              //         Expanded(
-              //           child: PageView(
-              //             physics: const NeverScrollableScrollPhysics(),
-              //             children: const [
-              //               CommentPage(),
-              //               RecommentPage(),
-              //             ],
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+                  );
+                },
+              ),
             );
           },
         );
@@ -149,21 +161,6 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
                                   color: ShownyStyle.black,
                                   weight: FontWeight.w600))),
                     ),
-                    Positioned(
-                      top: 5.toWidth,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: Container(
-                          height: 5.toWidth,
-                          width: 37.toWidth,
-                          decoration: const BoxDecoration(
-                            color: BottomSheetThemeColor.sheet_handle_base_gray,
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                        ),
-                      ),
-                    ),
                     if (prov.currentPage == 1)
                       Align(
                         alignment: Alignment.centerLeft,
@@ -180,6 +177,87 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
                 const DefaultDivider(height: 0),
               ],
             ),
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildCommentInput(ScrollController controller) {
+    return Consumer<CommentSheetProvider>(builder: (context, prov, child) {
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // if (prov.currentPage == 0) ...{
+              //   if (prov.isRecommentMode && prov.parentComment != null) ...{
+              //     Container(
+              //       width: double.infinity,
+              //       height: 50,
+              //       padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
+              //       color: ShownyStyle.gray040,
+              //       child: Row(
+              //         children: [
+              //           Text(
+              //             '${prov.parentComment!.userInfo.memNm}님에게 남긴 답글',
+              //             style: ShownyStyle.caption(
+              //               color: ShownyStyle.gray060,
+              //             ),
+              //           ),
+              //           const Spacer(),
+              //           CupertinoButton(
+              //             onPressed: () {
+              //               prov.setParentComment(null);
+              //               prov.unfocusAll();
+              //             },
+              //             minSize: 0,
+              //             padding: EdgeInsets.zero,
+              //             child: Icon(
+              //               Icons.close,
+              //               size: 18,
+              //               color: ShownyStyle.gray080,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   },
+              // },
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Consumer<UserProvider>(builder: (context, userProv, child) {
+                      return ProfileContainer.size40(
+                        url: userProv.user.profileImage,
+                      );
+                    }),
+                    SizedBox(width: 8.toWidth),
+                    Expanded(
+                      child: CommentTextField(
+                        hintText: '댓글을 입력해 주세요.',
+                        maxLines: 1,
+                        controller: prov.commentController,
+                        suffixIcon: ShownyButton(
+                          onPressed: prov.handleSendComment,
+                          option: ShownyButtonOption.text(
+                            text: '작성',
+                            theme: ShownyButtonTextTheme.gray,
+                            style: ShownyButtonTextStyle.small,
+                          ),
+                        ),
+                        emojiEnable: true,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: ShownyStyle.defaultBottomPadding())
+            ],
           ),
         ),
       );
