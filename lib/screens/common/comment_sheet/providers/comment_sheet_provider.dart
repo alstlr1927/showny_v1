@@ -17,6 +17,13 @@ class CommentSheetProvider with ChangeNotifier {
   late List<StyleupCommentModel> commentList = [];
   late List<StyleupCommentModel> childCommentList = [];
 
+  int currentPage = 0;
+
+  void setPageIdx(int val) {
+    currentPage = val;
+    notifyListeners();
+  }
+
   Future _getStyleupCommentList() async {
     UserProvider userProvider =
         Provider.of<UserProvider>(state.context, listen: false);

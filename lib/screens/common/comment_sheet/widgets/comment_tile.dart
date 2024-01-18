@@ -8,13 +8,22 @@ import '../../../../models/styleup_comment_model.dart';
 
 class CommentTile extends StatefulWidget {
   final StyleupCommentModel comment;
+  final bool isRecomment;
   final Function(String commentNo) onClickRecomment;
 
-  const CommentTile({
-    super.key,
+  const CommentTile.comment({
+    Key? key,
     required this.comment,
     required this.onClickRecomment,
-  });
+  })  : isRecomment = false,
+        super(key: key);
+
+  const CommentTile.recomment({
+    Key? key,
+    required this.comment,
+    required this.onClickRecomment,
+  })  : isRecomment = true,
+        super(key: key);
 
   @override
   State<CommentTile> createState() => _CommentTileState();
@@ -76,19 +85,21 @@ class _CommentTileState extends State<CommentTile> {
                             ),
                           ),
                           SizedBox(width: 8.toWidth),
-                          CupertinoButton(
-                            onPressed: () {
-                              widget.onClickRecomment(comment.styleupCommentNo);
-                            },
-                            minSize: 0,
-                            padding: EdgeInsets.zero,
-                            child: Text(
-                              '답글 달기',
-                              style: ShownyStyle.caption(
-                                color: ShownyStyle.gray060,
+                          if (!widget.isRecomment)
+                            CupertinoButton(
+                              onPressed: () {
+                                widget
+                                    .onClickRecomment(comment.styleupCommentNo);
+                              },
+                              minSize: 0,
+                              padding: EdgeInsets.zero,
+                              child: Text(
+                                '답글 달기',
+                                style: ShownyStyle.caption(
+                                  color: ShownyStyle.gray060,
+                                ),
                               ),
                             ),
-                          ),
                         ],
                       ),
                       if (comment.childCommentList.isNotEmpty) ...{

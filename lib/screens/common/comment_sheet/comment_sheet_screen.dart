@@ -70,22 +70,18 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
                       child: Column(
                         children: [
                           Flexible(
-                              child: PageView(
-                            controller: prov.pageController,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: [
-                              CommentPage(commentList: prov.commentList),
-                              Material(
-                                color: Colors.green,
-                                child: LazyLoadScrollView(
-                                  onEndOfPage: () {},
-                                  child: CustomScrollView(
-                                    controller: controller,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )),
+                            // child: CommentPage(commentList: prov.commentList),
+                            child: PageView(
+                              controller: prov.pageController,
+                              physics: const NeverScrollableScrollPhysics(),
+                              onPageChanged: prov.setPageIdx,
+                              children: [
+                                CommentPage(commentList: prov.commentList),
+                                RecommentPage(
+                                    recommentList: prov.childCommentList)
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -148,7 +144,7 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
                     SizedBox(
                       height: 56.toWidth,
                       child: Center(
-                          child: Text(title,
+                          child: Text(prov.currentPage == 0 ? '댓글' : '답글',
                               style: ShownyStyle.body1(
                                   color: ShownyStyle.black,
                                   weight: FontWeight.w600))),
@@ -168,13 +164,15 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
                         ),
                       ),
                     ),
-                    if (prov.pageController.hasClients &&
-                        prov.pageController.page != 0.0)
+                    if (prov.currentPage == 1)
                       Align(
                         alignment: Alignment.centerLeft,
                         child: CupertinoButton(
                           onPressed: prov.changeToComment,
-                          child: const Icon(Icons.arrow_back_ios),
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                   ],

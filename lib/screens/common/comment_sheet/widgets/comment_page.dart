@@ -37,7 +37,7 @@ class _CommentPageState extends State<CommentPage> {
                 sliver: SliverList(
                   delegate:
                       SliverChildListDelegate(widget.commentList.map((item) {
-                    return CommentTile(
+                    return CommentTile.comment(
                       comment: item,
                       onClickRecomment: (String commentNo) {
                         prov.changeToRecomment(commentNo);
