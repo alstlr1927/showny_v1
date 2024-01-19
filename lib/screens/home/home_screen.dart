@@ -63,7 +63,6 @@ class _HomeScreenState extends State<HomeScreen>
                       // );
                       return BattleScreen(
                         battleList: prov.styleUpBattle?.battleItemList ?? [],
-                        onPageChanged: prov.setCurrentBattle,
                         title: prov.styleUpBattle?.title ?? '',
                         battleRound: prov.styleUpBattle?.round ?? '',
                         isMain: true,

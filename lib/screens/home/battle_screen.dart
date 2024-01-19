@@ -13,7 +13,6 @@ class BattleScreen extends StatefulWidget {
   const BattleScreen(
       {super.key,
       required this.battleList,
-      required this.onPageChanged,
       required this.title,
       required this.battleRound,
       required this.isMain});
@@ -21,7 +20,6 @@ class BattleScreen extends StatefulWidget {
   final bool isMain;
   final String title;
   final List<StyleupBattleItemModel> battleList;
-  final Function(int) onPageChanged;
   final String battleRound;
 
   @override

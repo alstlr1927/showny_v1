@@ -16,6 +16,7 @@ class PageName {
   static const String BATTLE_UPLOAD = '/BattleUpload';
   static const String SELECT_STYLEUP = '/SelectStyleup';
   static const String STORE_SEARCH = '/StoreSearch';
+  static const String BATTLE_LIST = '/BattleList';
 }
 
 class ShownyRouter {

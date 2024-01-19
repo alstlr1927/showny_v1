@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
+import 'package:showny/components/page_route.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/models/styleup_model.dart';
+import 'package:showny/screens/battle_list/battle_list.dart';
 import 'package:showny/screens/home/providers/battle_item_provider.dart';
 import 'package:showny/screens/home/widgets/battle_user.dart';
 import 'package:showny/screens/home/widgets/product_container_battle.dart';
@@ -93,8 +95,14 @@ class _BattleItemState extends State<BattleItem> with TickerProviderStateMixin {
                                   children: [
                                     CupertinoButton(
                                       onPressed: () {
-                                        // Navigator.pushNamed(
-                                        //   context, BattleListScreen.routeName);
+                                        Navigator.push(
+                                            context,
+                                            ShownyPageRoute(
+                                              builder: (context) =>
+                                                  BattleList(),
+                                              settings: RouteSettings(
+                                                  name: PageName.BATTLE_LIST),
+                                            ));
                                       },
                                       minSize: 0,
                                       padding: EdgeInsets.zero,

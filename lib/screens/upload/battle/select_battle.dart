@@ -129,7 +129,7 @@ class _SelectBattleState extends State<SelectBattle> {
               width: indicator,
               height: 4,
               margin: EdgeInsets.only(top: 30.toWidth),
-              child: prov.battleList.length != 1
+              child: prov.battleList.length == 1
                   ? const SizedBox()
                   : Stack(
                       children: [

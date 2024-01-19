@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:ui' as ui;
 import 'dart:math' as Math;
 
+import 'package:intl/intl.dart';
+
 extension IterableExt<T> on Iterable<T> {
   Iterable<T> superJoin(T separator) {
     final iterator = this.iterator;
@@ -161,5 +163,33 @@ class Device {
 class ShownyUtil {
   static List<List<T>> deepCopy2DArray<T>(List<List<T>> original) {
     return original.map((list) => List<T>.from(list)).toList();
+  }
+
+  static String formatDateString(String inputDate,
+      {bool onlyMonthDay = false}) {
+    if (onlyMonthDay) {
+      DateTime date = DateTime.parse(inputDate);
+      return DateFormat('MM.dd').format(date);
+    } else {
+      DateTime date = DateTime.parse(inputDate);
+      return DateFormat('yyyy.MM.dd').format(date);
+    }
+  }
+
+  static String battleStatusString(String status) {
+    switch (status) {
+      case '0':
+        return '배틀 시작 전';
+      case '1':
+        return '참여 하기';
+      case '2':
+        return '배틀 대기 중';
+      case '3':
+        return '투표 하기';
+      case '4':
+        return '배틀 종료';
+      default:
+        return '';
+    }
   }
 }
