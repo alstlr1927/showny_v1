@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:showny/components/keep_alive_widget/keep_alive_widget.dart';
-import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 
 import 'package:showny/screens/home/providers/home_provider.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen>
                       );
                     } else {
                       return KeepAliveWidget(
-                        child: BattleScreen(),
+                        child: BattleScreen.home(),
                       );
                     }
                   },

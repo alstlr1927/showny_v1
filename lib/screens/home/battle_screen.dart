@@ -1,30 +1,28 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:showny/components/page_route.dart';
-import 'package:showny/models/styleup_battle_item_model.dart';
-import 'package:showny/models/user_model.dart';
-import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/home/providers/battle_screen_provider.dart';
-import 'package:showny/screens/home/widgets/battle_item.dart';
-import 'package:showny/screens/profile/other_profile_screen.dart';
 
+import '../../models/styleup_battle_item_model.dart';
 import '../../models/styleup_battle_model.dart';
+import '../common/scroll_physics/custom_scroll_physics.dart';
+import 'providers/battle_screen_provider.dart';
+import 'widgets/battle_item.dart';
 
 class BattleScreen extends StatefulWidget {
+  final bool isMain;
+  final String battleNo;
+
+  const BattleScreen.home({
+    Key? key,
+    this.isMain = true,
+  })  : battleNo = '',
+        super(key: key);
+
   const BattleScreen({
     super.key,
-    // required this.battleList,
-    // required this.title,
-    // required this.battleRound,
     this.isMain = true,
+    required this.battleNo,
   });
-
-  final bool isMain;
-  // final String title;
-  // final List<StyleupBattleItemModel> battleList;
-  // final String battleRound;
 
   @override
   State<BattleScreen> createState() => _BattleScreenState();

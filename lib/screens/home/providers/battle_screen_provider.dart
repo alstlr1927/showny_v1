@@ -7,9 +7,10 @@ import '../../../api/new_api/api_helper.dart';
 import '../../../models/styleup_battle_item_model.dart';
 import '../../../models/styleup_battle_model.dart';
 import '../../../providers/user_model_provider.dart';
+import '../battle_screen.dart';
 
 class BattleScreenProvider with ChangeNotifier {
-  State state;
+  State<BattleScreen> state;
 
   StyleupBattleModel? styleUpBattle;
 
@@ -41,6 +42,25 @@ class BattleScreenProvider with ChangeNotifier {
     );
   }
 
+  void getBattleItemListById(String battleNo) {
+    UserProvider userProvider =
+        Provider.of<UserProvider>(state.context, listen: false);
+
+    ApiHelper.shared.getStyleupBattleItemListById(
+      userProvider.user.memNo,
+      battleNo,
+      (styleupBattleModel) {
+        ShownyLog().i("Battle list loaded successfully");
+        styleUpBattle = styleupBattleModel;
+
+        notifyListeners();
+      },
+      (error) {
+        debugPrint("Error loading styleup list: $error");
+      },
+    );
+  }
+
   @override
   void notifyListeners() {
     if (state.mounted) {
@@ -54,6 +74,12 @@ class BattleScreenProvider with ChangeNotifier {
   }
 
   BattleScreenProvider(this.state) {
-    getBattleItemList();
+    if (state.widget.battleNo.isNotEmpty) {
+      // 다른 battleNo로 가져오기
+      getBattleItemListById(state.widget.battleNo);
+    } else {
+      // home battle data 가져오기
+      getBattleItemList();
+    }
   }
 }

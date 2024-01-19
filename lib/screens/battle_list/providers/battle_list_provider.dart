@@ -115,25 +115,14 @@ class BattleListProvider with ChangeNotifier {
       //
     } else if (battle.status == "2") {
     } else if (battle.status == "3") {
-      UserProvider userProvider =
-          Provider.of<UserProvider>(state.context, listen: false);
-      final user = userProvider.user;
-      ApiHelper.shared.getStyleupBattleItemListById(
-          user.memNo, battle.styleupBattleNo, (getBattleData) {
-        Navigator.push(
-            state.context,
-            ShownyPageRoute(
-              builder: (context) => BattleScreen(
-                isMain: false,
-                // battleList: getBattleData.battleItemList,
-                // title: getBattleData.title,
-                // battleRound: getBattleData.round,
-                // isMain: false,
-              ),
-            ));
-      }, (error) {
-        debugPrint(error);
-      });
+      Navigator.push(
+          state.context,
+          ShownyPageRoute(
+            builder: (context) => BattleScreen(
+              isMain: false,
+              battleNo: battle.styleupBattleNo,
+            ),
+          ));
     } else if (battle.status == "4") {}
   }
 
