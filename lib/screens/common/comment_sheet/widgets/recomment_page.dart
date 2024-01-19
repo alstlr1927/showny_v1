@@ -13,10 +13,12 @@ import 'package:showny/utils/showny_util.dart';
 class RecommentPage extends StatefulWidget {
   final StyleupCommentModel? parent;
   final List<StyleupCommentModel> recommentList;
+  final ScrollController controller;
   const RecommentPage({
     super.key,
     this.parent,
     required this.recommentList,
+    required this.controller,
   });
 
   @override
@@ -33,7 +35,7 @@ class _RecommentPageState extends State<RecommentPage> {
       child: LazyLoadScrollView(
         onEndOfPage: () {},
         child: CustomScrollView(
-          controller: prov.recommScrollController,
+          // controller: widget.controller,
           slivers: [
             SliverToBoxAdapter(
               child: SizedBox(

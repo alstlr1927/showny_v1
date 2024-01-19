@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
@@ -10,7 +9,6 @@ import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
 import '../../../../models/styleup_comment_model.dart';
-import '../../../home/widgets/report_sheet_screen.dart';
 
 enum CommentType { comment, recomment, parent }
 

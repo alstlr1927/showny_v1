@@ -166,19 +166,23 @@ class CommentSheetProvider with ChangeNotifier {
   Future changeToRecomment(StyleupCommentModel comment) async {
     unfocusAll();
     setParentComment(comment);
+
     pageController
         .nextPage(
-            duration: const Duration(milliseconds: 350), curve: Curves.easeIn)
+            duration: const Duration(milliseconds: 200), curve: Curves.easeIn)
         .then((value) {
       getChildCommentList();
     });
+    // currentPage = 1;
+    // notifyListeners();
+    // getChildCommentList();
   }
 
   Future changeToComment() async {
     unfocusAll();
     pageController
         .animateToPage(0,
-            duration: const Duration(milliseconds: 350), curve: Curves.easeIn)
+            duration: const Duration(milliseconds: 200), curve: Curves.easeIn)
         .then((value) {
       //
       int idx = _findIndexWhereComment(parentComment?.styleupCommentNo ?? '-1');
@@ -188,6 +192,14 @@ class CommentSheetProvider with ChangeNotifier {
       childCommentList.clear();
       notifyListeners();
     });
+    // currentPage = 0;
+    // notifyListeners();
+    // int idx = _findIndexWhereComment(parentComment?.styleupCommentNo ?? '-1');
+    // commentList[idx].childCommentList = [...childCommentList];
+
+    // setParentComment(null);
+    // childCommentList.clear();
+    // notifyListeners();
   }
 
   Future handleSendComment() async {
@@ -339,6 +351,10 @@ class CommentSheetProvider with ChangeNotifier {
 
   @override
   void dispose() {
+    // disposeController.close();
+    pageController.dispose();
+    commentScrollController.dispose();
+    recommScrollController.dispose();
     super.dispose();
   }
 

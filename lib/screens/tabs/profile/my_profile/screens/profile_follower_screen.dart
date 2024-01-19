@@ -83,12 +83,6 @@ class ProfileFollowerScreenState extends State<ProfileFollowerScreen> {
                               .user
                               .memNo ==
                           followerList[index].memNo) {
-                        // Navigator.push(
-                        //     context,
-                        //     PageRouteBuilderRightLeft(
-                        //         child: ProfileScreen(
-                        //       isBack: true,
-                        //     )));
                       } else {
                         Navigator.push(
                             context,

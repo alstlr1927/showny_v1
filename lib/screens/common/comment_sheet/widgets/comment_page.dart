@@ -14,9 +14,11 @@ import '../../../../components/bottom_sheet/theme/bottom_sheet_theme.dart';
 
 class CommentPage extends StatefulWidget {
   final List<StyleupCommentModel> commentList;
+  final ScrollController controller;
   const CommentPage({
     super.key,
     required this.commentList,
+    required this.controller,
   });
 
   @override
@@ -33,7 +35,7 @@ class _CommentPageState extends State<CommentPage> {
       child: LazyLoadScrollView(
         onEndOfPage: () {},
         child: CustomScrollView(
-          controller: prov.commentScrollController,
+          controller: widget.controller,
           slivers: [
             if (prov.isCommentLoading) ...{
               SliverToBoxAdapter(

@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../main.dart';
 
 typedef CloseCallback = void Function(dynamic value);
 
@@ -131,6 +134,8 @@ class _DisposePanelState extends State<DisposePanel>
     _sc!.removeListener(dragTopListener);
     _sc?.dispose();
     _ac?.dispose();
+    BackButtonInterceptor.remove(myInterceptor);
+    routeObserver.unsubscribe(this);
 
     super.dispose();
   }
@@ -147,15 +152,15 @@ class _DisposePanelState extends State<DisposePanel>
 
   @override
   void didChangeDependencies() {
-    // routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
+    routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute<dynamic>);
     super.didChangeDependencies();
   }
 
   @override
   void initState() {
     super.initState();
-    // BackButtonInterceptor.add(myInterceptor,
-    //     context: context, name: 'DragToDispose');
+    BackButtonInterceptor.add(myInterceptor,
+        context: context, name: 'DragToDispose');
     double? startValue =
         widget.defaultPageState == PageState.CLOSED ? 0.0 : 1.0;
     if (widget.snapPoint != null) {
@@ -196,16 +201,16 @@ class _DisposePanelState extends State<DisposePanel>
     }
   }
 
-  // bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-  //   if (!stopDefaultButtonEvent) {
-  //     if (info.routeWhenAdded!.isCurrent) {
-  //       _close();
-  //     } else {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    if (!stopDefaultButtonEvent) {
+      if (info.routeWhenAdded!.isCurrent) {
+        _close();
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {

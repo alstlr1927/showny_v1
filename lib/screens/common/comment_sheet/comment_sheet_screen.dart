@@ -59,77 +59,64 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
       builder: (context, _) {
         return Consumer<CommentSheetProvider>(
           builder: (context, prov, child) {
-            return GestureDetector(
-              onTap: prov.unfocusAll,
-              child: DragToDispose(
-                onPageClosed: () {
-                  if (mounted) {
-                    Navigator.pop(context);
-                  }
-                },
-                maxHeight: maxHeight,
-                disposeController: prov.disposeController,
-                dragEnable: true,
-                backdropTapClosesPanel: true,
-                header: pageHeader(title: '댓글'),
-                panelBuilder: (controller, ac) {
-                  return Scaffold(
-                    resizeToAvoidBottomInset: true,
-                    extendBody: true,
-                    body: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        FooterLayout(
-                          child: Column(
-                            children: [
-                              Flexible(
-                                // child: CommentPage(commentList: prov.commentList),
-                                child: PageView(
-                                  controller: prov.pageController,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  onPageChanged: prov.setPageIdx,
-                                  children: [
-                                    KeepAliveWidget(
-                                        child: CommentPage(
-                                            commentList: prov.commentList)),
-                                    KeepAliveWidget(
-                                      child: RecommentPage(
-                                        parent: prov.parentComment,
-                                        recommentList: prov.childCommentList,
-                                      ),
-                                    )
-                                  ],
-                                ),
+            return DragToDispose(
+              onPageClosed: () {
+                if (mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              maxHeight: maxHeight,
+              disposeController: prov.disposeController,
+              dragEnable: true,
+              backdropTapClosesPanel: true,
+              header: pageHeader(title: '댓글'),
+              panelBuilder: (controller, ac) {
+                return Scaffold(
+                  resizeToAvoidBottomInset: true,
+                  body: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      FooterLayout(
+                        child: Column(
+                          children: [
+                            Flexible(
+                              // child: IndexedStack(
+                              //   index: prov.currentPage,
+                              //   children: [
+                              //     CommentPage(
+                              //         commentList: prov.commentList,
+                              //         controller: controller),
+                              //     RecommentPage(
+                              //         recommentList: prov.childCommentList,
+                              //         controller: controller)
+                              //   ],
+                              // ),
+                              child: PageView(
+                                controller: prov.pageController,
+                                physics: const NeverScrollableScrollPhysics(),
+                                onPageChanged: prov.setPageIdx,
+                                children: [
+                                  CommentPage(
+                                    commentList: prov.commentList,
+                                    controller: controller,
+                                  ),
+                                  RecommentPage(
+                                    parent: prov.parentComment,
+                                    recommentList: prov.childCommentList,
+                                    controller: controller,
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        // Column(
-                        //   children: [
-                        //     ShownyButton(
-                        //       onPressed: () {},
-                        //       option: ShownyButtonOption.fill(
-                        //         text: 'dd',
-                        //         theme: ShownyButtonFillTheme.violet,
-                        //         style: ShownyButtonFillStyle.fullRegular,
-                        //       ),
-                        //     ),
-                        //     ShownyButton(
-                        //       onPressed: () {},
-                        //       option: ShownyButtonOption.fill(
-                        //         text: 'dd',
-                        //         theme: ShownyButtonFillTheme.violet,
-                        //         style: ShownyButtonFillStyle.fullRegular,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        _buildCommentInput(controller),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      ),
+                      child ?? SizedBox(),
+                      _buildCommentInput(controller),
+                    ],
+                  ),
+                );
+              },
             );
           },
         );
