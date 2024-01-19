@@ -16,7 +16,6 @@ class CommentSheetProvider with ChangeNotifier {
   State<CommentSheetScreen> state;
 
   PageController pageController = PageController();
-  DragToDisposeController disposeController = DragToDisposeController();
 
   late List<StyleupCommentModel> commentList = [];
   late List<StyleupCommentModel> childCommentList = [];
@@ -32,8 +31,6 @@ class CommentSheetProvider with ChangeNotifier {
   bool isRecommentLoading = true;
   bool isCommentLoading = true;
 
-  ScrollController commentScrollController = ScrollController();
-  ScrollController recommScrollController = ScrollController();
   late UserProvider userProvider;
 
   void setCommentData({
@@ -351,15 +348,14 @@ class CommentSheetProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    // disposeController.close();
     pageController.dispose();
-    commentScrollController.dispose();
-    recommScrollController.dispose();
+
     super.dispose();
   }
 
   CommentSheetProvider(this.state) {
     userProvider = Provider.of<UserProvider>(state.context, listen: false);
+
     _getStyleupCommentList();
   }
 }

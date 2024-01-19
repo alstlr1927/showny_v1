@@ -52,71 +52,71 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final maxHeight =
-        ScreenUtil().screenHeight - ScreenUtil().statusBarHeight - 100;
     return ChangeNotifierProvider<CommentSheetProvider>.value(
       value: provider,
       builder: (context, _) {
         return Consumer<CommentSheetProvider>(
           builder: (context, prov, child) {
-            return DragToDispose(
-              onPageClosed: () {
-                if (mounted) {
-                  Navigator.pop(context);
-                }
-              },
-              maxHeight: maxHeight,
-              disposeController: prov.disposeController,
-              dragEnable: true,
-              backdropTapClosesPanel: true,
-              header: pageHeader(title: '댓글'),
-              panelBuilder: (controller, ac) {
-                return Scaffold(
-                  resizeToAvoidBottomInset: true,
-                  body: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      FooterLayout(
-                        child: Column(
-                          children: [
-                            Flexible(
-                              // child: IndexedStack(
-                              //   index: prov.currentPage,
-                              //   children: [
-                              //     CommentPage(
-                              //         commentList: prov.commentList,
-                              //         controller: controller),
-                              //     RecommentPage(
-                              //         recommentList: prov.childCommentList,
-                              //         controller: controller)
-                              //   ],
-                              // ),
-                              child: PageView(
-                                controller: prov.pageController,
-                                physics: const NeverScrollableScrollPhysics(),
-                                onPageChanged: prov.setPageIdx,
-                                children: [
-                                  CommentPage(
-                                    commentList: prov.commentList,
-                                    controller: controller,
+            return Stack(
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                ),
+                DraggableScrollableSheet(
+                  minChildSize: .45,
+                  maxChildSize: .85,
+                  snapSizes: const [.5, 0.85],
+                  snap: true,
+                  builder: (context, controller) {
+                    return Scaffold(
+                      resizeToAvoidBottomInset: true,
+                      backgroundColor: Colors.transparent,
+                      body: Column(
+                        children: [
+                          _buildHeader(),
+                          Expanded(
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                FooterLayout(
+                                  child: Column(
+                                    children: [
+                                      Flexible(
+                                        child: PageView(
+                                          controller: prov.pageController,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          onPageChanged: prov.setPageIdx,
+                                          children: [
+                                            KeepAliveWidget(
+                                              child: CommentPage(
+                                                commentList: prov.commentList,
+                                                controller: controller,
+                                              ),
+                                            ),
+                                            RecommentPage(
+                                              parent: prov.parentComment,
+                                              recommentList:
+                                                  prov.childCommentList,
+                                              controller: controller,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  RecommentPage(
-                                    parent: prov.parentComment,
-                                    recommentList: prov.childCommentList,
-                                    controller: controller,
-                                  )
-                                ],
-                              ),
+                                ),
+                                child ?? SizedBox(),
+                                _buildCommentInput(controller),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      child ?? SizedBox(),
-                      _buildCommentInput(controller),
-                    ],
-                  ),
-                );
-              },
+                    );
+                  },
+                ),
+              ],
             );
           },
         );
@@ -124,50 +124,55 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
     );
   }
 
-  Widget pageHeader({String title = ''}) {
-    return Consumer<CommentSheetProvider>(builder: (context, prov, child) {
-      return ClipRRect(
-        borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-        child: Material(
-          child: Container(
-            decoration: const BoxDecoration(
-              color: BottomSheetThemeColor.sheet_base_white,
-            ),
-            child: Column(
-              children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      height: 56.toWidth,
-                      child: Center(
-                          child: Text(prov.currentPage == 0 ? '댓글' : '답글',
-                              style: ShownyStyle.body1(
-                                  color: ShownyStyle.black,
-                                  weight: FontWeight.w600))),
-                    ),
-                    if (prov.currentPage == 1)
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: CupertinoButton(
-                          onPressed: prov.changeToComment,
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-                const DefaultDivider(height: 0),
-              ],
+  Widget _buildHeader() {
+    return Consumer<CommentSheetProvider>(
+      builder: (context, prov, child) {
+        return Container(
+          width: double.infinity,
+          height: 52.toWidth,
+          decoration: const ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
             ),
           ),
-        ),
-      );
-    });
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 52.toWidth,
+                      alignment: Alignment.center,
+                      child: Text(prov.currentPage == 0 ? '댓글' : '답글',
+                          style: ShownyStyle.body1(
+                              color: ShownyStyle.black,
+                              weight: FontWeight.w600)),
+                    ),
+                  ),
+                  if (prov.currentPage == 1)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: CupertinoButton(
+                        onPressed: prov.changeToComment,
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const DefaultDivider(height: 0),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildCommentInput(ScrollController controller) {
@@ -179,40 +184,6 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // if (prov.currentPage == 0) ...{
-              //   if (prov.isRecommentMode && prov.parentComment != null) ...{
-              //     Container(
-              //       width: double.infinity,
-              //       height: 50,
-              //       padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
-              //       color: ShownyStyle.gray040,
-              //       child: Row(
-              //         children: [
-              //           Text(
-              //             '${prov.parentComment!.userInfo.memNm}님에게 남긴 답글',
-              //             style: ShownyStyle.caption(
-              //               color: ShownyStyle.gray060,
-              //             ),
-              //           ),
-              //           const Spacer(),
-              //           CupertinoButton(
-              //             onPressed: () {
-              //               prov.setParentComment(null);
-              //               prov.unfocusAll();
-              //             },
-              //             minSize: 0,
-              //             padding: EdgeInsets.zero,
-              //             child: Icon(
-              //               Icons.close,
-              //               size: 18,
-              //               color: ShownyStyle.gray080,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   },
-              // },
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                 child: Row(

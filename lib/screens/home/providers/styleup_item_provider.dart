@@ -169,6 +169,25 @@ class StyleUpItemProvider with ChangeNotifier {
   }
 
   void onClickComment({required String styleupNo, required String memNo}) {
+    showModalBottomSheet(
+      context: state.context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      useRootNavigator: true,
+      enableDrag: false,
+      isDismissible: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
+      ),
+      builder: (context) {
+        // return WearingItemsSheetScreen(itemInfo: itemInfo);
+        return CommentSheetScreen(memNo: memNo, styleupNo: styleupNo);
+      },
+    );
+    return;
     Navigator.push(
         state.context,
         SheetRoute(

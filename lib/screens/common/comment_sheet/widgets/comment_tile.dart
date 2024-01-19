@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/bottom_sheet/bottom_sheet_picker.dart';
+import 'package:showny/components/bottom_sheet/show_modal_sheet.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/models/user_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
@@ -62,17 +64,36 @@ class _CommentTileState extends State<CommentTile> {
     final user = userProvider.user;
     StyleupCommentModel comment = widget.comment;
     UserModel commentUser = widget.comment.userInfo;
-    return Slidable(
-      enabled: widget.type != CommentType.parent,
-      endActionPane: ActionPane(
-        extentRatio: 0.2,
-        motion: const BehindMotion(),
-        children: [
-          user.memNo == commentUser.memNo
-              ? _slideDeleteButton()
-              : _slideReportButton()
-        ],
-      ),
+    return GestureDetector(
+      onLongPress: () {
+        List<BottomSheetItem> options = [];
+        if (commentUser.memNo == user.memNo) {
+          options = [
+            BottomSheetItem(
+              title: '삭제하기',
+              cautionFlag: true,
+              onPressed: () {},
+            ),
+          ];
+        } else {
+          options = [
+            BottomSheetItem(
+              title: '신고하기',
+              onPressed: () {},
+            ),
+          ];
+        }
+        showModalPopUp(
+          context: context,
+          builder: (context) {
+            return BottomSheetPicker(
+              actions: options,
+              cancelItem: BottomSheetItem(title: '취소', onPressed: () {}),
+            );
+          },
+        );
+      },
+      behavior: HitTestBehavior.translucent,
       child: Container(
         padding:
             EdgeInsets.symmetric(vertical: 10.toWidth, horizontal: 16.toWidth),

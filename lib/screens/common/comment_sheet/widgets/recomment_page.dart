@@ -35,13 +35,14 @@ class _RecommentPageState extends State<RecommentPage> {
       child: LazyLoadScrollView(
         onEndOfPage: () {},
         child: CustomScrollView(
-          // controller: widget.controller,
+          controller: widget.controller,
+          physics: AlwaysScrollableScrollPhysics(),
           slivers: [
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 22.toWidth,
-              ),
-            ),
+            // SliverToBoxAdapter(
+            //   child: SizedBox(
+            //     height: 22.toWidth,
+            //   ),
+            // ),
             if (widget.parent != null)
               SliverPadding(
                 padding: EdgeInsets.symmetric(horizontal: 0.toWidth),

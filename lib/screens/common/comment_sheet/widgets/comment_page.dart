@@ -45,11 +45,11 @@ class _CommentPageState extends State<CommentPage> {
                 ),
               ),
             } else ...{
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 22.toWidth,
-                ),
-              ),
+              // SliverToBoxAdapter(
+              //   child: SizedBox(
+              //     height: 22.toWidth,
+              //   ),
+              // ),
               SliverTween(
                 duration: const Duration(milliseconds: 200),
                 child: SliverPadding(
