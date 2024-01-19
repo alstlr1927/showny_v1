@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/api/entities/styleup_battle_response.dart';
 import 'package:showny/components/logger/showny_logger.dart';
 
 import '../../../api/new_api/api_helper.dart';

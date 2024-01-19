@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
-import 'package:showny/models/styleup_model.dart';
 import 'package:showny/screens/battle_list/battle_list.dart';
 import 'package:showny/screens/home/providers/battle_item_provider.dart';
 import 'package:showny/screens/home/widgets/battle_user.dart';
@@ -144,35 +143,6 @@ class _BattleItemState extends State<BattleItem> with TickerProviderStateMixin {
           );
         });
   }
-
-  // Widget _buildBattleListBtn() {
-  //   return Row(
-  //     children: [
-  //       const Spacer(),
-  //       CupertinoButton(
-  //         onPressed: () {},
-  //         child: const Row(
-  //           children: [
-  //             Text(
-  //               '배틀리스트',
-  //               style: TextStyle(
-  //                 color: Colors.white,
-  //                 fontSize: 10,
-  //                 fontWeight: FontWeight.w400,
-  //               ),
-  //             ),
-  //             Icon(
-  //               Icons.arrow_forward_ios,
-  //               color: Colors.white,
-  //               size: 10,
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       const SizedBox(width: 10),
-  //     ],
-  //   );
-  // }
 
   Widget _buildBottomBanner() {
     return Container(

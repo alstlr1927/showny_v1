@@ -17,8 +17,6 @@ class BattleItemProvider with ChangeNotifier {
   bool isSelectMode = false;
   int focused = -1;
 
-  // late HomeProvider homeProv;
-
   // animation
   late AnimationController _animation;
   late Animation<double> scaleAnimationA;
@@ -198,7 +196,6 @@ class BattleItemProvider with ChangeNotifier {
   }
 
   BattleItemProvider(this.state) {
-    // homeProv = Provider.of<HomeProvider>(state.context, listen: false);
     _initSetting();
   }
 

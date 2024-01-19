@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
-import 'package:showny/models/styleup_battle_item_model.dart';
-import 'package:showny/models/styleup_battle_model.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 
 class HomeProvider with ChangeNotifier {
   State state;
 
-  // late List<Widget> homeMenu;
-  int currentBattle = 0;
-  StyleupBattleModel? styleUpBattle;
   List<StyleupModel> styleUpList = [];
 
   var showTag = false;
@@ -32,21 +27,6 @@ class HomeProvider with ChangeNotifier {
   void setIsBattleSelected(bool value) {
     isBattleSelected = value;
     notifyListeners();
-  }
-
-  void setCurrentBattle(int idx) {
-    currentBattle = idx;
-    notifyListeners();
-  }
-
-  void setBattleData(
-      {required String roundNo, required StyleupBattleItemModel copy}) {
-    int idx = styleUpBattle!.battleItemList
-        .indexWhere((element) => element.battleRoundNo == roundNo);
-    if (idx != -1) {
-      styleUpBattle!.battleItemList[idx] = copy;
-      notifyListeners();
-    }
   }
 
   // TODO 추후 copyWith 사용하여 styleup 데이터 수정하는 부분 통합
@@ -92,42 +72,7 @@ class HomeProvider with ChangeNotifier {
       (styleUpList) {
         debugPrint('StyleUp list loaded suceessfully');
         this.styleUpList = styleUpList;
-        // homeMenu[0] = StyleupScreen(
-        //   initIndex: 0,
-        //   styleupList: styleUpList,
-        //   isMain: true,
-        // );
-        notifyListeners();
-      },
-      (error) {
-        debugPrint("Error loading styleup list: $error");
-      },
-    );
-  }
 
-  void getBattleItemList() {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(state.context, listen: false);
-
-    ApiHelper.shared.getStyleupBattleItemList(
-      userProvider.user.memNo,
-      (styleupBattleModel) {
-        debugPrint("Battle list loaded successfully");
-        styleUpBattle = styleupBattleModel;
-        // styleUpBattle?.battleItemList.first.isPoll = false;
-        // styleUpBattle?.battleItemList.first.pollTag = 0;
-        // styleUpBattle?.battleItemList[1].isPoll = false;
-        // styleUpBattle?.battleItemList[1].pollTag = 0;
-        // homeMenu[1] = BattleScreen(
-        //   battleList: styleupBattleModel.battleItemList,
-        //   onPageChanged: (p0) {
-        //     currentBattle = p0;
-        //     notifyListeners();
-        //   },
-        //   title: styleupBattleModel.title,
-        //   battleRound: styleupBattleModel.round,
-        //   isMain: true,
-        // );
         notifyListeners();
       },
       (error) {
@@ -157,25 +102,7 @@ class HomeProvider with ChangeNotifier {
   HomeProvider(this.state) {
     pageController = PageController();
     tabController = TabController(length: 2, vsync: state as TickerProvider);
-    // homeMenu = [
-    //   StyleupScreen(
-    //     isMain: true,
-    //     initIndex: 0,
-    //     styleupList: styleUpList,
-    //     updateShowMenu: updateShowMenu,
-    //   ),
-    //   BattleScreen(
-    //     battleList: styleUpBattle?.battleItemList ?? [],
-    //     onPageChanged: (p0) {
-    //       currentBattle = p0;
-    //       notifyListeners();
-    //     },
-    //     title: "",
-    //     battleRound: "",
-    //     isMain: true,
-    //   ),
-    // ];
+
     getStyleUpList();
-    getBattleItemList();
   }
 }

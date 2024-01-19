@@ -1,6 +1,8 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/utils/showny_util.dart';
 
 import '../../models/styleup_battle_item_model.dart';
 import '../../models/styleup_battle_model.dart';
@@ -57,19 +59,42 @@ class _BattleScreenState extends State<BattleScreen> {
             List<StyleupBattleItemModel> battleList =
                 styleUpBattle?.battleItemList ?? [];
             return Material(
-              child: PageView(
-                physics: const CustomScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                children: List.generate(battleList.length, (index) {
-                  return BattleItem(
-                    battleItem: battleList[index],
-                    index: index,
-                    battleRound: styleUpBattle?.round ?? '',
-                    title: styleUpBattle?.title ?? '',
-                    isMain: widget.isMain,
-                    setData: prov.setBattleData,
-                  );
-                }),
+              child: Stack(
+                children: [
+                  PageView(
+                    physics: const CustomScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    children: List.generate(battleList.length, (index) {
+                      return BattleItem(
+                        battleItem: battleList[index],
+                        index: index,
+                        battleRound: styleUpBattle?.round ?? '',
+                        title: styleUpBattle?.title ?? '',
+                        isMain: widget.isMain,
+                        setData: prov.setBattleData,
+                      );
+                    }),
+                  ),
+                  if (!widget.isMain)
+                    SafeArea(
+                      child: SizedBox(
+                        height: 48.toWidth,
+                        child: Row(
+                          children: [
+                            CupertinoButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Icon(
+                                Icons.arrow_back_ios_new,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ),
             );
           },
