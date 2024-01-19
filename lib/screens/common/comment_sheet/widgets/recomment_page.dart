@@ -75,6 +75,12 @@ class _RecommentPageState extends State<RecommentPage> {
                           prov.setRecommentData(
                               flag: flag, commentNo: item.styleupCommentNo);
                         },
+                        onClickRecomment: () {
+                          prov.showReportBottomSheet(item);
+                        },
+                        onClickDelete: () {
+                          prov.showDeleteDialog(item);
+                        },
                       );
                     }).toList()),
                   ),

@@ -20,6 +20,7 @@ class CommentTile extends StatefulWidget {
   final Function()? onClickRecomment;
   final Function(bool flag)? onClickHeart;
   final VoidCallback? onClickDelete;
+  final VoidCallback? onClickReport;
 
   const CommentTile.comment({
     Key? key,
@@ -27,6 +28,7 @@ class CommentTile extends StatefulWidget {
     this.onClickRecomment,
     this.onClickHeart,
     this.onClickDelete,
+    this.onClickReport,
   })  : type = CommentType.comment,
         super(key: key);
 
@@ -36,6 +38,7 @@ class CommentTile extends StatefulWidget {
     this.onClickRecomment,
     this.onClickHeart,
     this.onClickDelete,
+    this.onClickReport,
   })  : type = CommentType.recomment,
         super(key: key);
 
@@ -45,6 +48,7 @@ class CommentTile extends StatefulWidget {
     this.onClickRecomment,
     this.onClickHeart,
     this.onClickDelete,
+    this.onClickReport,
   })  : type = CommentType.parent,
         super(key: key);
 
@@ -190,81 +194,66 @@ class _CommentTileState extends State<CommentTile> {
   }
 
   Widget _slideDeleteButton() {
-    return Expanded(
-      child: CupertinoButton(
-        minSize: 0.0,
-        padding: EdgeInsets.zero,
-        color: const Color(0xFFF14545),
-        borderRadius: BorderRadius.zero,
-        onPressed: () {
-          widget.onClickDelete?.call();
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/icons/trash.png',
-              width: 24.0,
-              height: 24.0,
-            ),
-            const SizedBox(height: 8.0),
-            Text(
-              '삭제하기',
-              style: ShownyStyle.overline(color: ShownyStyle.white),
-            ),
-          ],
+    return Builder(builder: (context) {
+      return Expanded(
+        child: CupertinoButton(
+          minSize: 0.0,
+          padding: EdgeInsets.zero,
+          color: const Color(0xFFF14545),
+          borderRadius: BorderRadius.zero,
+          onPressed: () {
+            Slidable.of(context)?.close();
+            widget.onClickDelete?.call();
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/icons/trash.png',
+                width: 24.0,
+                height: 24.0,
+              ),
+              const SizedBox(height: 8.0),
+              Text(
+                '삭제하기',
+                style: ShownyStyle.overline(color: ShownyStyle.white),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _slideReportButton() {
-    return Expanded(
-      child: CupertinoButton(
-        minSize: 0.0,
-        padding: EdgeInsets.zero,
-        color: const Color(0xFFEEEEEE),
-        borderRadius: BorderRadius.zero,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/icons/report.png',
-              width: 24.0,
-              height: 24.0,
-            ),
-            const SizedBox(height: 8.0),
-            Text(
-              '신고하기',
-              style: ShownyStyle.overline(color: ShownyStyle.white),
-              // style: Constants.defaultTextStyle.copyWith(
-              //   color: const Color(0xFFAAAAAA),
-              //   fontSize: 10.0,
-              // ),
-            ),
-          ],
-        ),
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0),
+    return Builder(builder: (context) {
+      return Expanded(
+        child: CupertinoButton(
+          minSize: 0.0,
+          padding: EdgeInsets.zero,
+          color: const Color(0xFFEEEEEE),
+          borderRadius: BorderRadius.zero,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/icons/report.png',
+                width: 24.0,
+                height: 24.0,
               ),
-            ),
-            builder: (BuildContext context) {
-              return SizedBox(
-                height: 510.0,
-                child: ReportSheetScreen(
-                  onCompleted: (int type) {},
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+              const SizedBox(height: 8.0),
+              Text(
+                '신고하기',
+                style: ShownyStyle.overline(color: Color(0xFFAAAAAA)),
+              ),
+            ],
+          ),
+          onPressed: () {
+            Slidable.of(context)?.close();
+            widget.onClickReport?.call();
+          },
+        ),
+      );
+    });
   }
 }

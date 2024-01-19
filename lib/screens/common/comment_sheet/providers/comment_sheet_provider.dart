@@ -5,6 +5,7 @@ import 'package:showny/components/drag_to_dispose/drag_to_dispose.dart';
 import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/title_text_field/field_controller.dart';
 import 'package:showny/screens/common/comment_sheet/comment_sheet_screen.dart';
+import 'package:showny/screens/home/widgets/report_sheet_screen.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 
 import '../../../../api/new_api/api_helper.dart';
@@ -33,17 +34,15 @@ class CommentSheetProvider with ChangeNotifier {
 
   ScrollController commentScrollController = ScrollController();
   ScrollController recommScrollController = ScrollController();
+  late UserProvider userProvider;
 
   void setCommentData({
     required bool flag,
     required String commentNo,
   }) {
-    int idx = commentList
-        .indexWhere((element) => element.styleupCommentNo == commentNo);
-    print('idx : $idx');
+    int idx = _findIndexWhereComment(commentNo);
+
     if (idx == -1) return;
-    UserProvider userProvider =
-        Provider.of<UserProvider>(state.context, listen: false);
     final user = userProvider.user;
     postStyleupCommentHeart(commentNo: commentNo, memNo: user.memNo);
     commentList[idx].isHeart = flag;
@@ -59,12 +58,9 @@ class CommentSheetProvider with ChangeNotifier {
     required bool flag,
     required String commentNo,
   }) {
-    int idx = childCommentList
-        .indexWhere((element) => element.styleupCommentNo == commentNo);
-    print('idx : $idx');
+    int idx = _findIndexWhereRecomment(commentNo);
+
     if (idx == -1) return;
-    UserProvider userProvider =
-        Provider.of<UserProvider>(state.context, listen: false);
     final user = userProvider.user;
     postStyleupCommentHeart(commentNo: commentNo, memNo: user.memNo);
     childCommentList[idx].isHeart = flag;
@@ -82,7 +78,7 @@ class CommentSheetProvider with ChangeNotifier {
       commentNo,
       memNo,
       (success) {
-        ShownyLog().d('postStyleupCommentHeart success');
+        ShownyLog().i('postStyleupCommentHeart success');
       },
       (error) {
         ShownyLog().e('postStyleupCommentHeart error : $error');
@@ -115,8 +111,6 @@ class CommentSheetProvider with ChangeNotifier {
   }
 
   Future _getStyleupCommentList({bool refresh = false}) async {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(state.context, listen: false);
     final user = userProvider.user;
     if (!refresh) {
       setIsCommentLoading(true);
@@ -138,9 +132,7 @@ class CommentSheetProvider with ChangeNotifier {
         notifyListeners();
       }
 
-      ShownyLog().d('comment length : ${commentList.length}');
-
-      ShownyLog().e(
+      ShownyLog().i(
           'DEBUG: fetch comment succeed, styleupNo: ${state.widget.styleupNo}, data: $commentList');
     }, (error) {
       commentList = [];
@@ -188,6 +180,10 @@ class CommentSheetProvider with ChangeNotifier {
         .animateToPage(0,
             duration: const Duration(milliseconds: 350), curve: Curves.easeIn)
         .then((value) {
+      //
+      int idx = _findIndexWhereComment(parentComment?.styleupCommentNo ?? '-1');
+      commentList[idx].childCommentList = [...childCommentList];
+
       setParentComment(null);
       childCommentList.clear();
       notifyListeners();
@@ -196,8 +192,7 @@ class CommentSheetProvider with ChangeNotifier {
 
   Future handleSendComment() async {
     if (commentController.getStatus.text.trim().isEmpty) return;
-    UserProvider userProvider =
-        Provider.of<UserProvider>(state.context, listen: false);
+
     final user = userProvider.user;
 
     String parentCommentId = '0';
@@ -212,7 +207,7 @@ class CommentSheetProvider with ChangeNotifier {
       commentController.getStatus.text,
       (success) {
         commentController.clear();
-        ShownyLog().d("insertStyleupComment - 성공");
+        ShownyLog().i("insertStyleupComment - 성공");
         if (currentPage == 0) {
           _getStyleupCommentList(refresh: true);
         } else {
@@ -225,7 +220,7 @@ class CommentSheetProvider with ChangeNotifier {
     );
   }
 
-  void showDeleteDialog() {
+  void showDeleteDialog(StyleupCommentModel comment) {
     showDialog(
       context: state.context,
       builder: (context) {
@@ -233,12 +228,106 @@ class CommentSheetProvider with ChangeNotifier {
           message: '게시글을 삭제하시겠습니까?',
           primaryLabel: '취소',
           secondaryLabel: '확인',
-          primaryAction: () {
-            //
+          secondaryAction: () {
+            final user = userProvider.user;
+            if (comment.userInfo.memNo != user.memNo) return;
+            _postCommentDelete(comment);
           },
         );
       },
     );
+  }
+
+  void showReportBottomSheet(StyleupCommentModel comment) {
+    showModalBottomSheet(
+      context: state.context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
+        ),
+      ),
+      builder: (context) => SizedBox(
+        height: 510,
+        child: ReportSheetScreen(
+          onCompleted: (type) {
+            _postCommentReport(comment: comment, type: type);
+          },
+        ),
+      ),
+    );
+  }
+
+  void _postCommentDelete(StyleupCommentModel comment) {
+    ApiHelper.shared.deleteStyleupComment(
+      comment.userInfo.memNo,
+      comment.styleupCommentNo,
+      (success) {
+        if (currentPage == 0) {
+          // comment
+          int idx = _findIndexWhereComment(comment.styleupCommentNo);
+          if (idx == -1) return;
+          commentList.removeAt(idx);
+        } else {
+          // recomment
+          int idx = _findIndexWhereRecomment(comment.styleupCommentNo);
+          if (idx == -1) return;
+          childCommentList.removeAt(idx);
+        }
+        notifyListeners();
+        showDialog(
+            context: state.context,
+            builder: (context3) {
+              return ShownyDialog(
+                message: '삭제가 완료되었습니다.',
+                primaryLabel: '확인',
+              );
+            });
+      },
+      (error) {
+        ShownyLog().e('error occured while delete styleup comment >> $error');
+      },
+    );
+  }
+
+  void _postCommentReport(
+      {required StyleupCommentModel comment, required int type}) {
+    final user = userProvider.user;
+    ApiHelper.shared.insertStyleupCommentReport(
+      int.parse(comment.styleupCommentNo),
+      int.parse(user.memNo),
+      type,
+      (success) {
+        ShownyLog().i('DEBUG: insert styleup comment report succeed');
+        showDialog(
+            context: state.context,
+            builder: (context) {
+              return ShownyDialog(
+                message: '신고가 완료되었습니다.',
+                primaryLabel: '확인',
+                primaryAction: () {
+                  Navigator.pop(context);
+                },
+              );
+            });
+      },
+      (error) {
+        ShownyLog().e('DEBUG: insert styleup comment report fail $error');
+      },
+    );
+  }
+
+  int _findIndexWhereComment(String commentNo) {
+    int idx = commentList
+        .indexWhere((element) => element.styleupCommentNo == commentNo);
+    return idx;
+  }
+
+  int _findIndexWhereRecomment(String commentNo) {
+    int idx = childCommentList
+        .indexWhere((element) => element.styleupCommentNo == commentNo);
+    return idx;
   }
 
   @override
@@ -254,6 +343,7 @@ class CommentSheetProvider with ChangeNotifier {
   }
 
   CommentSheetProvider(this.state) {
+    userProvider = Provider.of<UserProvider>(state.context, listen: false);
     _getStyleupCommentList();
   }
 }

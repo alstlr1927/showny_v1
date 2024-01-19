@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class ToolBox extends StatefulWidget {
   const ToolBox({
@@ -38,7 +39,7 @@ class ToolBox extends StatefulWidget {
 
 class _ToolBoxState extends State<ToolBox> {
   late bool bookmark = widget.isBookmark;
-  double interval = 30;
+  double interval = 20.toWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +87,9 @@ class _ToolBoxState extends State<ToolBox> {
               padding: EdgeInsets.zero,
               onPressed: widget.tapTag,
               child: Image.asset(
-                'assets/icons/tag_white.png',
-                width: 28.0,
-                height: 28.0,
+                'assets/icons/home/toolbox_tag.png',
+                width: 26.toWidth,
+                height: 26.toWidth,
               ),
             ),
             SizedBox(height: interval),
@@ -98,9 +99,9 @@ class _ToolBoxState extends State<ToolBox> {
             padding: EdgeInsets.zero,
             onPressed: widget.tapComment,
             child: Image.asset(
-              'assets/icons/comment.png',
-              width: 28.0,
-              height: 28.0,
+              'assets/icons/home/toolbox_comment.png',
+              width: 26.toWidth,
+              height: 26.toWidth,
             ),
           ),
           SizedBox(height: interval),
@@ -108,9 +109,10 @@ class _ToolBoxState extends State<ToolBox> {
             minSize: 0.0,
             padding: EdgeInsets.zero,
             child: Image.asset(
-              'assets/icons/bookmark${bookmark ? '_filled' : ''}.png',
-              width: 28.0,
-              height: 28.0,
+              'assets/icons/home/toolbox_bookmark_${bookmark ? 'on' : 'off'}.png',
+              // 'assets/icons/bookmark${bookmark ? '_filled' : ''}.png',
+              width: 26.toWidth,
+              height: 26.toWidth,
             ),
             onPressed: () {
               setState(() => bookmark = !bookmark);
@@ -130,9 +132,9 @@ class _ToolBoxState extends State<ToolBox> {
             padding: EdgeInsets.zero,
             onPressed: widget.tapShare,
             child: Image.asset(
-              'assets/icons/share_shadow.png',
-              width: 28.0,
-              height: 28.0,
+              'assets/icons/home/toolbox_share.png',
+              width: 26.toWidth,
+              height: 26.toWidth,
             ),
           ),
           SizedBox(height: interval),
@@ -141,9 +143,9 @@ class _ToolBoxState extends State<ToolBox> {
             padding: EdgeInsets.zero,
             onPressed: widget.tapSeeMore,
             child: Image.asset(
-              'assets/icons/dots_vertical_shadow.png',
-              width: 28.0,
-              height: 28.0,
+              'assets/icons/home/toolbox_more.png',
+              width: 26.toWidth,
+              height: 26.toWidth,
             ),
           ),
           const SizedBox(height: 150.0)

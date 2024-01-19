@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:showny/constants.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
@@ -104,7 +103,7 @@ class ShownyDialog extends StatelessWidget {
                       primaryAction!();
                     }
 
-                    debugPrint('DEBUG: tab $primaryLabel button');
+                    // debugPrint('DEBUG: tab $primaryLabel button');
                   }),
                 ),
                 if (secondaryLabel != null)
@@ -122,7 +121,7 @@ class ShownyDialog extends StatelessWidget {
                         secondaryAction!();
                       }
 
-                      debugPrint('DEBUG: tab $secondaryLabel button');
+                      // debugPrint('DEBUG: tab $secondaryLabel button');
                     }),
                   ),
               ],

@@ -65,7 +65,10 @@ class _CommentPageState extends State<CommentPage> {
                               flag: flag, commentNo: item.styleupCommentNo);
                         },
                         onClickDelete: () {
-                          prov.showDeleteDialog();
+                          prov.showDeleteDialog(item);
+                        },
+                        onClickReport: () {
+                          prov.showReportBottomSheet(item);
                         },
                       );
                     }).toList()),
