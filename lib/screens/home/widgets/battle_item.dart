@@ -18,12 +18,17 @@ class BattleItem extends StatefulWidget {
   final String title;
   final String battleRound;
   final int index;
+  final bool isMain;
+  final Function(
+      {required String roundNo, required StyleupBattleItemModel copy}) setData;
   const BattleItem({
     super.key,
     required this.battleItem,
     required this.index,
     required this.title,
     required this.battleRound,
+    required this.isMain,
+    required this.setData,
   });
 
   @override

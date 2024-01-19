@@ -17,7 +17,7 @@ class BattleItemProvider with ChangeNotifier {
   bool isSelectMode = false;
   int focused = -1;
 
-  late HomeProvider homeProv;
+  // late HomeProvider homeProv;
 
   // animation
   late AnimationController _animation;
@@ -44,11 +44,15 @@ class BattleItemProvider with ChangeNotifier {
           style1PollCnt: battleVoteResponse.style1PollCnt,
           style2PollCnt: battleVoteResponse.style2PollCnt,
         );
-        homeProv.setBattleData(
+        state.widget.setData(
           roundNo: state.widget.battleItem.battleRoundNo,
           copy: copy,
         );
-        homeProv.setIsBattleSelected(true);
+        if (state.widget.isMain) {
+          HomeProvider homeProv =
+              Provider.of<HomeProvider>(state.context, listen: false);
+          homeProv.setIsBattleSelected(true);
+        }
       },
       (error) {},
     );
@@ -73,11 +77,15 @@ class BattleItemProvider with ChangeNotifier {
           style2PollCnt: battleVoteResponse.style2PollCnt,
         );
 
-        homeProv.setBattleData(
+        state.widget.setData(
           roundNo: state.widget.battleItem.battleRoundNo,
           copy: copy,
         );
-        homeProv.setIsBattleSelected(true);
+        if (state.widget.isMain) {
+          HomeProvider homeProv =
+              Provider.of<HomeProvider>(state.context, listen: false);
+          homeProv.setIsBattleSelected(true);
+        }
       },
       (error) {},
     );
@@ -91,7 +99,11 @@ class BattleItemProvider with ChangeNotifier {
         await selectRight();
       }
     } else {
-      homeProv.setIsBattleSelected(false);
+      if (state.widget.isMain) {
+        HomeProvider homeProv =
+            Provider.of<HomeProvider>(state.context, listen: false);
+        homeProv.setIsBattleSelected(false);
+      }
     }
 
     focused = val;
@@ -156,25 +168,37 @@ class BattleItemProvider with ChangeNotifier {
     if (item.isPoll) {
       if (item.pollTag == 1) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          homeProv.setIsBattleSelected(true);
+          if (state.widget.isMain) {
+            HomeProvider homeProv =
+                Provider.of<HomeProvider>(state.context, listen: false);
+            homeProv.setIsBattleSelected(true);
+          }
         });
         selectedLeft();
       } else if (item.pollTag == 2) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          homeProv.setIsBattleSelected(true);
+          if (state.widget.isMain) {
+            HomeProvider homeProv =
+                Provider.of<HomeProvider>(state.context, listen: false);
+            homeProv.setIsBattleSelected(true);
+          }
         });
         selectedRight();
       }
     } else {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        homeProv.setIsBattleSelected(false);
+        if (state.widget.isMain) {
+          HomeProvider homeProv =
+              Provider.of<HomeProvider>(state.context, listen: false);
+          homeProv.setIsBattleSelected(false);
+        }
       });
       setupLeftAnimation();
     }
   }
 
   BattleItemProvider(this.state) {
-    homeProv = Provider.of<HomeProvider>(state.context, listen: false);
+    // homeProv = Provider.of<HomeProvider>(state.context, listen: false);
     _initSetting();
   }
 

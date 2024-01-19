@@ -124,10 +124,11 @@ class BattleListProvider with ChangeNotifier {
             state.context,
             ShownyPageRoute(
               builder: (context) => BattleScreen(
-                battleList: getBattleData.battleItemList,
-                title: getBattleData.title,
-                battleRound: getBattleData.round,
                 isMain: false,
+                // battleList: getBattleData.battleItemList,
+                // title: getBattleData.title,
+                // battleRound: getBattleData.round,
+                // isMain: false,
               ),
             ));
       }, (error) {

@@ -8,7 +8,6 @@ import 'package:showny/screens/battle_list/widgets/battle_slider_item.dart';
 import 'package:showny/screens/battle_list/widgets/status_chip.dart';
 import 'package:showny/utils/showny_util.dart';
 
-import '../../components/showny_image/showny_image.dart';
 import '../../models/battle_model.dart';
 import '../../utils/showny_style.dart';
 

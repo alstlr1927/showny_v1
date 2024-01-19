@@ -51,46 +51,13 @@ class _HomeScreenState extends State<HomeScreen>
                         ),
                       );
                     } else {
-                      // return PageView.builder(
-                      //   physics: const CustomScrollPhysics(),
-                      //   scrollDirection: Axis.vertical,
-                      //   itemCount: 8,
-                      //   itemBuilder: (context, i) {
-                      //     return Container(
-                      //       color: Colors.green[100 + 100 * i],
-                      //     );
-                      //   },
-                      // );
-                      return BattleScreen(
-                        battleList: prov.styleUpBattle?.battleItemList ?? [],
-                        title: prov.styleUpBattle?.title ?? '',
-                        battleRound: prov.styleUpBattle?.round ?? '',
-                        isMain: true,
+                      return KeepAliveWidget(
+                        child: BattleScreen(),
                       );
                     }
                   },
                 ),
-                // PageView(
-                //   physics: prov.getPhysics(),
-                //   controller: prov.pageController,
-                //   onPageChanged: prov.setTab,
-                //   children: [
-                //     StyleupScreen(
-                //       initIndex: 0,
-                //       styleupList: prov.styleUpList,
-                //       isMain: true,
-                //       afterFollowAction: prov.setStyleUpFollow,
-                //       afterUpDownAction: prov.setStyleUpDown,
-                //     ),
-                //     BattleScreen(
-                //       battleList: prov.styleUpBattle?.battleItemList ?? [],
-                //       onPageChanged: prov.setCurrentBattle,
-                //       title: prov.styleUpBattle?.title ?? '',
-                //       battleRound: prov.styleUpBattle?.round ?? '',
-                //       isMain: true,
-                //     ),
-                //   ],
-                // ),
+
                 SafeArea(
                   child: Padding(
                     padding: EdgeInsets.only(top: 15.toWidth),
