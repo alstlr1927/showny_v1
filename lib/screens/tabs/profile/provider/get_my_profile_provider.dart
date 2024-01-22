@@ -41,23 +41,31 @@ class GetMyProfileProvider extends ChangeNotifier {
     myStyleupList.clear();
   }
 
-  void setStyleUpDown({required String styleUpNo, required int value}) {
+  void setStyleupData({required String styleupNo, required StyleupModel copy}) {
     int idx =
-        myStyleupList.indexWhere((element) => element.styleupNo == styleUpNo);
-    if (idx != -1) {
-      myStyleupList[idx].upDownType = value;
-      notifyListeners();
-    }
+        myStyleupList.indexWhere((element) => element.styleupNo == styleupNo);
+    if (idx == -1) return;
+    myStyleupList[idx] = copy;
+    notifyListeners();
   }
 
-  void setStyleUpFollow({required String styleUpNo, required bool value}) {
-    int idx =
-        myStyleupList.indexWhere((element) => element.styleupNo == styleUpNo);
-    if (idx != -1) {
-      myStyleupList[idx].userInfo.isFollow = value;
-      notifyListeners();
-    }
-  }
+  // void setStyleUpDown({required String styleUpNo, required int value}) {
+  //   int idx =
+  //       myStyleupList.indexWhere((element) => element.styleupNo == styleUpNo);
+  //   if (idx != -1) {
+  //     myStyleupList[idx].upDownType = value;
+  //     notifyListeners();
+  //   }
+  // }
+
+  // void setStyleUpFollow({required String styleUpNo, required bool value}) {
+  //   int idx =
+  //       myStyleupList.indexWhere((element) => element.styleupNo == styleUpNo);
+  //   if (idx != -1) {
+  //     myStyleupList[idx].userInfo.isFollow = value;
+  //     notifyListeners();
+  //   }
+  // }
 
   void removeMyBookmarkList() {
     myBookmarkListPage = 0;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 
@@ -30,23 +31,13 @@ class HomeProvider with ChangeNotifier {
   }
 
   // TODO 추후 copyWith 사용하여 styleup 데이터 수정하는 부분 통합
-  void setStyleUpDown({required String styleUpNo, required int value}) {
-    int idx =
-        styleUpList.indexWhere((element) => element.styleupNo == styleUpNo);
-    if (idx != -1) {
-      styleUpList[idx].upDownType = value;
-      notifyListeners();
-    }
-  }
 
-  void setStyleUpFollow({required String styleUpNo, required bool value}) {
+  void setStyleupData({required String styleupNo, required StyleupModel copy}) {
     int idx =
-        styleUpList.indexWhere((element) => element.styleupNo == styleUpNo);
-
-    if (idx != -1) {
-      styleUpList[idx].userInfo.isFollow = value;
-      notifyListeners();
-    }
+        styleUpList.indexWhere((element) => element.styleupNo == styleupNo);
+    if (idx == -1) return;
+    styleUpList[idx] = copy;
+    notifyListeners();
   }
 
   void setTab(int value) {
@@ -70,13 +61,13 @@ class HomeProvider with ChangeNotifier {
       userProvider.user.memNo,
       '0',
       (styleUpList) {
-        debugPrint('StyleUp list loaded suceessfully');
-        this.styleUpList = styleUpList;
+        ShownyLog().i('StyleUp list loaded suceessfully');
+        this.styleUpList = [...styleUpList];
 
         notifyListeners();
       },
       (error) {
-        debugPrint("Error loading styleup list: $error");
+        ShownyLog().e("Error loading styleup list: $error");
       },
     );
   }

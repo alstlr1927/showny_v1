@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 children: [
                   TabProfileFeed(
                     styleupList: profileProvider.myStyleupList,
-                    afterUpDownAction: profileProvider.setStyleUpDown,
+                    setStyleupData: profileProvider.setStyleupData,
                   ),
                   const TabMyShop(),
                   TabProfileBookmark(

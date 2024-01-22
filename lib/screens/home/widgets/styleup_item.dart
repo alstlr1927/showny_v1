@@ -25,19 +25,16 @@ class StyleUpItem extends StatefulWidget {
   final StyleupModel styleUp;
   final VoidCallback? onSelect;
   final int index;
+  final Function({required String styleupNo, required StyleupModel copy})?
+      setStyelupData;
 
-  final Function({required String styleUpNo, required bool value})?
-      afterFollowAction;
-  final Function({required String styleUpNo, required int value})?
-      afterUpDownAction;
   const StyleUpItem({
     super.key,
     required this.styleUp,
     this.onSelect,
     required this.index,
     this.isMain = false,
-    this.afterFollowAction,
-    this.afterUpDownAction,
+    this.setStyelupData,
   });
 
   @override

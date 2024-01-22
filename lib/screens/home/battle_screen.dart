@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
 import '../../models/styleup_battle_item_model.dart';
@@ -31,7 +32,7 @@ class BattleScreen extends StatefulWidget {
 }
 
 class _BattleScreenState extends State<BattleScreen> {
-  SwiperController swiperController = SwiperController();
+  // SwiperController swiperController = SwiperController();
   bool pollLock = false;
 
   late BattleScreenProvider provider;
@@ -59,6 +60,7 @@ class _BattleScreenState extends State<BattleScreen> {
             List<StyleupBattleItemModel> battleList =
                 styleUpBattle?.battleItemList ?? [];
             return Material(
+              color: ShownyStyle.black,
               child: Stack(
                 children: [
                   PageView(

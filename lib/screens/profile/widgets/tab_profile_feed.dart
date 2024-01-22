@@ -6,12 +6,12 @@ import 'package:showny/screens/home/styleup_screen.dart';
 
 class TabProfileFeed extends StatelessWidget {
   final List<StyleupModel> styleupList;
-  final Function({required String styleUpNo, required int value})?
-      afterUpDownAction;
+  final Function({required String styleupNo, required StyleupModel copy})?
+      setStyleupData;
   const TabProfileFeed({
     Key? key,
     required this.styleupList,
-    required this.afterUpDownAction,
+    this.setStyleupData,
   }) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class TabProfileFeed extends StatelessWidget {
                   isMain: false,
                   initIndex: index,
                   styleupList: styleupList,
-                  afterUpDownAction: afterUpDownAction,
+                  setStyelupData: setStyleupData,
                 ),
               ),
             );

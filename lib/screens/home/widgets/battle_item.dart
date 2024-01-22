@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/back_blur/back_blur.dart';
-import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/screens/battle_list/battle_list.dart';

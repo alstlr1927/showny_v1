@@ -10,7 +10,6 @@ import 'package:showny/components/page_route.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/common/comment_sheet/comment_sheet_screen.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
-import 'package:showny/screens/home/widgets/see_more_action_sheet.dart';
 import 'package:showny/screens/home/widgets/report_sheet_screen.dart';
 import 'package:showny/screens/home/widgets/styleup_item.dart';
 import 'package:video_player/video_player.dart';
@@ -56,9 +55,18 @@ class StyleUpItemProvider with ChangeNotifier {
   }
 
   void setIsFollow(bool value) {
-    if (state.widget.afterFollowAction != null) {
-      state.widget.afterFollowAction!(
-          styleUpNo: state.widget.styleUp.styleupNo, value: value);
+    // if (state.widget.afterFollowAction != null) {
+    //   state.widget.afterFollowAction!(
+    //       styleUpNo: state.widget.styleUp.styleupNo, value: value);
+    // }
+
+    if (state.widget.setStyelupData != null) {
+      state.widget.setStyelupData!(
+        styleupNo: state.widget.styleUp.styleupNo,
+        copy: state.widget.styleUp.copyWith(
+          userInfo: state.widget.styleUp.userInfo.copyWith(isFollow: value),
+        ),
+      );
     }
   }
 
@@ -145,9 +153,14 @@ class StyleUpItemProvider with ChangeNotifier {
       userProvider.user.memNo,
       value,
       (success) {
-        if (state.widget.afterUpDownAction != null) {
-          state.widget.afterUpDownAction!(
-              styleUpNo: state.widget.styleUp.styleupNo, value: value);
+        // if (state.widget.afterUpDownAction != null) {
+        //   state.widget.afterUpDownAction!(
+        //       styleUpNo: state.widget.styleUp.styleupNo, value: value);
+        // }
+        if (state.widget.setStyelupData != null) {
+          state.widget.setStyelupData!(
+              styleupNo: state.widget.styleUp.styleupNo,
+              copy: state.widget.styleUp.copyWith(upDownType: value));
         }
         state.widget.onSelect?.call();
         notifyListeners();
@@ -169,25 +182,6 @@ class StyleUpItemProvider with ChangeNotifier {
   }
 
   void onClickComment({required String styleupNo, required String memNo}) {
-    // showModalBottomSheet(
-    //   context: state.context,
-    //   isScrollControlled: true,
-    //   backgroundColor: Colors.transparent,
-    //   useRootNavigator: true,
-    //   enableDrag: false,
-    //   isDismissible: true,
-    //   shape: const RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.only(
-    //       topLeft: Radius.circular(12.0),
-    //       topRight: Radius.circular(12.0),
-    //     ),
-    //   ),
-    //   builder: (context) {
-    //     // return WearingItemsSheetScreen(itemInfo: itemInfo);
-    //     return CommentSheetScreen(memNo: memNo, styleupNo: styleupNo);
-    //   },
-    // );
-    // return;
     Navigator.push(
         state.context,
         SheetRoute(
@@ -197,20 +191,6 @@ class StyleUpItemProvider with ChangeNotifier {
             vController: videoController,
           ),
         ));
-    // showModalBottomSheet(
-    //   context: state.context,
-    //   isScrollControlled: true,
-    //   backgroundColor: Colors.transparent,
-    //   useRootNavigator: true,
-    //   isDismissible: true,
-    //   enableDrag: false,
-    //   builder: (context) {
-    //     return CommentSheetScreen(
-    //         memNo: memNo,
-    //         styleupNo: styleupNo,
-    //         onAddComment: () => setState(() {}));
-    //   },
-    // );
   }
 
   void onClickBookMark(bool flag) {
@@ -253,7 +233,7 @@ class StyleUpItemProvider with ChangeNotifier {
                                 message: '삭제가 완료되었습니다.',
                                 primaryLabel: '확인',
                                 primaryAction: () {
-                                  Navigator.pop(state.context);
+                                  // Navigator.pop(state.context);
                                   // styleupList.removeAt(index);
                                   // debugPrint(
                                   //     styleupList.length.toString());

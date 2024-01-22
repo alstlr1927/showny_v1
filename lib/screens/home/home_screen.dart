@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen>
                           initIndex: 0,
                           styleupList: prov.styleUpList,
                           isMain: true,
-                          afterFollowAction: prov.setStyleUpFollow,
-                          afterUpDownAction: prov.setStyleUpDown,
+                          setStyelupData: prov.setStyleupData,
+                          refresh: prov.getStyleUpList,
                         ),
                       );
                     } else {

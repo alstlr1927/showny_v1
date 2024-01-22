@@ -88,4 +88,48 @@ class UserModel {
       'isFollow': isFollow,
     };
   }
+
+  UserModel copyWith({
+    String? memNo,
+    String? memId,
+    String? memNm,
+    String? nickNm,
+    int? gender,
+    String? birthday,
+    String? email,
+    String? phone,
+    String? profileImage,
+    String? introduce,
+    int? heightId,
+    int? weightId,
+    int? bodyShapeId,
+    List<int>? styleIdList,
+    List<int>? colorIdList,
+    int? postCount,
+    int? followerCount,
+    int? followCount,
+    bool? isFollow,
+  }) {
+    return UserModel(
+      memNo: memNo ?? this.memNo,
+      memId: memId ?? this.memId,
+      memNm: memNm ?? this.memNm,
+      nickNm: nickNm ?? this.nickNm,
+      gender: gender ?? this.gender,
+      birthday: birthday ?? this.birthday,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      profileImage: profileImage ?? this.profileImage,
+      introduce: introduce ?? this.introduce,
+      heightId: heightId ?? this.heightId,
+      weightId: weightId ?? this.weightId,
+      bodyShapeId: bodyShapeId ?? this.bodyShapeId,
+      styleIdList: styleIdList ?? this.styleIdList,
+      colorIdList: colorIdList ?? this.colorIdList,
+      postCount: postCount ?? this.postCount,
+      followerCount: followerCount ?? this.followerCount,
+      followCount: followCount ?? this.followCount,
+      isFollow: isFollow ?? this.isFollow,
+    );
+  }
 }

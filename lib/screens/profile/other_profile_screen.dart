@@ -151,13 +151,12 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
     });
   }
 
-  void setStyleUpDown({required String styleUpNo, required int value}) {
+  void setStyleupData({required String styleupNo, required StyleupModel copy}) {
     int idx =
-        styleupList.indexWhere((element) => element.styleupNo == styleUpNo);
-    if (idx != -1) {
-      styleupList[idx].upDownType = value;
-      setState(() {});
-    }
+        styleupList.indexWhere((element) => element.styleupNo == styleupNo);
+    if (idx == -1) return;
+    styleupList[idx] = copy;
+    setState(() {});
   }
 
   @override
@@ -165,8 +164,6 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
-
-    var size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: white,
@@ -213,8 +210,9 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
                   controller: _tabController,
                   children: [
                     TabProfileFeed(
-                        styleupList: styleupList,
-                        afterUpDownAction: setStyleUpDown),
+                      styleupList: styleupList,
+                      setStyleupData: setStyleupData,
+                    ),
                     TabOtherShop(
                       allProductList: allProductList,
                       saleCompleteProductList: saleCompleteProductList,
