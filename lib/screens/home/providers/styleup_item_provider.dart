@@ -153,10 +153,6 @@ class StyleUpItemProvider with ChangeNotifier {
       userProvider.user.memNo,
       value,
       (success) {
-        // if (state.widget.afterUpDownAction != null) {
-        //   state.widget.afterUpDownAction!(
-        //       styleUpNo: state.widget.styleUp.styleupNo, value: value);
-        // }
         if (state.widget.setStyelupData != null) {
           state.widget.setStyelupData!(
               styleupNo: state.widget.styleUp.styleupNo,

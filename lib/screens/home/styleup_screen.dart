@@ -115,7 +115,6 @@ class _StyleupScreenState extends State<StyleupScreen> {
         children: [
           Container(
             child: PageView.builder(
-              allowImplicitScrolling: true,
               controller: pageController,
               scrollDirection: Axis.vertical,
               physics: const CustomScrollPhysics(),
