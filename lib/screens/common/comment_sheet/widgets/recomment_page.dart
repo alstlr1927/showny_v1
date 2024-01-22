@@ -13,12 +13,12 @@ import 'package:showny/utils/showny_util.dart';
 class RecommentPage extends StatefulWidget {
   final StyleupCommentModel? parent;
   final List<StyleupCommentModel> recommentList;
-  final ScrollController controller;
+  final ScrollController? controller;
   const RecommentPage({
     super.key,
     this.parent,
     required this.recommentList,
-    required this.controller,
+    this.controller,
   });
 
   @override
@@ -30,6 +30,7 @@ class _RecommentPageState extends State<RecommentPage> {
   Widget build(BuildContext context) {
     CommentSheetProvider prov =
         Provider.of<CommentSheetProvider>(context, listen: false);
+
     return Material(
       color: BottomSheetThemeColor.sheet_base_white,
       child: LazyLoadScrollView(
@@ -38,11 +39,6 @@ class _RecommentPageState extends State<RecommentPage> {
           controller: widget.controller,
           physics: AlwaysScrollableScrollPhysics(),
           slivers: [
-            // SliverToBoxAdapter(
-            //   child: SizedBox(
-            //     height: 22.toWidth,
-            //   ),
-            // ),
             if (widget.parent != null)
               SliverPadding(
                 padding: EdgeInsets.symmetric(horizontal: 0.toWidth),

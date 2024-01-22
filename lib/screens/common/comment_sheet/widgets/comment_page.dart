@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/indicator/showny_indicator.dart';
-import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/components/slivers/sliver_tween.dart';
 import 'package:showny/models/styleup_comment_model.dart';
 import 'package:showny/screens/common/comment_sheet/providers/comment_sheet_provider.dart';
@@ -14,11 +13,11 @@ import '../../../../components/bottom_sheet/theme/bottom_sheet_theme.dart';
 
 class CommentPage extends StatefulWidget {
   final List<StyleupCommentModel> commentList;
-  final ScrollController controller;
+  final ScrollController? controller;
   const CommentPage({
     super.key,
     required this.commentList,
-    required this.controller,
+    this.controller,
   });
 
   @override

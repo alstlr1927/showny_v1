@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,6 @@ import 'package:keyboard_attachable/keyboard_attachable.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/drag_to_dispose/drag_to_dispose.dart';
 import 'package:showny/components/keep_alive_widget/keep_alive_widget.dart';
-import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/components/title_text_field/comment_text_field.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
@@ -52,76 +52,148 @@ class _CommentSheetScreenState extends State<CommentSheetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final maxHeight =
+        ScreenUtil().screenHeight - ScreenUtil().statusBarHeight - 100;
     return ChangeNotifierProvider<CommentSheetProvider>.value(
       value: provider,
       builder: (context, _) {
         return Consumer<CommentSheetProvider>(
           builder: (context, prov, child) {
-            return Stack(
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                ),
-                DraggableScrollableSheet(
-                  minChildSize: .45,
-                  maxChildSize: .85,
-                  snapSizes: const [.5, 0.85],
-                  snap: true,
-                  builder: (context, controller) {
-                    return Scaffold(
-                      resizeToAvoidBottomInset: true,
-                      backgroundColor: Colors.transparent,
-                      body: Column(
-                        children: [
-                          _buildHeader(),
-                          Expanded(
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                FooterLayout(
-                                  child: Column(
-                                    children: [
-                                      Flexible(
-                                        child: PageView(
-                                          controller: prov.pageController,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          onPageChanged: prov.setPageIdx,
-                                          children: [
-                                            KeepAliveWidget(
-                                              child: CommentPage(
-                                                commentList: prov.commentList,
-                                                controller: controller,
-                                              ),
-                                            ),
-                                            RecommentPage(
-                                              parent: prov.parentComment,
-                                              recommentList:
-                                                  prov.childCommentList,
-                                              controller: controller,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+            return GestureDetector(
+              onTap: prov.unfocusAll,
+              child: DragToDispose(
+                onPageClosed: () {
+                  if (mounted) {
+                    Navigator.pop(context);
+                  }
+                },
+                maxHeight: maxHeight,
+                // disposeController: prov.disposeController,
+                dragEnable: true,
+                backdropTapClosesPanel: true,
+                header: pageHeader(title: ''),
+                panelBuilder: (controller, ac) {
+                  return Scaffold(
+                    resizeToAvoidBottomInset: true,
+                    backgroundColor: Colors.transparent,
+                    body: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        FooterLayout(
+                          child: Column(
+                            children: [
+                              Flexible(
+                                // child: IndexedStack(
+                                //   index: prov.currentPage,
+                                //   children: [
+                                //     KeepAliveWidget(
+                                //       child: CommentPage(
+                                //           commentList: prov.commentList,
+                                //           controller: prov.currentPage == 0
+                                //               ? controller
+                                //               : null),
+                                //     ),
+                                //     RecommentPage(
+                                //       recommentList: prov.childCommentList,
+                                //       controller: prov.currentPage == 1
+                                //           ? controller
+                                //           : null,
+                                //     ),
+                                //   ],
+                                // ),
+                                child: PageView(
+                                  controller: prov.pageController,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  onPageChanged: (i) {
+                                    if (i == 1) {
+                                      prov.setPosition(controller.offset);
+                                    } else {
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((timeStamp) {
+                                        controller
+                                            .jumpTo(prov.prevScrollPosition);
+                                      });
+                                    }
+                                    prov.setPageIdx(i);
+                                  },
+                                  children: [
+                                    CommentPage(
+                                      commentList: prov.commentList,
+                                      controller: prov.currentPage == 0
+                                          ? controller
+                                          : null,
+                                    ),
+                                    RecommentPage(
+                                      recommentList: prov.childCommentList,
+                                      parent: prov.parentComment,
+                                      controller: prov.currentPage == 1
+                                          ? controller
+                                          : null,
+                                    ),
+                                  ],
                                 ),
-                                child ?? SizedBox(),
-                                _buildCommentInput(controller),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ],
+                        ),
+                        child ?? SizedBox(),
+                        _buildCommentInput(controller),
+                      ],
+                    ),
+                  );
+                },
+              ),
             );
           },
         );
       },
     );
+  }
+
+  Widget pageHeader({String title = ''}) {
+    return Consumer<CommentSheetProvider>(builder: (context, prov, child) {
+      return ClipRRect(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+        child: Material(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: BottomSheetThemeColor.sheet_base_white,
+            ),
+            child: Column(
+              children: [
+                Stack(
+                  clipBehavior: Clip.none,
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      height: 56.toWidth,
+                      child: Center(
+                          child: Text(prov.currentPage == 0 ? '댓글' : '답글',
+                              style: ShownyStyle.body1(
+                                  color: ShownyStyle.black,
+                                  weight: FontWeight.w600))),
+                    ),
+                    if (prov.currentPage == 1)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: CupertinoButton(
+                          onPressed: prov.changeToComment,
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                const DefaultDivider(height: 0),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   Widget _buildHeader() {

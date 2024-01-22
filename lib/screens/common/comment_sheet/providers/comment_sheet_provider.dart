@@ -1,7 +1,7 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:showny/components/drag_to_dispose/drag_to_dispose.dart';
 import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/title_text_field/field_controller.dart';
 import 'package:showny/screens/common/comment_sheet/comment_sheet_screen.dart';
@@ -16,6 +16,7 @@ class CommentSheetProvider with ChangeNotifier {
   State<CommentSheetScreen> state;
 
   PageController pageController = PageController();
+  SwiperController swiperController = SwiperController();
 
   late List<StyleupCommentModel> commentList = [];
   late List<StyleupCommentModel> childCommentList = [];
@@ -102,42 +103,34 @@ class CommentSheetProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  double prevScrollPosition = 0.0;
+  void setPosition(double val) {
+    prevScrollPosition = val;
+    notifyListeners();
+  }
+
   void setPageIdx(int val) {
     currentPage = val;
     notifyListeners();
   }
 
-  Future _getStyleupCommentList({bool refresh = false}) async {
+  Future _getStyleupCommentList({bool viewLoading = true}) async {
     final user = userProvider.user;
-    if (!refresh) {
+    if (viewLoading) {
       setIsCommentLoading(true);
     }
 
     ApiHelper.shared.getStyleupCommentList(
         state.widget.styleupNo, user.memNo, 0, (comments) {
       commentList = [...comments];
-      if (!refresh) {
-        setIsCommentLoading(false);
-      } else {
-        // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        //   commentScrollController.animateTo(
-        //     commentScrollController.position.maxScrollExtent,
-        //     duration: const Duration(milliseconds: 200),
-        //     curve: Curves.easeInOut,
-        //   );
-        // });
-        notifyListeners();
-      }
+
+      setIsCommentLoading(false);
 
       ShownyLog().i(
           'DEBUG: fetch comment succeed, styleupNo: ${state.widget.styleupNo}, data: $commentList');
     }, (error) {
       commentList = [];
-      if (!refresh) {
-        setIsCommentLoading(false);
-      } else {
-        notifyListeners();
-      }
+      setIsCommentLoading(false);
       ShownyLog().e(
           'DEBUG: fetch comment failed, styleupNo: ${state.widget.styleupNo}, error: $error');
     });
@@ -164,39 +157,19 @@ class CommentSheetProvider with ChangeNotifier {
     unfocusAll();
     setParentComment(comment);
 
-    pageController
-        .nextPage(
-            duration: const Duration(milliseconds: 200), curve: Curves.easeIn)
-        .then((value) {
-      getChildCommentList();
-    });
-    // currentPage = 1;
-    // notifyListeners();
-    // getChildCommentList();
+    pageController.jumpToPage(1);
+    getChildCommentList();
   }
 
   Future changeToComment() async {
     unfocusAll();
-    pageController
-        .animateToPage(0,
-            duration: const Duration(milliseconds: 200), curve: Curves.easeIn)
-        .then((value) {
-      //
-      int idx = _findIndexWhereComment(parentComment?.styleupCommentNo ?? '-1');
-      commentList[idx].childCommentList = [...childCommentList];
+    pageController.jumpToPage(0);
+    int idx = _findIndexWhereComment(parentComment?.styleupCommentNo ?? '-1');
+    commentList[idx].childCommentList = [...childCommentList];
 
-      setParentComment(null);
-      childCommentList.clear();
-      notifyListeners();
-    });
-    // currentPage = 0;
-    // notifyListeners();
-    // int idx = _findIndexWhereComment(parentComment?.styleupCommentNo ?? '-1');
-    // commentList[idx].childCommentList = [...childCommentList];
-
-    // setParentComment(null);
-    // childCommentList.clear();
-    // notifyListeners();
+    setParentComment(null);
+    childCommentList.clear();
+    notifyListeners();
   }
 
   Future handleSendComment() async {
@@ -218,7 +191,7 @@ class CommentSheetProvider with ChangeNotifier {
         commentController.clear();
         ShownyLog().i("insertStyleupComment - 성공");
         if (currentPage == 0) {
-          _getStyleupCommentList(refresh: true);
+          _getStyleupCommentList(viewLoading: false);
         } else {
           getChildCommentList();
         }
@@ -349,13 +322,12 @@ class CommentSheetProvider with ChangeNotifier {
   @override
   void dispose() {
     pageController.dispose();
-
+    commentController.dispose();
     super.dispose();
   }
 
   CommentSheetProvider(this.state) {
     userProvider = Provider.of<UserProvider>(state.context, listen: false);
-
     _getStyleupCommentList();
   }
 }
