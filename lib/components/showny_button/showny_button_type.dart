@@ -62,6 +62,14 @@ class ShownyButtonFillTheme extends ShownyButtonTheme {
         loadingColor: ShownyButtonColors.button_loading_base_gray,
       );
 
+  static ShownyButtonFillTheme get black => ShownyButtonFillTheme(
+        baseColor: ShownyButtonColors.button_base_black,
+        textColor: ShownyButtonColors.button_text_white,
+        disabledBaseColor: ShownyButtonColors.button_disabled_base_gray,
+        disabledTextColor: ShownyButtonColors.button_disabled_text_gray,
+        loadingColor: ShownyButtonColors.button_loading_base_gray,
+      );
+
   static ShownyButtonFillTheme get coral => ShownyButtonFillTheme(
         baseColor: ShownyButtonColors.button_base_coral,
         textColor: ShownyButtonColors.button_text_white,
@@ -404,6 +412,7 @@ class ShownyButtonColors {
   static const button_base_white = ShownyStyle.white;
   static const button_base_gray = ShownyStyle.gray040;
   static const button_base_violet = ShownyStyle.mainPurple;
+  static const button_base_black = ShownyStyle.black;
   static const button_base_coral = ShownyStyle.mainRed;
   static const button_base_lightViolet = ShownyStyle.lightViolet;
 

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/slivers/sliver_tween.dart';
 import 'package:showny/screens/battle_list/providers/battle_list_provider.dart';
+import 'package:showny/screens/battle_list/widgets/battle_list_item.dart';
 import 'package:showny/screens/battle_list/widgets/battle_slider_item.dart';
 import 'package:showny/screens/battle_list/widgets/status_chip.dart';
 import 'package:showny/utils/showny_util.dart';
@@ -41,7 +42,7 @@ class _BattleListState extends State<BattleList>
             scrolledUnderElevation: 0,
           ),
           body: Container(
-            padding: EdgeInsets.symmetric(vertical: 16.toWidth),
+            padding: EdgeInsets.only(top: 16.toWidth),
             width: ScreenUtil().screenWidth,
             child: Column(
               children: [
@@ -86,7 +87,9 @@ class _BattleListState extends State<BattleList>
       builder: (context, prov, child) {
         return Expanded(
           child: CustomScrollView(
-            physics: const ClampingScrollPhysics(),
+            physics: prov.curType == ListType.ongoing
+                ? const ClampingScrollPhysics()
+                : const AlwaysScrollableScrollPhysics(),
             slivers: [
               if (!prov.isDataLoading) ...{
                 if (prov.curType == ListType.ongoing) ...{
@@ -95,6 +98,10 @@ class _BattleListState extends State<BattleList>
                   _battleInfo(),
                 } else ...{
                   _battleListView(),
+                  SliverToBoxAdapter(
+                      child: SizedBox(
+                    height: ShownyStyle.defaultBottomPadding(),
+                  ))
                 },
               } else ...{
                 SliverToBoxAdapter(
@@ -231,7 +238,25 @@ class _BattleListState extends State<BattleList>
   Widget _battleListView() {
     return Builder(
       builder: (context) {
-        return SliverToBoxAdapter();
+        BattleListProvider prov =
+            Provider.of<BattleListProvider>(context, listen: false);
+        return SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: prov.battleDataList.length,
+              (context, index) {
+                BattleModel item = prov.battleDataList[index];
+                return BattleListItem(
+                  battleData: item,
+                  onClickItemButton: () {
+                    prov.onClickItemButton(item);
+                  },
+                );
+              },
+            ),
+          ),
+        );
       },
     );
   }

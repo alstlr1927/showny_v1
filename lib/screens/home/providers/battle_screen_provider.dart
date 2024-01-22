@@ -30,13 +30,13 @@ class BattleScreenProvider with ChangeNotifier {
     ApiHelper.shared.getStyleupBattleItemList(
       userProvider.user.memNo,
       (styleupBattleModel) {
-        ShownyLog().i("Battle list loaded successfully");
+        ShownyLog().i("getBattleItemList success");
         styleUpBattle = styleupBattleModel;
 
         notifyListeners();
       },
       (error) {
-        debugPrint("Error loading styleup list: $error");
+        ShownyLog().e("error getBattleItemList : $error");
       },
     );
   }
@@ -49,13 +49,13 @@ class BattleScreenProvider with ChangeNotifier {
       userProvider.user.memNo,
       battleNo,
       (styleupBattleModel) {
-        ShownyLog().i("Battle list loaded successfully");
+        ShownyLog().i("getBattleItemListById success : ${battleNo}");
         styleUpBattle = styleupBattleModel;
 
         notifyListeners();
       },
       (error) {
-        debugPrint("Error loading styleup list: $error");
+        ShownyLog().e("error getBattleItemListById : $error");
       },
     );
   }

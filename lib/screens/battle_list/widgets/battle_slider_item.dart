@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
-import 'package:showny/utils/formatter.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 

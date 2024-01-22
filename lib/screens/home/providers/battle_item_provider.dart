@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/models/battle_vote_response_model.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 import 'package:showny/screens/home/providers/home_provider.dart';
@@ -42,6 +43,8 @@ class BattleItemProvider with ChangeNotifier {
           style1PollCnt: battleVoteResponse.style1PollCnt,
           style2PollCnt: battleVoteResponse.style2PollCnt,
         );
+        ShownyLog().e('1Cnt_ : ${battleVoteResponse.style1PollCnt}');
+        ShownyLog().e('2Cnt_ : ${battleVoteResponse.style2PollCnt}');
         state.widget.setData(
           roundNo: state.widget.battleItem.battleRoundNo,
           copy: copy,
