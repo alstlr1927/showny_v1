@@ -21,7 +21,7 @@ final routes = {
       const InputAdditionalInfoScreen(),
 
   // Profile
-  ProfileScreen.routeName: (context) => ProfileScreen(),
+
   OtherProfileScreen.routeName: (context) => const OtherProfileScreen(
         memNo: '',
       ),

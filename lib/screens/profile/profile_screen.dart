@@ -25,11 +25,8 @@ import '../../utils/images.dart';
 import '../tabs/profile/profile_tab_button.dart';
 
 class ProfileScreen extends StatefulWidget {
-  bool? isBack = false;
-
-  ProfileScreen({Key? key, this.category, this.isBack}) : super(key: key);
+  ProfileScreen({Key? key, this.category}) : super(key: key);
   final ProfilePageCategory? category;
-  static const routeName = "profile_screen";
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -151,74 +148,6 @@ class _ProfileScreenState extends State<ProfileScreen>
             }),
             // body: MyProfileTabView(tabController: _tabController),
           ),
-          // if (category == ProfilePageCategory.myProfile ||
-          //     category == ProfilePageCategory.myShop) ...[
-          //   Column(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [
-          //           FloatingActionButton(
-          //             backgroundColor: Colors.white,
-          //             foregroundColor: Colors.black,
-          //             child: const Icon(Icons.camera_alt),
-          //             onPressed: () {
-          //               //   Navigator.push(
-          //               //         context,
-          //               //         PageRouteBuilderRightLeft(
-          //               //             child: UploadContentScreen(
-          //               //         onCompleted: () {
-          //               //           Provider.of<GetMyProfileProvider>(context, listen: false).getProfileData(context);
-          //               //           Provider.of<GetMyProfileProvider>(context, listen: false).getMyStyleupList(context);
-          //               //           Provider.of<GetMyProfileProvider>(context, listen: false).getMyBookmarkList(context);
-          //               // })));
-          //             },
-          //           ),
-          //         ],
-          //       ),
-          //       const SizedBox(height: 28),
-          //     ],
-          //   ),
-          // ],
-          // 주문하기 버튼
-          // category == ProfilePageCategory.myShopping &&
-          //         (Provider.of<RequestReturnProvider>(context).selectedIndex ==
-          //             0)
-          //     ? Positioned(
-          //         bottom: 10,
-          //         left: 16,
-          //         right: 16,
-          //         child: Consumer<GetStoreCartListProvider>(
-          //             builder: (context, getStoreCartListProvider, child) =>
-          //                 SizedBox()
-          //             // CommonButtonWidget(
-          //             //   text: tr('my_profile.btn_text'),
-          //             //   radius: 12,
-          //             //   height: 48,
-          //             //   color: !getStoreCartListProvider.checkFalse() ? grey444 : black,
-          //             //   textcolor: white,
-          //             //   onTap: !getStoreCartListProvider.checkFalse()
-          //             //       ? null
-          //             //       : () {
-          //             // List<cartResponse.Data> newList =
-          //             // getStoreCartListProvider
-          //             //     .getProducts()
-          //             //     .where((i) => (i.isSelected ?? false))
-          //             //     .toList();
-          //             // context
-          //             //     .read<OrderFormProvider>()
-          //             //     .setCartProducts(newList);
-          //             // Navigator.push(
-          //             //     context,
-          //             //     MaterialPageRoute(
-          //             //       builder: (context) => const OrderFormScreen(),
-          //             //     ));
-          //             //   },
-          //             // ),
-          //             ),
-          //       )
-          //     : Container(),
         ],
       ),
     );
@@ -236,38 +165,24 @@ class _ProfileScreenState extends State<ProfileScreen>
       scrolledUnderElevation: 0,
       centerTitle: true,
       automaticallyImplyLeading: false,
-      leading: widget.isBack == true
-          ? GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Image.asset(
-                  arrowBackward,
-                  height: 18,
-                  width: 9,
-                ),
-              ),
-            )
-          : Row(
-              children: [
-                CupertinoButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        ShownyPageRoute(
-                            builder: (context) => const MyShoppingPage(),
-                            settings: const RouteSettings(
-                                name: PageName.MY_SHOPPING)));
-                  },
-                  child: Image.asset(
-                    'assets/icons/profile/shopping_list.png',
-                    height: 20.toWidth,
-                  ),
-                ),
-              ],
+      leading: Row(
+        children: [
+          CupertinoButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  ShownyPageRoute(
+                      builder: (context) => const MyShoppingPage(),
+                      settings:
+                          const RouteSettings(name: PageName.MY_SHOPPING)));
+            },
+            child: Image.asset(
+              'assets/icons/profile/shopping_list.png',
+              height: 20.toWidth,
             ),
+          ),
+        ],
+      ),
       actions: [
         CupertinoButton(
           minSize: 0.0,
@@ -319,17 +234,6 @@ class _ProfileScreenState extends State<ProfileScreen>
       ],
     );
   }
-
-  // Widget pageAtCategory() {
-  //   switch (category!) {
-  //     case ProfilePageCategory.myProfile:
-  //       return const MyProfileScreen();
-  //     case ProfilePageCategory.myShop:
-  //       return const MyShopScreen();
-  //     case ProfilePageCategory.myShopping:
-  //       return const MyShoppingPage();
-  //   }
-  // }
 }
 
 enum ProfilePageCategory with CategoryMixin {
@@ -428,18 +332,6 @@ class _ProfileInfo extends StatelessWidget {
                         count: 18,
                         memNo: userProvider.user.memNo,
                       ),
-                      // _buildInfo(
-                      //     title: '',
-                      //     count: userProvider.user.followCount.toDouble(),
-                      //     memNo: userProvider.user.memNo,
-                      //     onPressed: () {
-                      //       Navigator.push(
-                      //           context,
-                      //           PageRouteBuilderRightLeft(
-                      //               child: ProfileFollowingScreen(
-                      //             profileMemNo: userProvider.user.memNo,
-                      //           )));
-                      //     }),
                     } else ...{
                       _buildInfo(
                         title: tr('profile_2.post'),

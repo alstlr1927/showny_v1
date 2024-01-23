@@ -49,24 +49,6 @@ class GetMyProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void setStyleUpDown({required String styleUpNo, required int value}) {
-  //   int idx =
-  //       myStyleupList.indexWhere((element) => element.styleupNo == styleUpNo);
-  //   if (idx != -1) {
-  //     myStyleupList[idx].upDownType = value;
-  //     notifyListeners();
-  //   }
-  // }
-
-  // void setStyleUpFollow({required String styleUpNo, required bool value}) {
-  //   int idx =
-  //       myStyleupList.indexWhere((element) => element.styleupNo == styleUpNo);
-  //   if (idx != -1) {
-  //     myStyleupList[idx].userInfo.isFollow = value;
-  //     notifyListeners();
-  //   }
-  // }
-
   void removeMyBookmarkList() {
     myBookmarkListPage = 0;
     myBookmarkList.clear();
