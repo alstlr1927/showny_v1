@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/store_good_model.dart';
-import 'package:showny/screens/home/widgets/drag_item_tag.dart';
+import 'package:showny/screens/home/styleup/widgets/drag_item_tag.dart';
 
 class CarouselImageViewer extends StatefulWidget {
   const CarouselImageViewer({

@@ -7,7 +7,7 @@ import 'package:showny/utils/showny_style.dart';
 import '../../../api/new_api/api_helper.dart';
 import '../../../models/battle_model.dart';
 import '../../../providers/user_model_provider.dart';
-import '../../home/battle_screen.dart';
+import '../../home/battle/battle_screen.dart';
 
 enum ListType {
   ongoing,

@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 
 import 'package:showny/models/GetMemberMinishopProductReviewModel.dart';
 import 'package:showny/models/StoreOrderListModel.dart';
@@ -15,6 +16,9 @@ import 'package:showny/screens/profile/model/getcancle_info_detail_response_mode
 import '../../models/FetchGetMemberMinishopProductModel.dart';
 import '../../models/GetMemberMinishopProductSheetModel.dart';
 import '../../models/brandDearchModel.dart';
+import '../../models/get_banner_minishop_model.dart';
+import '../../models/get_bannerlist_response_model.dart';
+import '../../models/get_storelist_response_model.dart' as mainlist;
 
 //TODO api_helper로 통합 예정
 
@@ -23,10 +27,172 @@ final apiServiceProvider = Provider<ApiService>((ref) {
 });
 
 class ApiService {
-  final String baseUrl = 'http://13.209.9.175:10020';
+  final String baseUrl = 'http://api.applrdev193.godomall.com';
   Dio dio = Dio();
 
-  Future<BrandResponse?> getBrandListService(String memNo) async {
+  /// new add
+  Future<GetBannerListResponseModel?> getBannerListApi(
+      String memNo, String type) async {
+    GetBannerListResponseModel? getBannerListResponseModel;
+    try {
+      var request = json.encode({"memNo": memNo, "type": type});
+      var response = await dio.post(
+        '$baseUrl/GetBannerList',
+        data: request,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        log("BANNER :: ${response.data}");
+        getBannerListResponseModel =
+            GetBannerListResponseModel.fromJson(response.data);
+        return getBannerListResponseModel;
+      } else {
+        log('Error: ${response.statusCode}, ${response.statusMessage}');
+        return getBannerListResponseModel;
+      }
+    } catch (e) {
+      log('Error: $e');
+      return getBannerListResponseModel;
+    }
+  }
+
+  Future<GetBannerMiniShopModel?> getBannerMiniShopApi({
+    String? memNo,
+    String? type,
+  }) async {
+    String url = '$baseUrl/GetBannerList';
+
+    var headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+
+    var data = {
+      'memNo': '$memNo',
+      'type': '$type',
+    };
+
+    try {
+      var response = await dio.request(
+        url,
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ),
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        log("SUCCESS BANNER MINI SHOP :: ${response.data}");
+        return GetBannerMiniShopModel.fromJson(response.data);
+      } else {
+        log("Failed to load data from the server");
+        return null;
+      }
+    } catch (e) {
+      log("Error: $e");
+      return null;
+    }
+  }
+
+  Future<mainlist.GetStoreListResponseModel?> getStoreMainListApi(
+      String memNo) async {
+    mainlist.GetStoreListResponseModel? getStoreListResponseModel;
+
+    try {
+      var request = json.encode(
+        {
+          "memNo": memNo,
+        },
+      );
+      var response = await dio.post(
+        '$baseUrl/GetStoreMainList',
+        data: {
+          "memNo": memNo,
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        log("STORE LIST :: ${response.data}");
+        getStoreListResponseModel =
+            mainlist.GetStoreListResponseModel.fromJson(response.data);
+        var home = mainlist.HomeList(
+            goodsNo: "1000000011",
+            brandNm: "노스페이스",
+            brandCd: "19",
+            goodsNm: "노스페이스_아우터_화이트라벨 노벨티 눕시 다운 자켓",
+            goodsImage:
+                "http://gdadmin.applrdev193.godomall.com/data/editor/goods/231120/3683428_16989888359448_500_040208.jpeg",
+            goodsPrice: "99000");
+        var home2 = mainlist.HomeList(
+            goodsNo: "1000000012",
+            brandNm: "노스페이스",
+            brandCd: "19",
+            goodsNm: "노스페이스_아우터_화이트라벨 노벨티 눕시 다운 자켓",
+            goodsImage:
+                "http://gdadmin.applrdev193.godomall.com/data/editor/goods/231120/3683623_16989901706740_500_042519.jpeg",
+            goodsPrice: "99000");
+        var home3 = mainlist.HomeList(
+            goodsNo: "1000000013",
+            brandNm: "노스페이스",
+            brandCd: "19",
+            goodsNm: "노스페이스_아우터_화이트라벨 컴피 알파 플리스 집업",
+            goodsImage:
+                "http://gdadmin.applrdev193.godomall.com/data/editor/goods/231120/3573954_16951067202850_500_042716.jpeg",
+            goodsPrice: "99000");
+        var home4 = mainlist.HomeList(
+            goodsNo: "1000000014",
+            brandNm: "노스페이스",
+            brandCd: "19",
+            goodsNm: "노스페이스_아우터_NV3NP55D 눕시 온볼 베스트",
+            goodsImage:
+                "http://gdadmin.applrdev193.godomall.com/data/editor/goods/231120/3686044_16992344026308_500_042832.jpeg",
+            goodsPrice: "99000");
+        var home5 = mainlist.HomeList(
+            goodsNo: "1000000015",
+            brandNm: "닥터마틴",
+            brandCd: "20",
+            goodsNm: "닥터마틴_신발_1460 8홀 나파 블랙 무광",
+            goodsImage:
+                "http://gdadmin.applrdev193.godomall.com/data/editor/goods/231120/626636_4_500_043015.jpeg",
+            goodsPrice: "99000");
+        var home6 = mainlist.HomeList(
+            goodsNo: "1000000016",
+            brandNm: "닥터마틴",
+            brandCd: "20",
+            goodsNm: "닥터마틴_신발_1461 3홀 블랙 스무스",
+            goodsImage:
+                "http://gdadmin.applrdev193.godomall.com/data/editor/goods/231120/3335921_16872295112218_500_043229.jpeg",
+            goodsPrice: "99000");
+        getStoreListResponseModel.data!.homeList!.add(home);
+        getStoreListResponseModel.data!.homeList!.add(home2);
+        getStoreListResponseModel.data!.homeList!.add(home3);
+        getStoreListResponseModel.data!.homeList!.add(home4);
+        getStoreListResponseModel.data!.homeList!.add(home5);
+        getStoreListResponseModel.data!.homeList!.add(home6);
+        return getStoreListResponseModel;
+      } else {
+        log('Error: ${response.statusCode}, ${response.statusMessage}');
+        return getStoreListResponseModel;
+      }
+    } catch (e) {
+      log('Error: $e');
+      return getStoreListResponseModel;
+    }
+  }
+
+  ///
+
+  Future<BrandResponse?> getBrandListService(
+      String memNo, String keyword) async {
     var headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
@@ -40,7 +206,7 @@ class ApiService {
           method: 'POST',
           headers: headers,
         ),
-        data: {'memNo': memNo},
+        data: {'memNo': memNo, 'keyword': keyword},
       );
 
       if (response.statusCode == 200) {
@@ -48,23 +214,23 @@ class ApiService {
         log(brandResponse.data[0].brandImgUrl);
         return brandResponse;
       } else {
-        print(
+        ShownyLog().e(
             'Failed to call API: ${response.statusCode}, ${response.statusMessage}');
       }
     } on DioException catch (e) {
       if (e.response != null) {
         // DioErrorType.RESPONSE
-        print('Dio error!');
-        print('STATUS: ${e.response?.statusCode}');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
+        ShownyLog().e('Dio error!');
+        ShownyLog().e('STATUS: ${e.response?.statusCode}');
+        ShownyLog().e('DATA: ${e.response?.data}');
+        ShownyLog().e('HEADERS: ${e.response?.headers}');
       } else {
         // Error due to setting up or sending the request
-        print('Error sending request!');
-        print(e.message);
+        ShownyLog().e('Error sending request!');
+        ShownyLog().e('${e.message}');
       }
     } catch (e) {
-      print('Unknown error: $e');
+      ShownyLog().e('Unknown error: $e');
     }
     return null;
   }

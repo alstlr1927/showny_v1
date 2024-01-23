@@ -14,7 +14,7 @@ import 'package:showny/screens/upload/styleup/widgets/item_tag_carousel.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
-import '../../shop/store_search_page_screen.dart';
+import '../../shop/store/store_search_page_screen.dart';
 
 class StyleupItemTag extends StatefulWidget {
   final String type;

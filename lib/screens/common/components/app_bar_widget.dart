@@ -1,66 +1,78 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_appbar_widget.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
-
   final String title;
 
   final String? rightTitle;
   final Color? rightColor;
+  final String? rightImageUrl;
   final Function()? rightOnTap;
 
   const AppBarWidget({
     required this.title,
-    super.key, this.rightTitle, this.rightOnTap, this.rightColor,
+    super.key,
+    this.rightTitle,
+    this.rightOnTap,
+    this.rightColor,
+    this.rightImageUrl,
   });
 
   @override
   State<AppBarWidget> createState() => _AppBarWidget();
-  
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _AppBarWidget extends State<AppBarWidget> {
-
   @override
   Widget build(BuildContext context) {
     return RoundedAppBar(
-        icon: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Image.asset(
-              arrowBackward,
-              height: 18,
-              width: 9,
-            ),
+      icon: GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Image.asset(
+            arrowBackward,
+            height: 18,
+            width: 9,
           ),
         ),
-        action: [
-          widget.rightTitle != null ?
-          CupertinoButton(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            onPressed: widget.rightOnTap,
-            child: SizedBox(
-              child: Text(
-                widget.rightTitle!,
-                style: TextStyle(
-                  color: widget.rightColor ?? Colors.black, fontSize: 14),
+      ),
+      action: [
+        (widget.rightTitle != null || widget.rightImageUrl != null)
+            ? CupertinoButton(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                onPressed: widget.rightOnTap,
+                child: SizedBox(
+                  child: widget.rightImageUrl != null
+                      ? Image.asset(
+                          widget.rightImageUrl!,
+                          width: 24,
+                          height: 24,
+                        )
+                      : Text(
+                          widget.rightTitle!,
+                          style: themeData()
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: widget.rightColor ?? greyLight),
+                        ),
                 ),
-              ),
-            )
+              )
             : const SizedBox()
-        ],
-        titleText: widget.title,
-        center: true,
-        bgColor: Colors.white,
-        shadow: 0,
-      );
+      ],
+      titleText: widget.title,
+      center: true,
+      bgColor: Colors.white,
+      shadow: 0,
+    );
   }
 }
-

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/title_text_field/field_controller.dart';
 import 'package:showny/screens/common/comment_sheet/comment_sheet_screen.dart';
-import 'package:showny/screens/home/widgets/report_sheet_screen.dart';
+import 'package:showny/screens/home/styleup/widgets/report_sheet_screen.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 
 import '../../../../api/new_api/api_helper.dart';

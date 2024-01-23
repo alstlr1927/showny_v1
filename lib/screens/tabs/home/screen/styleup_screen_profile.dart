@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/home/widgets/following_button.dart';
+import 'package:showny/screens/home/styleup/widgets/following_button.dart';
 import 'package:showny/screens/profile/other_profile_screen.dart';
 import 'package:showny/screens/profile/profile_screen.dart';
 

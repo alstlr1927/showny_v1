@@ -112,6 +112,7 @@ flutter:
     - assets/icons/profile/
     - assets/icons/shopping/
     - assets/icons/upload/
+    - assets/icons/shop/
     - assets/mock_images/
     - assets/images/
     - assets/translations/

@@ -28,6 +28,9 @@ import 'package:showny/models/styleup_comment_model.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/models/user_model.dart';
 
+import '../../models/goods_qna_list_response_model.dart';
+import '../../models/goods_review_list_response_model.dart';
+
 class ApiHelper {
   final String baseUrl = 'http://13.209.9.175:10020';
   // final String baseUrl = 'http://192.168.0.8:10020';
@@ -939,11 +942,15 @@ class ApiHelper {
     }, failure);
   }
 
-  Future insertStoreGoodsCart(memNo, goodsNo, optionValue1,
+  Future insertStoreGoodsCart(memNo, goodsNo, options, goodsCnt,
       Function(dynamic) success, Function(String) failure) async {
     const url = '/InsertStoreGoodsCart';
-    FormData formData = FormData.fromMap(
-        {'memNo': memNo, 'goodsNo': goodsNo, 'optionValue1': optionValue1});
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+      'goodsNo': goodsNo,
+      'options': options,
+      'goodsCnt': goodsCnt
+    });
 
     apiRequest('$baseUrl$url', formData, (data) {
       success(true);
@@ -1210,7 +1217,9 @@ class ApiHelper {
       fitIdList,
       materialIdList,
       flexibility,
+      colorIdList,
       page,
+      isRequest,
       Function(GoodsSearchResponseModel) success,
       Function(String) failure) async {
     const url = '/GetGoodsList';
@@ -1227,7 +1236,9 @@ class ApiHelper {
       if (fitIdList != null) 'fitIdList': fitIdList,
       if (materialIdList != null) 'materialIdList': materialIdList,
       if (flexibility != null) 'flexibility': flexibility,
+      if (colorIdList != null) 'colorIdList': colorIdList,
       'page': page,
+      'isRequest': isRequest
     });
 
     apiRequest('$baseUrl$url', formData, (data) {
@@ -1236,4 +1247,139 @@ class ApiHelper {
       success(result);
     }, failure);
   }
+
+  /// new api
+
+  Future getBattleInProductList(memNo, Function(List<StoreGoodModel>) success,
+      Function(String) failure) async {
+    const url = '/GetBattleInProductList';
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+    });
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      final result = (data as List<dynamic>)
+          .map((item) => StoreGoodModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+      success(result);
+    }, failure);
+  }
+
+  Future getStoreGoodsReviewList(
+      memNo,
+      goodsNo,
+      page,
+      Function(GoodsReviewListResponseModel) success,
+      Function(String) failure) async {
+    const url = '/GetStoreGoodsReviewList';
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+      'goodsNo': goodsNo,
+      'page': page,
+    });
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      final result =
+          GoodsReviewListResponseModel.fromJson(data as Map<String, dynamic>);
+      success(result);
+    }, failure);
+  }
+
+  Future getStoreGoodsQnaList(
+      memNo,
+      goodsNo,
+      page,
+      Function(GoodsQnaListResponseModel) success,
+      Function(String) failure) async {
+    const url = '/GetStoreGoodsQaList';
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+      'goodsNo': goodsNo,
+      'page': page,
+    });
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      final result =
+          GoodsQnaListResponseModel.fromJson(data as Map<String, dynamic>);
+      success(result);
+    }, failure);
+  }
+
+  Future getGoodsDetail(memNo, goodsNo, Function(StoreGoodModel) success,
+      Function(String) failure) async {
+    const url = '/GetGoodsDetail';
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+      'goodsNo': goodsNo,
+    });
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      final result = StoreGoodModel.fromJson(data as Map<String, dynamic>);
+      success(result);
+    }, failure);
+  }
+
+  Future getStoreGoodsQaCategory(
+      memNo, Function(List<String>) success, Function(String) failure) async {
+    const url = '/GetStoreGoodsQaPage';
+    FormData formData = FormData.fromMap({'memNo': memNo});
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      final result = List<String>.from(data);
+      success(result);
+    }, failure);
+  }
+
+  Future insertStoreQa(memNo, category, goodsNo, subject, content, isSecret,
+      Function(dynamic) success, Function(String) failure) async {
+    const url = '/InsertStoreGoodsQa';
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+      'category': category,
+      'goodsNo': goodsNo,
+      'subject': subject,
+      'contents': content,
+      'isSecret': isSecret
+    });
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      success(true);
+    }, failure);
+  }
+
+  Future registNewItemRequest(
+      memNo,
+      name,
+      description,
+      price,
+      information,
+      link,
+      List<XFile> productImageList,
+      Function() success,
+      Function(String) failure) async {
+    const url = '/GoodsItemRegistRequest';
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+      'name': name,
+      'description': description,
+      'price': price,
+      'information': information,
+      'link': link,
+    });
+
+    int index = 0;
+    for (var xfile in productImageList) {
+      formData.files.add(
+        MapEntry(
+            "productImage$index", await MultipartFile.fromFile(xfile.path)),
+      );
+      index += 1;
+    }
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      success();
+    }, failure);
+  }
+
+  ///
 }

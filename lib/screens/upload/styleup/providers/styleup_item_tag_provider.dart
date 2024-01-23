@@ -6,7 +6,7 @@ import 'package:showny/screens/upload/styleup/styleup_item_tag.dart';
 import 'package:showny/screens/upload/styleup/widgets/select_item_category.dart';
 import 'package:showny/utils/showny_util.dart';
 
-import '../../../shop/store_search_page_screen.dart';
+import '../../../shop/store/store_search_page_screen.dart';
 
 class StyleupItemTagProvider with ChangeNotifier {
   State<StyleupItemTag> state;
