@@ -32,7 +32,7 @@ class _DropdownWidget extends State<DropdownWidget> {
           child: DropdownButton<String>(
             value: widget.itemList[selectedIndex],
             alignment: Alignment.centerRight,
-            style: ShownyStyle.caption(color: ShownyStyle.gray060),
+            style: ShownyStyle.caption(),
             icon: Padding(
               padding: const EdgeInsets.only(left: 4),
               child: Image.asset(
@@ -67,7 +67,7 @@ class _DropdownWidget extends State<DropdownWidget> {
                     child: Center(
                         child: Text(
                       item,
-                      style: ShownyStyle.caption(color: ShownyStyle.gray060),
+                      style: ShownyStyle.caption(),
                     )),
                   ));
             }).toList(),

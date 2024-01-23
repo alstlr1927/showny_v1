@@ -50,12 +50,10 @@ class _SubCategoryListWidget extends State<SubCategoryListWidget> {
             child: SizedBox(
                 width: 64,
                 child: Center(
-                    child: Text(
-                  widget.categoryList[index],
-                  style: selectedIndex == index
-                      ? FontHelper.bold_12_000000
-                      : ShownyStyle.caption(color: ShownyStyle.gray070),
-                ))),
+                    child: Text(widget.categoryList[index],
+                        style: selectedIndex == index
+                            ? FontHelper.bold_12_000000
+                            : ShownyStyle.caption()))),
           );
         },
       ),

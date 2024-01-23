@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/screens/shop/models/color_model.dart';
 import 'package:showny/screens/shop/models/style_model.dart';
-import 'package:showny/screens/shop/store/providers/store_detail_filter_provider.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_button_widget.dart';
 import 'package:showny/widgets/common_textfield_widget.dart';
 import 'package:showny/widgets/custom_slider_widget.dart';
+
+import '../providers/store_detail_filter_provider.dart';
 
 void showFilterBottomSheet1(BuildContext context) {
   Size size = MediaQuery.of(context).size;

@@ -18,8 +18,9 @@ import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/routes.dart';
 import 'package:showny/screens/common/history_observer.dart';
 import 'package:showny/screens/intro/screen/login_screen.dart';
-import 'package:showny/screens/shop/store/providers/store_detail_filter_provider.dart';
-import 'package:showny/screens/shop/store/providers/store_search_provider.dart';
+import 'package:showny/screens/shop/providers/mini_shop_banner_provider.dart';
+import 'package:showny/screens/shop/providers/store_provider.dart';
+import 'package:showny/screens/shop/providers/store_wishlist_provider.dart';
 import 'package:showny/screens/tabs/profile/my_shop/provider/report_provider.dart';
 import 'package:showny/screens/tabs/profile/other_profile_tab2_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
@@ -32,6 +33,8 @@ import 'package:showny/utils/image_cache_delegate.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'firebase_options.dart';
+import 'screens/shop/providers/store_detail_filter_provider.dart';
+import 'screens/shop/providers/store_search_provider.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
@@ -133,6 +136,15 @@ class MyApp extends StatelessWidget {
         ),
         prod.ChangeNotifierProvider(
           create: (context) => GetStoreCartListProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => MiniShopBannerProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => StoreProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => StoreWishListProvider(),
         ),
       ],
       child: ScreenUtilInit(

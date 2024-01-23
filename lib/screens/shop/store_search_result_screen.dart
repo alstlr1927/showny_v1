@@ -1,21 +1,26 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/page_route.dart';
+import 'package:showny/helper/font_helper.dart';
 import 'package:showny/models/brand_search_model.dart';
+import 'package:showny/models/filter_shop_model.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
-import 'package:showny/screens/shop/common/widgets/dropdown_widget.dart';
-import 'package:showny/screens/shop/common/widgets/main_category_list_widget.dart';
-import 'package:showny/screens/shop/common/widgets/sub_category_list_widget.dart';
-import 'package:showny/screens/shop/store/providers/store_search_provider.dart';
-import 'package:showny/screens/shop/store/widgets/store_brand_widget.dart';
-import 'package:showny/screens/shop/widgets/filter_widget.dart';
-import 'package:showny/screens/shop/widgets/good_item_widget.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/widgets/custom_dropdown_widget.dart';
+
+import 'providers/store_search_provider.dart';
+import 'store_good_detail_screen.dart';
+import 'widgets/dropdown_widget.dart';
+import 'widgets/filter_widget.dart';
+import 'widgets/good_item_widget.dart';
+import 'widgets/main_category_list_widget.dart';
+import 'widgets/store_brand_widget.dart';
+import 'widgets/sub_category_list_widget.dart';
 
 class StoreSearchResultScreen extends StatefulWidget {
   final String? search;
@@ -65,35 +70,41 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
     tr("store.dropdown_filter.filter6"),
   ];
 
+  FilterShopModel filterShopModel = FilterShopModel();
+
   int mainCategoryIndex = 0;
   BrandData? brandData;
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    final user = userProvider.user;
+    Future.delayed(Duration.zero, () {
+      UserProvider userProvider =
+          Provider.of<UserProvider>(context, listen: false);
+      final user = userProvider.user;
 
-    if (widget.initMainCategory != null) {
-      setState(() {
-        mainCategoryIndex = widget.initMainCategory!;
-        Provider.of<StoreSearchProvider>(context, listen: false)
-            .setMainCategory(widget.initMainCategory!);
-      });
-    }
-    if (widget.initSubCategory != null) {
-      setState(() {
-        Provider.of<StoreSearchProvider>(context, listen: false)
-            .setSubCategory(widget.initSubCategory!);
-      });
-    }
-    if (widget.initBrand != null) {
-      setState(() {
-        brandData = widget.initBrand;
-      });
-    }
+      if (widget.initMainCategory != null) {
+        setState(() {
+          mainCategoryIndex = widget.initMainCategory!;
+          Provider.of<StoreSearchProvider>(context, listen: false)
+              .setMainCategory(widget.initMainCategory!);
+        });
+      }
+      if (widget.initSubCategory != null) {
+        setState(() {
+          Provider.of<StoreSearchProvider>(context, listen: false)
+              .setSubCategory(widget.initSubCategory!);
+        });
+      }
+      if (widget.initBrand != null) {
+        setState(() {
+          brandData = widget.initBrand;
+        });
+      }
+      scrollController.addListener(onScroll);
 
-    refreshItemsStoreSearchPage();
+      // refreshItemsStoreSearchPage();
+    });
 
     // Provider.of<SearchProvider>(context, listen: false)
     //     .setIsSearch(widget.search.toString());
@@ -102,13 +113,32 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void onScroll() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      // 바닥에 도달했을 때의 동작을 수행
+      UserProvider userProvider =
+          Provider.of<UserProvider>(context, listen: false);
+      final user = userProvider.user;
+      Provider.of<StoreSearchProvider>(context, listen: false).getSearchList(
+          user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
+    }
+  }
+
   refreshItemsStoreSearchPage() {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
+
+    Provider.of<StoreSearchProvider>(context, listen: false).initPage();
     Provider.of<StoreSearchProvider>(context, listen: false).getSearchList(
-      user.memNo,
-    );
+        user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
   }
 
   @override
@@ -131,19 +161,32 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                     mainCategoryIndex = index;
 
                     if (index == 2) {
-                      // Navigator.push(
-                      //   context,
-                      //   PageRouteBuilderRightLeft(
-                      //       child: BrandSearchScreen(selectBrand: (selectBrandData) {
-                      //         searchProvider.setBrandCd(selectBrandData.cateCd);
-                      //         searchProvider.getSearchList(user.memNo);
-                      //         setState(() {
-                      //           brandData = selectBrandData;
-                      //         });
-                      //       },)));
+                      Navigator.push(
+                          context,
+                          ShownyPageRoute(
+                            builder: (context) => BrandSearchScreen(
+                              selectBrand: (selectBrandData) {
+                                searchProvider
+                                    .setBrandCd(selectBrandData.cateCd);
+                                searchProvider.setMainCategory(-1);
+                                searchProvider.setSubCategory(0);
+                                searchProvider.initPage();
+                                searchProvider.getSearchList(
+                                    user.memNo,
+                                    filterShopModel,
+                                    widget.onSelected == null ? 0 : 1);
+                                setState(() {
+                                  brandData = selectBrandData;
+                                });
+                              },
+                            ),
+                          ));
                     } else {
                       searchProvider.setMainCategory(index);
-                      searchProvider.getSearchList(user.memNo);
+                      searchProvider.setBrandCd("");
+                      searchProvider.initPage();
+                      searchProvider.getSearchList(user.memNo, filterShopModel,
+                          widget.onSelected == null ? 0 : 1);
                     }
                   },
                 )
@@ -158,7 +201,9 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
             initSubCategoryIndex: widget.initSubCategory,
             onSelectCategory: (index) {
               searchProvider.setSubCategory(index);
-              searchProvider.getSearchList(user.memNo);
+              searchProvider.initPage();
+              searchProvider.getSearchList(user.memNo, filterShopModel,
+                  widget.onSelected == null ? 0 : 1);
             },
           ),
           const Divider(
@@ -169,8 +214,25 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
           const SizedBox(
             height: 14,
           ),
-          const SearchFilterWidget(
+          SearchFilterWidget(
             iconColor: greyLight,
+            filterShopModel: filterShopModel,
+            resetFilter: () {
+              setState(() {
+                filterShopModel.initFilter();
+                searchProvider.initPage();
+                searchProvider.getSearchList(user.memNo, filterShopModel,
+                    widget.onSelected == null ? 0 : 1);
+              });
+            },
+            applyFilter: (newFilterShopModel) {
+              setState(() {
+                filterShopModel = newFilterShopModel;
+                searchProvider.initPage();
+                searchProvider.getSearchList(user.memNo, filterShopModel,
+                    widget.onSelected == null ? 0 : 1);
+              });
+            },
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -181,29 +243,68 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                   visible: searchProvider.searchText.isNotEmpty,
                   child: Text(
                     "'${searchProvider.searchText}'${tr("store.search_result")} ${searchProvider.goodsList.length}${tr("store.search_result_count")}",
-                    style: ShownyStyle.caption(color: ShownyStyle.black),
+                    style: ShownyStyle.caption(),
                   ),
                 ),
                 const Spacer(),
                 DropdownWidget(
                     itemList: dropdownList,
                     onSelectItem: (index) {
-                      searchProvider.setSort(index);
-                      searchProvider.getSearchList(user.memNo);
+                      filterShopModel.sort = index;
+                      searchProvider.initPage();
+                      searchProvider.getSearchList(user.memNo, filterShopModel,
+                          widget.onSelected == null ? 0 : 1);
                     })
               ],
             ),
           ),
           Expanded(
-            child: searchProvider.isSearchLoading
+            child: (searchProvider.isSearchLoading &&
+                    searchProvider.goodsList.isEmpty)
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : searchProvider.goodsList.isEmpty
                     ? Center(
-                        child: Text(
-                          tr("search2.no_results_found"),
-                          style: ShownyStyle.body2(color: ShownyStyle.gray070),
+                        child: SizedBox(
+                          height: 160,
+                          child: Column(
+                            children: [
+                              Text(
+                                "찾으시는 상품이 없습니다.",
+                                style: ShownyStyle.caption(),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              widget.onSelected != null
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            ShownyPageRoute(
+                                              builder: (context) =>
+                                                  RequestNewItemScreen(),
+                                            ));
+                                      },
+                                      child: Container(
+                                        width: 140,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: Center(
+                                          child: Text(
+                                            "아이템 등록 신청하기",
+                                            style: ShownyStyle.caption(),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox()
+                            ],
+                          ),
                         ),
                       )
                     : RefreshIndicator(
@@ -213,6 +314,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: GridView.builder(
+                              controller: scrollController,
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               gridDelegate:
@@ -229,12 +331,14 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                                     onSelected: (goodsData) {
                                       debugPrint(goodsData.toString());
                                       if (widget.onSelected == null) {
-                                        // Navigator.push(
-                                        //     context,
-                                        //     PageRouteBuilderRightLeft(
-                                        //       child: StoreGoodDetailScreen(
-                                        //           goodsNo: goodsData.goodsNo),
-                                        //     ));
+                                        Navigator.push(
+                                            context,
+                                            ShownyPageRoute(
+                                              builder: (context) =>
+                                                  StoreGoodDetailScreen(
+                                                      goodsNo:
+                                                          goodsData.goodsNo),
+                                            ));
                                       } else {
                                         _showBottomSheet(context, goodsData);
                                       }
@@ -271,7 +375,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                 ),
                 child: Column(
                   children: [
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     Image.asset(
                       'assets/images/bottom_sheet_arrow.png',
                       width: 40,
@@ -281,15 +385,15 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                     const SizedBox(
                       height: 40,
                     ),
-                    // const Row(
-                    //   children: [
-                    //     Text(
-                    //       "착용 사이즈",
-                    //     ),
-                    //     Spacer(),
-                    //     Text("모르겠어요!")
-                    //   ],
-                    // ),
+                    const Row(
+                      children: [
+                        Text(
+                          "착용 사이즈",
+                        ),
+                        Spacer(),
+                        Text("모르겠어요!")
+                      ],
+                    ),
                     const SizedBox(
                       height: 20,
                     ),

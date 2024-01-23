@@ -54,7 +54,7 @@ class _MainCategoryListWidget extends State<MainCategoryListWidget> {
                     widget.categoryList[index],
                     style: selectedIndex == index
                         ? FontHelper.bold_12_000000
-                        : ShownyStyle.caption(color: ShownyStyle.gray060),
+                        : ShownyStyle.caption(),
                   ),
                   index != widget.categoryList.length - 1
                       ? const SizedBox(

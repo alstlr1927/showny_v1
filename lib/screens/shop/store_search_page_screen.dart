@@ -3,14 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/helper/font_helper.dart';
+import 'package:showny/models/filter_shop_model.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/shop/store/providers/store_search_provider.dart';
-import 'package:showny/screens/shop/store/store_search_result_screen.dart';
+import 'package:showny/screens/shop/providers/store_search_provider.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/widgets/common_appbar_widget.dart';
+
+import 'store_search_result_screen.dart';
 
 class StoreSearchScreen extends StatefulWidget {
   const StoreSearchScreen({Key? key, this.onSelected}) : super(key: key);
@@ -24,17 +26,21 @@ class StoreSearchScreen extends StatefulWidget {
 class _StoreSearchScreenState extends State<StoreSearchScreen> {
   TextEditingController searchController = TextEditingController();
 
+  FilterShopModel filterShopModel = FilterShopModel();
+
   @override
   void initState() {
     super.initState();
 
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    final user = userProvider.user;
+    Future.delayed(Duration.zero, () {
+      UserProvider userProvider =
+          Provider.of<UserProvider>(context, listen: false);
+      final user = userProvider.user;
 
-    Provider.of<StoreSearchProvider>(context, listen: false)
-        .getRecentSearchList(user.memNo);
-    Provider.of<StoreSearchProvider>(context, listen: false).initParams();
+      Provider.of<StoreSearchProvider>(context, listen: false)
+          .getRecentSearchList(user.memNo);
+      Provider.of<StoreSearchProvider>(context, listen: false).initParams();
+    });
   }
 
   @override
@@ -82,16 +88,24 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                               children: [
                                 Expanded(
                                   child: TextField(
-                                    style: ShownyStyle.caption(
-                                        color: ShownyStyle.black),
+                                    style: ShownyStyle.caption(),
                                     controller: searchController,
                                     onChanged: (value) {
                                       setState(() {});
                                     },
+                                    onEditingComplete: () {
+                                      searchProvider
+                                          .setSearchText(searchController.text);
+                                      searchProvider.initPage();
+                                      searchProvider.setBrandCd("");
+                                      searchProvider.getSearchList(
+                                          userProvider.user.memNo,
+                                          filterShopModel,
+                                          widget.onSelected == null ? 0 : 1);
+                                    },
                                     decoration: InputDecoration(
                                       hintText: tr('search.hint'),
-                                      hintStyle: ShownyStyle.caption(
-                                          color: ShownyStyle.gray070),
+                                      hintStyle: ShownyStyle.caption(),
                                       contentPadding:
                                           const EdgeInsets.only(left: 10),
                                       border: const OutlineInputBorder(
@@ -133,8 +147,12 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                         GestureDetector(
                           onTap: () {
                             searchProvider.setSearchText(searchController.text);
-                            searchProvider
-                                .getSearchList(userProvider.user.memNo);
+                            searchProvider.initPage();
+                            searchProvider.setBrandCd("");
+                            searchProvider.getSearchList(
+                                userProvider.user.memNo,
+                                filterShopModel,
+                                widget.onSelected == null ? 0 : 1);
                           },
                           child: Image.asset(
                             search,
@@ -188,8 +206,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                 ? Center(
                                     child: Text(
                                       tr("search.recent_search.no_recent_search"),
-                                      style: ShownyStyle.caption(
-                                          color: ShownyStyle.gray070),
+                                      style: ShownyStyle.caption(),
                                     ),
                                   )
                                 : ListView.builder(
@@ -221,16 +238,22 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                                   onTap: () {
                                                     searchProvider
                                                         .setSearchText(keyword);
+                                                    searchProvider.initPage();
+                                                    searchProvider
+                                                        .setBrandCd("");
                                                     searchProvider
                                                         .getSearchList(
-                                                      user.memNo,
-                                                    );
+                                                            user.memNo,
+                                                            filterShopModel,
+                                                            widget.onSelected ==
+                                                                    null
+                                                                ? 0
+                                                                : 1);
                                                   },
                                                   child: Text(
                                                     keyword,
-                                                    style: ShownyStyle.caption(
-                                                        color:
-                                                            ShownyStyle.black),
+                                                    style:
+                                                        ShownyStyle.caption(),
                                                   ),
                                                 ),
                                                 const SizedBox(
@@ -276,8 +299,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                     ? Center(
                                         child: Text(
                                           tr("search.popular_search.no_popular_searches"),
-                                          style: ShownyStyle.caption(
-                                              color: ShownyStyle.gray070),
+                                          style: ShownyStyle.caption(),
                                         ),
                                       )
                                     : ListView.builder(
@@ -297,8 +319,14 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                             onTap: () {
                                               searchProvider
                                                   .setSearchText(keyword);
-                                              searchProvider
-                                                  .getSearchList(user.memNo);
+                                              searchProvider.initPage();
+                                              searchProvider.setBrandCd("");
+                                              searchProvider.getSearchList(
+                                                  user.memNo,
+                                                  filterShopModel,
+                                                  widget.onSelected == null
+                                                      ? 0
+                                                      : 1);
                                             },
                                             child: Container(
                                               height: 48,
@@ -306,21 +334,15 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                               width: size.width,
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                    '${index + 1}',
-                                                    style: ShownyStyle.caption(
-                                                        color: ShownyStyle
-                                                            .gray070),
-                                                  ),
+                                                  Text('${index + 1}',
+                                                      style: ShownyStyle
+                                                          .caption()),
                                                   const SizedBox(
                                                     width: 20,
                                                   ),
-                                                  Text(
-                                                    keyword,
-                                                    style: ShownyStyle.caption(
-                                                        color: ShownyStyle
-                                                            .gray070),
-                                                  ),
+                                                  Text(keyword,
+                                                      style: ShownyStyle
+                                                          .caption()),
                                                 ],
                                               ),
                                             ),

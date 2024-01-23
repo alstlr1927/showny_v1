@@ -7,13 +7,14 @@ import 'package:showny/components/page_route.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
-import 'package:showny/screens/shop/store/store_search_page_screen.dart';
 import 'package:showny/screens/upload/styleup/providers/styleup_item_tag_provider.dart';
 import 'package:showny/screens/upload/styleup/types/item_category.dart';
 import 'package:showny/screens/upload/styleup/widgets/add_item_button.dart';
 import 'package:showny/screens/upload/styleup/widgets/item_tag_carousel.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
+
+import '../../shop/store_search_page_screen.dart';
 
 class StyleupItemTag extends StatefulWidget {
   final String type;

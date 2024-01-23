@@ -2,19 +2,27 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/screens/shop/store/providers/store_detail_filter_provider.dart';
-import 'package:showny/screens/shop/widgets/filter_bottomsheet1.dart';
+import 'package:showny/models/filter_shop_model.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/theme.dart';
 
+import '../providers/store_search_provider.dart';
+
 class SearchFilterWidget extends StatefulWidget {
   final Color? iconColor;
+  final FilterShopModel filterShopModel;
 
-  const SearchFilterWidget({
-    Key? key,
-    this.iconColor,
-  }) : super(key: key);
+  final Function() resetFilter;
+  final Function(FilterShopModel) applyFilter;
+
+  const SearchFilterWidget(
+      {Key? key,
+      this.iconColor,
+      required this.filterShopModel,
+      required this.resetFilter,
+      required this.applyFilter})
+      : super(key: key);
 
   @override
   State<SearchFilterWidget> createState() => _SearchFilterWidgetState();
@@ -28,9 +36,10 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GestureDetector(
         onTap: () {
-          showFilterBottomSheet1(context);
+          showStoreFilterBottomSheet(context, widget.filterShopModel,
+              widget.resetFilter, widget.applyFilter);
         },
-        child: Consumer<StoreDetailFilterProvider>(
+        child: Consumer<StoreSearchProvider>(
             builder: (BuildContext context, provider, Widget? child) {
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -45,14 +54,14 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                   width: 64,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: provider.getMinPrice() != null ||
-                            provider.getMaxPrice() != null
+                    color: widget.filterShopModel.minPrice != null ||
+                            widget.filterShopModel.maxPrice != null
                         ? black
                         : white,
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: provider.getMinPrice() != null ||
-                              provider.getMaxPrice() != null
+                      color: widget.filterShopModel.minPrice != null ||
+                              widget.filterShopModel.maxPrice != null
                           ? black
                           : greyLight.withOpacity(0.3),
                       width: 1,
@@ -62,8 +71,8 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                       child: Text(
                     tr('store.filter.options.price'),
                     style: themeData().textTheme.bodySmall?.apply(
-                        color: provider.getMinPrice() != null ||
-                                provider.getMaxPrice() != null
+                        color: widget.filterShopModel.minPrice != null ||
+                                widget.filterShopModel.maxPrice != null
                             ? white
                             : greyLight),
                   )),
@@ -75,11 +84,17 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                   width: 64,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: provider.getStyleIdList().isNotEmpty ? black : white,
+                    color: widget.filterShopModel.styleIdList != null
+                        ? widget.filterShopModel.styleIdList!.isNotEmpty
+                            ? black
+                            : white
+                        : white,
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: provider.getStyleIdList().isNotEmpty
-                          ? black
+                      color: widget.filterShopModel.styleIdList != null
+                          ? widget.filterShopModel.styleIdList!.isNotEmpty
+                              ? black
+                              : greyLight.withOpacity(0.3)
                           : greyLight.withOpacity(0.3),
                       width: 1,
                     ),
@@ -88,8 +103,10 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                       child: Text(
                     tr('store.filter.options.style'),
                     style: themeData().textTheme.bodySmall?.apply(
-                        color: provider.getStyleIdList().isNotEmpty
-                            ? white
+                        color: widget.filterShopModel.styleIdList != null
+                            ? widget.filterShopModel.styleIdList!.isNotEmpty
+                                ? white
+                                : greyLight
                             : greyLight),
                   )),
                 ),
@@ -100,11 +117,17 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                   width: 64,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: provider.getFitIdList().isNotEmpty ? black : white,
+                    color: widget.filterShopModel.fitIdList != null
+                        ? widget.filterShopModel.fitIdList!.isNotEmpty
+                            ? black
+                            : white
+                        : white,
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: provider.getFitIdList().isNotEmpty
-                          ? black
+                      color: widget.filterShopModel.fitIdList != null
+                          ? widget.filterShopModel.fitIdList!.isNotEmpty
+                              ? black
+                              : greyLight.withOpacity(0.3)
                           : greyLight.withOpacity(0.3),
                       width: 1,
                     ),
@@ -113,8 +136,43 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                       child: Text(
                     tr('store.filter.options.fit'),
                     style: themeData().textTheme.bodySmall?.apply(
-                        color: provider.getFitIdList().isNotEmpty
-                            ? white
+                        color: widget.filterShopModel.fitIdList != null
+                            ? widget.filterShopModel.fitIdList!.isNotEmpty
+                                ? white
+                                : greyLight
+                            : greyLight),
+                  )),
+                ),
+                SizedBox(
+                  width: size.width * 0.04,
+                ),
+                Container(
+                  width: 64,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: widget.filterShopModel.materialIdList != null
+                        ? widget.filterShopModel.materialIdList!.isNotEmpty
+                            ? black
+                            : white
+                        : white,
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: widget.filterShopModel.materialIdList != null
+                          ? widget.filterShopModel.materialIdList!.isNotEmpty
+                              ? black
+                              : greyLight.withOpacity(0.3)
+                          : greyLight.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: Center(
+                      child: Text(
+                    tr('store.filter.options.main_material'),
+                    style: themeData().textTheme.bodySmall?.apply(
+                        color: widget.filterShopModel.materialIdList != null
+                            ? widget.filterShopModel.materialIdList!.isNotEmpty
+                                ? white
+                                : greyLight
                             : greyLight),
                   )),
                 ),
@@ -126,35 +184,10 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                   height: 24,
                   decoration: BoxDecoration(
                     color:
-                        provider.getMaterialIdList().isNotEmpty ? black : white,
+                        widget.filterShopModel.flexibility == 0 ? black : white,
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: provider.getMaterialIdList().isNotEmpty
-                          ? black
-                          : greyLight.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Center(
-                      child: Text(
-                    tr('store.filter.options.main_material'),
-                    style: themeData().textTheme.bodySmall?.apply(
-                        color: provider.getMaterialIdList().isNotEmpty
-                            ? white
-                            : greyLight),
-                  )),
-                ),
-                SizedBox(
-                  width: size.width * 0.04,
-                ),
-                Container(
-                  width: 64,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: provider.showRange == true ? black : white,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: provider.showRange == true
+                      color: widget.filterShopModel.flexibility == 0
                           ? black
                           : greyLight.withOpacity(0.3),
                       width: 1,
@@ -164,8 +197,9 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                     child: Text(
                       tr('store.filter.options.flexibility'),
                       style: themeData().textTheme.bodySmall?.apply(
-                          color:
-                              provider.showRange == true ? white : greyLight),
+                          color: widget.filterShopModel.flexibility == 0
+                              ? white
+                              : greyLight),
                     ),
                   ),
                 ),
@@ -176,11 +210,17 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                   width: 64,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: provider.getColorIdList().isNotEmpty ? black : white,
+                    color: widget.filterShopModel.colorList != null
+                        ? widget.filterShopModel.colorList!.isNotEmpty
+                            ? black
+                            : white
+                        : white,
                     borderRadius: BorderRadius.circular(6),
                     border: Border.all(
-                      color: provider.getColorIdList().isNotEmpty
-                          ? black
+                      color: widget.filterShopModel.colorList != null
+                          ? widget.filterShopModel.colorList!.isNotEmpty
+                              ? black
+                              : greyLight.withOpacity(0.3)
                           : greyLight.withOpacity(0.3),
                       width: 1,
                     ),
@@ -189,8 +229,10 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                     child: Text(
                       tr('store.filter.options.color'),
                       style: themeData().textTheme.bodySmall?.apply(
-                          color: provider.getColorIdList().isNotEmpty
-                              ? white
+                          color: widget.filterShopModel.colorList != null
+                              ? widget.filterShopModel.colorList!.isNotEmpty
+                                  ? white
+                                  : greyLight
                               : greyLight),
                     ),
                   ),
