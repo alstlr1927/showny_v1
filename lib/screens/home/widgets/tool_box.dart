@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
 import 'package:showny/utils/showny_util.dart';
@@ -39,7 +40,15 @@ class ToolBox extends StatefulWidget {
 
 class _ToolBoxState extends State<ToolBox> {
   late bool bookmark = widget.isBookmark;
+  late int upDownType = widget.upDownType;
   double interval = 20.toWidth;
+
+  @override
+  void didUpdateWidget(covariant ToolBox oldWidget) {
+    bookmark = widget.isBookmark;
+    upDownType = widget.upDownType;
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,20 +62,23 @@ class _ToolBoxState extends State<ToolBox> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (widget.upDownType != 0) ...{
+          if (upDownType != 0) ...{
             CupertinoButton(
               minSize: 0.0,
               padding: EdgeInsets.zero,
               onPressed: () {
-                if (widget.upDownType == 1) {
+                if (upDownType == 1) {
                   widget.tapUpDown(2);
+                  upDownType = 2;
                 } else {
                   widget.tapUpDown(1);
+                  upDownType = 1;
                 }
+                setState(() {});
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
-                child: widget.upDownType == 1
+                child: upDownType == 1
                     ? Image.asset(
                         'assets/icons/home/styleup_up.png',
                         width: 28.0,

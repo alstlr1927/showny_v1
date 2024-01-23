@@ -52,6 +52,11 @@ class _StyleUpItemState extends State<StyleUpItem> {
   }
 
   @override
+  void didUpdateWidget(covariant StyleUpItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
@@ -59,7 +64,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<StyleUpItemProvider>(
-      create: (_) => StyleUpItemProvider(this),
+      create: (_) => StyleUpItemProvider(this, widget.styleUp),
       builder: (context, _) {
         return Consumer<StyleUpItemProvider>(builder: (context, prov, child) {
           return Scaffold(
@@ -106,9 +111,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
   Widget _buildStyleUp(StyleUpItemProvider prov, BoxConstraints layout) {
     return Stack(
       children: [
-        if (isImage) ...{
-          BackBlurWidget2(image: widget.styleUp.imgUrlList.first)
-        },
+        if (isImage) ...{BackBlurWidget2(image: prov.styleUp.imgUrlList.first)},
         SafeArea(
           bottom: false,
           top: isImage ? true : false,
@@ -123,10 +126,10 @@ class _StyleUpItemState extends State<StyleUpItem> {
             child: Stack(
               children: [
                 if (isImage) ...{
-                  StyleUpImage(imageList: widget.styleUp.imgUrlList),
+                  StyleUpImage(imageList: prov.styleUp.imgUrlList),
                 } else ...{
                   StyleUpVideo(
-                    videoUrl: widget.styleUp.videoUrl,
+                    videoUrl: prov.styleUp.videoUrl,
                     videoController: prov.videoController!,
                     layout: layout,
                   ),
@@ -163,19 +166,19 @@ class _StyleUpItemState extends State<StyleUpItem> {
       alignment: Alignment.topRight,
       child: !prov.showTags
           ? ToolBox(
-              upDownType: widget.styleUp.upDownType,
-              isVideo: widget.styleUp.type == "video" ? true : false,
-              styleupNo: widget.styleUp.styleupNo,
+              upDownType: prov.styleUp.upDownType,
+              isVideo: prov.styleUp.type == "video" ? true : false,
+              styleupNo: prov.styleUp.styleupNo,
               memNo: user.memNo,
               tapTag: () => prov.setShowTags(true),
               tapComment: () => prov.onClickComment(
-                  styleupNo: widget.styleUp.styleupNo, memNo: user.memNo),
-              isBookmark: widget.styleUp.isBookmark,
+                  styleupNo: prov.styleUp.styleupNo, memNo: user.memNo),
+              isBookmark: prov.styleUp.isBookmark,
               tapBookmark: prov.onClickBookMark,
               tapShare: prov.onClickShare,
               tapSeeMore: () => prov.onClickMore(
-                  styleupNo: widget.styleUp.styleupNo,
-                  contentMemNo: widget.styleUp.memNo,
+                  styleupNo: prov.styleUp.styleupNo,
+                  contentMemNo: prov.styleUp.memNo,
                   memNo: user.memNo,
                   index: widget.index),
               tapUpDown: prov.updateUpDownType,
@@ -321,7 +324,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
                   if (Provider.of<UserProvider>(context, listen: false)
                           .user
                           .memNo ==
-                      widget.styleUp.userInfo.memNo) {
+                      prov.styleUp.userInfo.memNo) {
                     //
                   } else {
                     prov.videoController?.pause();
@@ -329,7 +332,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
                         context,
                         ShownyPageRoute(
                             builder: (context) => OtherProfileScreen(
-                                  memNo: widget.styleUp.userInfo.memNo,
+                                  memNo: prov.styleUp.userInfo.memNo,
                                 ),
                             settings: const RouteSettings(
                                 name: PageName.OTHER_PROFILE)));
@@ -339,22 +342,22 @@ class _StyleUpItemState extends State<StyleUpItem> {
                 child: Row(
                   children: [
                     ProfileContainer.size40(
-                      url: widget.styleUp.userInfo.profileImage,
+                      url: prov.styleUp.userInfo.profileImage,
                     ),
                     SizedBox(width: 8.toWidth),
                     Text(
-                      widget.styleUp.userInfo.nickNm,
+                      prov.styleUp.userInfo.nickNm,
                       style: ShownyStyle.body1(
                         color: Colors.white,
                         weight: FontWeight.w700,
                       ),
                     ),
                     SizedBox(width: 8.toWidth),
-                    if (userProv.user.memNo != widget.styleUp.userInfo.memNo &&
-                        !widget.styleUp.userInfo.isFollow) ...{
+                    if (userProv.user.memNo != prov.styleUp.userInfo.memNo &&
+                        !prov.styleUp.userInfo.isFollow) ...{
                       FollowingButton(
-                        isFollow: widget.styleUp.userInfo.isFollow,
-                        memNo: widget.styleUp.memNo,
+                        isFollow: prov.styleUp.userInfo.isFollow,
+                        memNo: prov.styleUp.memNo,
                         onCompleted: prov.setIsFollow,
                       ),
                     },
@@ -370,7 +373,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
                     minHeight: 40.toWidth,
                   ),
                   child: Text(
-                    widget.styleUp.description,
+                    prov.styleUp.description,
                     maxLines: prov.isExtendedText ? 15 : 2,
                     style: ShownyStyle.caption(color: Colors.white),
                     overflow: TextOverflow.ellipsis,
@@ -414,7 +417,7 @@ class _StyleUpItemState extends State<StyleUpItem> {
               color: Colors.transparent,
               child: Stack(
                 children: [
-                  ...widget.styleUp.goodsDataList[prov.curImgIdx].map((item) {
+                  ...prov.styleUp.goodsDataList[prov.curImgIdx].map((item) {
                     return Positioned(
                       left: item.left * ScreenUtil().screenWidth,
                       top: item.top * ScreenUtil().screenWidth * 6 / 4,

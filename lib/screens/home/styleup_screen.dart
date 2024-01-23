@@ -99,6 +99,7 @@ class _StyleupScreenState extends State<StyleupScreen> {
   @override
   void didUpdateWidget(covariant StyleupScreen oldWidget) {
     styleupList = widget.styleupList;
+    setState(() {});
     super.didUpdateWidget(oldWidget);
   }
 
@@ -116,6 +117,7 @@ class _StyleupScreenState extends State<StyleupScreen> {
           Container(
             child: PageView.builder(
               controller: pageController,
+              allowImplicitScrolling: true,
               scrollDirection: Axis.vertical,
               physics: const CustomScrollPhysics(),
               itemCount: styleupList.length,

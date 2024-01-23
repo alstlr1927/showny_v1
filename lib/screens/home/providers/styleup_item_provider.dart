@@ -7,6 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:showny/api/new_api/api_helper.dart';
 import 'package:showny/components/bottom_sheet/show_modal_sheet.dart';
 import 'package:showny/components/page_route.dart';
+import 'package:showny/models/styleup_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/common/comment_sheet/comment_sheet_screen.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
@@ -18,6 +19,8 @@ import '../../../components/bottom_sheet/bottom_sheet_picker.dart';
 
 class StyleUpItemProvider with ChangeNotifier {
   State<StyleUpItem> state;
+
+  StyleupModel styleUp;
 
   double virtualPadAreaDiameter = 130.0;
   double movePadDiameter = 70.0;
@@ -159,6 +162,7 @@ class StyleUpItemProvider with ChangeNotifier {
               copy: state.widget.styleUp.copyWith(upDownType: value));
         }
         state.widget.onSelect?.call();
+        styleUp.upDownType = value;
         notifyListeners();
       },
       (error) {
@@ -350,7 +354,7 @@ class StyleUpItemProvider with ChangeNotifier {
     super.dispose();
   }
 
-  StyleUpItemProvider(this.state) {
+  StyleUpItemProvider(this.state, this.styleUp) {
     if (state.widget.styleUp.type != 'img') {
       videoController = VideoPlayerController.networkUrl(
           Uri.parse(state.widget.styleUp.videoUrl));
