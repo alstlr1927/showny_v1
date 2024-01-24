@@ -1,10 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/page_route.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/main.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/shop/store/widgets/tab_store_home.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
@@ -38,13 +42,14 @@ class _StoreScreenState extends State<StoreScreen> {
       refreshItemsMainPage();
     });
     super.initState();
-    eventBus.on<EventTabRefresh>().listen((event) {
-      if (event.index == 2) {
-        setState(() {
-          refreshItemsMainPage();
-        });
-      }
-    });
+    // eventBus.on<EventTabRefresh>().listen((event) {
+    //   ShownyLog().e('eventbus : $event');
+    //   if (event.index == 2) {
+    //     setState(() {
+    //       refreshItemsMainPage();
+    //     });
+    //   }
+    // });
   }
 
   refreshItemsMainPage() {
@@ -64,212 +69,46 @@ class _StoreScreenState extends State<StoreScreen> {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
-    Size size = MediaQuery.of(context).size;
+
+    return Column(
+      children: [
+        SizedBox(height: 10.toWidth),
+        _buildStoreTab(),
+        Expanded(
+          child: Consumer<StoreProvider>(
+            builder: (context, prov, child) {
+              return IndexedStack(
+                index: prov.indexTab,
+                children: [
+                  TabStoreHome(),
+                  Container(
+                    color: Colors.green,
+                  ),
+                  Container(
+                    color: Colors.red,
+                  ),
+                  Container(
+                    color: Colors.blue,
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 24.toWidth),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.toWidth),
-            child: SizedBox(
-              width: size.width,
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Provider.of<StoreProvider>(context, listen: false)
-                          .updateIndex(0);
-                    },
-                    child: SizedBox(
-                      width: size.width * 0.10,
-                      child: Text(
-                        tr("store.tabs.home"),
-                        style: themeData().textTheme.titleLarge!.copyWith(
-                              color: Provider.of<StoreProvider>(context)
-                                          .indexTab ==
-                                      0
-                                  ? black
-                                  : greyLight,
-                            ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Provider.of<StoreProvider>(context, listen: false)
-                          .updateIndex(1);
-                    },
-                    child: SizedBox(
-                      width: size.width * 0.15,
-                      child: Text(
-                        tr('store.tabs.ranking'),
-                        style: themeData().textTheme.titleLarge!.copyWith(
-                              color: Provider.of<StoreProvider>(context)
-                                          .indexTab ==
-                                      1
-                                  ? black
-                                  : greyLight,
-                            ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Provider.of<StoreProvider>(context, listen: false)
-                          .updateIndex(2);
-                    },
-                    child: SizedBox(
-                      width: size.width * 0.15,
-                      child: Text(
-                        tr('store.tabs.steamed'),
-                        style: themeData().textTheme.titleLarge!.copyWith(
-                              color: Provider.of<StoreProvider>(context)
-                                          .indexTab ==
-                                      2
-                                  ? Colors.black
-                                  : greyLight,
-                            ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 24.toWidth),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.toWidth),
-            child: Row(
-              children: [
-                CupertinoButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        ShownyPageRoute(
-                          builder: (context) => const StoreGoodsListScreen(
-                            mainCategory: 1,
-                            subCategory: 0,
-                          ),
-                        ));
-                  },
-                  minSize: 0,
-                  padding: EdgeInsets.zero,
-                  child: Text(
-                    'WOMAN',
-                    style: ShownyStyle.body2(weight: FontWeight.w500),
-                  ),
-                ),
-                SizedBox(width: 16.toWidth),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CupertinoButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              ShownyPageRoute(
-                                builder: (context) =>
-                                    const StoreGoodsListScreen(
-                                  mainCategory: 0,
-                                  subCategory: 0,
-                                ),
-                              ));
-                        },
-                        minSize: 0,
-                        padding: EdgeInsets.zero,
-                        child: Text(
-                          'MAN',
-                          style: ShownyStyle.body2(weight: FontWeight.w500),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
+          SizedBox(height: 10.toWidth),
+          _buildStoreTab(),
+          SizedBox(height: 20.toWidth),
+          _buildGenderTab(),
           SizedBox(height: 24.toWidth),
           const BannerSliderWidget(index: 1),
           const SizedBox(
             height: 24,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  width: size.width * 0.2,
-                  height: 24,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const StoreSearchScreen(),
-                                ));
-                          },
-                          child: Image.asset(
-                            search,
-                            height: 24,
-                            width: 24,
-                          )),
-                      // SizedBox(
-                      //   width: size.width * 0.02,
-                      // ),
-                      // GestureDetector(
-                      //     onTap: () {
-                      //       ProfilePageCategory? category =
-                      //           ProfilePageCategory.myShopping;
-                      //       Navigator.push(
-                      //           context,
-                      //           PageRouteBuilderRightLeft(
-                      //               child: const StoreSearchScreen()));
-                      //     },
-                      //     child: Image.asset(
-                      //       search,
-                      //       height: 24,
-                      //       width: 24,
-                      //     )),
-                      SizedBox(
-                        width: size.width * 0.02,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          ProfilePageCategory? category =
-                              ProfilePageCategory.myShopping;
-                          Navigator.push(
-                            context,
-                            ShownyPageRoute(
-                              builder: (context) => ProfileScreen(
-                                category: category,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Image.asset(
-                          shopBag,
-                          height: 30,
-                          width: 30,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-
-          const SizedBox(
-            height: 12,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -333,61 +172,6 @@ class _StoreScreenState extends State<StoreScreen> {
                     },
                   ),
                 ),
-                // const SizedBox(width: 15),
-                // Expanded(
-                //   child: Consumer<StoreProvider>(
-                //       builder: (context, provider, child) => ListView.builder(
-                //             shrinkWrap: true,
-                //             physics: const NeverScrollableScrollPhysics(),
-                //             itemCount: provider.categories.length,
-                //             itemBuilder: (BuildContext context, int index) {
-                //               return GestureDetector(
-                //                 onTap: () {
-                //                   var provider =
-                //                       Provider.of<StoreDetailFilterProvider>(
-                //                           context,
-                //                           listen: false);
-                //                   provider
-                //                     ..setSelectedTabFilter(
-                //                         StoreSelectionTab.men)
-                //                     ..setSelectedCategory(index + 1)
-                //                     ..setSelectedBrand(null);
-                //                   Navigator.push(
-                //                       context,
-                //                       PageRouteBuilderRightLeft(
-                //                           child:
-                //                               const StoreDetailWithFilter()));
-                //                 },
-                //                 child: Container(
-                //                   decoration: BoxDecoration(
-                //                       border: Border(
-                //                           bottom: BorderSide(
-                //                     color: index == 5 ? white : greyExtraLight,
-                //                   ))),
-                //                   child: Padding(
-                //                     padding: const EdgeInsets.only(
-                //                         right: 8, top: 16, bottom: 16),
-                //                     child: Row(
-                //                       mainAxisAlignment:
-                //                           MainAxisAlignment.spaceBetween,
-                //                       children: [
-                //                         Text(
-                //                           provider.categories[index],
-                //                           style:
-                //                               themeData().textTheme.labelSmall,
-                //                         ),
-                //                         const Icon(
-                //                           CupertinoIcons.add,
-                //                           size: 16,
-                //                         ),
-                //                       ],
-                //                     ),
-                //                   ),
-                //                 ),
-                //               );
-                //             },
-                //           )),
-                // ),
                 const SizedBox(width: 15),
                 Expanded(
                   child: Consumer<StoreProvider>(
@@ -398,14 +182,6 @@ class _StoreScreenState extends State<StoreScreen> {
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
-                            // var provider =
-                            //     Provider.of<StoreDetailFilterProvider>(context,
-                            //         listen: false);
-                            // provider
-                            //   ..setSelectedTabFilter(StoreSelectionTab.men)
-                            //   ..setSelectedCategory(index + 1)
-                            //   ..setSelectedBrand(null);
-
                             Navigator.push(
                                 context,
                                 ShownyPageRoute(
@@ -414,26 +190,6 @@ class _StoreScreenState extends State<StoreScreen> {
                                     subCategory: index + 1,
                                   ),
                                 ));
-                            // UserProvider userProvider =
-                            //     Provider.of<UserProvider>(context,
-                            //         listen: false);
-                            // final user = userProvider.user;
-                            // Provider.of<BrandStorePageProvider>(context,
-                            //         listen: false)
-                            //     .updateIndex(0);
-                            // Provider.of<BrandStorePageProvider>(context,
-                            //         listen: false)
-                            //     .updateIndexSubCat(index + 1);
-                            // Provider.of<SearchProvider>(context, listen: false)
-                            //     .getGoodListSearch(
-                            //         user.memNo, "", "2", "$index", "");
-                            //
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) =>
-                            //           const MenWomenBrandPage(),
-                            //     ));
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -468,22 +224,121 @@ class _StoreScreenState extends State<StoreScreen> {
               ],
             ),
           ),
-
-          const SizedBox(
-            height: 40,
-          ),
-
-          const SizedBox(
-            height: 24,
-          ),
           Provider.of<StoreProvider>(context, listen: false).indexTab == 0
               ? const StoreHomeProductsWidget()
               : Provider.of<StoreProvider>(context, listen: false).indexTab == 1
                   ? const RankingWidget()
                   : const WishListComponent(),
-          // SizedBox(
-          //   height: size.height * 0.04,
-          // ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStoreTab() {
+    return Consumer<StoreProvider>(builder: (context, prov, child) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.toWidth),
+        child: Row(
+          children: [
+            BaseButton(
+                onPressed: () {
+                  prov.updateIndex(0);
+                },
+                child: _storeTabText(
+                    title: tr("store.tabs.home"),
+                    isSelect: prov.indexTab == 0)),
+            SizedBox(width: 20.toWidth),
+            BaseButton(
+                onPressed: () {
+                  prov.updateIndex(1);
+                },
+                child: _storeTabText(
+                    title: tr('store.tabs.ranking'),
+                    isSelect: prov.indexTab == 1)),
+            SizedBox(width: 20.toWidth),
+            BaseButton(
+                onPressed: () {
+                  prov.updateIndex(2);
+                },
+                child: _storeTabText(
+                    title: tr('store.tabs.steamed'),
+                    isSelect: prov.indexTab == 2)),
+            SizedBox(width: 20.toWidth),
+            BaseButton(
+                onPressed: () {
+                  prov.updateIndex(3);
+                },
+                child:
+                    _storeTabText(title: '카테고리', isSelect: prov.indexTab == 3)),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _storeTabText({
+    required String title,
+    required bool isSelect,
+  }) {
+    return Text(
+      title,
+      style: isSelect
+          ? ShownyStyle.body2(
+              color: ShownyStyle.mainPurple, weight: FontWeight.w700)
+          : ShownyStyle.body2(
+              color: ShownyStyle.gray070, weight: FontWeight.w500),
+    );
+  }
+
+  Widget _buildGenderTab() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 30.toWidth),
+      child: Row(
+        children: [
+          CupertinoButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  ShownyPageRoute(
+                    builder: (context) => const StoreGoodsListScreen(
+                      mainCategory: 1,
+                      subCategory: 0,
+                    ),
+                  ));
+            },
+            minSize: 0,
+            padding: EdgeInsets.zero,
+            child: Text(
+              'WOMAN',
+              style: ShownyStyle.body2(weight: FontWeight.w500),
+            ),
+          ),
+          SizedBox(width: 16.toWidth),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CupertinoButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        ShownyPageRoute(
+                          builder: (context) => const StoreGoodsListScreen(
+                            mainCategory: 0,
+                            subCategory: 0,
+                          ),
+                        ));
+                  },
+                  minSize: 0,
+                  padding: EdgeInsets.zero,
+                  child: Text(
+                    'MAN',
+                    style: ShownyStyle.body2(weight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

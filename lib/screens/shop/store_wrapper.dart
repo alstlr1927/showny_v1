@@ -6,6 +6,8 @@ import 'package:showny/screens/shop/store/store_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
+import 'store/store_search_page_screen.dart';
+
 class StoreWrapper extends StatefulWidget {
   const StoreWrapper({super.key});
 
@@ -94,7 +96,18 @@ class _StoreWrapperState extends State<StoreWrapper>
           ),
           const Spacer(),
           CupertinoButton(
-            onPressed: () {},
+            onPressed: () {
+              if (prov.currentIdx == 0) {
+                // store search
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StoreSearchScreen(),
+                    ));
+              } else if (prov.currentIdx == 1) {
+                // minishop search
+              }
+            },
             minSize: 0,
             padding: EdgeInsets.zero,
             child: Image.asset('assets/icons/shop/shop_search.png',

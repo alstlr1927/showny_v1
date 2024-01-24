@@ -6,6 +6,8 @@ import 'package:showny/extension/ext_int.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/shoping_emptyBasket_widget.dart';
 
@@ -33,23 +35,21 @@ class _StoreHomeProductsWidgetState extends State<StoreHomeProductsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16),
-            child: SizedBox(
-              height: 24,
-              child: Text(
-                tr('store.home_title'),
-                style: themeData().textTheme.titleMedium,
-              ),
+            padding: EdgeInsets.only(left: 16.toWidth),
+            child: Text(
+              tr('store.home_title'),
+              style: ShownyStyle.body2(
+                  weight: FontWeight.w700, color: ShownyStyle.black),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16),
+            padding: EdgeInsets.only(left: 16.toWidth),
             child: Text(
               tr('store.home_desc'),
-              style: themeData().textTheme.labelSmall?.apply(color: textColor),
+              style: ShownyStyle.overline(color: Color(0xffaaaaaa)),
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.toWidth),
           Consumer<StoreProvider>(
             builder: (context, provider, child) => provider
                     .getIsStoreMainDataLoading()
