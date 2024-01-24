@@ -75,21 +75,31 @@ class _OtherProfileScreen extends State<OtherProfileScreen>
       // }
     }, (error) {});
 
-    ApiHelper.shared.getMinishopProductList(widget.memNo, 2, 0,
-        (allProductList) {
-      setState(() {
-        this.allProductList = allProductList;
-      });
-    }, (error) {});
+    ApiHelper.shared.getMemberMinishopProductList(
+      widget.memNo,
+      2,
+      0,
+      (allProductList) {
+        setState(() {
+          this.allProductList = allProductList;
+        });
+      },
+      (error) {},
+    );
 
-    ApiHelper.shared.getMinishopProductList(widget.memNo, 0, 0,
-        (salingProductList) {
-      setState(() {
-        this.salingProductList = salingProductList;
-      });
-    }, (error) {});
+    ApiHelper.shared.getMemberMinishopProductList(
+      widget.memNo,
+      0,
+      0,
+      (salingProductList) {
+        setState(() {
+          this.salingProductList = salingProductList;
+        });
+      },
+      (error) {},
+    );
 
-    ApiHelper.shared.getMinishopProductList(widget.memNo, 1, 0,
+    ApiHelper.shared.getMemberMinishopProductList(widget.memNo, 1, 0,
         (saleCompleteProductList) {
       setState(() {
         this.saleCompleteProductList = saleCompleteProductList;

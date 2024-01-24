@@ -24,7 +24,7 @@ class SearchBrandProvider extends ChangeNotifier {
         .getBrandListService(memNo, keyword)
         .then((getBrandSearchSuccess) {
       if (getBrandSearchSuccess!.success) {
-        _brandResponse = getBrandSearchSuccess as BrandResponse?;
+        _brandResponse = getBrandSearchSuccess;
         setIsBrandSearchLoading(false);
       }
     });

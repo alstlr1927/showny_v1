@@ -25,6 +25,7 @@ class _TabStoreHomeState extends State<TabStoreHome> {
         SliverTween(
           child: SliverToBoxAdapter(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20.toWidth),
                 _buildGenderTab(),

@@ -34,6 +34,7 @@ import 'package:showny/utils/image_cache_delegate.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'firebase_options.dart';
+import 'screens/shop/mini_shop/providers/mini_shop_products_provider.dart';
 import 'screens/shop/store/providers/store_detail_filter_provider.dart';
 import 'screens/shop/store/providers/store_search_provider.dart';
 
@@ -149,6 +150,9 @@ class MyApp extends StatelessWidget {
         ),
         prod.ChangeNotifierProvider(
           create: (context) => SearchBrandProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => MiniShopProductsProvider(),
         ),
       ],
       child: ScreenUtilInit(

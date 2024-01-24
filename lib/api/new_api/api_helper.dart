@@ -904,7 +904,7 @@ class ApiHelper {
     }, failure);
   }
 
-  Future getMinishopProductList(
+  Future getMemberMinishopProductList(
       memNo,
       status,
       page,
@@ -923,13 +923,47 @@ class ApiHelper {
     }, failure);
   }
 
+  Future getMinishopProductList(
+      memNo,
+      keyword,
+      productCategoryId,
+      sort,
+      minPrice,
+      maxPrice,
+      isNew,
+      status,
+      page,
+      Function(List<MinishopProductModel>) success,
+      Function(String) failure) async {
+    const url = '/GetMinishopProductList';
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+      'keyword': keyword,
+      'productCategoryId': productCategoryId,
+      'sort': sort,
+      if (minPrice != null) 'minPrice': minPrice,
+      if (maxPrice != null) 'maxPrice': maxPrice,
+      'isNew': isNew,
+      'status': status,
+      'page': page,
+    });
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      final result = (data as List<dynamic>)
+          .map((item) =>
+              MinishopProductModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+      success(result);
+    }, failure);
+  }
+
   Future getMinishopProductReviewList(
       myMemno,
       memNo,
       page,
       Function(List<MinishopProductReviewModel>) success,
       Function(String) failure) async {
-    const url = '/getMemberMinishopProduct';
+    const url = '/GetMemberMinishopProductReview';
     FormData formData =
         FormData.fromMap({'myMemNo': myMemno, 'memNo': memNo, 'page': page});
 
@@ -1378,6 +1412,24 @@ class ApiHelper {
 
     apiRequest('$baseUrl$url', formData, (data) {
       success();
+    }, failure);
+  }
+
+  Future getRecentViewMinishopProduct(
+      memNo,
+      Function(List<MinishopProductModel>) success,
+      Function(String) failure) async {
+    const url = '/GetRecentViewMinishopProduct';
+    FormData formData = FormData.fromMap({
+      'memNo': memNo,
+    });
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      final result = (data as List<dynamic>)
+          .map((item) =>
+              MinishopProductModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+      success(result);
     }, failure);
   }
 

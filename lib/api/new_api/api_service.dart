@@ -15,7 +15,7 @@ import 'package:showny/screens/profile/model/getcancle_info_detail_response_mode
 
 import '../../models/FetchGetMemberMinishopProductModel.dart';
 import '../../models/GetMemberMinishopProductSheetModel.dart';
-import '../../models/brandDearchModel.dart';
+import '../../models/brand_search_model.dart';
 import '../../models/get_banner_minishop_model.dart';
 import '../../models/get_bannerlist_response_model.dart';
 import '../../models/get_storelist_response_model.dart' as mainlist;

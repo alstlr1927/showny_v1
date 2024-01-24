@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_service.dart';
 import 'package:showny/models/StoreOrderListModel.dart';
-import 'package:showny/models/brandDearchModel.dart';
 import 'package:showny/providers/user_model_provider.dart';
 
 class StoreListProvider extends ChangeNotifier {
@@ -28,7 +27,7 @@ class StoreListProvider extends ChangeNotifier {
     ApiService()
         .fetchStoreOrderList(memNo: userProvider.user.memNo)
         .then((getBrandSearchSuccess) {
-      if (getBrandSearchSuccess!.success!) {
+      if (getBrandSearchSuccess.success!) {
         _brandResponse = getBrandSearchSuccess;
         setIsBrandSearchLoading(false);
         notifyListeners();

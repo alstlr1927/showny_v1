@@ -1,14 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/page_route.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/extension/ext_int.dart';
+import 'package:showny/models/store_good_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/utils/colors.dart';
-import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
-import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/shoping_emptyBasket_widget.dart';
 
 import '../../helper/store_helper.dart';
@@ -46,177 +46,154 @@ class _StoreHomeProductsWidgetState extends State<StoreHomeProductsWidget> {
             padding: EdgeInsets.only(left: 16.toWidth),
             child: Text(
               tr('store.home_desc'),
-              style: ShownyStyle.overline(color: Color(0xffaaaaaa)),
+              style: ShownyStyle.overline(color: ShownyStyle.black),
             ),
           ),
           SizedBox(height: 24.toWidth),
           Consumer<StoreProvider>(
-            builder: (context, provider, child) => provider
-                    .getIsStoreMainDataLoading()
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : provider.getBattleInGoods().isEmpty
-                    ? Center(
-                        child: ShoppingEmptyBasketWidget(
-                            emptyMessage: tr('empty_errors.no_data_found')))
-                    : Stack(
-                        children: [
-                          GridView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 2,
-                              childAspectRatio: (size.width / 3 * (5 / 4)) /
-                                  ((size.width / 3 * (5 / 4)) + 190),
-                            ),
-                            itemCount:
-                                // _gridProductImages.length,
-                                provider.getBattleInGoods().length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return SizedBox(
-                                width: size.width / 3,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: size.width / 3 * (5 / 4),
-                                      width: size.width,
-                                      child: ClipRect(
-                                        child: FittedBox(
-                                            fit: BoxFit.cover,
-                                            child: GestureDetector(
-                                              onTap: () async {
-                                                String goodsNo = provider
-                                                    .getBattleInGoods()[index]
-                                                    .goodsNo;
-                                                if (goodsNo == "") {
-                                                  return;
-                                                }
-                                                await Navigator.push(
-                                                    context,
-                                                    ShownyPageRoute(
-                                                      builder: (context) =>
-                                                          StoreGoodDetailScreen(
-                                                        goodsNo: provider
-                                                            .getBattleInGoods()[
-                                                                index]
-                                                            .goodsNo,
-                                                      ),
-                                                    ));
-                                                setState(() {});
-                                              },
-                                              child: Image.network(
-                                                  // _gridProductImages[index],
-                                                  provider
-                                                      .getBattleInGoods()[index]
-                                                      .goodsImageUrlList[0],
-                                                  errorBuilder: (context, error,
-                                                      stackTrace) {
-                                                return Container(
-                                                  color: Colors.white,
-                                                );
-                                              }),
-                                            )),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                    // _gridProductCategory[index],
-                                                    provider
-                                                        .getBattleInGoods()[
-                                                            index]
-                                                        .brandNm,
-                                                    style: themeData()
-                                                        .textTheme
-                                                        .labelMedium
-                                                        ?.copyWith(
-                                                          color: greyLight,
-                                                        )),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    UserProvider userProvider =
-                                                        Provider.of<
-                                                                UserProvider>(
-                                                            context,
-                                                            listen: false);
-                                                    final user =
-                                                        userProvider.user;
-                                                    StoreHelper.setHeartClick(
-                                                        context,
-                                                        user.memNo,
-                                                        provider.getBattleInGoods()[
-                                                            index]);
-                                                  },
-                                                  child: (provider
-                                                          .getBattleInGoods()[
-                                                              index]
-                                                          .isHeart)
-                                                      ? Image.asset(
-                                                          heartSelectedIcon,
-                                                          height: 20,
-                                                          width: 20,
-                                                        )
-                                                      : Image.asset(
-                                                          unselectedHeartIcon,
-                                                          height: 20,
-                                                          width: 20,
-                                                        ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            Text(
-                                                // _gridProdcutTitle[index],
-                                                provider
-                                                    .getBattleInGoods()[index]
-                                                    .goodsNm,
-                                                style: themeData()
-                                                    .textTheme
-                                                    .bodySmall,
-                                                maxLines: 2,
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            Text(
-                                                // _gridProductPrice[index],
-                                                "${provider.getBattleInGoods()[index].goodsPrice.formatPrice()} 원",
-                                                style: themeData()
-                                                    .textTheme
-                                                    .titleSmall),
-                                          ],
-                                        )),
-                                  ],
-                                ),
-                              );
-                            },
+            builder: (context, provider, child) =>
+                provider.getIsStoreMainDataLoading()
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : provider.getBattleInGoods().isEmpty
+                        ? Center(
+                            child: ShoppingEmptyBasketWidget(
+                                emptyMessage: tr('empty_errors.no_data_found')))
+                        : Stack(
+                            children: [
+                              GridView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        crossAxisSpacing: 2.toWidth,
+                                        childAspectRatio: 130 / 320),
+                                itemCount:
+                                    // _gridProductImages.length,
+                                    provider.getBattleInGoods().length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return _ProductInBattleItem(
+                                    item: provider.getBattleInGoods()[index],
+                                  );
+                                },
+                              ),
+                              const Positioned.fill(child: SizedBox())
+                            ],
                           ),
-                          const Positioned.fill(child: SizedBox())
-                        ],
-                      ),
           ),
           const SizedBox(height: 5),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProductInBattleItem extends StatefulWidget {
+  // final int index;
+  final StoreGoodModel item;
+  const _ProductInBattleItem({
+    Key? key,
+    // required this.index,
+    required this.item,
+  }) : super(key: key);
+
+  @override
+  State<_ProductInBattleItem> createState() => _ProductInBattleItemState();
+}
+
+class _ProductInBattleItemState extends State<_ProductInBattleItem> {
+  @override
+  Widget build(BuildContext context) {
+    StoreProvider provider = Provider.of<StoreProvider>(context, listen: false);
+    return Container(
+      width: ScreenUtil().screenWidth / 3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 130 / 200,
+            child: ClipRect(
+              child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () async {
+                      String goodsNo = widget.item.goodsNo;
+                      if (goodsNo == "") {
+                        return;
+                      }
+                      await Navigator.push(
+                          context,
+                          ShownyPageRoute(
+                            builder: (context) => StoreGoodDetailScreen(
+                              goodsNo: widget.item.goodsNo,
+                            ),
+                          ));
+                      setState(() {});
+                    },
+                    child: Image.network(widget.item.goodsImageUrlList[0],
+                        errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.white,
+                      );
+                    }),
+                  )),
+            ),
+          ),
+          SizedBox(height: 8.toWidth),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.toWidth),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        // _gridProductCategory[index],
+                        widget.item.brandNm,
+                        style: ShownyStyle.overline(
+                            color: ShownyStyle.gray070,
+                            weight: FontWeight.w700),
+                      ),
+                      BaseButton(
+                        onPressed: () {
+                          UserProvider userProvider =
+                              Provider.of<UserProvider>(context, listen: false);
+                          final user = userProvider.user;
+                          StoreHelper.setHeartClick(
+                              context, user.memNo, widget.item);
+                        },
+                        child: (widget.item.isHeart)
+                            ? Image.asset(
+                                'assets/icons/home/comment_like.png',
+                                height: 14.toWidth,
+                                width: 14.toWidth,
+                              )
+                            : Image.asset(
+                                'assets/icons/home/comment_unlike.png',
+                                height: 14.toWidth,
+                                width: 14.toWidth,
+                              ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    widget.item.goodsNm,
+                    style: ShownyStyle.caption(color: ShownyStyle.black),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 6.toWidth),
+                  Text(
+                    "${widget.item.goodsPrice.formatPrice()} 원",
+                    style: ShownyStyle.caption(
+                        color: ShownyStyle.black, weight: FontWeight.w700),
+                  ),
+                ],
+              )),
         ],
       ),
     );

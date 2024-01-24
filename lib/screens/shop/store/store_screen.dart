@@ -1,30 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
-import 'package:showny/main.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_home.dart';
+import 'package:showny/screens/shop/store/widgets/tab_store_ranking.dart';
+import 'package:showny/screens/shop/store/widgets/tab_store_wishlist.dart';
 import 'package:showny/utils/colors.dart';
-import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
 
-import '../../profile/profile_screen.dart';
 import 'providers/store_provider.dart';
 import 'providers/store_wishlist_provider.dart';
 import 'store_goods_list_screen.dart';
-import 'store_search_page_screen.dart';
 import 'widgets/bannerSlider_widget.dart';
-import 'widgets/event_tab_refresh.dart';
-import 'widgets/ranking_widget.dart';
-import 'widgets/store_home_products_widget.dart';
-import 'widgets/wishlist_grid_component.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({
@@ -66,32 +58,40 @@ class _StoreScreenState extends State<StoreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    final user = userProvider.user;
-
     return Column(
       children: [
         SizedBox(height: 10.toWidth),
         _buildStoreTab(),
+        SizedBox(height: 10.toWidth),
         Expanded(
           child: Consumer<StoreProvider>(
             builder: (context, prov, child) {
-              return IndexedStack(
-                index: prov.indexTab,
-                children: [
-                  TabStoreHome(),
-                  Container(
-                    color: Colors.green,
-                  ),
-                  Container(
-                    color: Colors.red,
-                  ),
-                  Container(
-                    color: Colors.blue,
-                  ),
-                ],
-              );
+              if (prov.indexTab == 0) {
+                return TabStoreHome();
+              } else if (prov.indexTab == 1) {
+                return Container(
+                  color: Colors.amber,
+                );
+              } else if (prov.indexTab == 2) {
+                return TabStoreRanking();
+              } else {
+                return TabStoreWishList();
+              }
+              // return IndexedStack(
+              //   index: prov.indexTab,
+              //   children: [
+              //     TabStoreHome(),
+              //     Container(
+              //       color: Colors.green,
+              //     ),
+              //     Container(
+              //       color: Colors.red,
+              //     ),
+              //     Container(
+              //       color: Colors.blue,
+              //     ),
+              //   ],
+              // );
             },
           ),
         ),
@@ -224,11 +224,11 @@ class _StoreScreenState extends State<StoreScreen> {
               ],
             ),
           ),
-          Provider.of<StoreProvider>(context, listen: false).indexTab == 0
-              ? const StoreHomeProductsWidget()
-              : Provider.of<StoreProvider>(context, listen: false).indexTab == 1
-                  ? const RankingWidget()
-                  : const WishListComponent(),
+          // Provider.of<StoreProvider>(context, listen: false).indexTab == 0
+          //     ? const StoreHomeProductsWidget()
+          //     : Provider.of<StoreProvider>(context, listen: false).indexTab == 1
+          //         ? const RankingWidget()
+          //         : const WishListComponent(),
         ],
       ),
     );
@@ -252,24 +252,24 @@ class _StoreScreenState extends State<StoreScreen> {
                 onPressed: () {
                   prov.updateIndex(1);
                 },
-                child: _storeTabText(
-                    title: tr('store.tabs.ranking'),
-                    isSelect: prov.indexTab == 1)),
+                child:
+                    _storeTabText(title: '카테고리', isSelect: prov.indexTab == 1)),
             SizedBox(width: 20.toWidth),
             BaseButton(
                 onPressed: () {
                   prov.updateIndex(2);
                 },
                 child: _storeTabText(
-                    title: tr('store.tabs.steamed'),
+                    title: tr('store.tabs.ranking'),
                     isSelect: prov.indexTab == 2)),
             SizedBox(width: 20.toWidth),
             BaseButton(
                 onPressed: () {
                   prov.updateIndex(3);
                 },
-                child:
-                    _storeTabText(title: '카테고리', isSelect: prov.indexTab == 3)),
+                child: _storeTabText(
+                    title: tr('store.tabs.steamed'),
+                    isSelect: prov.indexTab == 3)),
           ],
         ),
       );
