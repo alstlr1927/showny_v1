@@ -9,6 +9,10 @@ import 'package:showny/utils/images.dart';
 import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_appbar_widget.dart';
 
+import 'mini_shop_search_screen2.dart';
+import 'providers/minishop_search_product_provider.dart';
+import 'providers/search_provider.dart';
+
 class MinishopSearchScreen extends StatefulWidget {
   const MinishopSearchScreen({Key? key}) : super(key: key);
 

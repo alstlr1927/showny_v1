@@ -1415,6 +1415,17 @@ class ApiHelper {
     }, failure);
   }
 
+  Future viewMinishopProduct(memNo, productId, Function(dynamic) success,
+      Function(String) failure) async {
+    const url = '/ViewMinishopProduct';
+    FormData formData =
+        FormData.fromMap({'memNo': memNo, 'productId': productId});
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      success(true);
+    }, failure);
+  }
+
   Future getRecentViewMinishopProduct(
       memNo,
       Function(List<MinishopProductModel>) success,
@@ -1430,6 +1441,18 @@ class ApiHelper {
               MinishopProductModel.fromJson(item as Map<String, dynamic>))
           .toList();
       success(result);
+    }, failure);
+  }
+
+  Future updateMinishopProductStatus(memNo, productId, status,
+      Function(dynamic) success, Function(String) failure) async {
+    const url = '/UpdateMinishopProductStatus';
+
+    FormData formData = FormData.fromMap(
+        {'memNo': memNo, 'productId': productId, 'status': status});
+
+    apiRequest('$baseUrl$url', formData, (data) {
+      success(true);
     }, failure);
   }
 

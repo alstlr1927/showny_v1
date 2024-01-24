@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/models/brand_search_model.dart';
 import 'package:showny/models/filter_shop_model.dart';
@@ -10,6 +11,7 @@ import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/widgets/custom_dropdown_widget.dart';
 
 import 'brand_search_screen.dart';
@@ -80,10 +82,6 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      UserProvider userProvider =
-          Provider.of<UserProvider>(context, listen: false);
-      final user = userProvider.user;
-
       if (widget.initMainCategory != null) {
         setState(() {
           mainCategoryIndex = widget.initMainCategory!;
@@ -103,14 +101,8 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
         });
       }
       scrollController.addListener(onScroll);
-
-      // refreshItemsStoreSearchPage();
     });
 
-    // Provider.of<SearchProvider>(context, listen: false)
-    //     .setIsSearch(widget.search.toString());
-    // Provider.of<SearchProvider>(context, listen: false)
-    //     .getGoodListSearch(user.memNo, searchController.text, "", "", "");
     super.initState();
   }
 
@@ -262,8 +254,11 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
           Expanded(
             child: (searchProvider.isSearchLoading &&
                     searchProvider.goodsList.isEmpty)
-                ? const Center(
-                    child: CircularProgressIndicator(),
+                ? Center(
+                    child: ShownyIndicator(
+                      radius: 15,
+                      color: ShownyStyle.mainPurple,
+                    ),
                   )
                 : searchProvider.goodsList.isEmpty
                     ? Center(
@@ -321,9 +316,8 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
-                                crossAxisSpacing: 16,
-                                childAspectRatio: ((size.width - 48) / 2) /
-                                    (((size.width - 48) / 2) * (5 / 4) + 160),
+                                crossAxisSpacing: 10.toWidth,
+                                childAspectRatio: 170 / 335,
                               ),
                               itemCount: searchProvider.goodsList.length,
                               itemBuilder: (BuildContext context, int index) {

@@ -7,6 +7,7 @@ import 'package:showny/models/filter_minishop_model.dart';
 import 'package:showny/screens/tabs/profile/my_shop/components/my_shop_grid_item.dart';
 import 'package:showny/widgets/shoping_emptyBasket_widget.dart';
 
+import '../product_page.dart';
 import '../providers/mini_shop_products_provider.dart';
 
 class GridProductWidget extends StatefulWidget {

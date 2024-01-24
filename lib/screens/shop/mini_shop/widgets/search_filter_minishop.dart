@@ -11,6 +11,7 @@ import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_button_widget.dart';
 
 import '../../store/widgets/text_field_widget.dart';
+import '../providers/minishop_search_product_provider.dart';
 
 class SearchFilterWidgetMinishop extends StatefulWidget {
   final Color? iconColor;

@@ -8,15 +8,12 @@ import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_home.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_ranking.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_wishlist.dart';
-import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
-import 'package:showny/utils/theme.dart';
 
 import 'providers/store_provider.dart';
 import 'providers/store_wishlist_provider.dart';
 import 'store_goods_list_screen.dart';
-import 'widgets/bannerSlider_widget.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({
@@ -70,7 +67,13 @@ class _StoreScreenState extends State<StoreScreen> {
                 return TabStoreHome();
               } else if (prov.indexTab == 1) {
                 return Container(
-                  color: Colors.amber,
+                  color: Color(0xffff705e).withOpacity(.3),
+                  child: Center(
+                    child: Text(
+                      '카테고리',
+                      style: ShownyStyle.h2(weight: FontWeight.w600),
+                    ),
+                  ),
                 );
               } else if (prov.indexTab == 2) {
                 return TabStoreRanking();
@@ -96,141 +99,6 @@ class _StoreScreenState extends State<StoreScreen> {
           ),
         ),
       ],
-    );
-
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 10.toWidth),
-          _buildStoreTab(),
-          SizedBox(height: 20.toWidth),
-          _buildGenderTab(),
-          SizedBox(height: 24.toWidth),
-          const BannerSliderWidget(index: 1),
-          const SizedBox(
-            height: 24,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Consumer<StoreProvider>(
-                    builder: (context, provider, child) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              // var provider =
-                              //     Provider.of<StoreDetailFilterProvider>(
-                              //         context,
-                              //         listen: false);
-                              // provider
-                              //   ..setSelectedTabFilter(StoreSelectionTab.women)
-                              //   ..setSelectedCategory(index + 1)
-                              //   ..setSelectedBrand(null);
-                              Navigator.push(
-                                  context,
-                                  ShownyPageRoute(
-                                    builder: (context) => StoreGoodsListScreen(
-                                      mainCategory: 1,
-                                      subCategory: index + 1,
-                                    ),
-                                  ));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                color: index == 5 ? white : greyExtraLight,
-                              ))),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 8, top: 16, bottom: 16),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      provider.categories[index],
-                                      style: themeData().textTheme.bodySmall,
-                                    ),
-                                    const Icon(
-                                      Icons.add,
-                                      size: 16,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        itemCount: provider.categories.length,
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: Consumer<StoreProvider>(
-                    builder: (context, provider, child) => ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: provider.categories.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                ShownyPageRoute(
-                                  builder: (context) => StoreGoodsListScreen(
-                                    mainCategory: 0,
-                                    subCategory: index + 1,
-                                  ),
-                                ));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                              color: index == 5 ? white : greyExtraLight,
-                            ))),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 8, top: 16, bottom: 16),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    provider.categories[index],
-                                    style: themeData().textTheme.bodySmall,
-                                  ),
-                                  const Icon(
-                                    Icons.add,
-                                    size: 16,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Provider.of<StoreProvider>(context, listen: false).indexTab == 0
-          //     ? const StoreHomeProductsWidget()
-          //     : Provider.of<StoreProvider>(context, listen: false).indexTab == 1
-          //         ? const RankingWidget()
-          //         : const WishListComponent(),
-        ],
-      ),
     );
   }
 

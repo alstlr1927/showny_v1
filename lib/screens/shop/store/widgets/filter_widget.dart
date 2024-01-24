@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:showny/models/filter_shop_model.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
 
 import '../providers/store_search_provider.dart';
@@ -47,10 +48,12 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(filter, height: 20, width: 20),
-                const SizedBox(
-                  width: 20,
+                Image.asset(
+                  filter,
+                  height: 20.toWidth,
+                  width: 20.toWidth,
                 ),
+                SizedBox(width: 12.toWidth),
                 Container(
                   width: 64,
                   height: 24,

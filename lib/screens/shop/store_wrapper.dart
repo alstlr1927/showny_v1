@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/screens/shop/providers/store_wrapper_provider.dart';
 import 'package:showny/screens/shop/store/store_screen.dart';
+import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
@@ -110,8 +111,7 @@ class _StoreWrapperState extends State<StoreWrapper>
             },
             minSize: 0,
             padding: EdgeInsets.zero,
-            child: Image.asset('assets/icons/shop/shop_search.png',
-                width: 24.toWidth),
+            child: Image.asset(search, width: 24.toWidth),
           ),
           SizedBox(width: 16.toWidth),
         ],

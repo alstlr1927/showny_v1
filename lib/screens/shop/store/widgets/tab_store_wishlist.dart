@@ -58,7 +58,8 @@ class _TabStoreWishListState extends State<TabStoreWishList> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: prov.storeGoodsWishList.length,
                             shrinkWrap: true,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 16.toWidth),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
@@ -114,22 +115,17 @@ class __WishListItemState extends State<_WishListItem> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AspectRatio(
-            aspectRatio: 1 / 1,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  widget.item.goodsImageUrlList[0],
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.white,
-                    );
-                  },
-                ),
+            aspectRatio: 1,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                widget.item.goodsImageUrlList[0],
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.white,
+                  );
+                },
               ),
             ),
           ),
@@ -155,39 +151,25 @@ class __WishListItemState extends State<_WishListItem> {
           SizedBox(height: 2.toWidth),
           Text(
             "즉시 구매가",
-            style: ShownyStyle.caption(
-              color: Color(0xff777777),
-            ),
+            style: ShownyStyle.caption(color: Color(0xffaaaaaa)),
           ),
           SizedBox(height: 4.toWidth),
           Row(
             children: [
-              GestureDetector(
-                  onTap: () {
-                    // value.updateHeartStatus(!value.isTrue[index], index);
-                    // value.getGoodsHeart(
-                    //     myMemNo,
-                    //     "${value.getStoreMainPageData()!.data!.homeList![index].goodsNo}");
-                  },
-                  child:
-                      // value.isTrue[index] == true ?
-                      Image.asset('assets/icons/home/comment_like.png',
-                          height: 14.toWidth, width: 14.toWidth)),
+              Image.asset('assets/icons/shop/heart_icon.png',
+                  height: 14.toWidth, width: 14.toWidth),
               SizedBox(width: 4.toWidth),
               Text(
                 "${widget.item.heartCount}",
-                style: ShownyStyle.caption(
-                  color: Color(0xff777777),
-                ),
+                style: ShownyStyle.caption(color: Color(0xffaaaaaa)),
               ),
               SizedBox(width: 8.toWidth),
-              Image.asset(heartReport, height: 14.toWidth, width: 14.toWidth),
+              Image.asset('assets/icons/shop/grade_icon.png',
+                  height: 14.toWidth, width: 14.toWidth),
               SizedBox(width: 4.toWidth),
               Text(
-                "${widget.item.reviewCount}",
-                style: ShownyStyle.caption(
-                  color: Color(0xff777777),
-                ),
+                "${widget.item.grade}(${widget.item.reviewCount})",
+                style: ShownyStyle.caption(color: Color(0xffaaaaaa)),
               ),
             ],
           ),

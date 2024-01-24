@@ -15,6 +15,7 @@ import 'mini_shop_search_screen.dart';
 import 'providers/mini_shop_products_provider.dart';
 import 'widgets/check_box_widget.dart';
 import 'widgets/grid_product_widget.dart';
+import 'widgets/mini_shop_category_list_widget.dart';
 import 'widgets/recent_product_widget.dart';
 import 'widgets/search_filter_minishop.dart';
 

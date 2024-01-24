@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/models/filter_minishop_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
+
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/theme.dart';
+
+import '../providers/minishop_search_product_provider.dart';
 
 class SearchMiniShopCategoryListWidget extends StatefulWidget {
   final double? size;

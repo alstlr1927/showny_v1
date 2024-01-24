@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/theme.dart';
 
 import '../../../../../utils/colors.dart';
@@ -75,8 +77,11 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
                   // Image.asset(image[index]);
                   widget.index == 0
                       ? bannerProvider.getIsMiniShopBannerLoading()
-                          ? const Center(
-                              child: CircularProgressIndicator(),
+                          ? Center(
+                              child: ShownyIndicator(
+                                radius: 15,
+                                color: ShownyStyle.mainPurple,
+                              ),
                             )
                           : Center(
                               child: Image.network(
@@ -87,8 +92,11 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
                               ),
                             )
                       : bannerProvider.getIsBannerLoading()
-                          ? const Center(
-                              child: CircularProgressIndicator(),
+                          ? Center(
+                              child: ShownyIndicator(
+                                radius: 15,
+                                color: ShownyStyle.mainPurple,
+                              ),
                             )
                           : Center(
                               child: Image.network(

@@ -1,7 +1,8 @@
+import 'package:dartx/dartx.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/components/slivers/sliver_tween.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/utils/showny_util.dart';
@@ -9,11 +10,10 @@ import 'package:showny/utils/showny_util.dart';
 import '../../../../components/page_route.dart';
 import '../../../../models/brand_search_model.dart';
 import '../../../../models/get_storelist_response_model.dart';
+import '../../../../models/store_good_model.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/images.dart';
 import '../../../../utils/showny_style.dart';
-import '../../../../utils/theme.dart';
-import '../../../../widgets/common_button_widget.dart';
 import '../brand_search_screen.dart';
 import '../providers/store_provider.dart';
 import '../store_good_detail_screen.dart';
@@ -40,12 +40,12 @@ class _TabStoreRankingState extends State<TabStoreRanking> {
                 _buildBrandTitle(),
                 SizedBox(height: 20.toWidth),
                 _buildRankingList(),
-                SizedBox(height: 24),
+                SizedBox(height: 8.toWidth),
                 _buildMoreBrandButton(),
-                SizedBox(height: 40),
+                SizedBox(height: 24.toWidth),
                 _buildProductTitle(),
                 SizedBox(height: 24),
-                // _buildProductRankingGrid(),
+                _buildProductRankingGrid(),
               ],
             ),
           ),
@@ -93,7 +93,7 @@ class _TabStoreRankingState extends State<TabStoreRanking> {
                       .brandRankingList!
                       .length,
                   shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return _BrandRankingListItem(
@@ -108,34 +108,48 @@ class _TabStoreRankingState extends State<TabStoreRanking> {
   }
 
   Widget _buildMoreBrandButton() {
-    return CommonButtonWidget(
-      text: "더 많은 브랜드 보기",
-      radius: 10,
-      height: 48,
-      color: black,
-      onTap: () {
-        // var filterProvider =
-        //     Provider.of<StoreDetailFilterProvider>(context, listen: false);
-        // var provider = Provider.of<StoreProvider>(context, listen: false);
-        // var selected =
-        //     provider.getStoreMainPageData()!.data!.brandRankingList![0];
-        // filterProvider.setSelectedBrand(BrandData(
-        //     cateCd: selected.brandCd!,
-        //     cateNm: selected.brandNm!,
-        //     brandImgUrl: selected.brandImage!));
-        Navigator.push(
-            context,
-            ShownyPageRoute(
-              builder: (context) => BrandSearchScreen(
-                selectBrand: (selectBrandData) {
-                  Future.delayed(const Duration(milliseconds: 500), () {
-                    moveStoreDetailWithBrand(context, selectBrandData);
-                  });
-                },
-              ),
-            ));
-      },
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
+      child: ShownyButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              ShownyPageRoute(
+                builder: (context) => BrandSearchScreen(
+                  selectBrand: (selectBrandData) {
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      moveStoreDetailWithBrand(context, selectBrandData);
+                    });
+                  },
+                ),
+              ));
+        },
+        option: ShownyButtonOption.fill(
+          text: '더 많은 브랜드 보기',
+          theme: ShownyButtonFillTheme.violet,
+          style: ShownyButtonFillStyle.fullRegular,
+        ),
+      ),
     );
+    // return CommonButtonWidget(
+    //   text: "더 많은 브랜드 보기",
+    //   radius: 10,
+    //   height: 48,
+    //   color: black,
+    //   onTap: () {
+    //     Navigator.push(
+    //         context,
+    //         ShownyPageRoute(
+    //           builder: (context) => BrandSearchScreen(
+    //             selectBrand: (selectBrandData) {
+    //               Future.delayed(const Duration(milliseconds: 500), () {
+    //                 moveStoreDetailWithBrand(context, selectBrandData);
+    //               });
+    //             },
+    //           ),
+    //         ));
+    //   },
+    // );
   }
 
   Widget _buildProductTitle() {
@@ -143,20 +157,20 @@ class _TabStoreRankingState extends State<TabStoreRanking> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SizedBox(
-            height: 24,
-            child: Text(
-              tr("brand.see_more_brands"),
-              style: themeData().textTheme.titleMedium,
-            ),
+          padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
+          child: Text(
+            tr("brand.see_more_brands"),
+            style: ShownyStyle.body2(
+                color: ShownyStyle.black, weight: FontWeight.w700),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.only(left: 16.toWidth),
           child: Text(
             tr("brand.most_sold_products"),
-            style: themeData().textTheme.labelSmall,
+            style: ShownyStyle.overline(
+              color: ShownyStyle.black,
+            ),
           ),
         ),
       ],
@@ -171,167 +185,20 @@ class _TabStoreRankingState extends State<TabStoreRanking> {
           itemCount:
               value.getStoreMainPageData()?.data?.goodsRankingList?.length,
           shrinkWrap: true,
-          padding: const EdgeInsets.only(left: 16, right: 16),
+          padding: EdgeInsets.only(left: 16.toWidth, right: 16.toWidth),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: ((((ScreenUtil().screenWidth - 48) / 2)) /
-                  (((ScreenUtil().screenWidth - 48) / 2) + 190))),
-          itemBuilder: (context, index) => GestureDetector(
-            onTap: () {
-              if (value
-                      .getStoreMainPageData()
-                      ?.data
-                      ?.goodsRankingList![index]
-                      .goodsNo ==
-                  null) {
-                return;
-              }
-              Navigator.push(
-                  context,
-                  ShownyPageRoute(
-                    builder: (context) => StoreGoodDetailScreen(
-                        goodsNo: value
-                                .getStoreMainPageData()
-                                ?.data
-                                ?.goodsRankingList![index]
-                                .goodsNo ??
-                            ""),
-                  ));
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      height: ((ScreenUtil().screenWidth - 48) / 2) * 5 / 4,
-                      width: ((ScreenUtil().screenWidth - 48) / 2),
-                      decoration: BoxDecoration(
-                          color: greyExtraLight,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(0),
-                        child: Image.network(
-                          value
-                                  .getStoreMainPageData()
-                                  ?.data
-                                  ?.goodsRankingList![index]
-                                  .goodsImageUrlList[0] ??
-                              "",
-                          width: ((ScreenUtil().screenWidth - 48) / 2),
-                          height: ((ScreenUtil().screenWidth - 48) / 2) * 5 / 4,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 10,
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(lable),
-                          ),
-                        ),
-                        child: Center(
-                            child: Text("${index + 1}위",
-                                style: themeData()
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(color: white))),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  value
-                          .getStoreMainPageData()
-                          ?.data
-                          ?.goodsRankingList?[index]
-                          .brandNm ??
-                      "",
-                  style: themeData().textTheme.bodySmall,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  value
-                          .getStoreMainPageData()
-                          ?.data
-                          ?.goodsRankingList?[index]
-                          .goodsNm ??
-                      "",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: themeData().textTheme.bodySmall,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  '${(value.getStoreMainPageData()?.data?.goodsRankingList?[index].goodsPrice ?? 0).formatPrice()} 원',
-                  style: themeData().textTheme.bodyMedium,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  "즉시 구매가",
-                  style:
-                      themeData().textTheme.bodySmall!.apply(color: textColor),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                  children: [
-                    Image.asset(unselectedHeartIcon, height: 16, width: 16),
-                    SizedBox(
-                      width: ScreenUtil().screenWidth * 0.01,
-                    ),
-                    Text(
-                      (value
-                                  .getStoreMainPageData()
-                                  ?.data
-                                  ?.goodsRankingList?[index]
-                                  .heartCount ??
-                              0)
-                          .toString(),
-                      style: themeData()
-                          .textTheme
-                          .bodySmall!
-                          .apply(color: textColor),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().screenWidth * 0.02,
-                    ),
-                    Image.asset(heartReport),
-                    SizedBox(
-                      width: ScreenUtil().screenWidth * 0.01,
-                    ),
-                    Text(
-                      (value
-                                  .getStoreMainPageData()
-                                  ?.data
-                                  ?.goodsRankingList?[index]
-                                  .reviewCount ??
-                              0)
-                          .toString(),
-                      style: themeData()
-                          .textTheme
-                          .bodySmall!
-                          .apply(color: textColor),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            crossAxisCount: 2,
+            crossAxisSpacing: 10.toWidth,
+            childAspectRatio: 170 / 335,
           ),
+          itemBuilder: (context, index) {
+            return _ProductRankingListItem(
+                index: index,
+                item: value
+                    .getStoreMainPageData()
+                    ?.data
+                    ?.goodsRankingList?[index]);
+          },
         );
       },
     );
@@ -356,54 +223,199 @@ class _BrandRankingListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 16.toWidth),
+      child: GestureDetector(
+        onTap: () {
+          var selected = item;
+          Navigator.push(
+              context,
+              ShownyPageRoute(
+                builder: (context) => StoreGoodsListScreen(
+                    mainCategory: 2,
+                    subCategory: 0,
+                    brandData: BrandData(
+                      cateNm: selected.brandNm!,
+                      cateCd: selected.brandCd!,
+                      brandImgUrl: selected.brandImage!,
+                    )),
+              ));
+        },
+        child: Container(
+          width: double.infinity,
+          color: white,
+          child: Row(
+            children: [
+              SizedBox(
+                width: 18.toWidth,
+                child: Text(
+                  "${item.rank}",
+                  style: ShownyStyle.caption(color: Color(0xff777777)),
+                ),
+              ),
+              SizedBox(width: 6.toWidth),
+              Container(
+                height: 32.toWidth,
+                width: 32.toWidth,
+                decoration: BoxDecoration(
+                    color: ShownyStyle.white,
+                    border: Border.all(color: greyExtraLight),
+                    shape: BoxShape.circle,
+                    boxShadow: ShownyStyle.elevation_01dp()),
+                child: Image.network("${item.brandImage}"),
+              ),
+              SizedBox(width: 12.toWidth),
+              Text(
+                "${item.brandNm}",
+                style: ShownyStyle.caption(color: Color(0xff777777)),
+              ),
+              const Spacer(),
+              _getBrandUpDownString('${item.upDown}'),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _getBrandUpDownString(String val) {
+    int valToInt = 0;
+    String text = '';
+
+    Color color = Colors.black;
+    try {
+      valToInt = val.toInt();
+    } catch (e) {
+      valToInt = 0;
+    }
+
+    if (valToInt == 0) {
+      text = '-';
+    } else if (valToInt > 0) {
+      text = '${valToInt}↑';
+      color = ShownyStyle.mainRed;
+    } else if (valToInt < 0) {
+      text = '${valToInt.abs()}↓';
+      color = ShownyStyle.mainPurple;
+    }
+
+    return Text(
+      text,
+      style: ShownyStyle.caption(color: color),
+    );
+  }
+}
+
+class _ProductRankingListItem extends StatelessWidget {
+  final StoreGoodModel? item;
+  final int index;
+  const _ProductRankingListItem({
+    Key? key,
+    this.item,
+    required this.index,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        var selected = item;
+        if (item?.goodsNo == null) {
+          return;
+        }
         Navigator.push(
             context,
             ShownyPageRoute(
-              builder: (context) => StoreGoodsListScreen(
-                  mainCategory: 2,
-                  subCategory: 0,
-                  brandData: BrandData(
-                    cateNm: selected.brandNm!,
-                    cateCd: selected.brandCd!,
-                    brandImgUrl: selected.brandImage!,
-                  )),
+              builder: (context) =>
+                  StoreGoodDetailScreen(goodsNo: item?.goodsNo ?? ""),
             ));
       },
-      child: Container(
-        width: double.infinity,
-        color: white,
-        child: Row(
-          children: [
-            Text(
-              "${item.rank}",
-              style: ShownyStyle.caption(color: Color(0xff777777)),
-            ),
-            SizedBox(
-              width: ScreenUtil().screenWidth * 0.03,
-            ),
-            Container(
-              height: 32,
-              width: 32,
-              decoration: BoxDecoration(
-                border: Border.all(color: greyExtraLight),
-                shape: BoxShape.circle,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              AspectRatio(
+                aspectRatio: 1,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    item?.goodsImageUrlList[0] ?? "",
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.white,
+                      );
+                    },
+                  ),
+                ),
               ),
-              child: Image.network("${item.brandImage}"),
-            ),
-            SizedBox(
-              width: ScreenUtil().screenWidth * 0.03,
-            ),
-            Text(
-              "${item.brandNm}",
-              style: ShownyStyle.caption(color: Color(0xff777777)),
-            ),
-            const Spacer(),
-            Text("${item.upDown}", style: themeData().textTheme.bodySmall),
-          ],
-        ),
+              Positioned(
+                right: 10.toWidth,
+                child: Container(
+                  width: 30.toWidth,
+                  height: 30.toWidth,
+                  padding: EdgeInsets.only(bottom: 8.toWidth),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(lable),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "${index + 1}위",
+                      style: ShownyStyle.overline(
+                          color: ShownyStyle.white, weight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.toWidth),
+          Text(
+            item?.brandNm ?? "",
+            style: ShownyStyle.caption(
+                color: ShownyStyle.black, weight: FontWeight.w600),
+          ),
+          SizedBox(height: 4.toWidth),
+          Text(
+            item?.goodsNm ?? "",
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: ShownyStyle.caption(color: ShownyStyle.black),
+          ),
+          SizedBox(height: 8.toWidth),
+          Text(
+            '${(item?.goodsPrice ?? 0).formatPrice()} 원',
+            style: ShownyStyle.body2(
+                color: ShownyStyle.black, weight: FontWeight.w700),
+          ),
+          SizedBox(height: 2.toWidth),
+          Text(
+            "즉시 구매가",
+            style: ShownyStyle.caption(color: Color(0xffaaaaaa)),
+          ),
+          SizedBox(height: 4.toWidth),
+          Row(
+            children: [
+              Image.asset('assets/icons/shop/heart_icon.png',
+                  height: 14.toWidth, width: 14.toWidth),
+              SizedBox(width: 4.toWidth),
+              Text(
+                (item?.heartCount ?? 0).toString(),
+                style: ShownyStyle.caption(color: Color(0xffaaaaaa)),
+              ),
+              SizedBox(width: 8.toWidth),
+              Image.asset('assets/icons/shop/grade_icon.png',
+                  height: 14.toWidth, width: 14.toWidth),
+              SizedBox(width: 4.toWidth),
+              Text(
+                '${item?.grade}(${item?.reviewCount})',
+                style: ShownyStyle.caption(color: Color(0xffaaaaaa)),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -19,18 +19,22 @@ class RoundedAppBar extends AppBar {
     this.textColor,
     Key? key,
   }) : super(
-    key: key,
-    backgroundColor: bgColor,
-    leading: icon,
-    centerTitle: center,
-    title: titleText != null
-        ? Text(
-      titleText,
-      style: TextStyle(color: textColor,fontWeight: FontWeight.w700,fontSize: 14),
-    )
-        : null,
-    elevation: shadow,
-    automaticallyImplyLeading: false,
-    actions: action,
-  );
+          key: key,
+          backgroundColor: bgColor,
+          leading: icon,
+          centerTitle: center,
+          title: titleText != null
+              ? Text(
+                  titleText,
+                  style: TextStyle(
+                      color: textColor,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14),
+                )
+              : null,
+          elevation: shadow,
+          automaticallyImplyLeading: false,
+          actions: action,
+          scrolledUnderElevation: 0,
+        );
 }

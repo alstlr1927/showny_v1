@@ -13,12 +13,14 @@ import 'package:showny/screens/profile/model/get_store_canclelist_response_model
 import 'package:showny/screens/profile/model/get_store_cart_list_response_model.dart';
 import 'package:showny/screens/profile/model/getcancle_info_detail_response_model.dart';
 
+import '../../constants.dart';
 import '../../models/FetchGetMemberMinishopProductModel.dart';
 import '../../models/GetMemberMinishopProductSheetModel.dart';
 import '../../models/brand_search_model.dart';
 import '../../models/get_banner_minishop_model.dart';
 import '../../models/get_bannerlist_response_model.dart';
 import '../../models/get_storelist_response_model.dart' as mainlist;
+import '../../models/minishop_search_model.dart';
 
 //TODO api_helper로 통합 예정
 
@@ -186,6 +188,135 @@ class ApiService {
     } catch (e) {
       log('Error: $e');
       return getStoreListResponseModel;
+    }
+  }
+
+  Future<SearchResponseModel?> getSearchApi(String memNo) async {
+    Dio dio = Dio();
+    SearchResponseModel? searchResponseModel;
+    try {
+      var response = await dio.post(
+        '$baseUrl/GetRecentBrandSearch',
+        data: {'memNo': memNo},
+        options: Options(
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        log("SEARCH LIST :: ${response.data}");
+        searchResponseModel = SearchResponseModel.fromJson(response.data);
+        return searchResponseModel;
+      } else {
+        log('Error: ${response.statusCode}, ${response.statusMessage}');
+        return searchResponseModel;
+      }
+    } catch (e) {
+      log('Error: $e');
+      return searchResponseModel;
+    }
+  }
+
+  Future<MinishopSearchModel?> getMinishopSearchApi(String memNo) async {
+    MinishopSearchModel? minishopSearchModel;
+    try {
+      var response = await dio.post(
+        '$baseUrl/GetMinishopRecentSearch',
+        data: {'memNo': memNo},
+        options: Options(
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        log("MINISHOP SEARCH LIST :: ${response.data}");
+        minishopSearchModel = MinishopSearchModel.fromJson(response.data);
+        return minishopSearchModel;
+      } else {
+        log('Error: ${response.statusCode}, ${response.statusMessage}');
+        return minishopSearchModel;
+      }
+    } catch (e) {
+      log('Error: $e');
+      return minishopSearchModel;
+    }
+  }
+
+  Future<DeleteMinishopRecentSearchModel?> deleteMinishopRecentSearchApi(
+      String memNo, String keyWord) async {
+    DeleteMinishopRecentSearchModel? deleteMinishopRecentSearchModel;
+    try {
+      var response = await dio.post(
+        '$baseUrl/DeleteMinishopRecentSearch',
+        data: {'memNo': memNo, 'keyword': keyWord},
+        options: Options(
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        log("DELETE MINISHOP SEARCH LIST :: ${response.data}");
+        deleteMinishopRecentSearchModel =
+            DeleteMinishopRecentSearchModel.fromJson(response.data);
+        return deleteMinishopRecentSearchModel;
+      } else {
+        log('Error: ${response.statusCode}, ${response.statusMessage}');
+        return deleteMinishopRecentSearchModel;
+      }
+    } catch (e) {
+      log('Error: $e');
+      return deleteMinishopRecentSearchModel;
+    }
+  }
+
+  Future<GetMinishopProductListModel?> getMiniShopProductListApi(
+      {String? memNo,
+      String? keyWord,
+      int? productCategoryId,
+      int? status,
+      int? sort,
+      int? minPrice,
+      int? maxPrice,
+      int? isNew}) async {
+    Dio dio = Dio();
+    GetMinishopProductListModel? getMinishopProductListModel;
+    try {
+      var response = await dio.post(
+        '$baseUrl/GetMinishopProductList',
+        data: {
+          'memNo': memNo,
+          'keyword': keyWord,
+          'productCategoryId': productCategoryId ?? 0,
+          'sort': sort ?? 0,
+          'minPrice': minPrice ?? '',
+          'maxPrice': maxPrice ?? '',
+          'isNew': isNew ?? MiniShopProductsType.newGoods,
+          'status': status ?? MiniShopTransactionStatus.unChecked,
+          'page': 0,
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        ),
+      );
+      log("request Data ===>${response.requestOptions.data}");
+      if (response.statusCode == 200) {
+        log("MINISHOP PRODUCT  LIST :: ${response.data}");
+        //SearchStoreGoodModelResponseModel searchStoreGoodModelResponseModelFromJson(String str) => SearchStoreGoodModelResponseModel.fromJson(json.decode(str));
+        getMinishopProductListModel =
+            GetMinishopProductListModel.fromJson(response.data);
+        return getMinishopProductListModel;
+      } else {
+        log('Error: ${response.statusCode}, ${response.statusMessage}');
+        return getMinishopProductListModel;
+      }
+    } catch (e) {
+      log('Error: $e');
+      return getMinishopProductListModel;
     }
   }
 

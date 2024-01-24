@@ -7,6 +7,7 @@ import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/filter_minishop_model.dart';
 import 'package:showny/utils/theme.dart';
 
+import '../product_page.dart';
 import '../providers/mini_shop_products_provider.dart';
 
 class RecentProductWidget extends StatefulWidget {
