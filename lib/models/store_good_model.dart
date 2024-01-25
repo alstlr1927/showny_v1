@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:event_bus/event_bus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:showny/main.dart';
 import 'package:showny/models/goods_option_model.dart';
 
@@ -19,6 +15,7 @@ class StoreGoodModel {
   int reviewCount;
   double grade;
   String goodsDescription;
+  String memberRequestLink;
   // List<List<Map<String, String>>> options;
   List<GoodsOptionModel> optionList;
   String productGuideInfo;
@@ -36,6 +33,7 @@ class StoreGoodModel {
     this.brandNm = "",
     this.brandCd = "",
     this.brandImgUrl = "",
+    this.memberRequestLink = "",
     this.isHeart = false,
     this.heartCount = 0,
     this.reviewCount = 0,
@@ -62,6 +60,7 @@ class StoreGoodModel {
         reviewCount = event.reviewCount;
         grade = event.grade;
         goodsDescription = event.goodsDescription;
+        memberRequestLink = event.memberRequestLink;
         optionList = event.optionList;
         productGuideInfo = event.productGuideInfo;
         productNoticeInfo = event.productNoticeInfo;
@@ -91,6 +90,7 @@ class StoreGoodModel {
       reviewCount: json['reviewCount'] as int? ?? 0,
       grade: double.parse(json['grade'] as String? ?? "0"),
       goodsDescription: json['goodsDescription'] as String? ?? "",
+      memberRequestLink: json['memberRequestLink'] as String? ?? "",
       // options: (json['options'] as List<dynamic>?)
       // ?.map<List<Map<String, String>>>((innerList) =>
       //     (innerList as List<dynamic>)
@@ -131,6 +131,7 @@ class StoreGoodModel {
       'reviewCount': reviewCount,
       'grade': grade.toString(),
       'goodsDescription': goodsDescription,
+      'memberRequestLink': memberRequestLink,
       // 'options': options.map((optionList) => optionList.map((option) => option).toList()).toList(),
       'optionList': optionList,
       'productGuideInfo': productGuideInfo,
@@ -155,6 +156,7 @@ class StoreGoodModel {
         reviewCount = source.reviewCount,
         grade = source.grade,
         goodsDescription = source.goodsDescription,
+        memberRequestLink = source.memberRequestLink,
         optionList = source.optionList
             .map((option) => GoodsOptionModel.clone(option))
             .toList(),

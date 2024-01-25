@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:showny/components/lazy_indexed_stack/lazy_indexed_stack.dart';
 import 'package:showny/components/page_route.dart';
-import 'package:showny/screens/home/home_screen.dart';
+import 'package:showny/screens/home/home_wrapper.dart';
 import 'package:showny/screens/main/providers/main_landing_provider.dart';
 import 'package:showny/screens/main/types/types.dart';
 
 import 'package:showny/screens/profile/profile_screen.dart';
+import 'package:showny/screens/shop/store_wrapper.dart';
 import 'package:showny/screens/upload/upload_wrapper.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
@@ -96,7 +96,7 @@ class MainLandingState extends State<MainLanding> {
                               HomeScreen(),
                               const SizedBox(),
                               const SizedBox(),
-                              const SizedBox(),
+                              StoreWrapper(),
                               ProfileScreen(),
                             ],
                           ),

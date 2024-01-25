@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
-import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/models/filter_shop_model.dart';
 import 'package:showny/models/recent_search_list_model.dart';
 import 'package:showny/models/store_good_model.dart';
+
+import '../../../../api/new_api/api_helper.dart';
 
 class StoreSearchMainCategory {
   static const String all = "";
@@ -10,7 +14,6 @@ class StoreSearchMainCategory {
 }
 
 class StoreSearchProvider extends ChangeNotifier {
-
   RecentSearchListModel _recentSearchListModel = RecentSearchListModel();
   List<StoreGoodModel> _goodsList = [];
   int searchResultCount = 0;
@@ -22,14 +25,7 @@ class StoreSearchProvider extends ChangeNotifier {
   String _searchText = "";
   String _mainCategory = "";
   String _subCategory = "";
-  String? _barndCd;
-  int? _sort;
-  int? _minPrice;
-  int? _maxPrice;
-  List<int>? _styleIdList;
-  List<int>? _fitIdList;
-  List<int>? _materialIdList;
-  List<int>? _flexibility;
+  String? _brandCd;
 
   int page = 0;
 
@@ -45,14 +41,14 @@ class StoreSearchProvider extends ChangeNotifier {
     _searchText = "";
     _mainCategory = "";
     _subCategory = "";
-     _barndCd;
-    _sort;
-    _minPrice;
-    _maxPrice;
-    _styleIdList;
-    _fitIdList;
-    _materialIdList;
-    _flexibility;
+    _brandCd;
+    // _sort;
+    // _minPrice;
+    // _maxPrice;
+    // _styleIdList;
+    // _fitIdList;
+    // _materialIdList;
+    // _flexibility;
 
     page = 0;
     notifyListeners();
@@ -77,7 +73,7 @@ class StoreSearchProvider extends ChangeNotifier {
     _isSearched = value;
     notifyListeners();
   }
-  
+
   void setMainCategory(int value) {
     String mainCategory = "";
     switch (value) {
@@ -112,50 +108,55 @@ class StoreSearchProvider extends ChangeNotifier {
       default:
         subCategory = "";
     }
-    
+
     _subCategory = subCategory;
     notifyListeners();
   }
 
   void setBrandCd(String value) {
-    _barndCd = value;
+    _brandCd = value;
     notifyListeners();
   }
 
-  void setSort(int value) {
-    _sort = value;
-    notifyListeners();
-  }
+  // void setSort(int value) {
+  //   _sort = value;
+  //   notifyListeners();
+  // }
 
-  void setMinPrice(int value) {
-    _minPrice = value;
-    notifyListeners();
-  }
+  // void setMinPrice(int? value) {
+  //   _minPrice = value;
+  //   notifyListeners();
+  // }
 
-  void setMaxPrice(int value) {
-    _maxPrice = value;
-    notifyListeners();
-  }
+  // void setMaxPrice(int? value) {
+  //   _maxPrice = value;
+  //   notifyListeners();
+  // }
 
-  void setStyleIdList(List<int> value) {
-    _styleIdList = value;
-    notifyListeners();
-  }
+  // void setStyleIdList(List<int> value) {
+  //   _styleIdList = value;
+  //   notifyListeners();
+  // }
 
-  void setFitIdList(List<int> value) {
-    _fitIdList = value;
-    notifyListeners();
-  }
+  // void setFitIdList(List<int> value) {
+  //   _fitIdList = value;
+  //   notifyListeners();
+  // }
 
-  void setMaterialIdList(List<int> value) {
-    _materialIdList = value;
-    notifyListeners();
-  }
+  // void setMaterialIdList(List<int> value) {
+  //   _materialIdList = value;
+  //   notifyListeners();
+  // }
 
-  void setFlexibility(List<int> value) {
-    _flexibility = value;
-    notifyListeners();
-  }
+  // void setFlexibility(int value) {
+  //   _flexibility = value;
+  //   notifyListeners();
+  // }
+
+  // void setColorList(List<int> value) {
+  //   _colorList = value;
+  //   notifyListeners();
+  // }
 
   List<StoreGoodModel> get goodsList => _goodsList;
 
@@ -173,72 +174,100 @@ class StoreSearchProvider extends ChangeNotifier {
 
   String get subCategory => _subCategory;
 
-  String? get brandCd => _barndCd;
+  String? get brandCd => _brandCd;
 
-  int? get sort => _sort;
+  // int get sort => _sort;
 
-  int? get minPrice => _minPrice;
+  // int? get minPrice => _minPrice;
 
-  int? get maxPrice => _maxPrice;
+  // int? get maxPrice => _maxPrice;
 
-  List<int>? get styleIdList => _styleIdList;
+  // List<int> get styleIdList => _styleIdList;
 
-  List<int>? get fitIdList => _fitIdList;
+  // List<int> get fitIdList => _fitIdList;
 
-  List<int>? get materialIdList => _materialIdList;
+  // List<int> get materialIdList => _materialIdList;
 
-  List<int>? get flexibility => _flexibility;
-  
+  // int get flexibility => _flexibility;
+
+  // List<int> get colorList => _colorList;
 
   void getRecentSearchList(memNo) {
     setIsRecentSearchLoading(true);
-    ApiHelper.shared.getStoreRecentSearch(
-      memNo, 
-      (recentSearchList){
-        _recentSearchListModel = recentSearchList;
-        setIsRecentSearchLoading(false);
-        notifyListeners();
-      }, 
-      (error){
-        setIsRecentSearchLoading(false);
-        notifyListeners();
-      });
+    ApiHelper.shared.getStoreRecentSearch(memNo, (recentSearchList) {
+      _recentSearchListModel = recentSearchList;
+      setIsRecentSearchLoading(false);
+      notifyListeners();
+    }, (error) {
+      setIsRecentSearchLoading(false);
+      notifyListeners();
+    });
   }
 
   void deleteRecentSearch(memNo, keyword) {
     ApiHelper.shared.deleteStoreRecentSearch(
-      memNo, 
-      keyword, 
-      (success) => null, 
-      (error) => null);
+        memNo, keyword, (success) => null, (error) => null);
   }
 
-  void getSearchList(memNo) {
+  void initPage() {
+    page = 0;
+    goodsList.clear();
+    notifyListeners();
+  }
 
+  void getSearchList(
+      String memNo, FilterShopModel? filterShopModel, int isRequest) {
     setIsSearchLoading(true);
+    if (page > 1 && isSearchLoading == true) {
+      return;
+    }
+    var isRequestParam = isRequest;
+    if (brandCd != null && brandCd!.isNotEmpty == true) {
+      isRequestParam = 1;
+    }
     ApiHelper.shared.getGoodsList(
-      memNo, 
-      searchText, 
-      mainCategory, 
-      subCategory, 
-      brandCd, 
-      sort, 
-      minPrice, 
-      maxPrice, 
-      styleIdList, 
-      fitIdList, 
-      materialIdList, 
-      flexibility, 
-      page, 
-      (response) {
+        memNo,
+        searchText,
+        mainCategory,
+        subCategory,
+        brandCd,
+        filterShopModel?.sort,
+        filterShopModel?.minPrice,
+        filterShopModel?.maxPrice,
+        filterShopModel?.styleIdList.isNotEmpty == true
+            ? jsonEncode(filterShopModel?.styleIdList)
+            : null,
+        filterShopModel?.fitIdList.isNotEmpty == true
+            ? jsonEncode(filterShopModel?.fitIdList)
+            : null,
+        filterShopModel?.materialIdList.isNotEmpty == true
+            ? jsonEncode(filterShopModel?.materialIdList)
+            : null,
+        filterShopModel?.flexibility == 1
+            ? null
+            : filterShopModel?.flexibility != null
+                ? filterShopModel!.flexibility - 1
+                : null,
+        filterShopModel?.colorList.isNotEmpty == true
+            ? jsonEncode(filterShopModel?.colorList)
+            : null,
+        page,
+        isRequestParam, (response) {
+      if (page == 0) {
         _goodsList = response.goodsList;
-        searchResultCount = response.totalCount;
-        setIsSearchLoading(false);
-        setIsSearched(true);
-        notifyListeners();
-      }, 
-      (error){
-        setIsSearchLoading(false);
-      });
+      } else {
+        _goodsList.addAll(response.goodsList);
+      }
+
+      searchResultCount = response.totalCount;
+      setIsSearchLoading(false);
+      setIsSearched(true);
+      notifyListeners();
+      if (response.goodsList.isNotEmpty) {
+        page += 1;
+      }
+    }, (error) {
+      setIsSearchLoading(false);
+    });
   }
 }

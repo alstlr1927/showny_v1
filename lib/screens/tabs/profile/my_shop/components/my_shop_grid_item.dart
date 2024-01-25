@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:showny/components/showny_image/showny_image.dart';
 import 'package:showny/utils/formatter.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
-
-import '../../../../../providers/FetchGetMemberMinishopProductProvider.dart';
 
 class MyShopGridItem extends StatefulWidget {
   const MyShopGridItem({
@@ -92,7 +89,7 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
                   height: 0,
                 ),
                 Text(
-                  '${Formatter.formatNumber(int.parse(widget.price.replaceAll(',', '')))} 원',
+                  widget.price,
                   style: ShownyStyle.caption(
                     color: Colors.black,
                     weight: FontWeight.w700,

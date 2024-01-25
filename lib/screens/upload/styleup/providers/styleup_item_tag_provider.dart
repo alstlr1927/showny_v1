@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/models/store_good_model.dart';
-import 'package:showny/screens/shop/store/store_search_page_screen.dart';
 import 'package:showny/screens/upload/styleup/styleup_item_tag.dart';
 import 'package:showny/screens/upload/styleup/widgets/select_item_category.dart';
 import 'package:showny/utils/showny_util.dart';
+
+import '../../../shop/store/store_search_page_screen.dart';
 
 class StyleupItemTagProvider with ChangeNotifier {
   State<StyleupItemTag> state;
