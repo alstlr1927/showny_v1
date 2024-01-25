@@ -1,16 +1,20 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/models/brand_search_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_appbar_widget.dart';
 import 'package:showny/widgets/shoping_emptyBasket_widget.dart';
 
+import '../../../components/showny_button/showny_button.dart';
 import 'providers/search_brand_provider.dart';
 
 class BrandSearchScreen extends StatefulWidget {
@@ -45,8 +49,6 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
@@ -59,24 +61,25 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
           bgColor: white,
           action: [
             SizedBox(
-              width: size.width,
-              height: 48,
+              width: ScreenUtil().screenWidth,
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    padding:
+                        EdgeInsets.only(left: 16.toWidth, right: 16.toWidth),
                     child: Row(
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(right: 8),
-                          child: GestureDetector(
-                            onTap: () {
+                          child: CupertinoButton(
+                            onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Image.asset(
-                              arrowBackward,
-                              height: 20,
-                              width: 20,
+                            minSize: 0.0,
+                            padding: EdgeInsets.zero,
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: ShownyStyle.black,
                             ),
                           ),
                         ),
@@ -93,18 +96,19 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
                                     onChanged: (value) {
                                       setState(() {});
                                     },
-                                    decoration: InputDecoration(
-                                      hintText: tr('search.hint'),
-                                      hintStyle: ShownyStyle.caption(),
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 10),
-                                      border: const OutlineInputBorder(
-                                          borderSide: BorderSide.none),
-                                    ),
                                     onEditingComplete: () {
                                       searchProvider.getBrandSearch(
                                           user.memNo, searchController.text);
                                     },
+                                    decoration: InputDecoration(
+                                      hintText: tr('search.hint'),
+                                      hintStyle: ShownyStyle.caption(
+                                          color: Color(0xff777777)),
+                                      contentPadding:
+                                          const EdgeInsets.only(left: 0),
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide.none),
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -147,8 +151,8 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
                           },
                           child: Image.asset(
                             search,
-                            width: 24,
-                            height: 24,
+                            width: 24.toWidth,
+                            height: 24.toWidth,
                           ),
                         ),
                       ],
@@ -181,8 +185,11 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
                     const SizedBox(height: 23),
                     Expanded(
                       child: searchProvider.getIsBrandSearchLoading()
-                          ? const Center(
-                              child: CircularProgressIndicator(),
+                          ? Center(
+                              child: ShownyIndicator(
+                                radius: 15,
+                                color: ShownyStyle.mainPurple,
+                              ),
                             )
                           : searchProvider.brandResponse!.data.isEmpty
                               ? ShoppingEmptyBasketWidget(
@@ -193,64 +200,16 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
-                                    crossAxisSpacing: 2,
-                                    childAspectRatio: 0.8,
+                                    childAspectRatio: 80 / 95,
                                   ),
                                   itemCount:
                                       searchProvider.brandResponse!.data.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    // StoreDetailFilterProvider filterProvider =
-                                    //     Provider.of<StoreDetailFilterProvider>(
-                                    //         context);
-                                    int selectedIndex = -1;
-                                    return SizedBox(
-                                      width: size.width * 0.3,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          if (widget.selectBrand != null) {
-                                            widget.selectBrand!(searchProvider
-                                                .brandResponse!.data[index]);
-                                          }
-                                          Navigator.pop(context);
-                                        },
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              height: 80,
-                                              width: 80,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color:
-                                                        selectedIndex == index
-                                                            ? black
-                                                            : greyExtraLight),
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Image.network(
-                                                  searchProvider.brandResponse!
-                                                      .data[index].brandImgUrl),
-                                            ),
-                                            const SizedBox(
-                                              height: 24,
-                                            ),
-                                            Text(
-                                                searchProvider.brandResponse!
-                                                    .data[index].cateNm,
-                                                style: themeData()
-                                                    .textTheme
-                                                    .labelSmall!
-                                                    .copyWith(
-                                                        color: selectedIndex ==
-                                                                index
-                                                            ? black
-                                                            : textColor)),
-                                          ],
-                                        ),
-                                      ),
+                                    return _BrandGridItem(
+                                      brandData: searchProvider
+                                          .brandResponse!.data[index],
+                                      selectBrand: widget.selectBrand,
                                     );
                                   },
                                 ),
@@ -263,5 +222,42 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
         ),
       );
     });
+  }
+}
+
+class _BrandGridItem extends StatelessWidget {
+  final Function(BrandData)? selectBrand;
+  final BrandData brandData;
+  const _BrandGridItem({
+    Key? key,
+    this.selectBrand,
+    required this.brandData,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseButton(
+      onPressed: () {
+        selectBrand!(brandData);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 80.toWidth,
+            width: 80.toWidth,
+            decoration: BoxDecoration(
+              border: Border.all(color: ShownyStyle.gray040),
+              shape: BoxShape.circle,
+            ),
+            child: Image.network(brandData.brandImgUrl),
+          ),
+          SizedBox(height: 18.toWidth),
+          Text(brandData.cateNm,
+              style: ShownyStyle.overline(color: ShownyStyle.black)),
+        ],
+      ),
+    );
   }
 }

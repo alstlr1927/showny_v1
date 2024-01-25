@@ -206,11 +206,12 @@ class _TabStoreRankingState extends State<TabStoreRanking> {
 
   void moveStoreDetailWithBrand(BuildContext context, BrandData brandData) {
     Navigator.push(
-        context,
-        ShownyPageRoute(
-          builder: (context) => StoreGoodsListScreen(
-              mainCategory: 2, subCategory: 0, brandData: brandData),
-        ));
+      context,
+      ShownyPageRoute(
+        builder: (context) => StoreGoodsListScreen(
+            mainCategory: 2, subCategory: 0, brandData: brandData),
+      ),
+    );
   }
 }
 

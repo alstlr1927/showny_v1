@@ -105,7 +105,7 @@ class _StoreScreenState extends State<StoreScreen> {
   Widget _buildStoreTab() {
     return Consumer<StoreProvider>(builder: (context, prov, child) {
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.toWidth),
+        padding: EdgeInsets.symmetric(horizontal: 20.toWidth),
         child: Row(
           children: [
             BaseButton(
@@ -115,14 +115,12 @@ class _StoreScreenState extends State<StoreScreen> {
                 child: _storeTabText(
                     title: tr("store.tabs.home"),
                     isSelect: prov.indexTab == 0)),
-            SizedBox(width: 20.toWidth),
             BaseButton(
                 onPressed: () {
                   prov.updateIndex(1);
                 },
                 child:
                     _storeTabText(title: '카테고리', isSelect: prov.indexTab == 1)),
-            SizedBox(width: 20.toWidth),
             BaseButton(
                 onPressed: () {
                   prov.updateIndex(2);
@@ -130,7 +128,6 @@ class _StoreScreenState extends State<StoreScreen> {
                 child: _storeTabText(
                     title: tr('store.tabs.ranking'),
                     isSelect: prov.indexTab == 2)),
-            SizedBox(width: 20.toWidth),
             BaseButton(
                 onPressed: () {
                   prov.updateIndex(3);
@@ -148,66 +145,16 @@ class _StoreScreenState extends State<StoreScreen> {
     required String title,
     required bool isSelect,
   }) {
-    return Text(
-      title,
-      style: isSelect
-          ? ShownyStyle.body2(
-              color: ShownyStyle.mainPurple, weight: FontWeight.w700)
-          : ShownyStyle.body2(
-              color: ShownyStyle.gray070, weight: FontWeight.w500),
-    );
-  }
-
-  Widget _buildGenderTab() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.toWidth),
-      child: Row(
-        children: [
-          CupertinoButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  ShownyPageRoute(
-                    builder: (context) => const StoreGoodsListScreen(
-                      mainCategory: 1,
-                      subCategory: 0,
-                    ),
-                  ));
-            },
-            minSize: 0,
-            padding: EdgeInsets.zero,
-            child: Text(
-              'WOMAN',
-              style: ShownyStyle.body2(weight: FontWeight.w500),
-            ),
-          ),
-          SizedBox(width: 16.toWidth),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CupertinoButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        ShownyPageRoute(
-                          builder: (context) => const StoreGoodsListScreen(
-                            mainCategory: 0,
-                            subCategory: 0,
-                          ),
-                        ));
-                  },
-                  minSize: 0,
-                  padding: EdgeInsets.zero,
-                  child: Text(
-                    'MAN',
-                    style: ShownyStyle.body2(weight: FontWeight.w500),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: 10.toWidth),
+      child: Text(
+        title,
+        style: isSelect
+            ? ShownyStyle.body2(
+                color: ShownyStyle.mainPurple, weight: FontWeight.w700)
+            : ShownyStyle.body2(
+                color: ShownyStyle.gray070, weight: FontWeight.w500),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/models/filter_shop_model.dart';
@@ -54,8 +55,6 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
@@ -70,7 +69,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
             bgColor: white,
             action: [
               SizedBox(
-                width: size.width,
+                width: ScreenUtil().screenWidth,
                 child: Column(
                   children: [
                     Padding(
@@ -204,7 +203,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                         child: SizedBox(
-                          width: size.width,
+                          width: ScreenUtil().screenWidth,
                           child: Text(tr('search.recent_search.title'),
                               style: ShownyStyle.body2(
                                   color: ShownyStyle.black,
