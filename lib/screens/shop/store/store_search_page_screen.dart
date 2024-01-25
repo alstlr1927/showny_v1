@@ -183,11 +183,11 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                         ],
                       ),
                     ),
-                    const Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: Colors.black,
-                    )
+                    // const Divider(
+                    //   height: 1,
+                    //   thickness: 1,
+                    //   color: ShownyStyle.gray040,
+                    // )
                   ],
                 ),
               )
@@ -195,6 +195,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
             shadow: 0,
           ),
           body: SafeArea(
+            bottom: false,
             child: !searchProvider.isSearched
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

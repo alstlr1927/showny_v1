@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/components/page_route.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_home.dart';
@@ -13,7 +11,6 @@ import 'package:showny/utils/showny_util.dart';
 
 import 'providers/store_provider.dart';
 import 'providers/store_wishlist_provider.dart';
-import 'store_goods_list_screen.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({

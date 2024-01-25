@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:showny/helper/font_helper.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class DropdownWidget extends StatefulWidget {
   final List<String> itemList;
@@ -32,13 +32,14 @@ class _DropdownWidget extends State<DropdownWidget> {
           child: DropdownButton<String>(
             value: widget.itemList[selectedIndex],
             alignment: Alignment.centerRight,
-            style: ShownyStyle.caption(),
+            focusColor: Colors.amber,
+            dropdownColor: Colors.white,
             icon: Padding(
-              padding: const EdgeInsets.only(left: 4),
+              padding: EdgeInsets.only(left: 6.toWidth),
               child: Image.asset(
                 arrowDownIcon,
-                width: 20,
-                height: 20,
+                width: 12.toWidth,
+                height: 12.toWidth,
               ),
             ),
             onChanged: (newValue) {
@@ -67,7 +68,7 @@ class _DropdownWidget extends State<DropdownWidget> {
                     child: Center(
                         child: Text(
                       item,
-                      style: ShownyStyle.caption(),
+                      style: ShownyStyle.caption(color: Color(0xff777777)),
                     )),
                   ));
             }).toList(),
