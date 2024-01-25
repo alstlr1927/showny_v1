@@ -18,6 +18,8 @@ import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/routes.dart';
 import 'package:showny/screens/common/history_observer.dart';
 import 'package:showny/screens/intro/screen/login_screen.dart';
+import 'package:showny/screens/shop/mini_shop/providers/minishop_search_product_provider.dart';
+import 'package:showny/screens/shop/mini_shop/providers/search_provider.dart';
 import 'package:showny/screens/shop/store/providers/mini_shop_banner_provider.dart';
 import 'package:showny/screens/shop/store/providers/search_brand_provider.dart';
 import 'package:showny/screens/shop/store/providers/store_provider.dart';
@@ -153,6 +155,12 @@ class MyApp extends StatelessWidget {
         ),
         prod.ChangeNotifierProvider(
           create: (context) => MiniShopProductsProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => MiniShopSearchProductsProvider(),
+        ),
+        prod.ChangeNotifierProvider(
+          create: (context) => SearchProvider(),
         ),
       ],
       child: ScreenUtilInit(

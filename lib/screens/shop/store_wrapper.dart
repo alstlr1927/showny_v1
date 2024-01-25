@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/screens/shop/mini_shop/mini_shop_screen.dart';
 import 'package:showny/screens/shop/providers/store_wrapper_provider.dart';
 import 'package:showny/screens/shop/store/store_screen.dart';
 import 'package:showny/utils/images.dart';
@@ -44,15 +45,7 @@ class _StoreWrapperState extends State<StoreWrapper>
                         index: prov.currentIdx,
                         children: [
                           StoreScreen(),
-                          Container(
-                            color: Colors.green,
-                            child: Center(
-                              child: Text(
-                                '미니샵',
-                                style: ShownyStyle.title(),
-                              ),
-                            ),
-                          ),
+                          MiniShopScreen(),
                         ],
                       ),
                     ),
