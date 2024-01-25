@@ -58,6 +58,11 @@ class _StoreGoodDetailScreen extends State<StoreGoodDetailScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   getStoreGoodModel() {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
@@ -174,131 +179,141 @@ class _StoreGoodDetailScreen extends State<StoreGoodDetailScreen> {
           rightImageUrl: shareIcon,
           rightOnTap: () {}),
       body: SafeArea(
+        bottom: false,
         child: goodsData == null
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : goodsData?.memberRequestLink == ""
-                ? Stack(children: [
-                    ExtendedNestedScrollView(
-                        key: _key,
-                        physics: const ClampingScrollPhysics(),
-                        headerSliverBuilder: (context, innerBoxIsScrolled) {
-                          return <Widget>[
-                            SliverToBoxAdapter(
-                              child: Column(
-                                children: [
-                                  StoreGoodDetailImageWidget(
-                                      goodsData: goodsData!),
-                                  StoreGoodDetailBasicInfoWidget(
-                                      goodsData: goodsData!),
-                                  const Divider(
-                                    height: 8,
-                                    color: Color(0xFFF0F0F0),
-                                    thickness: 8,
-                                  ),
-                                  StoreGoodDetailMoreStyleWidget(
-                                      goodsData: goodsData!),
-                                ],
-                              ),
-                            ),
-                          ];
-                        },
-                        body: Column(
-                          children: [
-                            StoreGoodDetailTabWidget(
-                                goodsData: goodsData!,
-                                tabIndex: tabIndex,
-                                onSelectedTab: (index) {
-                                  setState(() {
-                                    tabIndex = index;
-                                    GlobalKey key = tab1Key;
-                                    switch (tabIndex) {
-                                      case 0:
-                                        key = tab1Key;
-                                        break;
-                                      case 1:
-                                        key = tab2Key;
-                                        break;
-                                      case 2:
-                                        key = tab3Key;
-                                        break;
-                                      case 3:
-                                        key = tab4Key;
-                                        break;
-                                      default:
-                                        key = tab1Key;
-                                        break;
-                                    }
-                                    scrollToTab(key);
-                                  });
-                                }),
-                            Expanded(
-                              child: SingleChildScrollView(
-                                physics: const ClampingScrollPhysics(),
+                ? Stack(
+                    children: [
+                      ExtendedNestedScrollView(
+                          key: _key,
+                          floatHeaderSlivers: false,
+                          onlyOneScrollInBody: true,
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          headerSliverBuilder: (context, innerBoxIsScrolled) {
+                            // return [];
+                            return <Widget>[
+                              SliverToBoxAdapter(
                                 child: Column(
                                   children: [
-                                    StoreGoodDetailTab1Widget(
-                                      key: tab1Key,
-                                      goodsData: goodsData!,
+                                    StoreGoodDetailImageWidget(
+                                        goodsData: goodsData!),
+                                    StoreGoodDetailBasicInfoWidget(
+                                        goodsData: goodsData!),
+                                    const Divider(
+                                      height: 8,
+                                      color: Color(0xFFF0F0F0),
+                                      thickness: 8,
                                     ),
-                                    StoreGoodDetailTab2Widget(
-                                      key: tab2Key,
-                                      goodsData: goodsData!,
-                                    ),
-                                    StoreGoodDetailTab3Widget(
-                                      key: tab3Key,
-                                      goodsData: goodsData!,
-                                    ),
-                                    StoreGoodDetailTab4Widget(
-                                      key: tab4Key,
-                                      goodsData: goodsData!,
-                                    )
+                                    StoreGoodDetailMoreStyleWidget(
+                                        goodsData: goodsData!),
                                   ],
                                 ),
                               ),
+                            ];
+                          },
+                          body: Column(
+                            children: [
+                              StoreGoodDetailTabWidget(
+                                  goodsData: goodsData!,
+                                  tabIndex: tabIndex,
+                                  onSelectedTab: (index) {
+                                    setState(() {
+                                      tabIndex = index;
+                                      GlobalKey key = tab1Key;
+                                      switch (tabIndex) {
+                                        case 0:
+                                          key = tab1Key;
+                                          break;
+                                        case 1:
+                                          key = tab2Key;
+                                          break;
+                                        case 2:
+                                          key = tab3Key;
+                                          break;
+                                        case 3:
+                                          key = tab4Key;
+                                          break;
+                                        default:
+                                          key = tab1Key;
+                                          break;
+                                      }
+                                      scrollToTab(key);
+                                    });
+                                  }),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  physics: const ClampingScrollPhysics(),
+                                  child: Column(
+                                    children: [
+                                      StoreGoodDetailTab1Widget(
+                                        key: tab1Key,
+                                        goodsData: goodsData!,
+                                      ),
+                                      StoreGoodDetailTab2Widget(
+                                        key: tab2Key,
+                                        goodsData: goodsData!,
+                                      ),
+                                      StoreGoodDetailTab3Widget(
+                                        key: tab3Key,
+                                        goodsData: goodsData!,
+                                      ),
+                                      StoreGoodDetailTab4Widget(
+                                        key: tab4Key,
+                                        goodsData: goodsData!,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
+                      goodsData == null
+                          ? const SizedBox()
+                          : Container(
+                              alignment: Alignment.bottomCenter,
+                              child: StoreGoodDetailBottomWidget(
+                                goodsData: goodsData!,
+                                selectHeart: () {
+                                  if (goodsData == null) {
+                                    return;
+                                  }
+                                  if (goodsData!.isHeart == true) {
+                                    goodsData!.heartCount -= 1;
+                                  } else {
+                                    goodsData!.heartCount += 1;
+                                  }
+                                  StoreHelper.setHeartClick(
+                                      context, user.memNo, goodsData!);
+                                },
+                              ),
                             )
-                          ],
-                        )),
-                    goodsData == null
-                        ? const SizedBox()
-                        : Container(
-                            alignment: Alignment.bottomCenter,
-                            child: StoreGoodDetailBottomWidget(
-                              goodsData: goodsData!,
-                              selectHeart: () {
-                                if (goodsData == null) {
-                                  return;
-                                }
-                                if (goodsData!.isHeart == true) {
-                                  goodsData!.heartCount -= 1;
-                                } else {
-                                  goodsData!.heartCount += 1;
-                                }
-                                StoreHelper.setHeartClick(
-                                    context, user.memNo, goodsData!);
-                              },
-                            ),
-                          )
-                  ])
+                    ],
+                  )
                 : Stack(
                     children: [
                       SingleChildScrollView(
+                          physics: AlwaysScrollableScrollPhysics(),
                           child: Column(
-                        children: [
-                          StoreGoodDetailImageWidget(goodsData: goodsData!),
-                          StoreGoodDetailBasicInfoWidget(goodsData: goodsData!),
-                          const Divider(
-                            height: 8,
-                            color: Color(0xFFF0F0F0),
-                            thickness: 8,
-                          ),
-                          StoreGoodDetailMoreStyleWidget(goodsData: goodsData!),
-                          const SizedBox(
-                            height: 80,
-                          )
-                        ],
-                      )),
+                            children: [
+                              StoreGoodDetailImageWidget(goodsData: goodsData!),
+                              StoreGoodDetailBasicInfoWidget(
+                                  goodsData: goodsData!),
+                              const Divider(
+                                height: 8,
+                                color: Color(0xFFF0F0F0),
+                                thickness: 8,
+                              ),
+                              StoreGoodDetailMoreStyleWidget(
+                                  goodsData: goodsData!),
+                              const SizedBox(
+                                height: 80,
+                              )
+                            ],
+                          )),
                       goodsData == null
                           ? const SizedBox()
                           : Container(

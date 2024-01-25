@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/components/slivers/sliver_tween.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/utils/showny_style.dart';
@@ -8,7 +9,6 @@ import 'package:showny/utils/showny_util.dart';
 
 import '../../../../components/page_route.dart';
 import '../../../../models/store_good_model.dart';
-import '../../../../utils/images.dart';
 import '../providers/store_wishlist_provider.dart';
 import '../store_good_detail_screen.dart';
 
@@ -100,8 +100,8 @@ class _WishListItem extends StatefulWidget {
 class __WishListItemState extends State<_WishListItem> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return BaseButton(
+      onPressed: () {
         Navigator.push(
             context,
             ShownyPageRoute(
@@ -110,7 +110,6 @@ class __WishListItemState extends State<_WishListItem> {
               ),
             ));
       },
-      behavior: HitTestBehavior.translucent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -187,6 +187,11 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                   brandData != null
               ? StoreBrandWidget(brandData: brandData!)
               : const SizedBox(),
+          const Divider(
+            height: 1,
+            thickness: 1,
+            color: ShownyStyle.gray040,
+          ),
           SubCategoryListWidget(
             categoryList: subCategoryList,
             initSubCategoryIndex: widget.initSubCategory,
