@@ -191,32 +191,32 @@ class ApiService {
     }
   }
 
-  Future<SearchResponseModel?> getSearchApi(String memNo) async {
-    Dio dio = Dio();
-    SearchResponseModel? searchResponseModel;
-    try {
-      var response = await dio.post(
-        '$baseUrl/GetRecentBrandSearch',
-        data: {'memNo': memNo},
-        options: Options(
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        log("SEARCH LIST :: ${response.data}");
-        searchResponseModel = SearchResponseModel.fromJson(response.data);
-        return searchResponseModel;
-      } else {
-        log('Error: ${response.statusCode}, ${response.statusMessage}');
-        return searchResponseModel;
-      }
-    } catch (e) {
-      log('Error: $e');
-      return searchResponseModel;
-    }
-  }
+  // Future<SearchResponseModel?> getSearchApi(String memNo) async {
+  //   Dio dio = Dio();
+  //   SearchResponseModel? searchResponseModel;
+  //   try {
+  //     var response = await dio.post(
+  //       '$baseUrl/GetRecentBrandSearch',
+  //       data: {'memNo': memNo},
+  //       options: Options(
+  //         headers: {
+  //           'Content-Type': 'application/x-www-form-urlencoded',
+  //         },
+  //       ),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       log("SEARCH LIST :: ${response.data}");
+  //       searchResponseModel = SearchResponseModel.fromJson(response.data);
+  //       return searchResponseModel;
+  //     } else {
+  //       log('Error: ${response.statusCode}, ${response.statusMessage}');
+  //       return searchResponseModel;
+  //     }
+  //   } catch (e) {
+  //     log('Error: $e');
+  //     return searchResponseModel;
+  //   }
+  // }
 
   Future<MinishopSearchModel?> getMinishopSearchApi(String memNo) async {
     MinishopSearchModel? minishopSearchModel;
@@ -244,81 +244,81 @@ class ApiService {
     }
   }
 
-  Future<DeleteMinishopRecentSearchModel?> deleteMinishopRecentSearchApi(
-      String memNo, String keyWord) async {
-    DeleteMinishopRecentSearchModel? deleteMinishopRecentSearchModel;
-    try {
-      var response = await dio.post(
-        '$baseUrl/DeleteMinishopRecentSearch',
-        data: {'memNo': memNo, 'keyword': keyWord},
-        options: Options(
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        log("DELETE MINISHOP SEARCH LIST :: ${response.data}");
-        deleteMinishopRecentSearchModel =
-            DeleteMinishopRecentSearchModel.fromJson(response.data);
-        return deleteMinishopRecentSearchModel;
-      } else {
-        log('Error: ${response.statusCode}, ${response.statusMessage}');
-        return deleteMinishopRecentSearchModel;
-      }
-    } catch (e) {
-      log('Error: $e');
-      return deleteMinishopRecentSearchModel;
-    }
-  }
+  // Future<DeleteMinishopRecentSearchModel?> deleteMinishopRecentSearchApi(
+  //     String memNo, String keyWord) async {
+  //   DeleteMinishopRecentSearchModel? deleteMinishopRecentSearchModel;
+  //   try {
+  //     var response = await dio.post(
+  //       '$baseUrl/DeleteMinishopRecentSearch',
+  //       data: {'memNo': memNo, 'keyword': keyWord},
+  //       options: Options(
+  //         headers: {
+  //           'Content-Type': 'application/x-www-form-urlencoded',
+  //         },
+  //       ),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       log("DELETE MINISHOP SEARCH LIST :: ${response.data}");
+  //       deleteMinishopRecentSearchModel =
+  //           DeleteMinishopRecentSearchModel.fromJson(response.data);
+  //       return deleteMinishopRecentSearchModel;
+  //     } else {
+  //       log('Error: ${response.statusCode}, ${response.statusMessage}');
+  //       return deleteMinishopRecentSearchModel;
+  //     }
+  //   } catch (e) {
+  //     log('Error: $e');
+  //     return deleteMinishopRecentSearchModel;
+  //   }
+  // }
 
-  Future<GetMinishopProductListModel?> getMiniShopProductListApi(
-      {String? memNo,
-      String? keyWord,
-      int? productCategoryId,
-      int? status,
-      int? sort,
-      int? minPrice,
-      int? maxPrice,
-      int? isNew}) async {
-    Dio dio = Dio();
-    GetMinishopProductListModel? getMinishopProductListModel;
-    try {
-      var response = await dio.post(
-        '$baseUrl/GetMinishopProductList',
-        data: {
-          'memNo': memNo,
-          'keyword': keyWord,
-          'productCategoryId': productCategoryId ?? 0,
-          'sort': sort ?? 0,
-          'minPrice': minPrice ?? '',
-          'maxPrice': maxPrice ?? '',
-          'isNew': isNew ?? MiniShopProductsType.newGoods,
-          'status': status ?? MiniShopTransactionStatus.unChecked,
-          'page': 0,
-        },
-        options: Options(
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        ),
-      );
-      log("request Data ===>${response.requestOptions.data}");
-      if (response.statusCode == 200) {
-        log("MINISHOP PRODUCT  LIST :: ${response.data}");
-        //SearchStoreGoodModelResponseModel searchStoreGoodModelResponseModelFromJson(String str) => SearchStoreGoodModelResponseModel.fromJson(json.decode(str));
-        getMinishopProductListModel =
-            GetMinishopProductListModel.fromJson(response.data);
-        return getMinishopProductListModel;
-      } else {
-        log('Error: ${response.statusCode}, ${response.statusMessage}');
-        return getMinishopProductListModel;
-      }
-    } catch (e) {
-      log('Error: $e');
-      return getMinishopProductListModel;
-    }
-  }
+  // Future<GetMinishopProductListModel?> getMiniShopProductListApi(
+  //     {String? memNo,
+  //     String? keyWord,
+  //     int? productCategoryId,
+  //     int? status,
+  //     int? sort,
+  //     int? minPrice,
+  //     int? maxPrice,
+  //     int? isNew}) async {
+  //   Dio dio = Dio();
+  //   GetMinishopProductListModel? getMinishopProductListModel;
+  //   try {
+  //     var response = await dio.post(
+  //       '$baseUrl/GetMinishopProductList',
+  //       data: {
+  //         'memNo': memNo,
+  //         'keyword': keyWord,
+  //         'productCategoryId': productCategoryId ?? 0,
+  //         'sort': sort ?? 0,
+  //         'minPrice': minPrice ?? '',
+  //         'maxPrice': maxPrice ?? '',
+  //         'isNew': isNew ?? MiniShopProductsType.newGoods,
+  //         'status': status ?? MiniShopTransactionStatus.unChecked,
+  //         'page': 0,
+  //       },
+  //       options: Options(
+  //         headers: {
+  //           'Content-Type': 'application/x-www-form-urlencoded',
+  //         },
+  //       ),
+  //     );
+  //     log("request Data ===>${response.requestOptions.data}");
+  //     if (response.statusCode == 200) {
+  //       log("MINISHOP PRODUCT  LIST :: ${response.data}");
+  //       //SearchStoreGoodModelResponseModel searchStoreGoodModelResponseModelFromJson(String str) => SearchStoreGoodModelResponseModel.fromJson(json.decode(str));
+  //       getMinishopProductListModel =
+  //           GetMinishopProductListModel.fromJson(response.data);
+  //       return getMinishopProductListModel;
+  //     } else {
+  //       log('Error: ${response.statusCode}, ${response.statusMessage}');
+  //       return getMinishopProductListModel;
+  //     }
+  //   } catch (e) {
+  //     log('Error: $e');
+  //     return getMinishopProductListModel;
+  //   }
+  // }
 
   ///
 
