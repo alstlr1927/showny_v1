@@ -52,11 +52,9 @@ class SearchProvider extends ChangeNotifier {
 
   MinishopSearchModel? get minishopSearchModel => _minishopSearchModel;
 
-  DeleteMinishopRecentSearchModel? get deleteMinishopRecentSearchModel =>
-      _deleteMinishopRecentSearchModel;
+  DeleteMinishopRecentSearchModel? get deleteMinishopRecentSearchModel => _deleteMinishopRecentSearchModel;
 
-  SearchStoreGoodModelResponse? get searchStoreGoodModelResponseModel =>
-      _searchStoreGoodModelResponseModel;
+  SearchStoreGoodModelResponse? get searchStoreGoodModelResponseModel => _searchStoreGoodModelResponseModel;
 
   // GetMinishopProductListModel? get getMinishopProductListModel =>
   //     _getMinishopProductListModel;
@@ -175,8 +173,12 @@ class SearchProvider extends ChangeNotifier {
   }
 
   setIsSearchLoading2(bool value) {
-    _isSearchLoading2 = value;
-    notifyListeners();
+    try {
+      _isSearchLoading2 = value;
+      notifyListeners();
+    } catch (e) {
+      //
+    }
   }
 
   setIsSearchLoading3(bool value) {
@@ -256,9 +258,7 @@ class SearchProvider extends ChangeNotifier {
   }
 
   deleteMinishopSearch(String memNo, String keyWord) {
-    ApiService()
-        .deleteMinishopRecentSearchApi(memNo, keyWord)
-        .then((deleteMinishopSearchSuccess) {
+    ApiService().deleteMinishopRecentSearchApi(memNo, keyWord).then((deleteMinishopSearchSuccess) {
       if (deleteMinishopSearchSuccess!.success!) {
         _deleteMinishopRecentSearchModel = deleteMinishopSearchSuccess;
         getMinishopSearch(memNo);
@@ -267,8 +267,7 @@ class SearchProvider extends ChangeNotifier {
     });
   }
 
-  getGoodListSearch(
-      String memNo, String keyWord, String cat, String subCat, String brandCd) {
+  getGoodListSearch(String memNo, String keyWord, String cat, String subCat, String brandCd) {
     if (!_isSearchLoading1) {
       setIsSearchLoading1(true);
     }
@@ -342,13 +341,9 @@ class SearchProvider extends ChangeNotifier {
     // sortedStoreGoodModel!.clear();
 
     setIsSearchLoading(true);
-    if (_searchStoreGoodModelResponseModel != null &&
-        _searchStoreGoodModelResponseModel!.data != null &&
-        _searchStoreGoodModelResponseModel!.data!.goodsData != null) {
-      _sortedStoreGoodModel =
-          List.from(_searchStoreGoodModelResponseModel!.data!.goodsData!);
-      _sortedStoreGoodModel!
-          .sort((a, b) => (a.goodsPrice).compareTo(b.goodsPrice));
+    if (_searchStoreGoodModelResponseModel != null && _searchStoreGoodModelResponseModel!.data != null && _searchStoreGoodModelResponseModel!.data!.goodsData != null) {
+      _sortedStoreGoodModel = List.from(_searchStoreGoodModelResponseModel!.data!.goodsData!);
+      _sortedStoreGoodModel!.sort((a, b) => (a.goodsPrice).compareTo(b.goodsPrice));
       _isSorted = true;
       setIsSearchLoading(false);
       notifyListeners();
@@ -361,13 +356,9 @@ class SearchProvider extends ChangeNotifier {
   void sortStoreGoodModelHighestPrice() {
     // sortedStoreGoodModel!.clear();
     setIsSearchLoading(true);
-    if (_searchStoreGoodModelResponseModel != null &&
-        _searchStoreGoodModelResponseModel!.data != null &&
-        _searchStoreGoodModelResponseModel!.data!.goodsData != null) {
-      _sortedStoreGoodModel =
-          List.from(_searchStoreGoodModelResponseModel!.data!.goodsData!);
-      _sortedStoreGoodModel!
-          .sort((a, b) => (b.goodsPrice).compareTo(a.goodsPrice));
+    if (_searchStoreGoodModelResponseModel != null && _searchStoreGoodModelResponseModel!.data != null && _searchStoreGoodModelResponseModel!.data!.goodsData != null) {
+      _sortedStoreGoodModel = List.from(_searchStoreGoodModelResponseModel!.data!.goodsData!);
+      _sortedStoreGoodModel!.sort((a, b) => (b.goodsPrice).compareTo(a.goodsPrice));
       _isSorted = true;
       setIsSearchLoading(false);
       notifyListeners();
@@ -380,13 +371,9 @@ class SearchProvider extends ChangeNotifier {
   void sortStoreGoodModelHighestHeart() {
     // sortedStoreGoodModel!.clear();
     setIsSearchLoading(true);
-    if (_searchStoreGoodModelResponseModel != null &&
-        _searchStoreGoodModelResponseModel!.data != null &&
-        _searchStoreGoodModelResponseModel!.data!.goodsData != null) {
-      _sortedStoreGoodModel =
-          List.from(_searchStoreGoodModelResponseModel!.data!.goodsData!);
-      _sortedStoreGoodModel!
-          .sort((a, b) => (b.heartCount).compareTo(a.heartCount));
+    if (_searchStoreGoodModelResponseModel != null && _searchStoreGoodModelResponseModel!.data != null && _searchStoreGoodModelResponseModel!.data!.goodsData != null) {
+      _sortedStoreGoodModel = List.from(_searchStoreGoodModelResponseModel!.data!.goodsData!);
+      _sortedStoreGoodModel!.sort((a, b) => (b.heartCount).compareTo(a.heartCount));
       _isSorted = true;
       setIsSearchLoading(false);
       notifyListeners();
@@ -399,13 +386,9 @@ class SearchProvider extends ChangeNotifier {
   void sortStoreGoodModelHighestReview() {
     // sortedStoreGoodModel!.clear();
     setIsSearchLoading(true);
-    if (_searchStoreGoodModelResponseModel != null &&
-        _searchStoreGoodModelResponseModel!.data != null &&
-        _searchStoreGoodModelResponseModel!.data!.goodsData != null) {
-      _sortedStoreGoodModel =
-          List.from(_searchStoreGoodModelResponseModel!.data!.goodsData!);
-      _sortedStoreGoodModel!
-          .sort((a, b) => (b.reviewCount).compareTo(a.reviewCount));
+    if (_searchStoreGoodModelResponseModel != null && _searchStoreGoodModelResponseModel!.data != null && _searchStoreGoodModelResponseModel!.data!.goodsData != null) {
+      _sortedStoreGoodModel = List.from(_searchStoreGoodModelResponseModel!.data!.goodsData!);
+      _sortedStoreGoodModel!.sort((a, b) => (b.reviewCount).compareTo(a.reviewCount));
       _isSorted = true;
       setIsSearchLoading(false);
       notifyListeners();

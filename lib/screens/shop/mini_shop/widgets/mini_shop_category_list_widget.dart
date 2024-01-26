@@ -20,12 +20,10 @@ class MiniShopCategoryListWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MiniShopCategoryListWidget> createState() =>
-      _MiniShopCategoryListWidgetState();
+  State<MiniShopCategoryListWidget> createState() => _MiniShopCategoryListWidgetState();
 }
 
-class _MiniShopCategoryListWidgetState
-    extends State<MiniShopCategoryListWidget> {
+class _MiniShopCategoryListWidgetState extends State<MiniShopCategoryListWidget> {
   late int selectedCategory;
 
   @override
@@ -40,8 +38,7 @@ class _MiniShopCategoryListWidgetState
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer<MiniShopProductsProvider>(
-        builder: (BuildContext context, provider, Widget? child) {
+    return Consumer<MiniShopProductsProvider>(builder: (BuildContext context, provider, Widget? child) {
       return SizedBox(
         height: widget.size ?? 40,
         child: ListView.builder(
@@ -57,17 +54,16 @@ class _MiniShopCategoryListWidgetState
                 widget.onSelectCategory(index);
               },
               child: Container(
-                  width: size.width * 0.16,
-                  decoration: widget.decoration,
-                  child: Center(
-                      child: Text(
+                width: 64,
+                decoration: widget.decoration,
+                child: Center(
+                  child: Text(
                     provider.categoryList[index],
-                    style: themeData().textTheme.bodySmall!.copyWith(
-                        color: (index == selectedCategory) ? black : greyLight,
-                        fontWeight: (index == selectedCategory)
-                            ? FontWeight.w700
-                            : FontWeight.w400),
-                  ))),
+                    style:
+                        themeData().textTheme.bodySmall!.copyWith(color: (index == selectedCategory) ? black : greyLight, fontWeight: (index == selectedCategory) ? FontWeight.w700 : FontWeight.w400),
+                  ),
+                ),
+              ),
             );
           },
         ),

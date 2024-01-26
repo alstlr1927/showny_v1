@@ -5,9 +5,10 @@ import 'package:showny/components/page_route.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/models/styleup_model.dart';
+import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
-import '../../../../../../../utils/theme.dart';
 import '../../../../api/new_api/api_helper.dart';
 import '../../../home/styleup/styleup_screen.dart';
 
@@ -30,8 +31,7 @@ class _ProductFeedWidgetState extends State<ProductFeedWidget> {
   void initState() {
     super.initState();
 
-    ApiHelper.shared.getProfileStyleupList(widget.minishopProduct.memNo, 1, 0,
-        (getStyleupList) {
+    ApiHelper.shared.getProfileStyleupList(widget.minishopProduct.memNo, 1, 0, (getStyleupList) {
       setState(() {
         stlyeupList.addAll(getStyleupList);
       });
@@ -41,133 +41,197 @@ class _ProductFeedWidgetState extends State<ProductFeedWidget> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.only(left: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 24,
-          ),
-          SizedBox(
-            width: size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    height: 24,
-                    child: Text(
-                      "${widget.minishopProduct.userInfo!.nickNm}${tr('product_detail.seller_feed.headline')}",
-                      style: themeData().textTheme.bodyMedium,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16, bottom: 8),
-                  child: GestureDetector(
-                    onTap: () {
-                      if (stlyeupList.isNotEmpty) {
-                        Navigator.push(
-                            context,
-                            ShownyPageRoute(
-                              builder: (context) => StyleupScreen(
-                                isMain: false,
-                                initIndex: 0,
-                                styleupList: stlyeupList,
-                              ),
-                            ));
-                      }
-                    },
-                    child: Text(
-                      tr('product_detail.seller_feed.see_more'),
-                      style: ShownyStyle.caption(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          SizedBox(
-            width: size.width,
-            height: (130 * (5 / 4)) + 90,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: stlyeupList.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        ShownyPageRoute(
-                          builder: (context) => StyleupScreen(
-                            isMain: false,
-                            initIndex: index,
-                            styleupList: stlyeupList,
-                          ),
-                        ));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: SizedBox(
-                      width: 130,
-                      height: (130 * (5 / 4)) + 90,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            child: Image.network(
-                              stlyeupList[index].thumbnailUrl,
-                              width: 130,
-                              height: (130 * (5 / 4)),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(
-                            height:
-                                stlyeupList[index].description != "" ? 8 : 0,
-                          ),
-                          SizedBox(
-                            height:
-                                stlyeupList[index].description != "" ? null : 0,
-                            child: Text(
-                              stlyeupList[index].description,
-                              style: FontHelper.regular_10_000000,
-                              maxLines: 4,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '${tr('product_detail.seller_feed.like')} ${stlyeupList[index].heartCnt}',
-                                style: ShownyStyle.caption(),
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                '${tr('product_detail.seller_feed.comments')} ${stlyeupList[index].commentCnt}',
-                                style: ShownyStyle.caption(),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 24),
+        FeedSectionHeader(size: size, widget: widget, stlyeupList: stlyeupList),
+        const SizedBox(height: 16),
+        // SizedBox(
+        //   width: size.width,
+        //   height: (130 * (5 / 4)) + 90,
+        //   child: ListView.separated(
+        //     scrollDirection: Axis.horizontal,
+        //     itemCount: stlyeupList.length,
+        //     separatorBuilder: (context, index) => SizedBox(width: 8.toWidth),
+        //     itemBuilder: (context, index) {
+        //       return FeedItem(
+        //         stlyeupList: stlyeupList,
+        //         index: index,
+        //       );
+        //     },
+        //   ),
+        // ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(
+              stlyeupList.length,
+              (index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: index < stlyeupList.length - 1 ? 8.toWidth : 0),
+                  child: FeedItem(
+                    stlyeupList: stlyeupList,
+                    index: index,
                   ),
                 );
               },
             ),
           ),
-        ],
+        ),
+        const SizedBox(
+          height: 56,
+        ),
+      ],
+    );
+  }
+}
+
+class FeedSectionHeader extends StatelessWidget {
+  const FeedSectionHeader({
+    super.key,
+    required this.size,
+    required this.widget,
+    required this.stlyeupList,
+  });
+
+  final Size size;
+  final ProductFeedWidget widget;
+  final List<StyleupModel> stlyeupList;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size.width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 24,
+                child: Text(
+                  "${widget.minishopProduct.userInfo!.nickNm}${tr('product_detail.seller_feed.headline')}",
+                  style: ShownyStyle.body2(
+                    color: ShownyStyle.black,
+                    weight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                if (stlyeupList.isNotEmpty) {
+                  Navigator.push(
+                      context,
+                      ShownyPageRoute(
+                        builder: (context) => StyleupScreen(
+                          isMain: false,
+                          initIndex: 0,
+                          styleupList: stlyeupList,
+                        ),
+                      ));
+                }
+              },
+              child: SizedBox(
+                height: 24,
+                child: Center(
+                  child: Text(
+                    tr('product_detail.seller_feed.see_more'),
+                    style: ShownyStyle.caption(
+                      color: Color(0xFF777777),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FeedItem extends StatelessWidget {
+  final int index;
+  const FeedItem({
+    super.key,
+    required this.stlyeupList,
+    required this.index,
+  });
+
+  final List<StyleupModel> stlyeupList;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            ShownyPageRoute(
+              builder: (context) => StyleupScreen(
+                isMain: false,
+                initIndex: index,
+                styleupList: stlyeupList,
+              ),
+            ));
+      },
+      child: Container(
+        width: 130,
+        margin: EdgeInsets.only(
+          left: index == 0 ? 16 : 0,
+          right: index == stlyeupList.length - 1 ? 16 : 0,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              child: Image.network(
+                stlyeupList[index].thumbnailUrl,
+                width: 130,
+                height: 200,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(
+              height: stlyeupList[index].description != "" ? 8 : 0,
+            ),
+            SizedBox(
+              height: stlyeupList[index].description != "" ? null : 0,
+              child: Text(
+                stlyeupList[index].description,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+                style: ShownyStyle.overline(
+                  color: black,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Text(
+                  '${tr('product_detail.seller_feed.like')} ${stlyeupList[index].heartCnt}',
+                  style: ShownyStyle.overline(
+                    color: Color(0xFF777777),
+                  ),
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  '${tr('product_detail.seller_feed.comments')} ${stlyeupList[index].commentCnt}',
+                  style: ShownyStyle.overline(
+                    color: Color(0xFF777777),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

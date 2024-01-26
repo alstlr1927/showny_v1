@@ -511,6 +511,7 @@
       "following_value": "255",
       "verification_text": "본인인증",
       "verification_value": "OK",
+      "sell_count_text": "판매중",
       "grade_text": "평점",
       "grade_value": "5.0",
       "review_text": "후기",

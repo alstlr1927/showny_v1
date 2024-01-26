@@ -36,12 +36,10 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      UserProvider userProvider =
-          Provider.of<UserProvider>(context, listen: false);
+      UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
       final user = userProvider.user;
 
-      Provider.of<StoreSearchProvider>(context, listen: false)
-          .getRecentSearchList(user.memNo);
+      Provider.of<StoreSearchProvider>(context, listen: false).getRecentSearchList(user.memNo);
       Provider.of<StoreSearchProvider>(context, listen: false).initParams();
     });
   }
@@ -55,12 +53,10 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
 
-    return Consumer<StoreSearchProvider>(
-        builder: (context, searchProvider, child) {
+    return Consumer<StoreSearchProvider>(builder: (context, searchProvider, child) {
       return GestureDetector(
         onTap: () => searchNode.unfocus(),
         child: Scaffold(
@@ -73,8 +69,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsets.only(left: 16.toWidth, right: 16.toWidth),
+                      padding: EdgeInsets.only(left: 16.toWidth, right: 16.toWidth),
                       child: Row(
                         children: [
                           Padding(
@@ -111,32 +106,23 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                       },
                                       onEditingComplete: () {
                                         searchNode.unfocus();
-                                        searchProvider.setSearchText(
-                                            searchController.text);
+                                        searchProvider.setSearchText(searchController.text);
                                         searchProvider.initPage();
                                         searchProvider.setBrandCd("");
-                                        searchProvider.getSearchList(
-                                            userProvider.user.memNo,
-                                            filterShopModel,
-                                            widget.onSelected == null ? 0 : 1);
+                                        searchProvider.getSearchList(userProvider.user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
                                       },
                                       decoration: InputDecoration(
                                         hintText: tr('search.hint'),
-                                        hintStyle: ShownyStyle.caption(
-                                            color: Color(0xff777777)),
-                                        contentPadding:
-                                            const EdgeInsets.only(left: 0),
-                                        border: const OutlineInputBorder(
-                                            borderSide: BorderSide.none),
+                                        hintStyle: ShownyStyle.caption(color: Color(0xff777777)),
+                                        contentPadding: const EdgeInsets.only(left: 0),
+                                        border: const OutlineInputBorder(borderSide: BorderSide.none),
                                       ),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8),
                                     child: Visibility(
-                                      visible:
-                                          searchController.value.text.isEmpty ==
-                                              false,
+                                      visible: searchController.value.text.isEmpty == false,
                                       child: GestureDetector(
                                         onTap: () {
                                           searchController.clear();
@@ -144,9 +130,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                         child: Container(
                                           height: 10,
                                           width: 10,
-                                          decoration: const BoxDecoration(
-                                              color: black,
-                                              shape: BoxShape.circle),
+                                          decoration: const BoxDecoration(color: black, shape: BoxShape.circle),
                                           child: const Center(
                                             child: Icon(
                                               CupertinoIcons.clear,
@@ -165,14 +149,10 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                           GestureDetector(
                             onTap: () {
                               searchNode.unfocus();
-                              searchProvider
-                                  .setSearchText(searchController.text);
+                              searchProvider.setSearchText(searchController.text);
                               searchProvider.initPage();
                               searchProvider.setBrandCd("");
-                              searchProvider.getSearchList(
-                                  userProvider.user.memNo,
-                                  filterShopModel,
-                                  widget.onSelected == null ? 0 : 1);
+                              searchProvider.getSearchList(userProvider.user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
                             },
                             child: Image.asset(
                               search,
@@ -204,10 +184,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                         padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
                         child: SizedBox(
                           width: ScreenUtil().screenWidth,
-                          child: Text(tr('search.recent_search.title'),
-                              style: ShownyStyle.body2(
-                                  color: ShownyStyle.black,
-                                  weight: FontWeight.w700)),
+                          child: Text(tr('search.recent_search.title'), style: ShownyStyle.body2(color: ShownyStyle.black, weight: FontWeight.w700)),
                         ),
                       ),
                       SizedBox(height: 18.toWidth),
@@ -222,71 +199,45 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                     color: ShownyStyle.mainPurple,
                                   ),
                                 )
-                              : searchProvider
-                                      .recentSearchList.recentSearch.isEmpty
+                              : searchProvider.recentSearchList.recentSearch.isEmpty
                                   ? Center(
                                       child: Text(
                                         tr("search.recent_search.no_recent_search"),
-                                        style: ShownyStyle.caption(
-                                            color: Color(0xff777777),
-                                            weight: FontWeight.w500),
+                                        style: ShownyStyle.caption(color: Color(0xff777777), weight: FontWeight.w500),
                                       ),
                                     )
                                   : ListView.builder(
-                                      itemCount: searchProvider
-                                          .recentSearchList.recentSearch.length,
+                                      itemCount: searchProvider.recentSearchList.recentSearch.length,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
-                                        String keyword = searchProvider
-                                            .recentSearchList
-                                            .recentSearch[index]
-                                            .keyword;
+                                        String keyword = searchProvider.recentSearchList.recentSearch[index].keyword;
 
                                         return Padding(
-                                          padding:
-                                              EdgeInsets.only(right: 8.toWidth),
+                                          padding: EdgeInsets.only(right: 8.toWidth),
                                           child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: black, width: .5),
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
+                                            decoration: BoxDecoration(border: Border.all(color: black, width: .5), borderRadius: BorderRadius.circular(8)),
                                             child: Center(
                                                 child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8, right: 8),
+                                              padding: const EdgeInsets.only(left: 8, right: 8),
                                               child: Row(
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
-                                                      searchProvider
-                                                          .setSearchText(
-                                                              keyword);
+                                                      searchProvider.setSearchText(keyword);
                                                       searchProvider.initPage();
-                                                      searchProvider
-                                                          .setBrandCd("");
-                                                      searchProvider
-                                                          .getSearchList(
-                                                              user.memNo,
-                                                              filterShopModel,
-                                                              widget.onSelected ==
-                                                                      null
-                                                                  ? 0
-                                                                  : 1);
+                                                      searchProvider.setBrandCd("");
+                                                      searchProvider.getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
                                                     },
                                                     child: Text(
                                                       keyword,
-                                                      style:
-                                                          ShownyStyle.caption(),
+                                                      style: ShownyStyle.caption(),
                                                     ),
                                                   ),
                                                   SizedBox(width: 8.toWidth),
                                                   GestureDetector(
                                                     onTap: () {},
-                                                    child: Icon(
-                                                        CupertinoIcons.clear,
-                                                        size: 12.toWidth),
+                                                    child: Icon(CupertinoIcons.clear, size: 12.toWidth),
                                                   ),
                                                 ],
                                               ),
@@ -300,10 +251,7 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                       SizedBox(height: 30.toWidth),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
-                        child: Text(tr('search.popular_search.title'),
-                            style: ShownyStyle.body2(
-                                color: ShownyStyle.black,
-                                weight: FontWeight.w700)),
+                        child: Text(tr('search.popular_search.title'), style: ShownyStyle.body2(color: ShownyStyle.black, weight: FontWeight.w700)),
                       ),
                       SizedBox(height: 10.toWidth),
                       Expanded(
@@ -317,42 +265,26 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                         color: ShownyStyle.mainPurple,
                                       ),
                                     )
-                                  : searchProvider.recentSearchList
-                                          .popularSearch.isEmpty
+                                  : searchProvider.recentSearchList.popularSearch.isEmpty
                                       ? Center(
                                           child: Text(
                                             tr("search.popular_search.no_popular_searches"),
-                                            style: ShownyStyle.caption(
-                                                color: Color(0xff777777),
-                                                weight: FontWeight.w500),
+                                            style: ShownyStyle.caption(color: Color(0xff777777), weight: FontWeight.w500),
                                           ),
                                         )
                                       : ListView.builder(
                                           shrinkWrap: true,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          itemCount: searchProvider
-                                              .recentSearchList
-                                              .popularSearch
-                                              .length,
+                                          physics: const BouncingScrollPhysics(),
+                                          itemCount: searchProvider.recentSearchList.popularSearch.length,
                                           itemBuilder: (context, index) {
-                                            var keyword = searchProvider
-                                                .recentSearchList
-                                                .popularSearch[index]
-                                                .keyword;
+                                            var keyword = searchProvider.recentSearchList.popularSearch[index].keyword;
 
                                             return GestureDetector(
                                               onTap: () {
-                                                searchProvider
-                                                    .setSearchText(keyword);
+                                                searchProvider.setSearchText(keyword);
                                                 searchProvider.initPage();
                                                 searchProvider.setBrandCd("");
-                                                searchProvider.getSearchList(
-                                                    user.memNo,
-                                                    filterShopModel,
-                                                    widget.onSelected == null
-                                                        ? 0
-                                                        : 1);
+                                                searchProvider.getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
                                               },
                                               child: Container(
                                                 height: 48,
@@ -363,24 +295,11 @@ class _StoreSearchScreenState extends State<StoreSearchScreen> {
                                                       width: 18.toWidth,
                                                       child: Text(
                                                         '${index + 1}',
-                                                        style:
-                                                            ShownyStyle.caption(
-                                                                color: Color(
-                                                                    0xff777777),
-                                                                weight:
-                                                                    FontWeight
-                                                                        .w500),
+                                                        style: ShownyStyle.caption(color: Color(0xff777777), weight: FontWeight.w500),
                                                       ),
                                                     ),
                                                     SizedBox(width: 10.toWidth),
-                                                    Text(keyword,
-                                                        style:
-                                                            ShownyStyle.caption(
-                                                                color: Color(
-                                                                    0xff777777),
-                                                                weight:
-                                                                    FontWeight
-                                                                        .w500)),
+                                                    Text(keyword, style: ShownyStyle.caption(color: Color(0xff777777), weight: FontWeight.w500)),
                                                   ],
                                                 ),
                                               ),
