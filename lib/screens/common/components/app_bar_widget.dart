@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_appbar_widget.dart';
 
@@ -33,19 +34,14 @@ class _AppBarWidget extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return RoundedAppBar(
-      icon: GestureDetector(
-        onTap: () {
-          Navigator.of(context).pop();
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Image.asset(
-            arrowBackward,
-            height: 18,
-            width: 9,
-          ),
-        ),
-      ),
+      icon: CupertinoButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: ShownyStyle.black,
+          )),
       action: [
         (widget.rightTitle != null || widget.rightImageUrl != null)
             ? CupertinoButton(

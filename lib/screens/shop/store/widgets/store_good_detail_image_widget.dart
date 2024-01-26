@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/utils/colors.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class StoreGoodDetailImageWidget extends StatefulWidget {
   final StoreGoodModel goodsData;
@@ -14,7 +15,6 @@ class StoreGoodDetailImageWidget extends StatefulWidget {
 }
 
 class _StoreGoodDetailImageWidget extends State<StoreGoodDetailImageWidget> {
-
   int currentImagePage = 0;
 
   @override
@@ -80,7 +80,10 @@ class _StoreGoodDetailImageWidget extends State<StoreGoodDetailImageWidget> {
         height: 8,
         width: 8,
         decoration: BoxDecoration(
-            shape: BoxShape.circle, color: isSelected ? black : checkBoxColor),
+            shape: BoxShape.circle,
+            color: isSelected
+                ? ShownyStyle.black
+                : ShownyStyle.black.withOpacity(.2)),
       ),
     );
   }

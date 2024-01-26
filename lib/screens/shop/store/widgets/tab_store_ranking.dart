@@ -117,9 +117,10 @@ class _TabStoreRankingState extends State<TabStoreRanking> {
               ShownyPageRoute(
                 builder: (context) => BrandSearchScreen(
                   selectBrand: (selectBrandData) {
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      moveStoreDetailWithBrand(context, selectBrandData);
-                    });
+                    moveStoreDetailWithBrand(selectBrandData);
+
+                    // Future.delayed(const Duration(milliseconds: 1000), () {
+                    // });
                   },
                 ),
               ));
@@ -204,7 +205,7 @@ class _TabStoreRankingState extends State<TabStoreRanking> {
     );
   }
 
-  void moveStoreDetailWithBrand(BuildContext context, BrandData brandData) {
+  void moveStoreDetailWithBrand(BrandData brandData) {
     Navigator.push(
       context,
       ShownyPageRoute(

@@ -136,8 +136,6 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
@@ -146,7 +144,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
         builder: (context, searchProvider, child) {
       return Column(
         children: [
-          widget.isViewMainCategory == true
+          widget.isViewMainCategory
               ? MainCategoryListWidget(
                   categoryList: mainCategoryList,
                   initIndex: widget.initMainCategory,
@@ -189,6 +187,11 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                   brandData != null
               ? StoreBrandWidget(brandData: brandData!)
               : const SizedBox(),
+          const Divider(
+            height: 1,
+            thickness: 1,
+            color: ShownyStyle.gray040,
+          ),
           SubCategoryListWidget(
             categoryList: subCategoryList,
             initSubCategoryIndex: widget.initSubCategory,
@@ -202,11 +205,9 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
           const Divider(
             height: 1,
             thickness: 1,
-            color: greyExtraLight,
+            color: ShownyStyle.gray040,
           ),
-          const SizedBox(
-            height: 14,
-          ),
+          SizedBox(height: 10.toWidth),
           SearchFilterWidget(
             iconColor: greyLight,
             filterShopModel: filterShopModel,

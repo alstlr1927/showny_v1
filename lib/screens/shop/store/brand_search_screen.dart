@@ -10,7 +10,6 @@ import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
-import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_appbar_widget.dart';
 import 'package:showny/widgets/shoping_emptyBasket_widget.dart';
 
@@ -30,6 +29,7 @@ class BrandSearchScreen extends StatefulWidget {
 
 class _BrandSearchScreen extends State<BrandSearchScreen> {
   final TextEditingController searchController = TextEditingController();
+  FocusNode searchNode = FocusNode();
 
   @override
   void initState() {
@@ -48,6 +48,13 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
   }
 
   @override
+  void dispose() {
+    searchController.dispose();
+    searchNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
@@ -55,170 +62,166 @@ class _BrandSearchScreen extends State<BrandSearchScreen> {
 
     return Consumer<SearchBrandProvider>(
         builder: (context, searchProvider, child) {
-      return Scaffold(
-        backgroundColor: white,
-        appBar: RoundedAppBar(
-          bgColor: white,
-          action: [
-            SizedBox(
-              width: ScreenUtil().screenWidth,
-              child: Column(
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.only(left: 16.toWidth, right: 16.toWidth),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: CupertinoButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            minSize: 0.0,
-                            padding: EdgeInsets.zero,
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: ShownyStyle.black,
+      return GestureDetector(
+        onTap: () {
+          searchNode.unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: white,
+          appBar: RoundedAppBar(
+            bgColor: white,
+            action: [
+              SizedBox(
+                width: ScreenUtil().screenWidth,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.only(left: 16.toWidth, right: 16.toWidth),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: CupertinoButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              minSize: 0.0,
+                              padding: EdgeInsets.zero,
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: ShownyStyle.black,
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            height: 48,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: TextField(
-                                    style: ShownyStyle.caption(),
-                                    controller: searchController,
-                                    onChanged: (value) {
-                                      setState(() {});
-                                    },
-                                    onEditingComplete: () {
-                                      searchProvider.getBrandSearch(
-                                          user.memNo, searchController.text);
-                                    },
-                                    decoration: InputDecoration(
-                                      hintText: tr('search.hint'),
-                                      hintStyle: ShownyStyle.caption(
-                                          color: Color(0xff777777)),
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 0),
-                                      border: const OutlineInputBorder(
-                                          borderSide: BorderSide.none),
+                          Expanded(
+                            child: SizedBox(
+                              height: 48,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      style: ShownyStyle.caption(),
+                                      controller: searchController,
+                                      focusNode: searchNode,
+                                      onChanged: (value) {
+                                        setState(() {});
+                                      },
+                                      onEditingComplete: () {
+                                        searchProvider.getBrandSearch(
+                                            user.memNo, searchController.text);
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: tr('search.hint'),
+                                        hintStyle: ShownyStyle.caption(
+                                            color: Color(0xff777777)),
+                                        contentPadding:
+                                            const EdgeInsets.only(left: 0),
+                                        border: const OutlineInputBorder(
+                                            borderSide: BorderSide.none),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Visibility(
-                                    visible:
-                                        searchController.value.text.isEmpty ==
-                                            false,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        searchController.clear();
-                                      },
-                                      child: Container(
-                                        height: 10,
-                                        width: 10,
-                                        decoration: const BoxDecoration(
-                                            color: black,
-                                            shape: BoxShape.circle),
-                                        child: const Center(
-                                          child: Icon(
-                                            CupertinoIcons.clear,
-                                            color: white,
-                                            size: 7.5,
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Visibility(
+                                      visible:
+                                          searchController.value.text.isEmpty ==
+                                              false,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          searchController.clear();
+                                        },
+                                        child: Container(
+                                          height: 10,
+                                          width: 10,
+                                          decoration: const BoxDecoration(
+                                              color: black,
+                                              shape: BoxShape.circle),
+                                          child: const Center(
+                                            child: Icon(
+                                              CupertinoIcons.clear,
+                                              color: white,
+                                              size: 7.5,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            searchProvider.getBrandSearch(
-                              user.memNo,
-                              searchController.text,
-                            );
-                          },
-                          child: Image.asset(
-                            search,
-                            width: 24.toWidth,
-                            height: 24.toWidth,
+                          GestureDetector(
+                            onTap: () {
+                              searchProvider.getBrandSearch(
+                                user.memNo,
+                                searchController.text,
+                              );
+                            },
+                            child: Image.asset(
+                              search,
+                              width: 24.toWidth,
+                              height: 24.toWidth,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: Colors.black,
-                  )
-                ],
-              ),
-            )
-          ],
-          shadow: 0,
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 23),
-                    Text(
-                      tr("brand.brand_list"),
-                      style: themeData().textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 23),
-                    Expanded(
-                      child: searchProvider.getIsBrandSearchLoading()
-                          ? Center(
-                              child: ShownyIndicator(
-                                radius: 15,
-                                color: ShownyStyle.mainPurple,
-                              ),
-                            )
-                          : searchProvider.brandResponse!.data.isEmpty
-                              ? ShoppingEmptyBasketWidget(
-                                  emptyMessage: tr('empty_errors.no_brands'))
-                              : GridView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    childAspectRatio: 80 / 95,
-                                  ),
-                                  itemCount:
-                                      searchProvider.brandResponse!.data.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return _BrandGridItem(
-                                      brandData: searchProvider
-                                          .brandResponse!.data[index],
-                                      selectBrand: widget.selectBrand,
-                                    );
-                                  },
-                                ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
+              )
+            ],
+            shadow: 0,
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 22.toWidth),
+                      Expanded(
+                        child: searchProvider.getIsBrandSearchLoading()
+                            ? Center(
+                                child: ShownyIndicator(
+                                  radius: 15,
+                                  color: ShownyStyle.mainPurple,
+                                ),
+                              )
+                            : searchProvider.brandResponse!.data.isEmpty
+                                ? ShoppingEmptyBasketWidget(
+                                    emptyMessage: tr('empty_errors.no_brands'))
+                                : GridView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      childAspectRatio: 80 / 95,
+                                    ),
+                                    itemCount: searchProvider
+                                        .brandResponse!.data.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return _BrandGridItem(
+                                        brandData: searchProvider
+                                            .brandResponse!.data[index],
+                                        selectBrand: widget.selectBrand,
+                                      );
+                                    },
+                                  ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });
@@ -237,8 +240,10 @@ class _BrandGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseButton(
-      onPressed: () {
-        selectBrand!(brandData);
+      onPressed: () async {
+        Navigator.of(context).maybePop().then((value) {
+          selectBrand!(brandData);
+        });
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

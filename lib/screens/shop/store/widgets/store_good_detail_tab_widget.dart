@@ -4,6 +4,8 @@ import 'package:showny/helper/font_helper.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/utils/showny_style.dart';
 
+double _kProductDetailTabHeight = 40.0;
+
 class StoreGoodDetailTabWidget extends StatefulWidget {
   final StoreGoodModel goodsData;
   final int tabIndex;
@@ -34,7 +36,7 @@ class _StoreGoodDetailTabWidget extends State<StoreGoodDetailTabWidget> {
       children: [
         SizedBox(
           width: size.width,
-          height: 40,
+          height: _kProductDetailTabHeight,
           child: Row(
             children: [
               tab(0, tr("store.details.product_description"), () {

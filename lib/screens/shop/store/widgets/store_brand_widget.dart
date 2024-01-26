@@ -1,7 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/showny_image/showny_image.dart';
+import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/models/brand_search_model.dart';
-import 'package:showny/utils/colors.dart';
-import 'package:showny/utils/theme.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
+
+import '../../../../utils/colors.dart';
 
 class StoreBrandWidget extends StatefulWidget {
   final BrandData brandData;
@@ -20,9 +25,7 @@ class _StoreBrandWidget extends State<StoreBrandWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SizedBox(
-      height: 60,
+    return Container(
       child: GestureDetector(
           onTap: () {},
           child: Column(
@@ -35,20 +38,24 @@ class _StoreBrandWidget extends State<StoreBrandWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      height: 40,
-                      width: 40,
+                      height: 40.toWidth,
+                      width: 40.toWidth,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: greyExtraLight,
-                          image: DecorationImage(
-                              image: NetworkImage(widget.brandData.brandImgUrl),
-                              fit: BoxFit.contain)),
+                        shape: BoxShape.circle,
+                        color: ShownyStyle.white,
+                        boxShadow: ShownyStyle.elevation_01dp(),
+                        image: DecorationImage(
+                          image: NetworkImage(widget.brandData.brandImgUrl),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(widget.brandData.cateNm,
-                        style: themeData().textTheme.titleMedium)
+                    SizedBox(width: 8.toWidth),
+                    Text(
+                      widget.brandData.cateNm,
+                      style: ShownyStyle.body2(
+                          color: ShownyStyle.black, weight: FontWeight.w700),
+                    )
                   ],
                 ),
               ),

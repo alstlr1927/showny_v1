@@ -27,9 +27,9 @@ class _TabStoreHomeState extends State<TabStoreHome> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20.toWidth),
+                SizedBox(height: 0.toWidth),
                 _buildGenderTab(),
-                SizedBox(height: 20.toWidth),
+                SizedBox(height: 10.toWidth),
                 const BannerSliderWidget(index: 1),
                 SizedBox(height: 30.toWidth),
                 const StoreHomeProductsWidget(),
@@ -59,7 +59,10 @@ class _TabStoreHomeState extends State<TabStoreHome> {
             },
             child: Text(
               'WOMAN',
-              style: ShownyStyle.body2(weight: FontWeight.w500),
+              style: ShownyStyle.caption(
+                color: ShownyStyle.gray070,
+                weight: FontWeight.w500,
+              ),
             ),
           ),
           SizedBox(width: 16.toWidth),
@@ -76,7 +79,10 @@ class _TabStoreHomeState extends State<TabStoreHome> {
             },
             child: Text(
               'MAN',
-              style: ShownyStyle.body2(weight: FontWeight.w500),
+              style: ShownyStyle.caption(
+                color: ShownyStyle.gray070,
+                weight: FontWeight.w500,
+              ),
             ),
           )
         ],

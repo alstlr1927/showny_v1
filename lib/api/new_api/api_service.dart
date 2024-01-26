@@ -381,27 +381,46 @@ class ApiService {
 
     var data = {'memNo': '$memNo', 'orderNo': '$orderNo'};
 
-    try {
-      var response = await dio.request(
-        url,
-        options: Options(
-          method: 'POST',
-          headers: headers,
-        ),
-        data: data,
-      );
+    var response = await dio.request(
+      url,
+      options: Options(
+        method: 'POST',
+        headers: headers,
+      ),
+      data: data,
+    );
 
-      if (response.statusCode == 200) {
-        log("SUCCESS MY SHOPPING :: ${response.data}");
-        return GetMyShoppingResponseModel.fromJson(response.data);
-      } else {
-        log("Failed to load data from the server");
-        return null;
-      }
-    } catch (e) {
-      log("Error: $e");
+    if (response.statusCode == 200) {
+      ShownyLog().i("SUCCESS MY SHOPPING :: ${response.data}");
+
+      return GetMyShoppingResponseModel.fromJson(response.data);
+    } else {
+      ShownyLog().e("Failed to load data from the server");
       return null;
     }
+
+    // try {
+    //   var response = await dio.request(
+    //     url,
+    //     options: Options(
+    //       method: 'POST',
+    //       headers: headers,
+    //     ),
+    //     data: data,
+    //   );
+
+    //   if (response.statusCode == 200) {
+    //     ShownyLog().i("SUCCESS MY SHOPPING :: ${response.data}");
+
+    //     return GetMyShoppingResponseModel.fromJson(response.data);
+    //   } else {
+    //     ShownyLog().e("Failed to load data from the server");
+    //     return null;
+    //   }
+    // } catch (e) {
+    //   ShownyLog().e("Error: $e");
+    //   return null;
+    // }
   }
 
   Future<GetProfileResponseModel?> getProfileApi({

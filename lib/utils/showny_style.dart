@@ -127,7 +127,7 @@ class ShownyStyle {
   static TextStyle title({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(28),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 41 / 28,
         leadingDistribution: TextLeadingDistribution.even,
@@ -137,7 +137,7 @@ class ShownyStyle {
   static TextStyle h1({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(48),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         leadingDistribution: TextLeadingDistribution.even,
         fontFamily: 'pretendard');
@@ -146,7 +146,7 @@ class ShownyStyle {
   static TextStyle h2({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(34),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 50 / 34,
         leadingDistribution: TextLeadingDistribution.even,
@@ -156,7 +156,7 @@ class ShownyStyle {
   static TextStyle h3({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(24),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 36 / 24,
         leadingDistribution: TextLeadingDistribution.even,
@@ -166,7 +166,7 @@ class ShownyStyle {
   static TextStyle h4({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(20),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 29 / 20,
         leadingDistribution: TextLeadingDistribution.even,
@@ -176,7 +176,7 @@ class ShownyStyle {
   static TextStyle h5({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(18),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 27 / 18,
         leadingDistribution: TextLeadingDistribution.even,
@@ -186,7 +186,7 @@ class ShownyStyle {
   static TextStyle body1({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(16),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 24 / 16,
         leadingDistribution: TextLeadingDistribution.even,
@@ -196,7 +196,7 @@ class ShownyStyle {
   static TextStyle body2({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(14),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 20 / 14,
         leadingDistribution: TextLeadingDistribution.even,
@@ -206,7 +206,7 @@ class ShownyStyle {
   static TextStyle caption({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(12),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 18 / 12,
         leadingDistribution: TextLeadingDistribution.even,
@@ -216,7 +216,7 @@ class ShownyStyle {
   static TextStyle overline({Color? color, FontWeight? weight}) {
     return TextStyle(
         fontSize: ScreenUtil().setSp(10),
-        color: color ?? const Color(0xff333333),
+        color: color ?? ShownyStyle.black,
         fontWeight: weight ?? FontWeight.normal,
         height: 15 / 10,
         leadingDistribution: TextLeadingDistribution.even,

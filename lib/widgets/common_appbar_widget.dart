@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class RoundedAppBar extends AppBar {
   final Widget? icon;
@@ -26,10 +27,8 @@ class RoundedAppBar extends AppBar {
           title: titleText != null
               ? Text(
                   titleText,
-                  style: TextStyle(
-                      color: textColor,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14),
+                  style: ShownyStyle.body2(
+                      color: ShownyStyle.black, weight: FontWeight.w600),
                 )
               : null,
           elevation: shadow,

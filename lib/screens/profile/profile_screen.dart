@@ -21,7 +21,6 @@ import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dar
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import '../../models/user_model.dart';
-import '../../utils/images.dart';
 import '../tabs/profile/profile_tab_button.dart';
 
 class ProfileScreen extends StatefulWidget {

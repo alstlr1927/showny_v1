@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class SubCategoryListWidget extends StatefulWidget {
   final int? initSubCategoryIndex;
@@ -48,12 +49,17 @@ class _SubCategoryListWidget extends State<SubCategoryListWidget> {
               widget.onSelectCategory(index);
             },
             child: SizedBox(
-                width: 64,
-                child: Center(
-                    child: Text(widget.categoryList[index],
-                        style: selectedIndex == index
-                            ? FontHelper.bold_12_000000
-                            : ShownyStyle.caption()))),
+              width: 60.toWidth,
+              child: Center(
+                child: Text(
+                  widget.categoryList[index],
+                  style: selectedIndex == index
+                      ? ShownyStyle.caption(
+                          color: ShownyStyle.black, weight: FontWeight.w700)
+                      : ShownyStyle.caption(color: Color(0xff777777)),
+                ),
+              ),
+            ),
           );
         },
       ),

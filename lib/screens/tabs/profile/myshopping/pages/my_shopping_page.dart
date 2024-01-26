@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:photo_manager/photo_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/providers/user_model_provider.dart';
@@ -82,160 +80,11 @@ class _MyShoppingPageState extends State<MyShoppingPage> {
                     ),
                   ),
                   SizedBox(height: 18.toWidth),
-                  _buildPointCouponArea(),
-                  _buildOrderStateArea(getProfileProvider
-                      .getMyShoppingResponseModel!.data!.first),
+                  _buildPointCouponArea(
+                      getProfileProvider.getMyShoppingResponseModel!.data!),
+                  _buildOrderStateArea(
+                      getProfileProvider.getMyShoppingResponseModel!.data!),
                   _divider(),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    height: 110,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          width: 24,
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    getProfileProvider
-                                            .getMyShoppingResponseModel!
-                                            .data![0]
-                                            .chargeCnt ??
-                                        "0",
-                                    style: FontHelper.light_14_000000,
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    tr("my_shopping.payment"),
-                                    style: FontHelper.regualr_12_000000,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    getProfileProvider
-                                            .getMyShoppingResponseModel!
-                                            .data![0]
-                                            .point ??
-                                        "0",
-                                    style: FontHelper.light_14_000000,
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    tr("my_shopping.point"),
-                                    style: FontHelper.regualr_12_000000,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Navigator.push(
-                                //     context,
-                                //     PageRouteBuilderRightLeft(
-                                //         child: OrderListScreen()));
-                              },
-                              child: Container(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      getProfileProvider
-                                              .getMyShoppingResponseModel!
-                                              .data![0]
-                                              .deliveryCnt ??
-                                          "",
-                                      style: FontHelper.light_14_000000,
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Text(
-                                      tr("my_shopping.delivery_progress"),
-                                      style: FontHelper.regualr_12_000000,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 12,
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  getProfileProvider.getMyShoppingResponseModel!
-                                          .data![0].couponCnt ??
-                                      "",
-                                  style: FontHelper.light_14_000000,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  tr("my_shopping.coupen"),
-                                  style: FontHelper.regualr_12_000000,
-                                ),
-                              ],
-                            ),
-                          ],
-                        )),
-                        Expanded(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  getProfileProvider.getMyShoppingResponseModel!
-                                          .data![0].confirmedCnt ??
-                                      "0",
-                                  style: FontHelper.light_14_000000,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  tr("my_shopping.purchase_conformation"),
-                                  style: FontHelper.regualr_12_000000,
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
-                                const Text(""),
-                                const SizedBox(
-                                  height: 0,
-                                ),
-                                Text(tr("")),
-                              ],
-                            ),
-                          ],
-                        )),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                      ],
-                    ),
-                  ),
                   const SizedBox(
                     height: 12,
                   ),
@@ -394,7 +243,7 @@ class _MyShoppingPageState extends State<MyShoppingPage> {
     );
   }
 
-  Widget _buildPointCouponArea() {
+  Widget _buildPointCouponArea(Data myShopping) {
     return Container(
       width: ScreenUtil().screenWidth,
       padding: EdgeInsets.fromLTRB(25.toWidth, 10.toWidth, 0, 10.toWidth),
@@ -418,7 +267,7 @@ class _MyShoppingPageState extends State<MyShoppingPage> {
                     ),
                     const Spacer(),
                     Text(
-                      '8407 P',
+                      '${myShopping.point} P',
                       style: ShownyStyle.overline(
                           color: ShownyStyle.white, weight: FontWeight.w700),
                     ),
@@ -441,7 +290,7 @@ class _MyShoppingPageState extends State<MyShoppingPage> {
                     ),
                     const Spacer(),
                     Text(
-                      '15',
+                      '${myShopping.couponCnt}',
                       style: ShownyStyle.overline(
                           color: ShownyStyle.white, weight: FontWeight.w700),
                     ),

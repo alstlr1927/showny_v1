@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:showny/models/filter_shop_model.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
 
@@ -33,9 +34,8 @@ class SearchFilterWidget extends StatefulWidget {
 class _SearchFilterWidgetState extends State<SearchFilterWidget> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
       child: GestureDetector(
         onTap: () {
           showStoreFilterBottomSheet(context, widget.filterShopModel,
@@ -43,209 +43,75 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
         },
         child: Consumer<StoreSearchProvider>(
             builder: (BuildContext context, provider, Widget? child) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset(
-                  filter,
-                  height: 20.toWidth,
-                  width: 20.toWidth,
-                ),
-                SizedBox(width: 12.toWidth),
-                Container(
-                  width: 64,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: widget.filterShopModel.minPrice != null ||
-                            widget.filterShopModel.maxPrice != null
-                        ? black
-                        : white,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: widget.filterShopModel.minPrice != null ||
-                              widget.filterShopModel.maxPrice != null
-                          ? black
-                          : greyLight.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Center(
-                      child: Text(
-                    tr('store.filter.options.price'),
-                    style: themeData().textTheme.bodySmall?.apply(
-                        color: widget.filterShopModel.minPrice != null ||
-                                widget.filterShopModel.maxPrice != null
-                            ? white
-                            : greyLight),
-                  )),
-                ),
-                SizedBox(
-                  width: size.width * 0.04,
-                ),
-                Container(
-                  width: 64,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: widget.filterShopModel.styleIdList != null
-                        ? widget.filterShopModel.styleIdList!.isNotEmpty
-                            ? black
-                            : white
-                        : white,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: widget.filterShopModel.styleIdList != null
-                          ? widget.filterShopModel.styleIdList!.isNotEmpty
-                              ? black
-                              : greyLight.withOpacity(0.3)
-                          : greyLight.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Center(
-                      child: Text(
-                    tr('store.filter.options.style'),
-                    style: themeData().textTheme.bodySmall?.apply(
-                        color: widget.filterShopModel.styleIdList != null
-                            ? widget.filterShopModel.styleIdList!.isNotEmpty
-                                ? white
-                                : greyLight
-                            : greyLight),
-                  )),
-                ),
-                SizedBox(
-                  width: size.width * 0.04,
-                ),
-                Container(
-                  width: 64,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: widget.filterShopModel.fitIdList != null
-                        ? widget.filterShopModel.fitIdList!.isNotEmpty
-                            ? black
-                            : white
-                        : white,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: widget.filterShopModel.fitIdList != null
-                          ? widget.filterShopModel.fitIdList!.isNotEmpty
-                              ? black
-                              : greyLight.withOpacity(0.3)
-                          : greyLight.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Center(
-                      child: Text(
-                    tr('store.filter.options.fit'),
-                    style: themeData().textTheme.bodySmall?.apply(
-                        color: widget.filterShopModel.fitIdList != null
-                            ? widget.filterShopModel.fitIdList!.isNotEmpty
-                                ? white
-                                : greyLight
-                            : greyLight),
-                  )),
-                ),
-                SizedBox(
-                  width: size.width * 0.04,
-                ),
-                Container(
-                  width: 64,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: widget.filterShopModel.materialIdList != null
-                        ? widget.filterShopModel.materialIdList!.isNotEmpty
-                            ? black
-                            : white
-                        : white,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: widget.filterShopModel.materialIdList != null
-                          ? widget.filterShopModel.materialIdList!.isNotEmpty
-                              ? black
-                              : greyLight.withOpacity(0.3)
-                          : greyLight.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Center(
-                      child: Text(
-                    tr('store.filter.options.main_material'),
-                    style: themeData().textTheme.bodySmall?.apply(
-                        color: widget.filterShopModel.materialIdList != null
-                            ? widget.filterShopModel.materialIdList!.isNotEmpty
-                                ? white
-                                : greyLight
-                            : greyLight),
-                  )),
-                ),
-                SizedBox(
-                  width: size.width * 0.04,
-                ),
-                Container(
-                  width: 64,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color:
-                        widget.filterShopModel.flexibility == 0 ? black : white,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: widget.filterShopModel.flexibility == 0
-                          ? black
-                          : greyLight.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      tr('store.filter.options.flexibility'),
-                      style: themeData().textTheme.bodySmall?.apply(
-                          color: widget.filterShopModel.flexibility == 0
-                              ? white
-                              : greyLight),
-                    ),
+          return Row(
+            children: [
+              Image.asset(
+                filter,
+                height: 18.toWidth,
+                width: 18.toWidth,
+              ),
+              SizedBox(width: 12.toWidth),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      _filterItem(
+                          title: tr('store.filter.options.price'),
+                          isFocus: widget.filterShopModel.minPrice != null ||
+                              widget.filterShopModel.maxPrice != null),
+                      SizedBox(width: 8.toWidth),
+                      _filterItem(
+                          title: tr('store.filter.options.style'),
+                          isFocus:
+                              widget.filterShopModel.styleIdList.isNotEmpty),
+                      SizedBox(width: 8.toWidth),
+                      _filterItem(
+                          title: tr('store.filter.options.fit'),
+                          isFocus: widget.filterShopModel.fitIdList.isNotEmpty),
+                      SizedBox(width: 8.toWidth),
+                      _filterItem(
+                          title: tr('store.filter.options.main_material'),
+                          isFocus:
+                              widget.filterShopModel.materialIdList.isNotEmpty),
+                      SizedBox(width: 8.toWidth),
+                      _filterItem(
+                          title: tr('store.filter.options.flexibility'),
+                          isFocus: widget.filterShopModel.flexibility == 0),
+                      SizedBox(width: 8.toWidth),
+                      _filterItem(
+                          title: tr('store.filter.options.color'),
+                          isFocus: widget.filterShopModel.colorList.isNotEmpty),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  width: size.width * 0.04,
-                ),
-                Container(
-                  width: 64,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: widget.filterShopModel.colorList != null
-                        ? widget.filterShopModel.colorList!.isNotEmpty
-                            ? black
-                            : white
-                        : white,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: widget.filterShopModel.colorList != null
-                          ? widget.filterShopModel.colorList!.isNotEmpty
-                              ? black
-                              : greyLight.withOpacity(0.3)
-                          : greyLight.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      tr('store.filter.options.color'),
-                      style: themeData().textTheme.bodySmall?.apply(
-                          color: widget.filterShopModel.colorList != null
-                              ? widget.filterShopModel.colorList!.isNotEmpty
-                                  ? white
-                                  : greyLight
-                              : greyLight),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           );
         }),
       ),
+    );
+  }
+
+  Widget _filterItem({required String title, required bool isFocus}) {
+    return Container(
+      width: 64.toWidth,
+      height: 24.toWidth,
+      decoration: BoxDecoration(
+        color: isFocus ? ShownyStyle.mainPurple : ShownyStyle.white,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(
+          color: isFocus ? ShownyStyle.mainPurple : greyLight.withOpacity(.3),
+          width: 1,
+        ),
+      ),
+      child: Center(
+          child: Text(
+        title,
+        style: ShownyStyle.caption(
+            color: isFocus ? ShownyStyle.white : Color(0xff777777)),
+      )),
     );
   }
 }

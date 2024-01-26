@@ -1,11 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/page_route.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/models/brand_search_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/widgets/common_appbar_widget.dart';
 
 import '../../profile/profile_screen.dart';
@@ -61,37 +65,33 @@ class _StoreGoodsListScreen extends State<StoreGoodsListScreen> {
       appBar: RoundedAppBar(
         bgColor: white,
         shadow: 0,
-        icon: Padding(
-          padding: const EdgeInsets.all(16),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Image.asset(
-              arrowBackward,
-            ),
+        icon: CupertinoButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: ShownyStyle.black,
           ),
         ),
         titleText: tr("mini_shop.tabs.store"),
         center: true,
         action: [
-          Padding(
-              padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
-              child: GestureDetector(
-                onTap: () {
+          Row(
+            children: [
+              BaseButton(
+                onPressed: () {
                   Navigator.push(
                       context,
                       ShownyPageRoute(
                         builder: (context) => StoreSearchScreen(),
                       ));
                 },
-                child: Image.asset(search),
-              )),
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, top: 16, bottom: 16, right: 16),
-              child: GestureDetector(
-                onTap: () {
+                child: Image.asset(search, width: 24.toWidth),
+              ),
+              SizedBox(width: 12.toWidth),
+              BaseButton(
+                onPressed: () {
                   ProfilePageCategory? category =
                       ProfilePageCategory.myShopping;
                   Navigator.push(
@@ -103,17 +103,25 @@ class _StoreGoodsListScreen extends State<StoreGoodsListScreen> {
                     ),
                   );
                 },
-                child: Image.asset(shopBag),
-              )),
+                child: Image.asset(
+                  'assets/icons/profile/shopping_list.png',
+                  width: 24.toWidth,
+                ),
+              ),
+              SizedBox(width: 16.toWidth),
+            ],
+          ),
         ],
       ),
       body: SafeArea(
-          child: StoreSearchResultScreen(
-        isViewMainCategory: true,
-        initMainCategory: widget.mainCategory,
-        initSubCategory: widget.subCategory,
-        initBrand: widget.brandData,
-      )),
+        bottom: false,
+        child: StoreSearchResultScreen(
+          isViewMainCategory: true,
+          initMainCategory: widget.mainCategory,
+          initSubCategory: widget.subCategory,
+          initBrand: widget.brandData,
+        ),
+      ),
     );
   }
 }
