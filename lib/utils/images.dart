@@ -60,6 +60,9 @@ const String closeIcon = "assets/images/closeIcon.png";
 const String unselectedHeartIcon = "assets/images/unselectedHeartIcon.png";
 const String heartSelectedIcon = "assets/images/heartSelectedIcon.png";
 
+const String heartSelected = "assets/icons/shop/like_fill_icon.png";
+const String heartUnselected = "assets/icons/shop/like_icon.png";
+
 //Product Details
 const String tshirtSample = "assets/images/product_12.png";
 const String saturIcon = "assets/images/product_13.png";

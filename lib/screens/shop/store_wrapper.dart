@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/screens/shop/mini_shop/mini_shop_screen.dart';
+import 'package:showny/screens/shop/mini_shop/mini_shop_search_screen.dart';
 import 'package:showny/screens/shop/providers/store_wrapper_provider.dart';
 import 'package:showny/screens/shop/store/store_screen.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
+import '../../components/page_route.dart';
 import 'store/store_search_page_screen.dart';
 
 class StoreWrapper extends StatefulWidget {
@@ -17,8 +19,7 @@ class StoreWrapper extends StatefulWidget {
   State<StoreWrapper> createState() => _StoreWrapperState();
 }
 
-class _StoreWrapperState extends State<StoreWrapper>
-    with TickerProviderStateMixin {
+class _StoreWrapperState extends State<StoreWrapper> with TickerProviderStateMixin {
   late StoreWrapperProvider provider;
 
   @override
@@ -100,6 +101,11 @@ class _StoreWrapperState extends State<StoreWrapper>
                     ));
               } else if (prov.currentIdx == 1) {
                 // minishop search
+                Navigator.push(
+                    context,
+                    ShownyPageRoute(
+                      builder: (context) => const MinishopSearchScreen(),
+                    ));
               }
             },
             minSize: 0,
@@ -120,8 +126,7 @@ class _StoreWrapperState extends State<StoreWrapper>
     TextStyle style = TextStyle();
 
     if (isSelect) {
-      style =
-          ShownyStyle.body2(color: ShownyStyle.black, weight: FontWeight.w700);
+      style = ShownyStyle.body2(color: ShownyStyle.black, weight: FontWeight.w700);
     } else {
       style = ShownyStyle.caption(color: ShownyStyle.black.withOpacity(.5));
     }

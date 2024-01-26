@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:showny/components/showny_image/showny_image.dart';
-import 'package:showny/utils/formatter.dart';
 import 'package:showny/utils/showny_style.dart';
-import 'package:showny/utils/showny_util.dart';
 
 class MyShopGridItem extends StatefulWidget {
   const MyShopGridItem({
@@ -26,7 +24,7 @@ class MyShopGridItem extends StatefulWidget {
 class _MyShopGridItemState extends State<MyShopGridItem> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: widget.onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,40 +51,66 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
             //   ),
             // ),
           ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 8.toWidth),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       const SizedBox(height: 8),
+          //       Text(
+          //         widget.brandName.isEmpty ? '-' : widget.brandName,
+          //         style: ShownyStyle.overline(
+          //           color: Color(0xFF777777),
+          //           weight: FontWeight.w700,
+          //         ),
+          //         maxLines: 1,
+          //         overflow: TextOverflow.ellipsis,
+          //       ),
+          //       const SizedBox(
+          //         height: 6,
+          //       ),
+          //       Container(
+          //         constraints: BoxConstraints(minHeight: 40.toWidth),
+          //         child: Text(
+          //           widget.title.isEmpty ? '-' : widget.title,
+          //           style: ShownyStyle.caption(
+          //             color: Colors.black,
+          //             weight: FontWeight.w500,
+          //           ),
+          //           maxLines: 2,
+          //           overflow: TextOverflow.ellipsis,
+          //         ),
+          //       ),
+          //       const SizedBox(
+          //         height: 0,
+          //       ),
+          //       Text(
+          //         widget.price,
+          //         style: ShownyStyle.caption(
+          //           color: Colors.black,
+          //           weight: FontWeight.w700,
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.toWidth),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  widget.brandName.isEmpty ? '-' : widget.brandName,
-                  style: ShownyStyle.overline(
-                    color: Color(0xFF777777),
-                    weight: FontWeight.w700,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                Container(
-                  constraints: BoxConstraints(minHeight: 40.toWidth),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     widget.title.isEmpty ? '-' : widget.title,
-                    style: ShownyStyle.caption(
-                      color: Colors.black,
-                      weight: FontWeight.w500,
-                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
+                    style: ShownyStyle.caption(
+                      color: Colors.black,
+                      weight: FontWeight.w400,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 0,
                 ),
                 Text(
                   widget.price,
@@ -97,7 +121,7 @@ class _MyShopGridItemState extends State<MyShopGridItem> {
                 )
               ],
             ),
-          ),
+          )
         ],
       ),
     );

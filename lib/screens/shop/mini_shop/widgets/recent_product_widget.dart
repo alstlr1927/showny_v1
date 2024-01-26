@@ -25,29 +25,29 @@ class _RecentProductWidgetState extends State<RecentProductWidget> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer<MiniShopProductsProvider>(
-        builder: (context, provider, child) {
+    return Consumer<MiniShopProductsProvider>(builder: (context, provider, child) {
       return Padding(
         padding: const EdgeInsets.only(left: 16),
         child: provider.getRecentViewProductList().isNotEmpty
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(tr('mini_shop.recently_viewed_products'),
-                      style: themeData().textTheme.labelSmall),
+                  Text(
+                    tr('mini_shop.recently_viewed_products'),
+                    style: themeData().textTheme.labelSmall,
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
                   SizedBox(
                     width: size.width,
-                    height: 125,
+                    height: 129,
                     child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemCount: provider.getRecentViewProductList().length,
                       itemBuilder: (context, index) {
-                        var product =
-                            provider.getRecentViewProductList()[index];
+                        var product = provider.getRecentViewProductList()[index];
 
                         return Padding(
                           padding: const EdgeInsets.only(right: 8),
@@ -74,10 +74,7 @@ class _RecentProductWidgetState extends State<RecentProductWidget> {
                                       child: FittedBox(
                                         fit: BoxFit.cover,
                                         child: Image.network(
-                                          widget.filterMinishopModel.isWear ==
-                                                  false
-                                              ? product.productImageUrlList[0]
-                                              : product.wearImageUrlList[0],
+                                          widget.filterMinishopModel.isWear == false ? product.productImageUrlList[0] : product.wearImageUrlList[0],
                                         ),
                                       ),
                                     ),
@@ -85,22 +82,11 @@ class _RecentProductWidgetState extends State<RecentProductWidget> {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Text(product.name,
-                                      style: themeData()
-                                          .textTheme
-                                          .labelSmall
-                                          ?.copyWith(fontSize: 10),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis),
+                                  Text(product.name, style: themeData().textTheme.labelSmall?.copyWith(fontSize: 10), maxLines: 2, overflow: TextOverflow.ellipsis),
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Text("${product.price.formatPrice()} 원",
-                                      style: themeData()
-                                          .textTheme
-                                          .labelSmall
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w700)),
+                                  Text("${product.price.formatPrice()} 원", style: themeData().textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w700)),
                                 ],
                               ),
                             ),

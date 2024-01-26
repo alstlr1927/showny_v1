@@ -33,20 +33,16 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
   // ];
 
   getBanner() {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
-    Provider.of<MiniShopBannerProvider>(context, listen: false)
-        .getBannerList(user.memId, "0");
+    Provider.of<MiniShopBannerProvider>(context, listen: false).getBannerList(user.memId, "0");
   }
 
   getMiniShopBanner() {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
 
-    Provider.of<MiniShopBannerProvider>(context, listen: false)
-        .getMiniShopBannerData(user.memId, "0");
+    Provider.of<MiniShopBannerProvider>(context, listen: false).getMiniShopBannerData(user.memId, "0");
   }
 
   @override
@@ -68,10 +64,7 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
           CarouselSlider.builder(
             itemCount:
                 // image.length,
-                widget.index == 0
-                    ? (bannerProvider.getBannerMiniShopModel?.data ?? []).length
-                    : (bannerProvider.getBannerListResponseModel?.data ?? [])
-                        .length,
+                widget.index == 0 ? (bannerProvider.getBannerMiniShopModel?.data ?? []).length : (bannerProvider.getBannerListResponseModel?.data ?? []).length,
             itemBuilder: (context, index, realIndex) {
               return
                   // Image.asset(image[index]);
@@ -100,9 +93,7 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
                             )
                           : Center(
                               child: Image.network(
-                                bannerProvider.getBannerListResponseModel!
-                                    .data![index].bannerImg
-                                    .toString(),
+                                bannerProvider.getBannerListResponseModel!.data![index].bannerImg.toString(),
                                 fit: BoxFit.fitWidth,
                                 width: size.width,
                                 height: size.height,
@@ -136,8 +127,7 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
                 children: [
                   Text(
                     '$currentIndex',
-                    style:
-                        themeData().textTheme.bodySmall!.copyWith(color: white),
+                    style: themeData().textTheme.bodySmall!.copyWith(color: white),
                   ),
                   // Text(
                   //   ' / ${image.length}',
@@ -149,17 +139,11 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
                   (widget.index == 0)
                       ? Text(
                           ' / ${(bannerProvider.getBannerMiniShopModel?.data ?? []).length}',
-                          style: themeData()
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: white),
+                          style: themeData().textTheme.bodySmall!.copyWith(color: white),
                         )
                       : Text(
                           ' / ${(bannerProvider.getBannerListResponseModel?.data ?? []).length}',
-                          style: themeData()
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: white),
+                          style: themeData().textTheme.bodySmall!.copyWith(color: white),
                         ),
                 ],
               ),

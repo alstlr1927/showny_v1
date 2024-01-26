@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/filter_minishop_model.dart';
 import 'package:showny/screens/tabs/profile/my_shop/components/my_shop_grid_item.dart';
+import 'package:showny/utils/showny_style.dart';
 import 'package:showny/widgets/shoping_emptyBasket_widget.dart';
 
 import '../product_page.dart';
@@ -32,37 +34,37 @@ class _GridProductWidgetState extends State<GridProductWidget> {
           var productList = provider.getProducts();
 
           return provider.getIsProductsLoading()
-              ? const Center(
-                  child: CircularProgressIndicator(),
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30),
+                    child: ShownyIndicator(
+                      radius: 15,
+                      color: ShownyStyle.mainPurple,
+                    ),
+                  ),
                 )
               : provider.getProducts().isEmpty
                   ? Center(
-                      child: ShoppingEmptyBasketWidget(
-                          emptyMessage: tr('my_profile.empty_msg')),
+                      child: ShoppingEmptyBasketWidget(emptyMessage: tr('my_profile.empty_msg')),
                     )
                   : GridView.builder(
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         crossAxisSpacing: 2,
-                        childAspectRatio: 0.5,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 0.6,
                       ),
                       itemCount: provider.getProducts().length,
                       itemBuilder: (BuildContext context, int index) {
                         var product = productList[index];
                         var image = "";
                         if (widget.filterMinishopModel.isWear) {
-                          image = product.wearImageUrlList.isNotEmpty
-                              ? product.wearImageUrlList[0]
-                              : "";
+                          image = product.wearImageUrlList.isNotEmpty ? product.wearImageUrlList[0] : "";
                         } else {
-                          image = product.productImageUrlList.isNotEmpty
-                              ? product.productImageUrlList[0]
-                              : "";
+                          image = product.productImageUrlList.isNotEmpty ? product.productImageUrlList[0] : "";
                         }
-
                         return MyShopGridItem(
                           brandName: product.brand,
                           title: product.name,

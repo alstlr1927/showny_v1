@@ -7,6 +7,7 @@ import 'package:showny/models/filter_minishop_model.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_button_widget.dart';
 
@@ -31,12 +32,10 @@ class SearchFilterWidgetMinishop extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SearchFilterWidgetMinishop> createState() =>
-      _SearchFilterWidgetMinishopState();
+  State<SearchFilterWidgetMinishop> createState() => _SearchFilterWidgetMinishopState();
 }
 
-class _SearchFilterWidgetMinishopState
-    extends State<SearchFilterWidgetMinishop> {
+class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop> {
   final List<String> _categoryList = [
     tr('mini_shop.filter.category.outer'),
     tr('mini_shop.filter.category.tops'),
@@ -44,9 +43,13 @@ class _SearchFilterWidgetMinishopState
     tr('mini_shop.filter.category.shoes'),
     tr('mini_shop.filter.category.bags')
   ];
-  final List<String> _situationList = [
-    tr('mini_shop.filter.situation.situation_1'),
-    tr('mini_shop.filter.situation.situation_2')
+
+  final List<String> _situationList = [tr('mini_shop.filter.situation.situation_1'), tr('mini_shop.filter.situation.situation_2')];
+
+  final List<String> _filterList = [
+    tr('mini_shop.filter.filter1'),
+    tr('mini_shop.filter.filter2'),
+    tr('mini_shop.filter.filter3'),
   ];
 
   @override
@@ -56,7 +59,7 @@ class _SearchFilterWidgetMinishopState
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GestureDetector(
         onTap: () {
-          showDialog(
+          _showDialog(
               widget.searchText == null
                   ? ""
                   : widget.searchText!.isNotEmpty
@@ -66,100 +69,102 @@ class _SearchFilterWidgetMinishopState
               widget.resetFilter,
               widget.applyFilter);
         },
-        child: Consumer<MiniShopSearchProductsProvider>(
-            builder: (context, provider, _) {
+        child: Consumer<MiniShopSearchProductsProvider>(builder: (context, provider, _) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset(filter, height: 20, width: 20),
               const SizedBox(
-                width: 32,
-              ),
-              Container(
-                width: 64,
-                height: 24,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    color: (widget.filterMinishopModel.minPrice != null ||
-                            widget.filterMinishopModel.maxPrice != null)
-                        ? black
-                        : greyLight.withOpacity(0.3),
-                  ),
-                  color: (widget.filterMinishopModel.minPrice != null ||
-                          widget.filterMinishopModel.maxPrice != null)
-                      ? black
-                      : white,
-                ),
-                child: Center(
-                    child: Text(
-                  tr('mini_shop.filter.filter1'),
-                  style: themeData().textTheme.bodySmall!.apply(
-                      color: (widget.filterMinishopModel.minPrice != null ||
-                              widget.filterMinishopModel.maxPrice != null)
-                          ? white
-                          : black),
-                )),
+                width: 12,
               ),
               SizedBox(
-                width: size.width * 0.04,
-              ),
-              Container(
-                width: 64,
                 height: 24,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    color: (widget.filterMinishopModel.categoryId != null &&
-                            widget.filterMinishopModel.categoryId! > 0)
-                        ? black
-                        : greyLight.withOpacity(0.3),
-                  ),
-                  color: (widget.filterMinishopModel.categoryId != null &&
-                          widget.filterMinishopModel.categoryId! > 0)
-                      ? black
-                      : white,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  separatorBuilder: (context, index) => SizedBox(width: 8.toWidth),
+                  itemCount: _filterList.length,
+                  itemBuilder: (context, index) {
+                    String filterText;
+                    bool isActive;
+                    if (index == 0) {
+                      filterText = 'mini_shop.filter.filter1';
+                      isActive = widget.filterMinishopModel.minPrice != null || widget.filterMinishopModel.maxPrice != null;
+                    } else if (index == 1) {
+                      filterText = 'mini_shop.filter.filter2';
+                      isActive = widget.filterMinishopModel.categoryId != null && widget.filterMinishopModel.categoryId! > 0;
+                    } else {
+                      filterText = 'mini_shop.filter.filter3';
+                      isActive = widget.filterMinishopModel.isNew != null && widget.filterMinishopModel.isNew != 2;
+                    }
+                    return _buildFilterItem(
+                      filterText: filterText,
+                      isActive: isActive,
+                    );
+                  },
                 ),
-                child: Center(
-                    child: Text(
-                  tr('mini_shop.filter.filter2'),
-                  style: themeData().textTheme.bodySmall!.apply(
-                      color: (widget.filterMinishopModel.categoryId != null &&
-                              widget.filterMinishopModel.categoryId! > 0)
-                          ? white
-                          : black),
-                )),
-              ),
-              SizedBox(
-                width: size.width * 0.04,
-              ),
-              Container(
-                width: 64,
-                height: 24,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    color: (widget.filterMinishopModel.isNew != null &&
-                            widget.filterMinishopModel.isNew != 2)
-                        ? black
-                        : greyLight.withOpacity(0.3),
-                    width: 1,
-                  ),
-                  color: (widget.filterMinishopModel.isNew != null &&
-                          widget.filterMinishopModel.isNew != 2)
-                      ? black
-                      : white,
-                ),
-                child: Center(
-                    child: Text(
-                  tr('mini_shop.filter.filter3'),
-                  style: themeData().textTheme.bodySmall!.apply(
-                      color: (widget.filterMinishopModel.isNew == null ||
-                              widget.filterMinishopModel.isNew == 2)
-                          ? black
-                          : white),
-                )),
               )
+
+              // Container(
+              //   width: 64,
+              //   height: 24,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(6),
+              //     border: Border.all(
+              //       color: (widget.filterMinishopModel.minPrice != null || widget.filterMinishopModel.maxPrice != null) ? black : greyLight.withOpacity(0.3),
+              //     ),
+              //     color: (widget.filterMinishopModel.minPrice != null || widget.filterMinishopModel.maxPrice != null) ? black : white,
+              //   ),
+              //   child: Center(
+              //     child: Text(
+              //       tr('mini_shop.filter.filter1'),
+              //       style: themeData().textTheme.bodySmall!.apply(
+              //             color: (widget.filterMinishopModel.minPrice != null || widget.filterMinishopModel.maxPrice != null) ? white : black,
+              //           ),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   width: size.width * 0.04,
+              // ),
+              // Container(
+              //   width: 64,
+              //   height: 24,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(6),
+              //     border: Border.all(
+              //       color: (widget.filterMinishopModel.categoryId != null && widget.filterMinishopModel.categoryId! > 0) ? black : greyLight.withOpacity(0.3),
+              //     ),
+              //     color: (widget.filterMinishopModel.categoryId != null && widget.filterMinishopModel.categoryId! > 0) ? black : white,
+              //   ),
+              //   child: Center(
+              //       child: Text(
+              //     tr('mini_shop.filter.filter2'),
+              //     style: themeData().textTheme.bodySmall!.apply(color: (widget.filterMinishopModel.categoryId != null && widget.filterMinishopModel.categoryId! > 0) ? white : black),
+              //   )),
+              // ),
+              // SizedBox(
+              //   width: size.width * 0.04,
+              // ),
+              // Container(
+              //   width: 64,
+              //   height: 24,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(6),
+              //     border: Border.all(
+              //       color: (widget.filterMinishopModel.isNew != null && widget.filterMinishopModel.isNew != 2) ? black : greyLight.withOpacity(0.3),
+              //       width: 1,
+              //     ),
+              //     color: (widget.filterMinishopModel.isNew != null && widget.filterMinishopModel.isNew != 2) ? black : white,
+              //   ),
+              //   child: Center(
+              //       child: Text(
+              //     tr('mini_shop.filter.filter3'),
+              //     style: themeData().textTheme.bodySmall!.apply(color: (widget.filterMinishopModel.isNew == null || widget.filterMinishopModel.isNew == 2) ? black : white),
+              //   )),
+              // )
             ],
           );
         }),
@@ -167,12 +172,34 @@ class _SearchFilterWidgetMinishopState
     );
   }
 
-  showDialog(String? searchKeyword, FilterMinishopModel setFilterMinishopModel,
-      Function() resetFilter, Function(FilterMinishopModel) applyFilter) {
-    TextEditingController minPriceController = TextEditingController(
-        text: setFilterMinishopModel.minPrice?.toString() ?? '');
-    TextEditingController maxPriceController = TextEditingController(
-        text: setFilterMinishopModel.maxPrice?.toString() ?? '');
+  Widget _buildFilterItem({
+    required String filterText,
+    required bool isActive,
+  }) {
+    return Container(
+      width: 64,
+      height: 24,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(
+          color: isActive ? black : Color(0xFFEEEEEE),
+        ),
+        color: isActive ? black : white,
+      ),
+      child: Center(
+        child: Text(
+          tr(filterText),
+          style: themeData().textTheme.bodySmall!.apply(
+                color: isActive ? white : Color(0xFF777777),
+              ),
+        ),
+      ),
+    );
+  }
+
+  _showDialog(String? searchKeyword, FilterMinishopModel setFilterMinishopModel, Function() resetFilter, Function(FilterMinishopModel) applyFilter) {
+    TextEditingController minPriceController = TextEditingController(text: setFilterMinishopModel.minPrice?.toString() ?? '');
+    TextEditingController maxPriceController = TextEditingController(text: setFilterMinishopModel.maxPrice?.toString() ?? '');
     int? selectedCategory = (setFilterMinishopModel.categoryId ?? 1) - 1;
     int? isNew = setFilterMinishopModel.isNew ?? 2;
 
@@ -185,15 +212,17 @@ class _SearchFilterWidgetMinishopState
 
     Size size = MediaQuery.of(context).size;
     showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(8.0),
-          ),
+      context: context,
+      backgroundColor: white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(8.0),
         ),
-        isScrollControlled: true,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, newState) {
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, newState) {
             return FractionallySizedBox(
               heightFactor: 0.9,
               child: GestureDetector(
@@ -219,7 +248,10 @@ class _SearchFilterWidgetMinishopState
                           const Spacer(),
                           Text(
                             tr('mini_shop.filter.title'),
-                            style: FontHelper.bold_14_000000,
+                            style: ShownyStyle.body2(
+                              weight: FontWeight.w700,
+                              color: ShownyStyle.black,
+                            ),
                           ),
                           const Spacer(),
                           GestureDetector(
@@ -235,78 +267,91 @@ class _SearchFilterWidgetMinishopState
                         ],
                       ),
                       const SizedBox(
-                        height: 24,
+                        height: 30,
                       ),
                       SizedBox(
                         width: size.width,
-                        child: Text(tr('mini_shop.filter.filter1'),
-                            style: themeData()
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(color: grey)),
+                        child: Text(
+                          tr('mini_shop.filter.filter1'),
+                          style: ShownyStyle.body2(
+                            weight: FontWeight.w700,
+                            color: Color(0xFF555555),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
-                      SizedBox(
-                        width: size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                height: 48,
-                                child: TextFieldWidget(
-                                  borderRadius: 8,
-                                  alignment: TextAlign.center,
-                                  borderColor: black,
-                                  textInputType: TextInputType.number,
-                                  textEditingController: minPriceController,
-                                  hintText: tr(
-                                      'mini_shop.filter.price.price_start_range'),
-                                  hintStyle: ShownyStyle.caption(),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            const Icon(
-                              CupertinoIcons.minus,
-                              size: 8,
-                              color: black,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                height: 48,
-                                child: TextFieldWidget(
-                                  borderRadius: 8,
-                                  alignment: TextAlign.center,
-                                  borderColor: black,
-                                  textInputType: TextInputType.number,
-                                  textEditingController: maxPriceController,
-                                  hintText: tr(
-                                      'mini_shop.filter.price.price_end_range'),
-                                  hintStyle: ShownyStyle.caption(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      // SizedBox(
+                      //   width: size.width,
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Expanded(
+                      //         child: SizedBox(
+                      //           height: 48,
+                      //           child: TextFieldWidget(
+                      //             borderRadius: 8,
+                      //             alignment: TextAlign.center,
+                      //             borderColor: black,
+                      //             textInputType: TextInputType.number,
+                      //             textEditingController: minPriceController,
+                      //             hintText: tr('mini_shop.filter.price.price_start_range'),
+                      //             hintStyle: ShownyStyle.caption(),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 4,
+                      //       ),
+                      //       const Icon(
+                      //         CupertinoIcons.minus,
+                      //         size: 8,
+                      //         color: black,
+                      //       ),
+                      //       const SizedBox(
+                      //         width: 4,
+                      //       ),
+                      //       Expanded(
+                      //         child: SizedBox(
+                      //           height: 48,
+                      //           child: TextFieldWidget(
+                      //             borderRadius: 8,
+                      //             alignment: TextAlign.center,
+                      //             borderColor: black,
+                      //             textInputType: TextInputType.number,
+                      //             textEditingController: maxPriceController,
+                      //             hintText: tr('mini_shop.filter.price.price_end_range'),
+                      //             hintStyle: ShownyStyle.caption(),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      RangeSlider(
+                        values: RangeValues(0, 100),
+                        min: 0,
+                        max: 100,
+                        divisions: 5,
+                        activeColor: ShownyStyle.mainPurple,
+                        // overlayColor: MaterialStatePropertyAll(
+                        //   ShownyStyle.mainPurple,
+                        // ),
+                        onChanged: (value) {},
                       ),
                       const SizedBox(
                         height: 40,
                       ),
                       SizedBox(
                         width: size.width,
-                        child: Text(tr('mini_shop.filter.category.title'),
-                            style: themeData()
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(color: grey)),
+                        child: Text(
+                          tr('mini_shop.filter.category.title'),
+                          style: ShownyStyle.body2(
+                            weight: FontWeight.w700,
+                            color: Color(0xFF555555),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -315,13 +360,12 @@ class _SearchFilterWidgetMinishopState
                         height: 130,
                         child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio:
-                                      ((size.width - 46) / 4) / 48,
-                                  mainAxisSpacing: 10),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: ((size.width - 46) / 4) / 48,
+                            mainAxisSpacing: 10,
+                          ),
                           itemCount: _categoryList.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
@@ -331,24 +375,19 @@ class _SearchFilterWidgetMinishopState
                                 });
                               },
                               child: Container(
-                                height: 48,
+                                height: 40,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: selectedCategory == index
-                                          ? black
-                                          : greyExtraLight),
+                                    color: selectedCategory == index ? ShownyStyle.mainPurple : Color(0xFFEEEEEE),
+                                  ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Center(
                                   child: Text(
                                     _categoryList[index],
-                                    style: themeData()
-                                        .textTheme
-                                        .bodySmall!
-                                        .apply(
-                                            color: selectedCategory == index
-                                                ? black
-                                                : textColor),
+                                    style: ShownyStyle.caption(
+                                      color: selectedCategory == index ? ShownyStyle.black : Color(0xFFAAAAAA),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -361,11 +400,13 @@ class _SearchFilterWidgetMinishopState
                       ),
                       SizedBox(
                         width: size.width,
-                        child: Text(tr('mini_shop.filter.situation.title'),
-                            style: themeData()
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(color: grey)),
+                        child: Text(
+                          tr('mini_shop.filter.situation.title'),
+                          style: ShownyStyle.body2(
+                            weight: FontWeight.w700,
+                            color: Color(0xFF555555),
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
@@ -374,13 +415,12 @@ class _SearchFilterWidgetMinishopState
                         height: 100,
                         child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 20,
-                                  childAspectRatio:
-                                      ((size.width - 42) / 2) / 48,
-                                  mainAxisSpacing: 10),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 20,
+                            childAspectRatio: ((size.width - 42) / 2) / 48,
+                            mainAxisSpacing: 10,
+                          ),
                           itemCount: _situationList.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
@@ -396,23 +436,20 @@ class _SearchFilterWidgetMinishopState
                               child: Container(
                                 height: 48,
                                 decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: (index == 0 && isNew == 0) ||
-                                                (index == 1 && isNew == 1)
-                                            ? black
-                                            : greyExtraLight),
-                                    borderRadius: BorderRadius.circular(8)),
+                                  border: Border.all(
+                                    color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? ShownyStyle.mainPurple : Color(0xFFEEEEEE),
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                                 child: Center(
                                   child: Text(
                                     _situationList[index],
-                                    style: themeData()
-                                        .textTheme
-                                        .bodySmall
-                                        ?.apply(
-                                            color: (index == 0 && isNew == 0) ||
-                                                    (index == 1 && isNew == 1)
-                                                ? black
-                                                : textColor),
+                                    // style: themeData().textTheme.bodySmall?.apply(
+                                    //       color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? black : textColor,
+                                    //     ),
+                                    style: ShownyStyle.caption(
+                                      color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? black : Color(0xFFAAAAAA),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -436,10 +473,10 @@ class _SearchFilterWidgetMinishopState
 
                                       //Navigator.pop(context);
                                     },
-                                    color: greyExtraLight,
+                                    color: ShownyStyle.gray040,
                                     text: tr('mini_shop.filter.reset'),
                                     textcolor: grey,
-                                    radius: 12,
+                                    radius: 8,
                                     height: 48),
                               ),
                               const SizedBox(
@@ -449,27 +486,14 @@ class _SearchFilterWidgetMinishopState
                                   flex: 3,
                                   child: CommonButtonWidget2(
                                       onTap: () {
-                                        FilterMinishopModel
-                                            filterMinishopModel =
-                                            FilterMinishopModel();
-                                        if (minPriceController.text
-                                            .trim()
-                                            .isNotEmpty) {
-                                          filterMinishopModel.minPrice =
-                                              int.parse(minPriceController.text
-                                                  .trim());
+                                        FilterMinishopModel filterMinishopModel = FilterMinishopModel();
+                                        if (minPriceController.text.trim().isNotEmpty) {
+                                          filterMinishopModel.minPrice = int.parse(minPriceController.text.trim());
                                         }
-                                        if (maxPriceController.text
-                                            .trim()
-                                            .isNotEmpty) {
-                                          filterMinishopModel.maxPrice =
-                                              int.parse(maxPriceController.text
-                                                  .trim());
+                                        if (maxPriceController.text.trim().isNotEmpty) {
+                                          filterMinishopModel.maxPrice = int.parse(maxPriceController.text.trim());
                                         }
-                                        filterMinishopModel.categoryId =
-                                            selectedCategory == null
-                                                ? 0
-                                                : selectedCategory! + 1;
+                                        filterMinishopModel.categoryId = selectedCategory == null ? 0 : selectedCategory! + 1;
                                         filterMinishopModel.isNew = isNew;
 
                                         applyFilter(filterMinishopModel);
@@ -503,10 +527,10 @@ class _SearchFilterWidgetMinishopState
                                         // );
                                         Navigator.pop(context);
                                       },
-                                      color: black,
+                                      color: ShownyStyle.mainPurple,
                                       text: tr('mini_shop.filter.apply'),
                                       textcolor: white,
-                                      radius: 12,
+                                      radius: 8,
                                       height: 48))
                             ],
                           ),
@@ -520,7 +544,9 @@ class _SearchFilterWidgetMinishopState
                 ),
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 }
