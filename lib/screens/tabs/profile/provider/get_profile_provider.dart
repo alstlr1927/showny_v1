@@ -36,9 +36,12 @@ class GetProfileProvider extends ChangeNotifier {
     if (!_isShoppingLoading) {
       setIsShoppingLoading(true);
     }
+    ShownyLog().e('memno : $memNo');
+    ShownyLog().e('orderNo : $orderNo');
     ApiService()
         .getMyShoppingApi(memNo: memNo, orderNo: orderNo)
         .then((getMyShoppingSuccess) {
+      ShownyLog().e('?? : ${getMyShoppingSuccess?.success}');
       if (getMyShoppingSuccess!.success!) {
         _getMyShoppingResponseModel = getMyShoppingSuccess;
         setIsShoppingLoading(false);

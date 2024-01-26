@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/models/filter_shop_model.dart';
 import 'package:showny/models/recent_search_list_model.dart';
 import 'package:showny/models/store_good_model.dart';
@@ -217,10 +218,10 @@ class StoreSearchProvider extends ChangeNotifier {
 
   void getSearchList(
       String memNo, FilterShopModel? filterShopModel, int isRequest) {
-    setIsSearchLoading(true);
-    if (page > 1 && isSearchLoading == true) {
+    if (isSearchLoading == true) {
       return;
     }
+    setIsSearchLoading(true);
     var isRequestParam = isRequest;
     if (brandCd != null && brandCd!.isNotEmpty == true) {
       isRequestParam = 1;
@@ -258,7 +259,7 @@ class StoreSearchProvider extends ChangeNotifier {
       } else {
         _goodsList.addAll(response.goodsList);
       }
-
+      ShownyLog().e('count : ${response.goodsList.length}');
       searchResultCount = response.totalCount;
       setIsSearchLoading(false);
       setIsSearched(true);
@@ -266,7 +267,9 @@ class StoreSearchProvider extends ChangeNotifier {
       if (response.goodsList.isNotEmpty) {
         page += 1;
       }
+      ShownyLog().e('page : $page');
     }, (error) {
+      ShownyLog().e('error ! : ${error}');
       setIsSearchLoading(false);
     });
   }

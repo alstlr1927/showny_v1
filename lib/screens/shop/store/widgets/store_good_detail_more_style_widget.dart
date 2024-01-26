@@ -5,10 +5,8 @@ import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 import 'package:showny/helper/color_helper.dart';
-import 'package:showny/helper/font_helper.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
@@ -16,7 +14,6 @@ import '../../../../api/new_api/api_helper.dart';
 import '../../../../models/GetGoodsStyleupListModel.dart';
 import '../../../home/styleup/styleup_screen.dart';
 import '../../../profile/other_profile_screen.dart';
-import '../../../profile/profile_screen.dart';
 
 class StoreGoodDetailMoreStyleWidget extends StatefulWidget {
   final StoreGoodModel goodsData;
