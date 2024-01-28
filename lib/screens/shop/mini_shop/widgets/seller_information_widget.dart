@@ -15,12 +15,10 @@ import '../../../profile/other_profile_screen.dart';
 class SellerInformationWidget extends StatefulWidget {
   final MinishopProductModel minishopProduct;
 
-  const SellerInformationWidget({Key? key, required this.minishopProduct})
-      : super(key: key);
+  const SellerInformationWidget({Key? key, required this.minishopProduct}) : super(key: key);
 
   @override
-  State<SellerInformationWidget> createState() =>
-      _SellerInformationWidgetState();
+  State<SellerInformationWidget> createState() => _SellerInformationWidgetState();
 }
 
 class _SellerInformationWidgetState extends State<SellerInformationWidget> {
@@ -308,10 +306,7 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
             children: [
               GestureDetector(
                 onTap: () {
-                  if (Provider.of<UserProvider>(context, listen: false)
-                          .user
-                          .memNo ==
-                      widget.minishopProduct.userInfo!.memNo) {
+                  if (Provider.of<UserProvider>(context, listen: false).user.memNo == widget.minishopProduct.userInfo!.memNo) {
                     // Navigator.push(
                     //     context,
                     //     ShownyPageRoute(
@@ -337,20 +332,17 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
                     list: [
                       // 팔로워
                       UserInfoCell(
-                        titleText: tr(
-                            'product_detail.seller_information.followers_text'),
+                        titleText: tr('product_detail.seller_information.followers_text'),
                         valueText: '752',
                       ),
                       // 팔로잉
                       UserInfoCell(
-                        titleText: tr(
-                            'product_detail.seller_information.following_text'),
+                        titleText: tr('product_detail.seller_information.following_text'),
                         valueText: '255',
                       ),
                       // 판매중
                       UserInfoCell(
-                        titleText: tr(
-                            'product_detail.seller_information.sell_count_text'),
+                        titleText: tr('product_detail.seller_information.sell_count_text'),
                         valueText: '4',
                       ),
                     ],
@@ -359,8 +351,7 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
                     list: [
                       // 평점
                       UserInfoCell(
-                        titleText:
-                            tr('product_detail.seller_information.grade_text'),
+                        titleText: tr('product_detail.seller_information.grade_text'),
                         valueText: '5.0',
                       ),
                       // 후기
@@ -369,22 +360,18 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OtherProfileScreen(
-                                  memNo:
-                                      widget.minishopProduct.userInfo!.memNo),
+                              builder: (context) => OtherProfileScreen(memNo: widget.minishopProduct.userInfo!.memNo),
                             ),
                           );
                         },
                         child: UserInfoCell(
-                          titleText: tr(
-                              'product_detail.seller_information.review_text'),
+                          titleText: tr('product_detail.seller_information.review_text'),
                           valueText: '18',
                         ),
                       ),
                       // 판매내역
                       UserInfoCell(
-                        titleText: tr(
-                            'product_detail.seller_information.sales_history_text'),
+                        titleText: tr('product_detail.seller_information.sales_history_text'),
                         valueText: '8',
                       ),
                     ],
@@ -508,6 +495,7 @@ class UserInfoCell extends StatelessWidget {
               valueText,
               style: ShownyStyle.body2(
                 color: ShownyStyle.black,
+                weight: FontWeight.bold,
               ),
             ),
           ),
