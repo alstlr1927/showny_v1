@@ -211,6 +211,9 @@ class _BattleListState extends State<BattleList>
       builder: (context) {
         BattleListProvider prov =
             Provider.of<BattleListProvider>(context, listen: false);
+        if (prov.battleDataList.isEmpty) {
+          return SliverToBoxAdapter();
+        }
         BattleModel item = prov.battleDataList[prov.sliderIdx];
         return SliverTween(
           child: SliverToBoxAdapter(

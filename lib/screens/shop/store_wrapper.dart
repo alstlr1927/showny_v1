@@ -19,7 +19,8 @@ class StoreWrapper extends StatefulWidget {
   State<StoreWrapper> createState() => _StoreWrapperState();
 }
 
-class _StoreWrapperState extends State<StoreWrapper> with TickerProviderStateMixin {
+class _StoreWrapperState extends State<StoreWrapper>
+    with TickerProviderStateMixin {
   late StoreWrapperProvider provider;
 
   @override
@@ -72,7 +73,7 @@ class _StoreWrapperState extends State<StoreWrapper> with TickerProviderStateMix
             width: 75.toWidth,
           ),
           SizedBox(width: 26.toWidth),
-          SizedBox(
+          Container(
             width: 82.toWidth,
             child: _pageTitle(
               title: '브랜드스토어',
@@ -80,9 +81,8 @@ class _StoreWrapperState extends State<StoreWrapper> with TickerProviderStateMix
               onPressed: () => prov.setCurrentIdx(0),
             ),
           ),
-          SizedBox(width: 10.toWidth),
-          SizedBox(
-            width: 44.toWidth,
+          Container(
+            width: 72.toWidth,
             child: _pageTitle(
               title: '미니샵',
               isSelect: prov.currentIdx == 1,
@@ -126,7 +126,8 @@ class _StoreWrapperState extends State<StoreWrapper> with TickerProviderStateMix
     TextStyle style = TextStyle();
 
     if (isSelect) {
-      style = ShownyStyle.body2(color: ShownyStyle.black, weight: FontWeight.w700);
+      style =
+          ShownyStyle.body2(color: ShownyStyle.black, weight: FontWeight.w700);
     } else {
       style = ShownyStyle.caption(color: ShownyStyle.black.withOpacity(.5));
     }

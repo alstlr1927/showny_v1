@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:showny/api/new_api/api_helper.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/providers/user_model_provider.dart';
@@ -61,8 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // loginType = '';
 
-    debugPrint(email);
-    debugPrint(password);
+    ShownyLog().e('email : ${email}');
+    ShownyLog().e('password : ${password}');
 
     if (loginType == null || loginType == "") {
       setState(() {

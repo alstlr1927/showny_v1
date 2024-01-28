@@ -217,6 +217,15 @@ class ShownyButtonLineTheme extends ShownyButtonTheme {
       disabledLineColor: ShownyButtonColors.button_disabled_line_gray,
       loadingColor: ShownyButtonColors.button_loading_line_gray);
 
+  static ShownyButtonLineTheme get violet => ShownyButtonLineTheme(
+      baseColor: ShownyButtonColors.button_base_white,
+      textColor: ShownyButtonColors.button_base_violet,
+      lineColor: ShownyButtonColors.button_base_violet,
+      disabledBaseColor: ShownyButtonColors.button_base_white,
+      disabledTextColor: ShownyButtonColors.button_disabled_text_gray,
+      disabledLineColor: ShownyButtonColors.button_disabled_line_gray,
+      loadingColor: ShownyButtonColors.button_loading_line_gray);
+
   static ShownyButtonLineTheme get deepGray => ShownyButtonLineTheme(
       baseColor: ShownyStyle.white,
       textColor: ShownyStyle.gray090,

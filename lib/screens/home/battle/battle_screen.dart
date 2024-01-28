@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
+import '../../../components/page_route.dart';
 import '../../../models/styleup_battle_item_model.dart';
 import '../../../models/styleup_battle_model.dart';
+import '../../battle_list/battle_list.dart';
 import '../../common/scroll_physics/custom_scroll_physics.dart';
 import 'providers/battle_screen_provider.dart';
 import 'widgets/battle_item.dart';
@@ -58,6 +61,36 @@ class _BattleScreenState extends State<BattleScreen> {
             StyleupBattleModel? styleUpBattle = prov.styleUpBattle;
             List<StyleupBattleItemModel> battleList =
                 styleUpBattle?.battleItemList ?? [];
+            if (battleList.isEmpty) {
+              return Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '현재 참여하실 수 있는 배틀이 없어요',
+                      style: ShownyStyle.body1(weight: FontWeight.w600),
+                    ),
+                    SizedBox(height: 14.toWidth),
+                    ShownyButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            ShownyPageRoute(
+                              builder: (context) => BattleList(),
+                              settings:
+                                  RouteSettings(name: PageName.BATTLE_LIST),
+                            ));
+                      },
+                      option: ShownyButtonOption.line(
+                        text: '배틀리스트',
+                        theme: ShownyButtonLineTheme.violet,
+                        style: ShownyButtonLineStyle.small,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
             return Material(
               color: ShownyStyle.black,
               child: Stack(
