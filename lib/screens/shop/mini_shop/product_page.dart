@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
-import 'package:showny/helper/font_helper.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
@@ -14,7 +13,6 @@ import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:showny/widgets/common_appbar_widget.dart';
-import 'package:showny/widgets/common_button_widget.dart';
 
 import '../../../api/new_api/api_helper.dart';
 import 'widgets/product_catalogue.dart';
@@ -26,8 +24,7 @@ import 'widgets/seller_information_widget.dart';
 class ProductDetailScreen extends StatefulWidget {
   final String productId;
 
-  const ProductDetailScreen({Key? key, required this.productId})
-      : super(key: key);
+  const ProductDetailScreen({Key? key, required this.productId}) : super(key: key);
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
@@ -40,26 +37,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   void initState() {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
 
-    ApiHelper.shared.getMinishopProductById(
-        userProvider.user.memNo, widget.productId, (minishopProduct) {
+    ApiHelper.shared.getMinishopProductById(userProvider.user.memNo, widget.productId, (minishopProduct) {
       setState(() {
         this.minishopProduct = minishopProduct;
       });
     }, (error) {});
 
-    ApiHelper.shared.viewMinishopProduct(
-        userProvider.user.memNo, widget.productId, (success) {}, (p0) {});
+    ApiHelper.shared.viewMinishopProduct(userProvider.user.memNo, widget.productId, (success) {}, (p0) {});
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: white,
@@ -89,8 +82,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   padding: const EdgeInsets.all(16),
                   child: Image.asset(shareIcon),
                   onPressed: () {
-                    Share.share(
-                        'https://www.instagram.com/outfitbattles_korea/');
+                    Share.share('https://www.instagram.com/outfitbattles_korea/');
                   },
                 ),
               ],
@@ -99,9 +91,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ],
         shadow: 0,
       ),
-      body: minishopProduct == null
-          ? const SizedBox()
-          : _buildBodyView(userProvider),
+      body: minishopProduct == null ? const SizedBox() : _buildBodyView(userProvider),
     );
   }
 
@@ -117,8 +107,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Container(
                   height: ScreenUtil().screenWidth,
                   color: greyExtraLight,
-                  child: ProductImageSliderWidget(
-                      imageList: minishopProduct!.productImageUrlList),
+                  child: ProductImageSliderWidget(imageList: minishopProduct!.productImageUrlList),
                 ),
                 // 상품 정보
                 ProductDetailsWidget(
@@ -154,23 +143,53 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(16.toWidth, 10.toWidth, 16.toWidth,
-              ShownyStyle.defaultBottomPadding()),
-          child: ShownyButton(
-            onPressed: minishopProduct?.status == 0
-                ? () => _buttonClickListener(prov)
-                : null,
-            option: ShownyButtonOption.fill(
-              text: minishopProduct?.status == 0
-                  ? minishopProduct?.memNo != prov.user.memNo
-                      ? '구매하기'
-                      : '판매완료로 변경'
-                  : minishopProduct?.status == 1
-                      ? '판매완료'
-                      : '',
-              theme: ShownyButtonFillTheme.violet,
-              style: ShownyButtonFillStyle.fullRegular,
-            ),
+          padding: EdgeInsets.fromLTRB(16.toWidth, 10.toWidth, 16.toWidth, ShownyStyle.defaultBottomPadding()),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.toWidth),
+                child: Column(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+                        ApiHelper.shared.heartMinishopProduct(userProvider.user.memNo, minishopProduct!.id, !minishopProduct!.isHeart, (success) {}, (error) {});
+                        setState(() {
+                          minishopProduct!.isHeart = !minishopProduct!.isHeart;
+                        });
+                      },
+                      child: Image.asset(
+                        minishopProduct?.isHeart == true ? heartSelected : heartUnselected,
+                        width: 22.toWidth,
+                        gaplessPlayback: true,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      minishopProduct?.isHeart == true ? '1' : '0',
+                      style: ShownyStyle.overline(),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(width: 10.toWidth),
+              Expanded(
+                child: ShownyButton(
+                  onPressed: minishopProduct?.status == 0 ? () => _buttonClickListener(prov) : null,
+                  option: ShownyButtonOption.fill(
+                    text: minishopProduct?.status == 0
+                        ? minishopProduct?.memNo != prov.user.memNo
+                            ? '구매하기'
+                            : '판매완료로 변경'
+                        : minishopProduct?.status == 1
+                            ? '판매완료'
+                            : '',
+                    theme: ShownyButtonFillTheme.violet,
+                    style: ShownyButtonFillStyle.fullRegular,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -231,8 +250,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         //           }
         //         });
       } else {
-        ApiHelper.shared.updateMinishopProductStatus(
-            prov.user.memNo, minishopProduct?.id, "1", (success) {
+        ApiHelper.shared.updateMinishopProductStatus(prov.user.memNo, minishopProduct?.id, "1", (success) {
           showDialog(
             context: context,
             builder: (BuildContext context) {
