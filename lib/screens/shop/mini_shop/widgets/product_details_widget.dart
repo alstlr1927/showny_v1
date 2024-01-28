@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
   final MinishopProductModel minishopProduct;
 
-  const ProductDetailsWidget({Key? key, required this.minishopProduct}) : super(key: key);
+  const ProductDetailsWidget({Key? key, required this.minishopProduct})
+      : super(key: key);
 
   @override
   State<ProductDetailsWidget> createState() => _ProductDetailsWidgetState();
@@ -19,7 +21,7 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

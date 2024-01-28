@@ -8,6 +8,7 @@ import '../../../../components/page_route.dart';
 import '../../../../utils/showny_style.dart';
 import '../store_goods_list_screen.dart';
 import 'bannerSlider_widget.dart';
+import 'newest_store_product_list.dart';
 import 'store_home_products_widget.dart';
 
 class TabStoreHome extends StatefulWidget {
@@ -31,6 +32,8 @@ class _TabStoreHomeState extends State<TabStoreHome> {
                 _buildGenderTab(),
                 SizedBox(height: 10.toWidth),
                 const BannerSliderWidget(index: 1),
+                SizedBox(height: 30.toWidth),
+                NewestStoreProductList(),
                 SizedBox(height: 30.toWidth),
                 const StoreHomeProductsWidget(),
               ],

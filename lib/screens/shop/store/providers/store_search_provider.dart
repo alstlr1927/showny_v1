@@ -226,6 +226,16 @@ class StoreSearchProvider extends ChangeNotifier {
     if (brandCd != null && brandCd!.isNotEmpty == true) {
       isRequestParam = 1;
     }
+    ShownyLog().e('''
+    memNo : $memNo
+    searchText : $searchText
+    mainCategory : $mainCategory
+    subCategory : $subCategory
+    brandCd : $brandCd
+    filterShopModel?.sort : ${filterShopModel?.sort}
+    filterShopModel?.minPrice, : ${filterShopModel?.minPrice}
+
+''');
     ApiHelper.shared.getGoodsList(
         memNo,
         searchText,

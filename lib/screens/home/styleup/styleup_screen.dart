@@ -40,15 +40,15 @@ class _StyleupScreenState extends State<StyleupScreen> {
 
   late PageController pageController;
 
-  double refreshPoint = -80.0;
-  double indicatorTopPadding = -30.0;
+  // double refreshPoint = -80.0;
+  // double indicatorTopPadding = -30.0;
 
-  bool readyToRefresh = false;
+  // bool readyToRefresh = false;
 
-  setReadyRefresh(bool flag) {
-    readyToRefresh = flag;
-    setState(() {});
-  }
+  // setReadyRefresh(bool flag) {
+  //   readyToRefresh = flag;
+  //   setState(() {});
+  // }
 
   void updateShowTag(bool isShow) {
     setState(() {
@@ -68,26 +68,26 @@ class _StyleupScreenState extends State<StyleupScreen> {
       styleupList = widget.styleupList;
     });
     if (widget.isMain) {
-      pageController.addListener(() {
-        if (pageController.offset < refreshPoint) {
-          if (!readyToRefresh) {
-            setReadyRefresh(true);
-            HapticFeedback.mediumImpact();
-          }
-        }
-        if (!readyToRefresh && pageController.offset < 0) {
-          indicatorTopPadding = pageController.offset * -1;
-          setState(() {});
-        }
-        if (pageController.offset == 0.0) {
-          indicatorTopPadding = -30;
+      // pageController.addListener(() {
+      //   if (pageController.offset < refreshPoint) {
+      //     if (!readyToRefresh) {
+      //       setReadyRefresh(true);
+      //       HapticFeedback.mediumImpact();
+      //     }
+      //   }
+      //   if (!readyToRefresh && pageController.offset < 0) {
+      //     indicatorTopPadding = pageController.offset * -1;
+      //     setState(() {});
+      //   }
+      //   if (pageController.offset == 0.0) {
+      //     indicatorTopPadding = -30;
 
-          if (readyToRefresh) {
-            widget.refresh?.call();
-          }
-          setReadyRefresh(false);
-        }
-      });
+      //     if (readyToRefresh) {
+      //       widget.refresh?.call();
+      //     }
+      //     setReadyRefresh(false);
+      //   }
+      // });
     }
   }
 
@@ -158,21 +158,21 @@ class _StyleupScreenState extends State<StyleupScreen> {
                 ),
               ),
             ),
-          if (widget.isMain) ...{
-            Builder(builder: (c) {
-              return AnimatedPositioned(
-                duration: Duration(milliseconds: 10),
-                // top: MediaQuery.of(context).padding.top,
-                top: indicatorTopPadding,
-                left: ScreenUtil().screenWidth / 2 - 15,
-                child: ShownyIndicator(
-                  color: Colors.white,
-                  radius: 15,
-                  animating: true,
-                ),
-              );
-            }),
-          }
+          // if (widget.isMain) ...{
+          //   Builder(builder: (c) {
+          //     return AnimatedPositioned(
+          //       duration: Duration(milliseconds: 10),
+          //       // top: MediaQuery.of(context).padding.top,
+          //       top: indicatorTopPadding,
+          //       left: ScreenUtil().screenWidth / 2 - 15,
+          //       child: ShownyIndicator(
+          //         color: Colors.white,
+          //         radius: 15,
+          //         animating: true,
+          //       ),
+          //     );
+          //   }),
+          // }
         ],
       ),
     );

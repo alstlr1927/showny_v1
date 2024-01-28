@@ -45,25 +45,31 @@ class _GridProductWidgetState extends State<GridProductWidget> {
                 )
               : provider.getProducts().isEmpty
                   ? Center(
-                      child: ShoppingEmptyBasketWidget(emptyMessage: tr('my_profile.empty_msg')),
+                      child: ShoppingEmptyBasketWidget(
+                          emptyMessage: tr('my_profile.empty_msg')),
                     )
                   : GridView.builder(
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         crossAxisSpacing: 2,
                         mainAxisSpacing: 10,
-                        childAspectRatio: 0.6,
+                        childAspectRatio: 130 / 210,
                       ),
                       itemCount: provider.getProducts().length,
                       itemBuilder: (BuildContext context, int index) {
                         var product = productList[index];
                         var image = "";
                         if (widget.filterMinishopModel.isWear) {
-                          image = product.wearImageUrlList.isNotEmpty ? product.wearImageUrlList[0] : "";
+                          image = product.wearImageUrlList.isNotEmpty
+                              ? product.wearImageUrlList[0]
+                              : "";
                         } else {
-                          image = product.productImageUrlList.isNotEmpty ? product.productImageUrlList[0] : "";
+                          image = product.productImageUrlList.isNotEmpty
+                              ? product.productImageUrlList[0]
+                              : "";
                         }
                         return MyShopGridItem(
                           brandName: product.brand,

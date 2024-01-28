@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/components/page_route.dart';
-import 'package:showny/helper/font_helper.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/utils/colors.dart';
@@ -27,20 +27,47 @@ class ProductFeedWidget extends StatefulWidget {
 class _ProductFeedWidgetState extends State<ProductFeedWidget> {
   List<StyleupModel> stlyeupList = [];
 
+  bool isLoading = false;
+
+  void setIsLoading(bool val) {
+    isLoading = val;
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
-
-    ApiHelper.shared.getProfileStyleupList(widget.minishopProduct.memNo, 1, 0, (getStyleupList) {
+    setIsLoading(true);
+    ApiHelper.shared.getProfileStyleupList(widget.minishopProduct.memNo, 1, 0,
+        (getStyleupList) {
       setState(() {
         stlyeupList.addAll(getStyleupList);
       });
-    }, (error) {});
+      setIsLoading(false);
+    }, (error) {
+      stlyeupList.clear();
+      setIsLoading(false);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    if (isLoading) {
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: ShownyStyle.defaultBottomPadding(),
+          top: 30.toWidth,
+        ),
+        child: ShownyIndicator(
+          color: ShownyStyle.mainPurple,
+          radius: 15,
+        ),
+      );
+    }
+    if (stlyeupList.isEmpty) {
+      return SizedBox();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -70,7 +97,8 @@ class _ProductFeedWidgetState extends State<ProductFeedWidget> {
               stlyeupList.length,
               (index) {
                 return Padding(
-                  padding: EdgeInsets.only(right: index < stlyeupList.length - 1 ? 8.toWidth : 0),
+                  padding: EdgeInsets.only(
+                      right: index < stlyeupList.length - 1 ? 8.toWidth : 0),
                   child: FeedItem(
                     stlyeupList: stlyeupList,
                     index: index,
@@ -105,7 +133,7 @@ class FeedSectionHeader extends StatelessWidget {
     return SizedBox(
       width: size.width,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

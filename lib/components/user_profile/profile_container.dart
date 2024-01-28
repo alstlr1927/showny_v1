@@ -65,6 +65,15 @@ class ProfileContainer extends StatelessWidget {
         height = 56.toWidth,
         width = 56.toWidth;
 
+  ProfileContainer.size64({
+    this.clip = Clip.antiAlias,
+    this.onPressed,
+    this.url,
+    this.overlay,
+  })  : borderWidth = 2,
+        height = 64.toWidth,
+        width = 64.toWidth;
+
   ProfileContainer.size70({
     this.clip = Clip.antiAlias,
     this.onPressed,

@@ -3,10 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/page_route.dart';
+import 'package:showny/components/user_profile/profile_container.dart';
 
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/profile/profile_screen.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 
@@ -15,24 +15,24 @@ import '../../../profile/other_profile_screen.dart';
 class SellerInformationWidget extends StatefulWidget {
   final MinishopProductModel minishopProduct;
 
-  const SellerInformationWidget({Key? key, required this.minishopProduct}) : super(key: key);
+  const SellerInformationWidget({Key? key, required this.minishopProduct})
+      : super(key: key);
 
   @override
-  State<SellerInformationWidget> createState() => _SellerInformationWidgetState();
+  State<SellerInformationWidget> createState() =>
+      _SellerInformationWidgetState();
 }
 
 class _SellerInformationWidgetState extends State<SellerInformationWidget> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.toWidth),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: size.width,
-            height: 32,
+          Container(
+            margin: EdgeInsets.only(top: 14.toWidth, bottom: 20.toWidth),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -308,12 +308,15 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
             children: [
               GestureDetector(
                 onTap: () {
-                  if (Provider.of<UserProvider>(context, listen: false).user.memNo == widget.minishopProduct.userInfo!.memNo) {
-                    Navigator.push(
-                        context,
-                        ShownyPageRoute(
-                          builder: (context) => ProfileScreen(),
-                        ));
+                  if (Provider.of<UserProvider>(context, listen: false)
+                          .user
+                          .memNo ==
+                      widget.minishopProduct.userInfo!.memNo) {
+                    // Navigator.push(
+                    //     context,
+                    //     ShownyPageRoute(
+                    //       builder: (context) => ProfileScreen(),
+                    //     ));
                   } else {
                     Navigator.push(
                       context,
@@ -334,17 +337,20 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
                     list: [
                       // 팔로워
                       UserInfoCell(
-                        titleText: tr('product_detail.seller_information.followers_text'),
+                        titleText: tr(
+                            'product_detail.seller_information.followers_text'),
                         valueText: '752',
                       ),
                       // 팔로잉
                       UserInfoCell(
-                        titleText: tr('product_detail.seller_information.following_text'),
+                        titleText: tr(
+                            'product_detail.seller_information.following_text'),
                         valueText: '255',
                       ),
                       // 판매중
                       UserInfoCell(
-                        titleText: tr('product_detail.seller_information.sell_count_text'),
+                        titleText: tr(
+                            'product_detail.seller_information.sell_count_text'),
                         valueText: '4',
                       ),
                     ],
@@ -353,7 +359,8 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
                     list: [
                       // 평점
                       UserInfoCell(
-                        titleText: tr('product_detail.seller_information.grade_text'),
+                        titleText:
+                            tr('product_detail.seller_information.grade_text'),
                         valueText: '5.0',
                       ),
                       // 후기
@@ -362,18 +369,22 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OtherProfileScreen(memNo: widget.minishopProduct.userInfo!.memNo),
+                              builder: (context) => OtherProfileScreen(
+                                  memNo:
+                                      widget.minishopProduct.userInfo!.memNo),
                             ),
                           );
                         },
                         child: UserInfoCell(
-                          titleText: tr('product_detail.seller_information.review_text'),
+                          titleText: tr(
+                              'product_detail.seller_information.review_text'),
                           valueText: '18',
                         ),
                       ),
                       // 판매내역
                       UserInfoCell(
-                        titleText: tr('product_detail.seller_information.sales_history_text'),
+                        titleText: tr(
+                            'product_detail.seller_information.sales_history_text'),
                         valueText: '8',
                       ),
                     ],
@@ -398,16 +409,8 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
             children: [
               Column(
                 children: [
-                  Container(
-                    height: 64,
-                    width: 64.toWidth,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(widget.minishopProduct.userInfo!.profileImage),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                  ProfileContainer.size64(
+                    url: widget.minishopProduct.userInfo!.profileImage,
                   ),
                   SizedBox(height: 7),
                 ],

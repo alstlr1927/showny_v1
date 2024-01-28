@@ -29,10 +29,13 @@ class _MiniShopScreenState extends State<MiniShopScreen> {
   int categoryIndex = 0;
 
   refreshItems() {
-    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
-    Provider.of<MiniShopProductsProvider>(context, listen: false).getMiniShopProductList(user.memNo, "", null);
-    Provider.of<MiniShopProductsProvider>(context, listen: false).getRecentViewMinishopProductList(user.memNo);
+    Provider.of<MiniShopProductsProvider>(context, listen: false)
+        .getMiniShopProductList(user.memNo, "", null);
+    Provider.of<MiniShopProductsProvider>(context, listen: false)
+        .getRecentViewMinishopProductList(user.memNo);
   }
 
   @override
@@ -42,7 +45,9 @@ class _MiniShopScreenState extends State<MiniShopScreen> {
     eventBus.on<EventTabRefresh>().listen((event) {
       if (event.index == 2) {
         setState(() {
-          scrollController.animateTo(0.0, duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
+          scrollController.animateTo(0.0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeIn);
           refreshItems();
         });
       }
@@ -51,7 +56,8 @@ class _MiniShopScreenState extends State<MiniShopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
 
     Size size = MediaQuery.of(context).size;
@@ -163,8 +169,11 @@ class _MiniShopScreenState extends State<MiniShopScreen> {
               setState(() {
                 filterMinishopModel.categoryId = selectCategoryIndex;
                 //       categoryIndex = selectCategoryIndex;
-                Provider.of<MiniShopProductsProvider>(context, listen: false).initPage();
-                Provider.of<MiniShopProductsProvider>(context, listen: false).getMiniShopProductList(user.memNo, "", filterMinishopModel);
+                Provider.of<MiniShopProductsProvider>(context, listen: false)
+                    .initPage();
+                Provider.of<MiniShopProductsProvider>(context, listen: false)
+                    .getMiniShopProductList(
+                        user.memNo, "", filterMinishopModel);
               });
             },
             initCategory: categoryIndex,
@@ -173,7 +182,6 @@ class _MiniShopScreenState extends State<MiniShopScreen> {
             height: 1,
             color: greyExtraLight,
           ),
-
           const SizedBox(
             height: 16,
           ),
@@ -182,23 +190,25 @@ class _MiniShopScreenState extends State<MiniShopScreen> {
             resetFilter: () {
               setState(() {
                 filterMinishopModel.initFilter();
-                var provider = Provider.of<MiniShopProductsProvider>(context, listen: false);
+                var provider = Provider.of<MiniShopProductsProvider>(context,
+                    listen: false);
                 provider.initPage();
-                provider.getMiniShopProductList(user.memNo, "", filterMinishopModel);
+                provider.getMiniShopProductList(
+                    user.memNo, "", filterMinishopModel);
               });
             },
             applyFilter: (newFilterShopModel) {
               setState(() {
                 filterMinishopModel = newFilterShopModel;
-                var provider = Provider.of<MiniShopProductsProvider>(context, listen: false);
+                var provider = Provider.of<MiniShopProductsProvider>(context,
+                    listen: false);
                 provider.initPage();
-                provider.getMiniShopProductList(user.memNo, "", filterMinishopModel);
+                provider.getMiniShopProductList(
+                    user.memNo, "", filterMinishopModel);
               });
             },
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           const Divider(
             height: 8,
             thickness: 8,
