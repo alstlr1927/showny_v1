@@ -24,14 +24,13 @@ import 'package:showny/screens/shop/store/providers/mini_shop_banner_provider.da
 import 'package:showny/screens/shop/store/providers/search_brand_provider.dart';
 import 'package:showny/screens/shop/store/providers/store_provider.dart';
 import 'package:showny/screens/shop/store/providers/store_wishlist_provider.dart';
-import 'package:showny/screens/tabs/profile/my_shop/provider/report_provider.dart';
-import 'package:showny/screens/tabs/profile/other_profile_tab2_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/request_return_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/get_cancel_infodetail_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/get_profile_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/getstore_cancel_list_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/getstore_cartlist_provider.dart';
+import 'package:showny/providers/report_provider.dart';
+import 'package:showny/providers/get_my_profile_provider.dart';
+import 'package:showny/providers/request_return_provider.dart';
+import 'package:showny/providers/get_cancel_infodetail_provider.dart';
+import 'package:showny/providers/get_profile_provider.dart';
+import 'package:showny/providers/getstore_cancel_list_provider.dart';
+import 'package:showny/providers/getstore_cartlist_provider.dart';
 import 'package:showny/utils/image_cache_delegate.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
@@ -123,9 +122,9 @@ class MyApp extends StatelessWidget {
         prod.ChangeNotifierProvider(
           create: (context) => RequestReturnProvider(),
         ),
-        prod.ChangeNotifierProvider(
-          create: (context) => OtherProfileTab2Provider(),
-        ),
+        // prod.ChangeNotifierProvider(
+        //   create: (context) => OtherProfileTab2Provider(),
+        // ),
         prod.ChangeNotifierProvider(
           create: (context) => FetchGetMemberMinishopProductProvider(),
         ),

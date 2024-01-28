@@ -5,7 +5,7 @@ import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/filter_minishop_model.dart';
-import 'package:showny/screens/tabs/profile/my_shop/components/my_shop_grid_item.dart';
+import 'package:showny/screens/profile/widgets/my_shop_grid_item.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/widgets/shoping_emptyBasket_widget.dart';
 

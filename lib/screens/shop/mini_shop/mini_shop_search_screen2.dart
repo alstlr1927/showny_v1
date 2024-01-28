@@ -6,7 +6,7 @@ import 'package:showny/components/page_route.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/models/filter_minishop_model.dart';
-import 'package:showny/screens/tabs/profile/my_shop/components/my_shop_grid_item.dart';
+import 'package:showny/screens/profile/widgets/my_shop_grid_item.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/utils/colors.dart';

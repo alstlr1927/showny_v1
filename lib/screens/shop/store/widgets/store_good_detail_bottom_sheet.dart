@@ -7,7 +7,7 @@ import 'package:showny/components/page_route.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/store_good_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/getstore_cartlist_provider.dart';
+import 'package:showny/providers/getstore_cartlist_provider.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_button_widget.dart';

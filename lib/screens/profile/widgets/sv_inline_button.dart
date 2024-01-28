@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/utils/showny_style.dart';
 
-import '../../../../../constants.dart';
+import '../../../constants.dart';
 
 class SVInlineButton extends StatelessWidget {
   const SVInlineButton({

@@ -9,7 +9,7 @@ import 'package:showny/screens/common/components/sv_button.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/components/sv_drop_down_picker.dart';
 import 'package:showny/screens/intro/screen/input_additional_information_screen.dart';
-import 'package:showny/screens/tabs/profile/my_profile/components/sv_text_field.dart';
+import 'package:showny/screens/intro/components/sv_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/utils/showny_style.dart';

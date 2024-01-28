@@ -6,14 +6,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/helper/font_helper.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/request_return_provider.dart';
-import 'package:showny/screens/tabs/profile/provider/get_profile_provider.dart';
+import 'package:showny/providers/request_return_provider.dart';
+import 'package:showny/providers/get_profile_provider.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
 
-import '../../../../profile/model/get_myshopping_response_model.dart';
+import '../profile/model/get_myshopping_response_model.dart';
 
 class MyShoppingPage extends StatefulWidget {
   const MyShoppingPage({Key? key}) : super(key: key);

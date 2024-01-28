@@ -1,14 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:showny/screens/tabs/profile/my_shop/provider/report_provider.dart';
+import 'package:showny/providers/report_provider.dart';
 import 'package:showny/utils/images.dart';
 
 import '../../../providers/FetchGetMemberMinishopProductProvider.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/theme.dart';
 import '../../../widgets/common_button_widget.dart';
-import '../../tabs/profile/profile_tab_button.dart';
-import '../../tabs/profile/my_shop/components/my_shop_grid_item.dart';
+import 'profile_tab_button.dart';
+import 'my_shop_grid_item.dart';
 import 'package:provider/provider.dart';
 
 class TabMyShop extends StatefulWidget {

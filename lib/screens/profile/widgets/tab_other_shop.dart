@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/screens/profile/widgets/tab_my_shop.dart';
-import 'package:showny/screens/tabs/profile/my_shop/components/my_shop_grid_item.dart';
-import 'package:showny/screens/tabs/profile/profile_tab_button.dart';
+import 'package:showny/screens/profile/widgets/my_shop_grid_item.dart';
+import 'package:showny/screens/profile/widgets/profile_tab_button.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/theme.dart';
 

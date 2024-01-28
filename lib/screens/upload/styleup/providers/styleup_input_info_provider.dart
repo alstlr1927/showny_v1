@@ -8,7 +8,7 @@ import 'package:showny/models/user_model.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/intro/components/preset_color_button.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
-import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
+import 'package:showny/providers/get_my_profile_provider.dart';
 import 'package:showny/screens/upload/styleup/styleup_item_tag.dart';
 import 'package:showny/screens/upload/styleup/styleup_style_tag.dart';
 import 'package:showny/screens/upload/styleup/stylup_input_info.dart';

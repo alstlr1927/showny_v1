@@ -12,16 +12,16 @@ import 'package:showny/screens/intro/screen/login_screen.dart';
 import 'package:showny/screens/profile/temp_setting.dart';
 import 'package:showny/screens/profile/widgets/tab_profile_bookmark.dart';
 import 'package:showny/screens/profile/widgets/tab_profile_feed.dart';
-import 'package:showny/screens/tabs/profile/my_profile/screens/profile_follower_screen.dart';
-import 'package:showny/screens/tabs/profile/my_profile/screens/profile_following_screen.dart';
+import 'package:showny/screens/profile/profile_follower_screen.dart';
+import 'package:showny/screens/profile/profile_following_screen.dart';
 import 'package:showny/screens/profile/widgets/tab_my_shop.dart';
-import 'package:showny/screens/tabs/profile/myshopping/pages/my_shopping_page.dart';
+import 'package:showny/screens/my_shopping/my_shopping_page.dart';
 import 'package:showny/screens/profile/widgets/profile_not_logged_in_screen.dart';
-import 'package:showny/screens/tabs/profile/provider/get_my_profile_provider.dart';
+import 'package:showny/providers/get_my_profile_provider.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import '../../models/user_model.dart';
-import '../tabs/profile/profile_tab_button.dart';
+import 'widgets/profile_tab_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key, this.category}) : super(key: key);
