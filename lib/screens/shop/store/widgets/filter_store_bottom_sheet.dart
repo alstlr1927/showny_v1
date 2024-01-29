@@ -1,17 +1,18 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:showny/models/filter_shop_model.dart';
 import 'package:showny/utils/colors.dart';
-import 'package:showny/utils/images.dart';
+import 'package:showny/utils/showny_style.dart';
+import 'package:showny/utils/showny_util.dart';
 import 'package:showny/utils/theme.dart';
-import 'package:showny/widgets/common_button_widget.dart';
 import 'package:showny/widgets/custom_slider_widget.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
+import '../../../../components/showny_button/showny_button.dart';
 import '../models/color_model.dart';
 import '../models/style_model.dart';
-import 'text_field_widget.dart';
 
 void showStoreFilterBottomSheet(
     BuildContext context,
@@ -19,14 +20,16 @@ void showStoreFilterBottomSheet(
     Function() resetFilter,
     Function(FilterShopModel) applyFilter) {
   Size size = MediaQuery.of(context).size;
-  TextEditingController minPriceController = TextEditingController(
-      text: setFilterShopModel.minPrice?.toString() ?? '');
-  TextEditingController maxPriceController = TextEditingController(
-      text: setFilterShopModel.maxPrice?.toString() ?? '');
-  List<int> styleIdList = setFilterShopModel.styleIdList;
-  List<int> fitIdList = setFilterShopModel.fitIdList;
-  List<int> materialIdList = setFilterShopModel.materialIdList;
-  List<int> colorIdList = setFilterShopModel.colorList;
+
+  bool isSelectPriceMode = setFilterShopModel.minPrice != null &&
+      setFilterShopModel.maxPrice != null;
+  SfRangeValues rangeValues = SfRangeValues(
+      ((setFilterShopModel.minPrice?.toDouble()) ?? 0.0) / 10000,
+      (setFilterShopModel.maxPrice?.toDouble() ?? 100.0) / 10000);
+  List<int> styleIdList = [...setFilterShopModel.styleIdList];
+  List<int> fitIdList = [...setFilterShopModel.fitIdList];
+  List<int> materialIdList = [...setFilterShopModel.materialIdList];
+  List<int> colorIdList = [...setFilterShopModel.colorList];
   double flexibility = 1;
 
   bool isShowFit = false;
@@ -35,8 +38,8 @@ void showStoreFilterBottomSheet(
   bool isShowColor = false;
 
   void initFilter() {
-    minPriceController.text = "";
-    maxPriceController.text = "";
+    isSelectPriceMode = false;
+    rangeValues = SfRangeValues(0.0, 100.0);
     styleIdList.clear();
     fitIdList.clear();
     materialIdList.clear();
@@ -51,7 +54,7 @@ void showStoreFilterBottomSheet(
     builder: (BuildContext bc) {
       return StatefulBuilder(
         builder: (context, newState) => FractionallySizedBox(
-          heightFactor: 0.9,
+          heightFactor: 0.8,
           child: GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -60,18 +63,16 @@ void showStoreFilterBottomSheet(
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.0),
-                  topRight: Radius.circular(16.0),
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
                 ),
               ),
-              child: SingleChildScrollView(
-                  child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 16, bottom: 40),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16.toWidth, vertical: 16.toWidth),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(
@@ -81,7 +82,7 @@ void showStoreFilterBottomSheet(
                         Center(
                             child: Text(
                           tr('store.filter.title'),
-                          style: themeData().textTheme.titleMedium,
+                          style: ShownyStyle.body2(weight: FontWeight.bold),
                         )),
                         const Spacer(),
                         GestureDetector(
@@ -91,674 +92,591 @@ void showStoreFilterBottomSheet(
                             child: const Icon(Icons.close))
                       ],
                     ),
-                    const SizedBox(height: 24),
-                    Text(
-                      tr('store.filter.options.price'),
-                      style: themeData()
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: grey),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextFieldWidget(
-                            borderRadius: 10,
-                            borderColor: black,
-                            hintText: "0원",
-                            hintStyle: themeData()
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: textColor),
-                            textEditingController: minPriceController,
-                            textInputType: TextInputType.number,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: TextFieldWidget(
-                            borderRadius: 10,
-                            borderColor: black,
-                            hintText: "1,000,000원",
-                            hintStyle: themeData()
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: textColor),
-                            textEditingController: maxPriceController,
-                            textInputType: TextInputType.number,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 40),
-                    Text(
-                      tr('store.filter.options.style'),
-                      style: themeData()
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: grey),
-                    ),
-                    const SizedBox(height: 20),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: styleData.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4, childAspectRatio: 1.8),
-                      itemBuilder: (context, index) {
-                        bool isSelected =
-                            styleIdList.contains(styleData[index].id);
-                        return GestureDetector(
-                          onTap: () {
-                            newState(
-                              () {
-                                if (isSelected) {
-                                  styleIdList.remove(styleData[index].id);
-                                } else {
-                                  styleIdList.add(styleData[index].id);
-                                }
-                              },
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8)),
-                                border: Border.all(
-                                  color: isSelected ? black : greyExtraLight,
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                        child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, top: 16, bottom: 40),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                tr('store.filter.options.price'),
+                                style: ShownyStyle.body2(
+                                    color: const Color(0xff555555),
+                                    weight: FontWeight.bold),
+                              ),
+                              const Spacer(),
+                              Text(
+                                '가격 설정',
+                                style: ShownyStyle.overline(
+                                  color: Color(0xff777777),
                                 ),
                               ),
-                              child: Center(
-                                  child: Text(
-                                tr(styleData[index].name),
-                                style: themeData().textTheme.bodySmall!.apply(
-                                    color: isSelected ? black : textColor),
-                              )),
-                            ),
+                              SizedBox(width: 6.toWidth),
+                              FlutterSwitch(
+                                value: isSelectPriceMode,
+                                activeColor: ShownyStyle.mainPurple,
+                                width: 32,
+                                height: 18,
+                                // padding: 0,
+                                padding: 2,
+                                toggleSize: 14,
+                                borderRadius: 30,
+                                onToggle: (value) {
+                                  isSelectPriceMode = value;
+                                  rangeValues = SfRangeValues(0.0, 100.0);
+                                  newState(() {});
+                                },
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 40),
-                    GestureDetector(
-                      onTap: () {
-                        newState(() {
-                          isShowFit = !isShowFit;
-                        });
-                      },
-                      child: Container(
-                        color: white,
-                        width: size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              tr("store.filter.options.fit"),
-                              style: themeData()
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(color: grey),
-                            ),
-                            isShowFit
-                                ? Image.asset(
-                                    arrowDown,
-                                    color: greyLight,
-                                    height: 20,
-                                    width: 20,
-                                  )
-                                : Image.asset(
-                                    arrowDownIcon,
-                                    color: greyLight,
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    isShowFit == true
-                        ? GridView.builder(
+                          const SizedBox(height: 20),
+                          _StorePriceRangeSlider(
+                            rangeValues: rangeValues,
+                            onChanged: isSelectPriceMode
+                                ? (newValues) {
+                                    if (newValues.start < newValues.end) {
+                                      newState(() {
+                                        rangeValues = newValues;
+                                      });
+                                    }
+                                  }
+                                : null,
+                          ),
+                          const SizedBox(height: 40),
+                          Text(
+                            tr('store.filter.options.style'),
+                            style: ShownyStyle.body2(
+                                color: const Color(0xff555555),
+                                weight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 20),
+                          GridView.builder(
                             shrinkWrap: true,
-                            itemCount: fitData.length,
+                            itemCount: styleData.length,
                             physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4, childAspectRatio: 1.8),
+                              crossAxisCount: 4,
+                              childAspectRatio: 84 / 35,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 8,
+                            ),
                             itemBuilder: (context, index) {
                               bool isSelected =
-                                  fitIdList.contains(fitData[index].id);
-                              return GestureDetector(
-                                onTap: () {
+                                  styleIdList.contains(styleData[index].id);
+                              return BaseButton(
+                                onPressed: () {
                                   newState(
                                     () {
                                       if (isSelected) {
-                                        fitIdList.remove(fitData[index].id);
+                                        styleIdList.remove(styleData[index].id);
                                       } else {
-                                        fitIdList.add(fitData[index].id);
+                                        styleIdList.add(styleData[index].id);
                                       }
                                     },
                                   );
                                 },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(8)),
-                                        border: Border.all(
-                                          color: isSelected
-                                              ? black
-                                              : greyExtraLight,
-                                        )),
-                                    child: Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: isSelected
+                                        ? ShownyStyle.mainPurple
+                                        : ShownyStyle.white,
+                                    border: Border.all(
+                                      color: isSelected
+                                          ? ShownyStyle.mainPurple
+                                          : ShownyStyle.gray040,
+                                    ),
+                                  ),
+                                  child: Center(
                                       child: Text(
-                                        tr(fitData[index].name),
-                                        style: themeData()
-                                            .textTheme
-                                            .bodySmall!
-                                            .apply(
-                                                color: isSelected
-                                                    ? black
-                                                    : textColor),
-                                      ),
+                                    tr(styleData[index].name),
+                                    style: isSelected
+                                        ? ShownyStyle.caption(
+                                            color: ShownyStyle.white,
+                                            weight: FontWeight.w500)
+                                        : ShownyStyle.caption(
+                                            color: const Color(0xffaaaaaa)),
+                                  )),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 40),
+                          GestureDetector(
+                            onTap: () {
+                              newState(() {
+                                isShowFit = !isShowFit;
+                              });
+                            },
+                            child: Container(
+                              color: white,
+                              width: size.width,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    tr("store.filter.options.fit"),
+                                    style: ShownyStyle.body2(
+                                        color: const Color(0xff555555),
+                                        weight: FontWeight.bold),
+                                  ),
+                                  AnimatedRotation(
+                                    turns: isShowFit ? .5 : 1,
+                                    duration: const Duration(milliseconds: 200),
+                                    child: Image.asset(
+                                      'assets/icons/shop/filter_tab_down_arrow.png',
+                                      color: greyLight,
+                                      height: 20.toWidth,
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          )
-                        : const Divider(
-                            color: greyExtraLight,
-                            thickness: 1,
-                          ),
-                    const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        newState(() {
-                          isShowMaterial = !isShowMaterial;
-                        });
-                      },
-                      child: Container(
-                        color: white,
-                        width: size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              tr("store.filter.options.main_material"),
-                              style: themeData()
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(color: grey),
+                                ],
+                              ),
                             ),
-                            isShowMaterial
-                                ? Image.asset(
-                                    arrowDown,
-                                    color: greyLight,
-                                    height: 20,
-                                    width: 20,
-                                  )
-                                : Image.asset(
-                                    arrowDownIcon,
-                                    color: greyLight,
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    isShowMaterial == true
-                        ? GridView.builder(
-                            shrinkWrap: true,
-                            itemCount: materialData.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4, childAspectRatio: 1.8),
-                            itemBuilder: (context, index) {
-                              bool isSelected = materialIdList
-                                  .contains(materialData[index].id);
-                              return GestureDetector(
-                                onTap: () {
-                                  newState(
-                                    () {
-                                      if (isSelected) {
-                                        materialIdList
-                                            .remove(materialData[index].id);
-                                      } else {
-                                        materialIdList
-                                            .add(materialData[index].id);
-                                      }
-                                    },
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(8)),
-                                        border: Border.all(
-                                          color: isSelected
-                                              ? black
-                                              : greyExtraLight,
-                                        )),
-                                    child: Center(
-                                        child: Text(
-                                      tr(materialData[index].name),
-                                      style: themeData()
-                                          .textTheme
-                                          .bodySmall!
-                                          .apply(
+                          ),
+                          const SizedBox(height: 10),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 200),
+                            child: isShowFit
+                                ? GridView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: fitData.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 4,
+                                      childAspectRatio: 84 / 35,
+                                      mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      bool isSelected =
+                                          fitIdList.contains(fitData[index].id);
+                                      return BaseButton(
+                                        onPressed: () {
+                                          newState(
+                                            () {
+                                              if (isSelected) {
+                                                fitIdList
+                                                    .remove(fitData[index].id);
+                                              } else {
+                                                fitIdList
+                                                    .add(fitData[index].id);
+                                              }
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: isSelected
+                                                ? ShownyStyle.mainPurple
+                                                : ShownyStyle.white,
+                                            border: Border.all(
                                               color: isSelected
-                                                  ? black
-                                                  : textColor),
-                                    )),
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                        : const Divider(
-                            color: greyExtraLight,
-                            thickness: 1,
-                          ),
-                    const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        newState(() {
-                          isShowFlexiblity = !isShowFlexiblity;
-                        });
-                      },
-                      child: Container(
-                        color: white,
-                        width: size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              tr("store.filter.options.flexibility"),
-                              style: themeData()
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(color: grey),
-                            ),
-                            isShowFlexiblity && flexibility == 1
-                                ? Text(
-                                    tr("무관"),
-                                    style: themeData().textTheme.titleMedium,
-                                  )
-                                : isShowFlexiblity && flexibility == 2
-                                    ? Text(
-                                        tr("store.filter.options.almost_none"),
-                                        style:
-                                            themeData().textTheme.titleMedium,
-                                      )
-                                    : isShowFlexiblity && flexibility == 3
-                                        ? Text(
-                                            tr("store.filter.options.slightly_none"),
-                                            style: themeData()
-                                                .textTheme
-                                                .titleMedium,
-                                          )
-                                        : isShowFlexiblity && flexibility == 4
-                                            ? Text(
-                                                tr("store.filter.options.commonly"),
-                                                style: themeData()
-                                                    .textTheme
-                                                    .titleMedium,
-                                              )
-                                            : isShowFlexiblity &&
-                                                    flexibility == 5
-                                                ? Text(
-                                                    tr("store.filter.options.little_bit"),
-                                                    style: themeData()
-                                                        .textTheme
-                                                        .titleMedium,
-                                                  )
-                                                : isShowFlexiblity &&
-                                                        flexibility == 6
-                                                    ? Text(
-                                                        tr("store.filter.options.very_present"),
-                                                        style: themeData()
-                                                            .textTheme
-                                                            .titleMedium,
-                                                      )
-                                                    : const SizedBox.shrink(),
-                            isShowFlexiblity
-                                ? Image.asset(
-                                    arrowDown,
-                                    color: greyLight,
-                                    height: 20,
-                                    width: 20,
-                                  )
-                                : Image.asset(
-                                    arrowDownIcon,
-                                    color: greyLight,
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    isShowFlexiblity
-                        ? SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: CustomSlider(
-                                value: flexibility,
-                                onChanged: (value) {
-                                  newState(
-                                    () {
-                                      flexibility = value;
-                                    },
-                                  );
-
-                                  log("Rangevalue :: ${value}");
-                                }),
-                            // SliderTheme(
-                            //   data: SliderTheme.of(context).copyWith(
-                            //     trackHeight: 6.0,
-                            //     trackShape: const RoundedRectSliderTrackShape(),
-                            //     activeTrackColor: black,
-                            //     inactiveTrackColor: black,
-                            //     thumbShape: const RoundSliderThumbShape(
-                            //       enabledThumbRadius: 14.0,
-                            //       pressedElevation: 8.0,
-                            //     ),
-                            //     thumbColor: white,
-                            //     overlayColor: black,
-                            //     overlayShape: const RoundSliderOverlayShape(overlayRadius:32),
-                            //     tickMarkShape: const RoundSliderTickMarkShape(),
-                            //     activeTickMarkColor: black,
-                            //     inactiveTickMarkColor:black,
-                            //     valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-                            //     valueIndicatorColor: black,
-                            //     valueIndicatorTextStyle: const TextStyle(
-                            //       color: black,
-                            //       fontSize: 20.0,
-                            //     ),
-                            //   ),
-                            //   child: Slider(
-                            //     min: 0.8,
-                            //     max: 1.8,
-                            //     value: provider.sliderRangeValue,
-                            //     divisions: 5,
-                            //     onChanged: (value) {
-                            //       provider.setSliderRangeValue(value);
-                            //       log("Rangevalue :: ${provider.sliderRangeValue}");
-                            //     },
-                            //   ),
-                            // ),
-                            // SfSliderTheme(
-                            //   data: SfSliderThemeData(
-                            //     activeTrackHeight: 5,
-                            //     thumbRadius: 10,
-                            //     inactiveTrackHeight: 5,
-                            //     activeDividerRadius: 5,
-                            //     activeDividerStrokeWidth: 5,
-                            //     inactiveDividerRadius: 5,
-                            //     overlayColor: Colors.transparent,
-                            //     thumbColor: const Color(0xff0aff6c),
-                            //     activeDividerColor: Colors.grey,
-                            //     activeTrackColor: Colors.grey,
-                            //     overlayRadius: 100,
-                            //   ),
-                            //   child: SfSlider(
-                            //     min: 0.0,
-                            //     max: 4.0,
-                            //     interval: 1,
-                            //     showDividers: true,
-                            //     value:  provider.sliderRangeValue,
-                            //     stepSize: 1,
-                            //     onChanged: (newValue) {
-                            //       provider.setSliderRangeValue(newValue);
-                            //     },
-                            //   ),
-                            // ),
-                            //     Slider(
-                            //   min: 0.8,
-                            //   max: 1.8,
-                            //   activeColor: black,
-                            //   inactiveColor: black,
-                            //   thumbColor: white,
-                            //   value: provider.sliderRangeValue,
-                            //   divisions: 5,
-                            //   onChanged: (value) {
-                            //     provider.setSliderRangeValue(value);
-                            //     log("Rangevalue :: ${provider.sliderRangeValue}");
-                            //   },
-                            // ),
-                          )
-                        : const Divider(
-                            color: greyExtraLight,
-                            thickness: 1,
-                          ),
-                    const SizedBox(height: 10),
-                    GestureDetector(
-                      onTap: () {
-                        newState(() {
-                          isShowColor = !isShowColor;
-                        });
-                      },
-                      child: Container(
-                        color: white,
-                        width: size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              tr("store.filter.options.color"),
-                              style:
-                                  themeData().textTheme.titleMedium!.copyWith(
-                                        color: grey,
-                                      ),
-                            ),
-                            isShowColor
-                                ? Image.asset(
-                                    arrowDown,
-                                    color: greyLight,
-                                    height: 20,
-                                    width: 20,
-                                  )
-                                : Image.asset(
-                                    arrowDownIcon,
-                                    color: greyLight,
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    isShowColor == true
-                        ? GridView.builder(
-                            shrinkWrap: true,
-                            itemCount: colorData.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4, childAspectRatio: 1.2),
-                            itemBuilder: (context, index) {
-                              bool isSelected =
-                                  colorIdList.contains(colorData[index].id);
-                              return GestureDetector(
-                                onTap: () {
-                                  newState(
-                                    () {
-                                      if (isSelected) {
-                                        colorIdList.remove(colorData[index].id);
-                                      } else {
-                                        colorIdList.add(colorData[index].id);
-                                      }
-                                    },
-                                  );
-                                },
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: isSelected
-                                                  ? black
-                                                  : Colors.transparent)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4),
-                                        child: CircleAvatar(
-                                          backgroundColor:
-                                              colorData[index].colorHex,
-                                          radius: 14,
+                                                  ? ShownyStyle.mainPurple
+                                                  : ShownyStyle.gray040,
+                                            ),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              tr(fitData[index].name),
+                                              style: isSelected
+                                                  ? ShownyStyle.caption(
+                                                      color: ShownyStyle.white,
+                                                      weight: FontWeight.w500)
+                                                  : ShownyStyle.caption(
+                                                      color: const Color(
+                                                          0xffaaaaaa)),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: size.height * 0.01,
-                                    ),
-                                    Text(
-                                      colorData[index].colorName,
-                                      style: themeData()
-                                          .textTheme
-                                          .bodySmall!
-                                          .apply(
-                                              color: isSelected
-                                                  ? black
-                                                  : textColor),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          )
-                        : const Divider(
-                            color: greyExtraLight,
-                            thickness: 1,
+                                      );
+                                    },
+                                  )
+                                : const Divider(
+                                    color: greyExtraLight,
+                                    thickness: 1,
+                                  ),
                           ),
-                    const SizedBox(height: 10),
-                    Row(
+                          const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () {
+                              newState(() {
+                                isShowMaterial = !isShowMaterial;
+                              });
+                            },
+                            child: Container(
+                              color: white,
+                              width: size.width,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    tr("store.filter.options.main_material"),
+                                    style: ShownyStyle.body2(
+                                        color: const Color(0xff555555),
+                                        weight: FontWeight.bold),
+                                  ),
+                                  AnimatedRotation(
+                                    turns: isShowMaterial ? .5 : 1,
+                                    duration: const Duration(milliseconds: 200),
+                                    child: Image.asset(
+                                      'assets/icons/shop/filter_tab_down_arrow.png',
+                                      color: greyLight,
+                                      height: 20.toWidth,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 200),
+                            child: isShowMaterial
+                                ? GridView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: materialData.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 4,
+                                      childAspectRatio: 84 / 35,
+                                      mainAxisSpacing: 8,
+                                      crossAxisSpacing: 8,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      bool isSelected = materialIdList
+                                          .contains(materialData[index].id);
+                                      return BaseButton(
+                                        onPressed: () {
+                                          newState(
+                                            () {
+                                              if (isSelected) {
+                                                materialIdList.remove(
+                                                    materialData[index].id);
+                                              } else {
+                                                materialIdList.add(
+                                                    materialData[index].id);
+                                              }
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: isSelected
+                                                ? ShownyStyle.mainPurple
+                                                : ShownyStyle.white,
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? ShownyStyle.mainPurple
+                                                  : ShownyStyle.gray040,
+                                            ),
+                                          ),
+                                          child: Center(
+                                              child: Text(
+                                            tr(materialData[index].name),
+                                            style: isSelected
+                                                ? ShownyStyle.caption(
+                                                    color: ShownyStyle.white,
+                                                    weight: FontWeight.w500)
+                                                : ShownyStyle.caption(
+                                                    color: const Color(
+                                                        0xffaaaaaa)),
+                                          )),
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : const Divider(
+                                    color: greyExtraLight,
+                                    thickness: 1,
+                                  ),
+                          ),
+                          const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () {
+                              newState(() {
+                                isShowFlexiblity = !isShowFlexiblity;
+                              });
+                            },
+                            child: Container(
+                              color: white,
+                              width: size.width,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    tr("store.filter.options.flexibility"),
+                                    style: ShownyStyle.body2(
+                                        color: const Color(0xff555555),
+                                        weight: FontWeight.bold),
+                                  ),
+                                  isShowFlexiblity && flexibility == 1
+                                      ? Text(
+                                          tr("무관"),
+                                          style: ShownyStyle.body2(
+                                              weight: FontWeight.bold),
+                                        )
+                                      : isShowFlexiblity && flexibility == 2
+                                          ? Text(
+                                              tr("store.filter.options.almost_none"),
+                                              style: ShownyStyle.body2(
+                                                  weight: FontWeight.bold),
+                                            )
+                                          : isShowFlexiblity && flexibility == 3
+                                              ? Text(
+                                                  tr("store.filter.options.slightly_none"),
+                                                  style: ShownyStyle.body2(
+                                                      weight: FontWeight.bold),
+                                                )
+                                              : isShowFlexiblity &&
+                                                      flexibility == 4
+                                                  ? Text(
+                                                      tr("store.filter.options.commonly"),
+                                                      style: ShownyStyle.body2(
+                                                          weight:
+                                                              FontWeight.bold),
+                                                    )
+                                                  : isShowFlexiblity &&
+                                                          flexibility == 5
+                                                      ? Text(
+                                                          tr("store.filter.options.little_bit"),
+                                                          style:
+                                                              ShownyStyle.body2(
+                                                                  weight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                        )
+                                                      : isShowFlexiblity &&
+                                                              flexibility == 6
+                                                          ? Text(
+                                                              tr("store.filter.options.very_present"),
+                                                              style: ShownyStyle.body2(
+                                                                  weight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            )
+                                                          : const SizedBox
+                                                              .shrink(),
+                                  AnimatedRotation(
+                                    turns: isShowFlexiblity ? .5 : 1,
+                                    duration: const Duration(milliseconds: 200),
+                                    child: Image.asset(
+                                      'assets/icons/shop/filter_tab_down_arrow.png',
+                                      color: greyLight,
+                                      height: 20.toWidth,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 200),
+                            child: isShowFlexiblity
+                                ? SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: CustomSlider(
+                                        value: flexibility,
+                                        onChanged: (value) {
+                                          newState(
+                                            () {
+                                              flexibility = value;
+                                            },
+                                          );
+                                        }),
+                                  )
+                                : const Divider(
+                                    color: greyExtraLight,
+                                    thickness: 1,
+                                  ),
+                          ),
+                          const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () {
+                              newState(() {
+                                isShowColor = !isShowColor;
+                              });
+                            },
+                            child: Container(
+                              color: white,
+                              width: size.width,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    tr("store.filter.options.color"),
+                                    style: ShownyStyle.body2(
+                                        color: const Color(0xff555555),
+                                        weight: FontWeight.bold),
+                                  ),
+                                  AnimatedRotation(
+                                    turns: isShowColor ? .5 : 1,
+                                    duration: const Duration(milliseconds: 200),
+                                    child: Image.asset(
+                                      'assets/icons/shop/filter_tab_down_arrow.png',
+                                      color: greyLight,
+                                      height: 20.toWidth,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 200),
+                            child: isShowColor
+                                ? GridView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: colorData.length,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 4,
+                                            childAspectRatio: 1.2),
+                                    itemBuilder: (context, index) {
+                                      bool isSelected = colorIdList
+                                          .contains(colorData[index].id);
+                                      return GestureDetector(
+                                        onTap: () {
+                                          newState(
+                                            () {
+                                              if (isSelected) {
+                                                colorIdList.remove(
+                                                    colorData[index].id);
+                                              } else {
+                                                colorIdList
+                                                    .add(colorData[index].id);
+                                              }
+                                            },
+                                          );
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 32,
+                                              width: 32,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                      color: isSelected
+                                                          ? black
+                                                          : Colors
+                                                              .transparent)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4),
+                                                child: CircleAvatar(
+                                                  backgroundColor:
+                                                      colorData[index].colorHex,
+                                                  radius: 14,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: size.height * 0.01,
+                                            ),
+                                            Text(
+                                              colorData[index].colorName,
+                                              style: themeData()
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .apply(
+                                                      color: isSelected
+                                                          ? black
+                                                          : textColor),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : const Divider(
+                                    color: greyExtraLight,
+                                    thickness: 1,
+                                  ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    )),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16.toWidth, 10.toWidth,
+                        16.toWidth, ShownyStyle.defaultBottomPadding()),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        CommonButtonWidget(
-                          horizontalPadding: 0,
-                          onTap: () {
-                            // minPriceController.clear();
-                            // maxPriceController.clear();
-                            // Provider.of<BottomSheetProvider>(context,
-                            //         listen: false)
-                            //     .resetSelections();
-                            // Provider.of<FavColorProvider>(context,
-                            //         listen: false)
-                            //     .resetSelections();
+                        ShownyButton(
+                          onPressed: () {
                             newState(() {
                               initFilter();
-                              // Navigator.pop(context);
-                              // showStoreFilterBottomSheet(context);
                             });
                           },
-                          text: tr("mini_shop.filter.reset"),
-                          radius: 10,
-                          height: 48,
-                          width: (size.width - 42) * 2 / 7,
-                          color: greyExtraLight,
-                          textcolor: grey,
+                          option: ShownyButtonOption.fill(
+                            text: tr("mini_shop.filter.reset"),
+                            theme: ShownyButtonFillTheme.gray,
+                            style: ShownyButtonFillStyle.regular,
+                          ),
                         ),
                         const SizedBox(width: 10),
-                        CommonButtonWidget(
-                          horizontalPadding: 0,
-                          text: tr("mini_shop.filter.apply"),
-                          radius: 10,
-                          height: 48,
-                          width: (size.width - 42) * 5 / 7,
-                          color: black,
-                          textcolor: white,
-                          onTap: () {
-                            newState(() {
-                              FilterShopModel filterShopModel =
-                                  FilterShopModel();
-                              if (minPriceController.text.trim().isNotEmpty) {
-                                filterShopModel.minPrice =
-                                    int.parse(minPriceController.text.trim());
-                              }
-                              if (maxPriceController.text.trim().isNotEmpty) {
-                                filterShopModel.maxPrice =
-                                    int.parse(maxPriceController.text.trim());
-                              }
-                              filterShopModel.styleIdList = styleIdList;
-                              filterShopModel.fitIdList = fitIdList;
-                              filterShopModel.materialIdList = materialIdList;
-                              filterShopModel.flexibility = flexibility.toInt();
-                              filterShopModel.colorList = colorIdList;
+                        Expanded(
+                          child: ShownyButton(
+                            onPressed: () {
+                              newState(() {
+                                FilterShopModel filterShopModel =
+                                    FilterShopModel();
+                                if (isSelectPriceMode) {
+                                  filterShopModel.minPrice =
+                                      (rangeValues.start as double).toInt() *
+                                          10000;
+                                  filterShopModel.maxPrice =
+                                      (rangeValues.end as double).toInt() *
+                                          10000;
+                                }
+                                filterShopModel.styleIdList = styleIdList;
+                                filterShopModel.fitIdList = fitIdList;
+                                filterShopModel.materialIdList = materialIdList;
+                                filterShopModel.flexibility =
+                                    flexibility.toInt();
+                                filterShopModel.colorList = colorIdList;
 
-                              applyFilter(filterShopModel);
-                            });
+                                applyFilter(filterShopModel);
+                              });
 
-                            // var storePovider = Provider.of<StoreSearchProvider>(context, listen: false);
-
-                            // storePovider.setMinPrice(null);
-                            // if (minPriceController.text.trim().isNotEmpty) {
-                            //   filtershopMo.setMinPrice(int.parse(minPriceController.text.trim()));
-                            //   storePovider.setMinPrice(int.parse(minPriceController.text.trim()));
-                            // }
-
-                            // storePovider.setMaxPrice(null);
-                            // if (maxPriceController.text.trim().isNotEmpty) {
-                            //   storeDetailFilterProvider.setMaxPrice(int.parse(maxPriceController.text.trim()));
-                            //   storePovider.setMaxPrice(int.parse(maxPriceController.text.trim()));
-                            // }
-
-                            // storePovider.setStyleIdList(null);
-                            // if (styleIdList.isNotEmpty) {
-                            //   storeDetailFilterProvider.setStyleIdList(styleIdList);
-                            //   storePovider.setStyleIdList(styleIdList);
-                            // }
-
-                            // storePovider.setFitIdList(null);
-                            // if (fitIdList.isNotEmpty) {
-                            //   storeDetailFilterProvider.setFitIdList(fitIdList);
-                            //   storePovider.setFitIdList(fitIdList);
-                            // }
-
-                            // storePovider.setMaterialIdList(null);
-                            // if (materialIdList.isNotEmpty) {
-                            //   storeDetailFilterProvider.setMaterialIdList(materialIdList);
-                            //   storePovider.setMaterialIdList(materialIdList);
-                            // }
-                            // // if (storeDetailFilterProvider.sliderRangeValue > 0) {
-                            // //   storeDetailFilterProvider.setSliderRangeValue(
-                            // //       storeDetailFilterProvider.sliderRangeValue);
-                            // // }
-
-                            // storePovider.setFlexibility(storeDetailFilterProvider.sliderRangeValue.toInt());
-
-                            // storePovider.setColorList(null);
-                            // if (colorIdList.isNotEmpty) {
-                            //   storeDetailFilterProvider.setColorIdList(colorIdList);
-                            //   storePovider.setColorList(colorIdList);
-                            // }
-                            // var user = Provider.of<UserProvider>(context, listen: false).user;
-
-                            // storePovider.initPage();
-                            // storePovider.getSearchList(user.memNo);
-
-                            Navigator.pop(context);
-                          },
-                        )
+                              Navigator.pop(context);
+                            },
+                            option: ShownyButtonOption.fill(
+                              text: '적용',
+                              theme: ShownyButtonFillTheme.violet,
+                              style: ShownyButtonFillStyle.fullRegular,
+                            ),
+                          ),
+                        ),
                       ],
-                    )
-                  ],
-                ),
-              )),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -904,3 +822,73 @@ List<StyleResponseModel> materialData = [
   StyleResponseModel(
       id: 15, name: tr('store.filter.material_filters.cashmere')),
 ];
+
+class _StorePriceRangeSlider extends StatefulWidget {
+  final SfRangeValues rangeValues;
+  final Function(SfRangeValues newValues)? onChanged;
+  const _StorePriceRangeSlider({
+    Key? key,
+    required this.rangeValues,
+    this.onChanged,
+  }) : super(key: key);
+
+  @override
+  State<_StorePriceRangeSlider> createState() => __StorePriceRangeSliderState();
+}
+
+class __StorePriceRangeSliderState extends State<_StorePriceRangeSlider> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          widget.onChanged == null
+              ? '전체'
+              : '${widget.rangeValues.start.round()}만원 ~ ${widget.rangeValues.end.round()}만원',
+          style: ShownyStyle.caption(
+            color: widget.onChanged == null
+                ? const Color(0xff777777)
+                : ShownyStyle.mainPurple,
+            weight: FontWeight.bold,
+          ),
+        ),
+        SfRangeSliderTheme(
+          data: SfRangeSliderThemeData(
+            activeLabelStyle: ShownyStyle.caption(),
+            inactiveLabelStyle: ShownyStyle.caption(),
+            inactiveTickColor: Color(0xffcacdcd),
+            inactiveMinorTickColor: Color(0xffcacdcd),
+            activeTickColor: ShownyStyle.mainPurple,
+            activeMinorTickColor: ShownyStyle.mainPurple,
+            thumbRadius: 8,
+            trackCornerRadius: 0,
+            activeTrackHeight: 3,
+            inactiveTrackHeight: 3,
+            overlayRadius: 0,
+          ),
+          child: SfRangeSlider(
+            min: 0.0,
+            max: 100.0,
+            interval: 20,
+            stepSize: 10,
+            showTicks: true,
+            showLabels: true,
+            minorTicksPerInterval: 1,
+            activeColor: ShownyStyle.mainPurple,
+            inactiveColor: Color(0xFFCACDCD),
+            tickShape: SfTickShape(),
+            values: widget.rangeValues,
+            onChanged: widget.onChanged,
+            labelFormatterCallback:
+                (dynamic actualValue, String formattedText) {
+              if (actualValue is double && actualValue == 100.0) {
+                return '${formattedText}만원';
+              }
+              return '${formattedText}만';
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}

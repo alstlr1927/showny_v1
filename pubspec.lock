@@ -803,6 +803,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.9"
+  flutter_switch:
+    dependency: "direct main"
+    description:
+      name: flutter_switch
+      sha256: b91477f926bba135d2d203d7b24367492662d8d9c3aa6adb960b14c1087d3c41
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1730,6 +1738,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: ed8527189f874b9d07f78f2f4306739ce003e8baccfdd7453c0098beef16428f
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.1.47"
+  syncfusion_flutter_sliders:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_sliders
+      sha256: "1d51b5b93e54ccd227f7a9ca291ee511718f9c904c017ba210484a4bad4ddc01"
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.1.47"
   synchronized:
     dependency: transitive
     description:

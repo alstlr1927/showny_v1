@@ -176,7 +176,6 @@ class _StoreGoodDetailScreen extends State<StoreGoodDetailScreen> {
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
-
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;

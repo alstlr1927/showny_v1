@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/models/styleup_battle_item_model.dart';
 
 class StyleupBattleModel {
@@ -17,9 +18,11 @@ class StyleupBattleModel {
   factory StyleupBattleModel.fromJson(Map<String, dynamic> json) {
     debugPrint("StyleupBattleModelStyleupBattleModel Parse");
     // debugPrint(json.toString());
-    var battleItemList2 = (json['battleItemList'] as List)
-        .map((item) => StyleupBattleItemModel.fromJson(item))
-        .toList();
+    var battleItemList2 = (json['battleItemList'] as List).map((item) {
+      ShownyLog().e('item : $item');
+      return StyleupBattleItemModel.fromJson(item);
+    }).toList();
+
     // debugPrint(battleItemList2.toString());
     debugPrint("StyleupBattleModelStyleupBattleModel Parse2");
 
