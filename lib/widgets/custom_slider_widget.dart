@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:showny/utils/showny_style.dart';
 
 class CustomSlider extends StatelessWidget {
   double value;
@@ -13,16 +14,16 @@ class CustomSlider extends StatelessWidget {
       data: SliderTheme.of(context).copyWith(
         trackHeight: 2,
         trackShape: const RoundedRectSliderTrackShape(),
-        activeTrackColor: Colors.black,
-        inactiveTrackColor: Colors.black,
+        activeTrackColor: ShownyStyle.mainPurple,
+        inactiveTrackColor: ShownyStyle.mainPurple,
         thumbShape: const PolygonSliderThumb(
           thumbRadius: 12.0,
           sliderValue: 3,
         ),
-        thumbColor: Colors.black,
+        thumbColor: ShownyStyle.mainPurple,
         tickMarkShape: const RoundSliderTickMarkShape(tickMarkRadius: 5),
-        activeTickMarkColor: Colors.black,
-        inactiveTickMarkColor: Colors.black,
+        activeTickMarkColor: ShownyStyle.mainPurple,
+        inactiveTickMarkColor: ShownyStyle.mainPurple,
       ),
       child: Slider(
         min: 1,
@@ -54,15 +55,15 @@ class PolygonSliderThumb extends SliderComponentShape {
   @override
   void paint(PaintingContext context, Offset center,
       {required Animation<double> activationAnimation,
-        required Animation<double> enableAnimation,
-        required bool isDiscrete,
-        required TextPainter labelPainter,
-        required RenderBox parentBox,
-        required SliderThemeData sliderTheme,
-        required TextDirection textDirection,
-        required double value,
-        required double textScaleFactor,
-        required Size sizeWithOverflow}) {
+      required Animation<double> enableAnimation,
+      required bool isDiscrete,
+      required TextPainter labelPainter,
+      required RenderBox parentBox,
+      required SliderThemeData sliderTheme,
+      required TextDirection textDirection,
+      required double value,
+      required double textScaleFactor,
+      required Size sizeWithOverflow}) {
     final Canvas canvas = context.canvas;
     double innerPolygonRadius1 = thumbRadius * 0.6;
     double innerPolygonRadius = thumbRadius * 0.8;
