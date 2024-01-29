@@ -62,8 +62,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Expanded(
             child: Row(
               children: [
-                GestureDetector(
-                  onTap: () {
+                BaseButton(
+                  onPressed: () {
                     Navigator.of(context).pop();
                   },
                   child: Padding(
@@ -128,16 +128,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 // 판매중인 상품
                 ProductCatalogueWidget(minishopProduct: minishopProduct!),
-                const SizedBox(height: 24),
+                // const SizedBox(height: 24),
                 const Divider(
                   thickness: 8,
                   height: 8,
                   color: divider,
                 ),
                 ProductFeedWidget(minishopProduct: minishopProduct!),
-                const SizedBox(
-                  height: 56,
-                ),
               ],
             ),
           ),
@@ -150,8 +147,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 10.toWidth),
                 child: Column(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
+                    BaseButton(
+                      onPressed: () {
                         UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
                         ApiHelper.shared.heartMinishopProduct(userProvider.user.memNo, minishopProduct!.id, !minishopProduct!.isHeart, (success) {}, (error) {});
                         setState(() {

@@ -54,7 +54,6 @@ class _MiniShopScreenState extends State<MiniShopScreen> {
     UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
 
-    Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       controller: scrollController,
       child: Column(

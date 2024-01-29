@@ -9,8 +9,7 @@ import 'package:showny/utils/showny_util.dart';
 class ProductDetailsWidget extends StatefulWidget {
   final MinishopProductModel minishopProduct;
 
-  const ProductDetailsWidget({Key? key, required this.minishopProduct})
-      : super(key: key);
+  const ProductDetailsWidget({Key? key, required this.minishopProduct}) : super(key: key);
 
   @override
   State<ProductDetailsWidget> createState() => _ProductDetailsWidgetState();
@@ -114,36 +113,28 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   color: Color(0xFF777777),
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
                 tr('product_detail.price_text'),
                 style: ShownyStyle.caption(
                   color: Color(0xFF777777),
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
                 tr('product_detail.size_text'),
                 style: ShownyStyle.caption(
                   color: Color(0xFF777777),
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
                 tr('product_detail.actual_size_text'),
                 style: ShownyStyle.caption(
                   color: Color(0xFF777777),
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
                 tr('product_detail.delivery_fee_text'),
                 style: ShownyStyle.caption(
@@ -164,36 +155,28 @@ class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
                   color: ShownyStyle.black,
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
                 '${widget.minishopProduct.price.formatPrice()} 원',
                 style: ShownyStyle.caption(
                   color: ShownyStyle.black,
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
                 widget.minishopProduct.actualSize,
                 style: ShownyStyle.caption(
                   color: ShownyStyle.black,
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
                 widget.minishopProduct.viewSize,
                 style: ShownyStyle.caption(
                   color: ShownyStyle.black,
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               Text(
                 '${widget.minishopProduct.deliveryPrice.formatPrice()} 원',
                 style: ShownyStyle.caption(
