@@ -1,12 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/models/filter_minishop_model.dart';
 import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
 import 'package:showny/widgets/common_button_widget.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../providers/minishop_search_product_provider.dart';
 
@@ -134,8 +137,6 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
   _showDialog(String? searchKeyword, FilterMinishopModel setFilterMinishopModel, Function() resetFilter, Function(FilterMinishopModel) applyFilter) {
     TextEditingController minPriceController = TextEditingController(text: setFilterMinishopModel.minPrice?.toString() ?? '');
     TextEditingController maxPriceController = TextEditingController(text: setFilterMinishopModel.maxPrice?.toString() ?? '');
-    int? rangeMinValue = setFilterMinishopModel.minPrice ?? 0;
-    int? rangeMaxValue = setFilterMinishopModel.maxPrice ?? 100;
     int? selectedCategory = (setFilterMinishopModel.categoryId ?? 1) - 1;
     int? isNew = setFilterMinishopModel.isNew ?? 2;
 
@@ -147,6 +148,8 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
     }
 
     Size size = MediaQuery.of(context).size;
+    SfRangeValues rangeValues = SfRangeValues(0.0, 100.0);
+
     showModalBottomSheet(
       context: context,
       backgroundColor: white,
@@ -272,6 +275,7 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                       //   // ),
                       //   onChanged: (value) {},
                       // ),
+                      PriceRangeSlider(rangeValues: rangeValues),
                       const SizedBox(height: 40),
                       SizedBox(
                         width: size.width,
@@ -469,6 +473,62 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
           },
         );
       },
+    );
+  }
+}
+
+class PriceRangeSlider extends StatefulWidget {
+  SfRangeValues rangeValues;
+  PriceRangeSlider({
+    super.key,
+    required this.rangeValues,
+  });
+
+  @override
+  State<PriceRangeSlider> createState() => _PriceRangeSliderState();
+}
+
+class _PriceRangeSliderState extends State<PriceRangeSlider> {
+  @override
+  Widget build(BuildContext context) {
+    // ShownyLog().i(widget.rangeValues.start.toString());
+    double startValue = widget.rangeValues.start;
+    double endValue = widget.rangeValues.end;
+
+    return Column(
+      children: [
+        Text(
+          widget.rangeValues.start == 0 && widget.rangeValues.end == 100 ? '전체' : '${startValue.round()}만원 ~ ${endValue.round()}만원',
+          style: ShownyStyle.caption(
+            color: ShownyStyle.mainPurple,
+            weight: FontWeight.bold,
+          ),
+        ),
+        SfRangeSlider(
+          min: 0.0,
+          max: 100.0,
+          interval: 20,
+          stepSize: 10,
+          showTicks: true,
+          showLabels: true,
+          minorTicksPerInterval: 1,
+          activeColor: ShownyStyle.mainPurple,
+          inactiveColor: Color(0xFFCACDCD),
+          values: widget.rangeValues,
+          // enableTooltip: true,
+          onChanged: (SfRangeValues newValues) {
+            setState(() {
+              widget.rangeValues = newValues;
+            });
+          },
+          tooltipTextFormatterCallback: (dynamic actualValue, String formattedText) {
+            return '${formattedText}만원';
+          },
+          labelFormatterCallback: (dynamic actualValue, String formattedText) {
+            return '${formattedText}만원';
+          },
+        ),
+      ],
     );
   }
 }
