@@ -26,7 +26,7 @@ class BattleScreenProvider with ChangeNotifier {
   void getBattleItemList() {
     UserProvider userProvider =
         Provider.of<UserProvider>(state.context, listen: false);
-
+    ShownyLog().e('call : getBattleItemList');
     ApiHelper.shared.getStyleupBattleItemList(
       userProvider.user.memNo,
       (styleupBattleModel) {
@@ -73,6 +73,8 @@ class BattleScreenProvider with ChangeNotifier {
   }
 
   BattleScreenProvider(this.state) {
+    ShownyLog().e('?????????????????????????????????????');
+    ShownyLog().e('battleno : ${state.widget.battleNo}');
     if (state.widget.battleNo.isNotEmpty) {
       // 다른 battleNo로 가져오기
       getBattleItemListById(state.widget.battleNo);

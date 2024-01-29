@@ -8,12 +8,12 @@ class ProfieTabButton<T extends CategoryMixin> extends StatelessWidget {
     this.onTap,
     required this.category,
     required this.currentCategory,
-    required this.count,
+    // required this.count,
   });
   final Function()? onTap;
   final T category;
   final T currentCategory;
-  final int count;
+  // final int count;
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +37,19 @@ class ProfieTabButton<T extends CategoryMixin> extends StatelessWidget {
                     : FontWeight.w500,
               ),
             ),
-            SizedBox(width: 6.toWidth),
-            Text(
-              '$count',
-              textAlign: TextAlign.center,
-              style: ShownyStyle.caption(
-                color: category == currentCategory
-                    ? Colors.black
-                    : const Color(0xFF444444),
-                weight: category == currentCategory
-                    ? FontWeight.w700
-                    : FontWeight.w500,
-              ),
-            ),
+            // SizedBox(width: 6.toWidth),
+            // Text(
+            //   '$count',
+            //   textAlign: TextAlign.center,
+            //   style: ShownyStyle.caption(
+            //     color: category == currentCategory
+            //         ? Colors.black
+            //         : const Color(0xFF444444),
+            //     weight: category == currentCategory
+            //         ? FontWeight.w700
+            //         : FontWeight.w500,
+            //   ),
+            // ),
           ],
         ),
       ),

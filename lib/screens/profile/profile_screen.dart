@@ -139,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     styleupList: profileProvider.myStyleupList,
                     setStyleupData: profileProvider.setStyleupData,
                   ),
-                  const TabMyShop(),
+                  TabMyShop(),
                   TabProfileBookmark(
                       bookmarkList: profileProvider.myBookmarkList)
                 ],

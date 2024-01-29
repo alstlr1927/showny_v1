@@ -94,7 +94,6 @@ class __NewestProuctListState extends State<_NewestProuctList> {
         0,
         1, (response) {
       newestList = [...response.goodsList];
-      ShownyLog().e('${widget.title} : ${newestList.length}');
       setState(() {});
     }, (error) {
       newestList = [];

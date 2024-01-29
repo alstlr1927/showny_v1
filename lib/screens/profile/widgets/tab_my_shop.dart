@@ -47,7 +47,7 @@ class _TabMyShopState extends State<TabMyShop> {
                         .updateStatus(2, context);
                   });
                 },
-                count: 12,
+                // count: 12,
                 category: MyShopPageCategory.all,
                 currentCategory: category),
             ProfieTabButton<MyShopPageCategory>(
@@ -59,7 +59,7 @@ class _TabMyShopState extends State<TabMyShop> {
                         .updateStatus(0, context);
                   });
                 },
-                count: 8,
+                // count: 8,
                 category: MyShopPageCategory.onSale,
                 currentCategory: category),
             ProfieTabButton<MyShopPageCategory>(
@@ -71,7 +71,7 @@ class _TabMyShopState extends State<TabMyShop> {
                         .updateStatus(1, context);
                   });
                 },
-                count: 4,
+                // count: 4,
                 category: MyShopPageCategory.soldOut,
                 currentCategory: category),
           ],

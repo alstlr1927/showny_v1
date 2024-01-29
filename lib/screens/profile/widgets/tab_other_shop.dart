@@ -57,7 +57,7 @@ class _TabOtherShopState extends State<TabOtherShop>
                         curve: Curves.easeIn);
                   });
                 },
-                count: 12,
+                // count: 12,
                 category: MyShopPageCategory.all,
                 currentCategory: category),
             ProfieTabButton<MyShopPageCategory>(
@@ -69,7 +69,7 @@ class _TabOtherShopState extends State<TabOtherShop>
                         curve: Curves.easeIn);
                   });
                 },
-                count: 12,
+                // count: 12,
                 category: MyShopPageCategory.onSale,
                 currentCategory: category),
             ProfieTabButton<MyShopPageCategory>(
@@ -81,7 +81,7 @@ class _TabOtherShopState extends State<TabOtherShop>
                         curve: Curves.easeIn);
                   });
                 },
-                count: 12,
+                // count: 12,
                 category: MyShopPageCategory.soldOut,
                 currentCategory: category),
           ],
