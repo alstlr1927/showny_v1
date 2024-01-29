@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/providers/user_model_provider.dart';
+import 'package:showny/screens/shop/store/widgets/tab_store_category.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_home.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_ranking.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_wishlist.dart';
@@ -63,15 +64,7 @@ class _StoreScreenState extends State<StoreScreen> {
               if (prov.indexTab == 0) {
                 return TabStoreHome();
               } else if (prov.indexTab == 1) {
-                return Container(
-                  color: Color(0xffff705e).withOpacity(.3),
-                  child: Center(
-                    child: Text(
-                      '카테고리',
-                      style: ShownyStyle.h2(weight: FontWeight.w600),
-                    ),
-                  ),
-                );
+                return TabStoreCategory();
               } else if (prov.indexTab == 2) {
                 return TabStoreRanking();
               } else {
