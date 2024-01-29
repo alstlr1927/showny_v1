@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/components/page_route.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/components/user_profile/profile_container.dart';
 
 import 'package:showny/models/minishop_product_model.dart';
@@ -304,8 +305,8 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () {
+              BaseButton(
+                onPressed: () {
                   if (Provider.of<UserProvider>(context, listen: false).user.memNo == widget.minishopProduct.userInfo!.memNo) {
                     // Navigator.push(
                     //     context,
@@ -355,8 +356,8 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
                         valueText: '5.0',
                       ),
                       // 후기
-                      GestureDetector(
-                        onTap: () {
+                      BaseButton(
+                        onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -424,9 +425,7 @@ class _SellerInformationWidgetState extends State<SellerInformationWidget> {
               ),
             ],
           ),
-          SizedBox(
-            height: 5,
-          ),
+          SizedBox(height: 5),
           SizedBox(
             height: 24,
             child: Align(

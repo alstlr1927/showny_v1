@@ -6,7 +6,6 @@ import 'package:showny/utils/colors.dart';
 import 'package:showny/utils/images.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
-import 'package:showny/utils/theme.dart';
 import 'package:showny/widgets/common_button_widget.dart';
 
 import '../providers/minishop_search_product_provider.dart';
@@ -29,12 +28,10 @@ class SearchFilterWidgetMinishop extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SearchFilterWidgetMinishop> createState() =>
-      _SearchFilterWidgetMinishopState();
+  State<SearchFilterWidgetMinishop> createState() => _SearchFilterWidgetMinishopState();
 }
 
-class _SearchFilterWidgetMinishopState
-    extends State<SearchFilterWidgetMinishop> {
+class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop> {
   final List<String> _categoryList = [
     tr('mini_shop.filter.category.outer'),
     tr('mini_shop.filter.category.tops'),
@@ -43,10 +40,7 @@ class _SearchFilterWidgetMinishopState
     tr('mini_shop.filter.category.bags')
   ];
 
-  final List<String> _situationList = [
-    tr('mini_shop.filter.situation.situation_1'),
-    tr('mini_shop.filter.situation.situation_2')
-  ];
+  final List<String> _situationList = [tr('mini_shop.filter.situation.situation_1'), tr('mini_shop.filter.situation.situation_2')];
 
   final List<String> _filterList = [
     tr('mini_shop.filter.filter1'),
@@ -71,49 +65,45 @@ class _SearchFilterWidgetMinishopState
               widget.applyFilter);
         },
         child: Consumer<MiniShopSearchProductsProvider>(
-            builder: (context, provider, _) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset(filter, height: 20, width: 20),
-              SizedBox(width: 12.toWidth),
-              SizedBox(
-                height: 24,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.zero,
-                  separatorBuilder: (context, index) =>
-                      SizedBox(width: 8.toWidth),
-                  itemCount: _filterList.length,
-                  itemBuilder: (context, index) {
-                    String filterText;
-                    bool isActive;
-                    if (index == 0) {
-                      filterText = 'mini_shop.filter.filter1';
-                      isActive = widget.filterMinishopModel.minPrice != null ||
-                          widget.filterMinishopModel.maxPrice != null;
-                    } else if (index == 1) {
-                      filterText = 'mini_shop.filter.filter2';
-                      isActive =
-                          widget.filterMinishopModel.categoryId != null &&
-                              widget.filterMinishopModel.categoryId! > 0;
-                    } else {
-                      filterText = 'mini_shop.filter.filter3';
-                      isActive = widget.filterMinishopModel.isNew != null &&
-                          widget.filterMinishopModel.isNew != 2;
-                    }
-                    return _buildFilterItem(
-                      filterText: filterText,
-                      isActive: isActive,
-                    );
-                  },
-                ),
-              )
-            ],
-          );
-        }),
+          builder: (context, provider, _) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Image.asset(filter, height: 20, width: 20),
+                SizedBox(width: 12.toWidth),
+                SizedBox(
+                  height: 24,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    separatorBuilder: (context, index) => SizedBox(width: 8.toWidth),
+                    itemCount: _filterList.length,
+                    itemBuilder: (context, index) {
+                      String filterText;
+                      bool isActive;
+                      if (index == 0) {
+                        filterText = 'mini_shop.filter.filter1';
+                        isActive = widget.filterMinishopModel.minPrice != null || widget.filterMinishopModel.maxPrice != null;
+                      } else if (index == 1) {
+                        filterText = 'mini_shop.filter.filter2';
+                        isActive = widget.filterMinishopModel.categoryId != null && widget.filterMinishopModel.categoryId! > 0;
+                      } else {
+                        filterText = 'mini_shop.filter.filter3';
+                        isActive = widget.filterMinishopModel.isNew != null && widget.filterMinishopModel.isNew != 2;
+                      }
+                      return _buildFilterItem(
+                        filterText: filterText,
+                        isActive: isActive,
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -135,19 +125,17 @@ class _SearchFilterWidgetMinishopState
       child: Center(
         child: Text(
           tr(filterText),
-          style: ShownyStyle.caption(
-              color: isActive ? ShownyStyle.white : Color(0xff777777)),
+          style: ShownyStyle.caption(color: isActive ? ShownyStyle.white : Color(0xff777777)),
         ),
       ),
     );
   }
 
-  _showDialog(String? searchKeyword, FilterMinishopModel setFilterMinishopModel,
-      Function() resetFilter, Function(FilterMinishopModel) applyFilter) {
-    TextEditingController minPriceController = TextEditingController(
-        text: setFilterMinishopModel.minPrice?.toString() ?? '');
-    TextEditingController maxPriceController = TextEditingController(
-        text: setFilterMinishopModel.maxPrice?.toString() ?? '');
+  _showDialog(String? searchKeyword, FilterMinishopModel setFilterMinishopModel, Function() resetFilter, Function(FilterMinishopModel) applyFilter) {
+    TextEditingController minPriceController = TextEditingController(text: setFilterMinishopModel.minPrice?.toString() ?? '');
+    TextEditingController maxPriceController = TextEditingController(text: setFilterMinishopModel.maxPrice?.toString() ?? '');
+    int? rangeMinValue = setFilterMinishopModel.minPrice ?? 0;
+    int? rangeMaxValue = setFilterMinishopModel.maxPrice ?? 100;
     int? selectedCategory = (setFilterMinishopModel.categoryId ?? 1) - 1;
     int? isNew = setFilterMinishopModel.isNew ?? 2;
 
@@ -184,15 +172,11 @@ class _SearchFilterWidgetMinishopState
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      const SizedBox(
-                        height: 16,
-                      ),
+                      const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SizedBox(
-                            width: 24,
-                          ),
+                          SizedBox(width: 24.toWidth),
                           const Spacer(),
                           Text(
                             tr('mini_shop.filter.title'),
@@ -214,9 +198,7 @@ class _SearchFilterWidgetMinishopState
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
+                      const SizedBox(height: 30),
                       SizedBox(
                         width: size.width,
                         child: Text(
@@ -227,9 +209,7 @@ class _SearchFilterWidgetMinishopState
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      const SizedBox(height: 20),
                       // SizedBox(
                       //   width: size.width,
                       //   child: Row(
@@ -277,20 +257,22 @@ class _SearchFilterWidgetMinishopState
                       //     ],
                       //   ),
                       // ),
-                      RangeSlider(
-                        values: RangeValues(0, 100),
-                        min: 0,
-                        max: 100,
-                        divisions: 5,
-                        activeColor: ShownyStyle.mainPurple,
-                        // overlayColor: MaterialStatePropertyAll(
-                        //   ShownyStyle.mainPurple,
-                        // ),
-                        onChanged: (value) {},
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
+                      // RangeSlider(
+                      //   values: RangeValues(
+                      //     rangeMinValue.toDouble(),
+                      //     rangeMaxValue.toDouble(),
+                      //   ),
+                      //   min: 0,
+                      //   max: 100,
+                      //   divisions: 5,
+                      //   labels: RangeLabels('0', '100'),
+                      //   activeColor: ShownyStyle.mainPurple,
+                      //   // overlayColor: MaterialStatePropertyAll(
+                      //   //   ShownyStyle.mainPurple,
+                      //   // ),
+                      //   onChanged: (value) {},
+                      // ),
+                      const SizedBox(height: 40),
                       SizedBox(
                         width: size.width,
                         child: Text(
@@ -301,15 +283,12 @@ class _SearchFilterWidgetMinishopState
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      const SizedBox(height: 20),
                       SizedBox(
                         height: 130,
                         child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,
                             crossAxisSpacing: 10,
                             childAspectRatio: ((size.width - 46) / 4) / 48,
@@ -327,9 +306,7 @@ class _SearchFilterWidgetMinishopState
                                 height: 40,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: selectedCategory == index
-                                        ? ShownyStyle.mainPurple
-                                        : Color(0xFFEEEEEE),
+                                    color: selectedCategory == index ? ShownyStyle.mainPurple : Color(0xFFEEEEEE),
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -337,9 +314,7 @@ class _SearchFilterWidgetMinishopState
                                   child: Text(
                                     _categoryList[index],
                                     style: ShownyStyle.caption(
-                                      color: selectedCategory == index
-                                          ? ShownyStyle.black
-                                          : Color(0xFFAAAAAA),
+                                      color: selectedCategory == index ? ShownyStyle.black : Color(0xFFAAAAAA),
                                     ),
                                   ),
                                 ),
@@ -348,9 +323,7 @@ class _SearchFilterWidgetMinishopState
                           },
                         ),
                       ),
-                      const SizedBox(
-                        height: 40,
-                      ),
+                      const SizedBox(height: 40),
                       SizedBox(
                         width: size.width,
                         child: Text(
@@ -361,15 +334,12 @@ class _SearchFilterWidgetMinishopState
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      const SizedBox(height: 20),
                       SizedBox(
                         height: 100,
                         child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             crossAxisSpacing: 20,
                             childAspectRatio: ((size.width - 42) / 2) / 48,
@@ -391,10 +361,7 @@ class _SearchFilterWidgetMinishopState
                                 height: 48,
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: (index == 0 && isNew == 0) ||
-                                            (index == 1 && isNew == 1)
-                                        ? ShownyStyle.mainPurple
-                                        : Color(0xFFEEEEEE),
+                                    color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? ShownyStyle.mainPurple : Color(0xFFEEEEEE),
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -405,10 +372,7 @@ class _SearchFilterWidgetMinishopState
                                     //       color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? black : textColor,
                                     //     ),
                                     style: ShownyStyle.caption(
-                                      color: (index == 0 && isNew == 0) ||
-                                              (index == 1 && isNew == 1)
-                                          ? black
-                                          : Color(0xFFAAAAAA),
+                                      color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? black : Color(0xFFAAAAAA),
                                     ),
                                   ),
                                 ),
@@ -439,79 +403,64 @@ class _SearchFilterWidgetMinishopState
                                     radius: 8,
                                     height: 48),
                               ),
-                              const SizedBox(
-                                width: 8,
-                              ),
+                              SizedBox(width: 8.toWidth),
                               Expanded(
-                                  flex: 3,
-                                  child: CommonButtonWidget2(
-                                      onTap: () {
-                                        FilterMinishopModel
-                                            filterMinishopModel =
-                                            FilterMinishopModel();
-                                        if (minPriceController.text
-                                            .trim()
-                                            .isNotEmpty) {
-                                          filterMinishopModel.minPrice =
-                                              int.parse(minPriceController.text
-                                                  .trim());
-                                        }
-                                        if (maxPriceController.text
-                                            .trim()
-                                            .isNotEmpty) {
-                                          filterMinishopModel.maxPrice =
-                                              int.parse(maxPriceController.text
-                                                  .trim());
-                                        }
-                                        filterMinishopModel.categoryId =
-                                            selectedCategory == null
-                                                ? 0
-                                                : selectedCategory! + 1;
-                                        filterMinishopModel.isNew = isNew;
+                                flex: 3,
+                                child: CommonButtonWidget2(
+                                  onTap: () {
+                                    FilterMinishopModel filterMinishopModel = FilterMinishopModel();
+                                    if (minPriceController.text.trim().isNotEmpty) {
+                                      filterMinishopModel.minPrice = int.parse(minPriceController.text.trim());
+                                    }
+                                    if (maxPriceController.text.trim().isNotEmpty) {
+                                      filterMinishopModel.maxPrice = int.parse(maxPriceController.text.trim());
+                                    }
+                                    filterMinishopModel.categoryId = selectedCategory == null ? 0 : selectedCategory! + 1;
+                                    filterMinishopModel.isNew = isNew;
 
-                                        applyFilter(filterMinishopModel);
+                                    applyFilter(filterMinishopModel);
 
-                                        // provider.setSelectedCategory(
-                                        //     selectedCategory + 1);
-                                        // if (minPriceController.text
-                                        //     .trim()
-                                        //     .isNotEmpty) {
-                                        //   provider.setMinPrice(int.parse(
-                                        //       minPriceController.text.trim()));
-                                        // }
-                                        // if (maxPriceController.text
-                                        //     .trim()
-                                        //     .isNotEmpty) {
-                                        //   provider.setMaxPrice(int.parse(
-                                        //       maxPriceController.text.trim()));
-                                        // }
-                                        // if (productType != null) {
-                                        //   provider.setProductType(productType!);
-                                        // }
-                                        // UserProvider userProvider =
-                                        //     Provider.of<UserProvider>(context,
-                                        //         listen: false);
-                                        // final user = userProvider.user;
-                                        // Provider.of<MiniShopSearchProductsProvider>(context, listen: false).setSearchText(searchKeyword!.isNotEmpty
-                                        //       ? searchKeyword
-                                        //       : "");
-                                        // provider.getMiniShopProductList(
-                                        //   memNo: user.memNo
-                                        // );
-                                        Navigator.pop(context);
-                                      },
-                                      color: ShownyStyle.mainPurple,
-                                      text: tr('mini_shop.filter.apply'),
-                                      textcolor: white,
-                                      radius: 8,
-                                      height: 48))
+                                    // provider.setSelectedCategory(
+                                    //     selectedCategory + 1);
+                                    // if (minPriceController.text
+                                    //     .trim()
+                                    //     .isNotEmpty) {
+                                    //   provider.setMinPrice(int.parse(
+                                    //       minPriceController.text.trim()));
+                                    // }
+                                    // if (maxPriceController.text
+                                    //     .trim()
+                                    //     .isNotEmpty) {
+                                    //   provider.setMaxPrice(int.parse(
+                                    //       maxPriceController.text.trim()));
+                                    // }
+                                    // if (productType != null) {
+                                    //   provider.setProductType(productType!);
+                                    // }
+                                    // UserProvider userProvider =
+                                    //     Provider.of<UserProvider>(context,
+                                    //         listen: false);
+                                    // final user = userProvider.user;
+                                    // Provider.of<MiniShopSearchProductsProvider>(context, listen: false).setSearchText(searchKeyword!.isNotEmpty
+                                    //       ? searchKeyword
+                                    //       : "");
+                                    // provider.getMiniShopProductList(
+                                    //   memNo: user.memNo
+                                    // );
+                                    Navigator.pop(context);
+                                  },
+                                  color: ShownyStyle.mainPurple,
+                                  text: tr('mini_shop.filter.apply'),
+                                  textcolor: white,
+                                  radius: 8,
+                                  height: 48,
+                                ),
+                              )
                             ],
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 40,
-                      ),
+                      const SizedBox(height: 40),
                     ],
                   ),
                 ),

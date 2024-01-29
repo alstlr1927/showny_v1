@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:showny/utils/colors.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/utils/showny_style.dart';
 import 'package:showny/utils/showny_util.dart';
-import 'package:showny/utils/theme.dart';
 
 import '../providers/mini_shop_products_provider.dart';
 
@@ -21,12 +20,10 @@ class MiniShopCategoryListWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MiniShopCategoryListWidget> createState() =>
-      _MiniShopCategoryListWidgetState();
+  State<MiniShopCategoryListWidget> createState() => _MiniShopCategoryListWidgetState();
 }
 
-class _MiniShopCategoryListWidgetState
-    extends State<MiniShopCategoryListWidget> {
+class _MiniShopCategoryListWidgetState extends State<MiniShopCategoryListWidget> {
   late int selectedCategory;
 
   @override
@@ -40,8 +37,7 @@ class _MiniShopCategoryListWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MiniShopProductsProvider>(
-        builder: (BuildContext context, provider, Widget? child) {
+    return Consumer<MiniShopProductsProvider>(builder: (BuildContext context, provider, Widget? child) {
       return SizedBox(
         height: widget.size ?? 40,
         child: ListView.builder(
@@ -49,8 +45,8 @@ class _MiniShopCategoryListWidgetState
           physics: const BouncingScrollPhysics(),
           itemCount: provider.categoryList.length,
           itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
+            return BaseButton(
+              onPressed: () {
                 setState(() {
                   selectedCategory = index;
                 });
@@ -61,9 +57,7 @@ class _MiniShopCategoryListWidgetState
                 alignment: Alignment.center,
                 child: Text(
                   provider.categoryList[index],
-                  style: index == selectedCategory
-                      ? ShownyStyle.caption(weight: FontWeight.bold)
-                      : ShownyStyle.caption(color: Color(0xff777777)),
+                  style: index == selectedCategory ? ShownyStyle.caption(weight: FontWeight.bold) : ShownyStyle.caption(color: Color(0xff777777)),
                 ),
               ),
             );

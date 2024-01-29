@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/components/showny_image/showny_image.dart';
 import 'package:showny/utils/showny_style.dart';
 
@@ -24,8 +25,8 @@ class MyShopGridItem extends StatefulWidget {
 class _MyShopGridItemState extends State<MyShopGridItem> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: widget.onTap,
+    return BaseButton(
+      onPressed: widget.onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

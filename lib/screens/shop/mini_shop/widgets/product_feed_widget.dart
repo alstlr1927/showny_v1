@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/components/page_route.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/utils/colors.dart';
@@ -38,8 +39,7 @@ class _ProductFeedWidgetState extends State<ProductFeedWidget> {
   void initState() {
     super.initState();
     setIsLoading(true);
-    ApiHelper.shared.getProfileStyleupList(widget.minishopProduct.memNo, 1, 0,
-        (getStyleupList) {
+    ApiHelper.shared.getProfileStyleupList(widget.minishopProduct.memNo, 1, 0, (getStyleupList) {
       setState(() {
         stlyeupList.addAll(getStyleupList);
       });
@@ -74,43 +74,41 @@ class _ProductFeedWidgetState extends State<ProductFeedWidget> {
         const SizedBox(height: 24),
         FeedSectionHeader(size: size, widget: widget, stlyeupList: stlyeupList),
         const SizedBox(height: 16),
-        // SizedBox(
-        //   width: size.width,
-        //   height: (130 * (5 / 4)) + 90,
-        //   child: ListView.separated(
-        //     scrollDirection: Axis.horizontal,
-        //     itemCount: stlyeupList.length,
-        //     separatorBuilder: (context, index) => SizedBox(width: 8.toWidth),
-        //     itemBuilder: (context, index) {
-        //       return FeedItem(
-        //         stlyeupList: stlyeupList,
-        //         index: index,
-        //       );
-        //     },
-        //   ),
-        // ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(
-              stlyeupList.length,
-              (index) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                      right: index < stlyeupList.length - 1 ? 8.toWidth : 0),
-                  child: FeedItem(
-                    stlyeupList: stlyeupList,
-                    index: index,
-                  ),
-                );
-              },
-            ),
+        SizedBox(
+          width: size.width,
+          // height: (130 * (5 / 4)) + 90,
+          height: 300,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: stlyeupList.length,
+            separatorBuilder: (context, index) => SizedBox(width: 8.toWidth),
+            itemBuilder: (context, index) {
+              return FeedItem(
+                stlyeupList: stlyeupList,
+                index: index,
+              );
+            },
           ),
         ),
-        const SizedBox(
-          height: 56,
-        ),
+        // SingleChildScrollView(
+        //   scrollDirection: Axis.horizontal,
+        //   child: Row(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: List.generate(
+        //       stlyeupList.length,
+        //       (index) {
+        //         return Padding(
+        //           padding: EdgeInsets.only(right: index < stlyeupList.length - 1 ? 8.toWidth : 0),
+        //           child: FeedItem(
+        //             stlyeupList: stlyeupList,
+        //             index: index,
+        //           ),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // ),
+        const SizedBox(height: 30),
       ],
     );
   }
@@ -149,8 +147,8 @@ class FeedSectionHeader extends StatelessWidget {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
+            BaseButton(
+              onPressed: () {
                 if (stlyeupList.isNotEmpty) {
                   Navigator.push(
                       context,
@@ -194,8 +192,8 @@ class FeedItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return BaseButton(
+      onPressed: () {
         Navigator.push(
             context,
             ShownyPageRoute(
@@ -224,9 +222,7 @@ class FeedItem extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(
-              height: stlyeupList[index].description != "" ? 8 : 0,
-            ),
+            SizedBox(height: stlyeupList[index].description != "" ? 8 : 0),
             SizedBox(
               height: stlyeupList[index].description != "" ? null : 0,
               child: Text(
@@ -247,9 +243,7 @@ class FeedItem extends StatelessWidget {
                     color: Color(0xFF777777),
                   ),
                 ),
-                const SizedBox(
-                  width: 4,
-                ),
+                const SizedBox(width: 4),
                 Text(
                   '${tr('product_detail.seller_feed.comments')} ${stlyeupList[index].commentCnt}',
                   style: ShownyStyle.overline(

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/extension/ext_int.dart';
 import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/models/styleup_model.dart';
@@ -42,9 +43,7 @@ class _ProductCatalogueWidgetState extends State<ProductCatalogueWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 24,
-        ),
+        const SizedBox(height: 24),
         SizedBox(
           width: size.width,
           child: Row(
@@ -92,39 +91,39 @@ class _ProductCatalogueWidgetState extends State<ProductCatalogueWidget> {
           ),
         ),
         const SizedBox(height: 16),
-        // SizedBox(
-        //   width: size.width,
-        //   height: 130 * (5 / 4) + 80,
-        //   child: ListView.separated(
-        //     scrollDirection: Axis.horizontal,
-        //     itemCount: minishopProductList.length,
-        //     separatorBuilder: (context, index) => SizedBox(width: 8.toWidth),
-        //     itemBuilder: (context, index) {
-        //       return UserSellingProduct(
-        //         minishopProductList: minishopProductList,
-        //         index: index,
-        //       );
-        //     },
-        //   ),
-        // ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(
-              minishopProductList.length,
-              (index) {
-                return Padding(
-                  padding: EdgeInsets.only(right: index < minishopProductList.length - 1 ? 8.toWidth : 0),
-                  child: UserSellingProduct(
-                    minishopProductList: minishopProductList,
-                    index: index,
-                  ),
-                );
-              },
-            ),
+        SizedBox(
+          width: size.width,
+          height: 230,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: minishopProductList.length,
+            separatorBuilder: (context, index) => SizedBox(width: 8.toWidth),
+            itemBuilder: (context, index) {
+              return UserSellingProduct(
+                minishopProductList: minishopProductList,
+                index: index,
+              );
+            },
           ),
         ),
+        // SingleChildScrollView(
+        //   scrollDirection: Axis.horizontal,
+        //   child: Row(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: List.generate(
+        //       minishopProductList.length,
+        //       (index) {
+        //         return Padding(
+        //           padding: EdgeInsets.only(right: index < minishopProductList.length - 1 ? 8.toWidth : 0),
+        //           child: UserSellingProduct(
+        //             minishopProductList: minishopProductList,
+        //             index: index,
+        //           ),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -142,8 +141,8 @@ class UserSellingProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return BaseButton(
+      onPressed: () {
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -187,9 +186,7 @@ class UserSellingProduct extends StatelessWidget {
                 color: ShownyStyle.black,
               ),
             ),
-            const SizedBox(
-              height: 6,
-            ),
+            const SizedBox(height: 6),
             Text(
               "${minishopProductList[index].price.formatPrice()} 원",
               style: ShownyStyle.caption(
