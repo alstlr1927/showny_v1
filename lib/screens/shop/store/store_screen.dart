@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/lazy_indexed_stack/lazy_indexed_stack.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/screens/shop/store/widgets/tab_store_category.dart';
@@ -70,8 +71,10 @@ class _StoreScreenState extends State<StoreScreen> {
               // } else {
               //   return TabStoreWishList();
               // }
-              return IndexedStack(
+
+              return LazyIndexedStack(
                 index: prov.indexTab,
+                sizing: StackFit.expand,
                 children: [
                   TabStoreHome(),
                   TabStoreCategory(),

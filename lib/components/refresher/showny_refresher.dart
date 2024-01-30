@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:showny/components/indicator/showny_indicator.dart';
+import 'package:showny/utils/showny_style.dart';
 // import 'package:lottie/lottie.dart';
 
 class _CupertinoSliverRefresh extends SingleChildRenderObjectWidget {
@@ -336,19 +337,19 @@ class _CupertinoSliverRefreshControlState
 typedef RefreshWidgetBuilder = Widget Function(
     BuildContext context, Widget refresher);
 
-class MeuRefresher extends StatefulWidget {
+class ShownyRefresher extends StatefulWidget {
   final RefreshWidgetBuilder builder;
   final RefreshCallback? onRefresh;
   final double padding;
-  MeuRefresher(
+  ShownyRefresher(
       {Key? key, required this.builder, this.onRefresh, this.padding = 0})
       : super(key: key);
 
   @override
-  State<MeuRefresher> createState() => _MeuRefresherState();
+  State<ShownyRefresher> createState() => _ShownyRefresherState();
 }
 
-class _MeuRefresherState extends State<MeuRefresher> {
+class _ShownyRefresherState extends State<ShownyRefresher> {
   final size = 120.0;
 
   final GlobalKey<_CupertinoSliverRefreshControlState> sliverRefreshKey =
@@ -370,7 +371,10 @@ class _MeuRefresherState extends State<MeuRefresher> {
     return Container(
       transform: Matrix4.translationValues(0, widget.padding, 0),
       child: Center(
-        child: ShownyIndicator(),
+        child: ShownyIndicator(
+          radius: 14,
+          color: ShownyStyle.mainPurple,
+        ),
       ),
       //   child: Lottie.asset(
       //       isAnimate
@@ -394,7 +398,7 @@ class _MeuRefresherState extends State<MeuRefresher> {
       refreshTriggerPullDistance: size,
       onRefresh: () async {
         await Future.wait([
-          Future.delayed(Duration(seconds: 2)),
+          Future.delayed(const Duration(milliseconds: 400)),
           widget.onRefresh?.call() ?? Future.microtask(() => null),
         ]);
       },

@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:showny/components/logger/showny_logger.dart';
+import 'package:showny/components/refresher/showny_refresher.dart';
 import 'package:showny/components/showny_button/showny_button.dart';
 import 'package:showny/components/slivers/sliver_tween.dart';
 import 'package:showny/screens/shop/store/providers/store_tab_home_provider.dart';
@@ -35,26 +36,34 @@ class _TabStoreHomeState extends State<TabStoreHome> {
     return ChangeNotifierProvider<StoreTabHomeProvider>.value(
       value: provider,
       builder: (context, _) {
-        return CustomScrollView(
-          slivers: [
-            SliverTween(
-              child: SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 0.toWidth),
-                    _buildGenderTab(),
-                    SizedBox(height: 10.toWidth),
-                    const BannerSliderWidget(index: 1),
-                    SizedBox(height: 30.toWidth),
-                    NewestStoreProductList(),
-                    SizedBox(height: 30.toWidth),
-                    const StoreHomeProductsWidget(),
-                  ],
+        return ShownyRefresher(
+          onRefresh: () async {
+            ShownyLog().e('refresh!!');
+          },
+          builder: (context, Widget refresher) {
+            return CustomScrollView(
+              slivers: [
+                refresher,
+                SliverTween(
+                  child: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 0.toWidth),
+                        _buildGenderTab(),
+                        SizedBox(height: 10.toWidth),
+                        const BannerSliderWidget(index: 1),
+                        SizedBox(height: 30.toWidth),
+                        NewestStoreProductList(),
+                        SizedBox(height: 30.toWidth),
+                        const StoreHomeProductsWidget(),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         );
       },
     );
