@@ -51,16 +51,16 @@ class ApiHelper {
 
     var token = await storage.read(key: 'token');
     if (token != null && token != "") {
-      debugPrint("token");
-      debugPrint(token);
+      // debugPrint("token");
+      // debugPrint(token);
       final baseOptions =
           BaseOptions(headers: {'authorization': "Bearer $token"});
       dio = Dio(baseOptions);
     }
 
     Response response = await dio.post(url, data: formData);
-    debugPrint(url);
-    debugPrint(formData.fields.toString());
+    ShownyLog().i(url);
+    // debugPrint(formData.fields.toString());
     final result = SNResponse.fromJson(response.data as Map<String, dynamic>);
     if (result.success == true) {
       // debugPrint(result.data.toString());

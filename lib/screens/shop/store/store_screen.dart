@@ -61,30 +61,24 @@ class _StoreScreenState extends State<StoreScreen> {
         Expanded(
           child: Consumer<StoreProvider>(
             builder: (context, prov, child) {
-              if (prov.indexTab == 0) {
-                return TabStoreHome();
-              } else if (prov.indexTab == 1) {
-                return TabStoreCategory();
-              } else if (prov.indexTab == 2) {
-                return TabStoreRanking();
-              } else {
-                return TabStoreWishList();
-              }
-              // return IndexedStack(
-              //   index: prov.indexTab,
-              //   children: [
-              //     TabStoreHome(),
-              //     Container(
-              //       color: Colors.green,
-              //     ),
-              //     Container(
-              //       color: Colors.red,
-              //     ),
-              //     Container(
-              //       color: Colors.blue,
-              //     ),
-              //   ],
-              // );
+              // if (prov.indexTab == 0) {
+              //   return TabStoreHome();
+              // } else if (prov.indexTab == 1) {
+              //   return TabStoreCategory();
+              // } else if (prov.indexTab == 2) {
+              //   return TabStoreRanking();
+              // } else {
+              //   return TabStoreWishList();
+              // }
+              return IndexedStack(
+                index: prov.indexTab,
+                children: [
+                  TabStoreHome(),
+                  TabStoreCategory(),
+                  TabStoreRanking(),
+                  TabStoreWishList(),
+                ],
+              );
             },
           ),
         ),
