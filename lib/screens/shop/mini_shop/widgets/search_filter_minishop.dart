@@ -34,10 +34,12 @@ class SearchFilterWidgetMinishop extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<SearchFilterWidgetMinishop> createState() => _SearchFilterWidgetMinishopState();
+  State<SearchFilterWidgetMinishop> createState() =>
+      _SearchFilterWidgetMinishopState();
 }
 
-class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop> {
+class _SearchFilterWidgetMinishopState
+    extends State<SearchFilterWidgetMinishop> {
   final List<String> _categoryList = [
     tr('mini_shop.filter.category.outer'),
     tr('mini_shop.filter.category.tops'),
@@ -88,20 +90,26 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
-                    separatorBuilder: (context, index) => SizedBox(width: 8.toWidth),
+                    separatorBuilder: (context, index) =>
+                        SizedBox(width: 8.toWidth),
                     itemCount: _filterList.length,
                     itemBuilder: (context, index) {
                       String filterText;
                       bool isActive;
                       if (index == 0) {
                         filterText = 'mini_shop.filter.filter1';
-                        isActive = widget.filterMinishopModel.minPrice != null || widget.filterMinishopModel.maxPrice != null;
+                        isActive =
+                            widget.filterMinishopModel.minPrice != null ||
+                                widget.filterMinishopModel.maxPrice != null;
                       } else if (index == 1) {
                         filterText = 'mini_shop.filter.filter2';
-                        isActive = widget.filterMinishopModel.categoryId != null && widget.filterMinishopModel.categoryId! > 0;
+                        isActive =
+                            widget.filterMinishopModel.categoryId != null &&
+                                widget.filterMinishopModel.categoryId! > 0;
                       } else {
                         filterText = 'mini_shop.filter.filter3';
-                        isActive = widget.filterMinishopModel.isNew != null && widget.filterMinishopModel.isNew != 2;
+                        isActive = widget.filterMinishopModel.isNew != null &&
+                            widget.filterMinishopModel.isNew != 2;
                       }
                       return _buildFilterItem(
                         filterText: filterText,
@@ -135,7 +143,8 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
       child: Center(
         child: Text(
           tr(filterText),
-          style: ShownyStyle.caption(color: isActive ? ShownyStyle.white : Color(0xff777777)),
+          style: ShownyStyle.caption(
+              color: isActive ? ShownyStyle.white : Color(0xff777777)),
         ),
       ),
     );
@@ -152,7 +161,8 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
     int? selectedCategory = (setFilterMinishopModel.categoryId ?? 1) - 1;
     int? isNew = setFilterMinishopModel.isNew ?? 2;
 
-    bool isSelectPriceMode = setFilterMinishopModel.minPrice != null && setFilterMinishopModel.maxPrice != null;
+    bool isSelectPriceMode = setFilterMinishopModel.minPrice != null &&
+        setFilterMinishopModel.maxPrice != null;
     SfRangeValues rangeValues = SfRangeValues(
       ((setFilterMinishopModel.minPrice?.toDouble()) ?? 0.0) / 10000,
       (setFilterMinishopModel.maxPrice?.toDouble() ?? 100.0) / 10000,
@@ -188,7 +198,8 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.toWidth, vertical: 16.toWidth),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.toWidth, vertical: 16.toWidth),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -212,7 +223,8 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 40),
+                        padding: const EdgeInsets.only(
+                            left: 16, right: 16, top: 16, bottom: 40),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -277,10 +289,12 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                               child: GridView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 4,
                                   crossAxisSpacing: 10,
-                                  childAspectRatio: ((size.width - 46) / 4) / 48,
+                                  childAspectRatio:
+                                      ((size.width - 46) / 4) / 48,
                                   mainAxisSpacing: 10,
                                 ),
                                 itemCount: _categoryList.length,
@@ -295,7 +309,9 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                                       height: 40,
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: selectedCategory == index ? ShownyStyle.mainPurple : Color(0xFFEEEEEE),
+                                          color: selectedCategory == index
+                                              ? ShownyStyle.mainPurple
+                                              : Color(0xFFEEEEEE),
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -303,7 +319,9 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                                         child: Text(
                                           _categoryList[index],
                                           style: ShownyStyle.caption(
-                                            color: selectedCategory == index ? ShownyStyle.black : Color(0xFFAAAAAA),
+                                            color: selectedCategory == index
+                                                ? ShownyStyle.black
+                                                : Color(0xFFAAAAAA),
                                           ),
                                         ),
                                       ),
@@ -328,10 +346,12 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                               height: 50,
                               child: GridView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 20,
-                                  childAspectRatio: ((size.width - 42) / 2) / 48,
+                                  childAspectRatio:
+                                      ((size.width - 42) / 2) / 48,
                                   mainAxisSpacing: 10,
                                 ),
                                 itemCount: _situationList.length,
@@ -350,7 +370,10 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                                       height: 40,
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? ShownyStyle.mainPurple : Color(0xFFEEEEEE),
+                                          color: (index == 0 && isNew == 0) ||
+                                                  (index == 1 && isNew == 1)
+                                              ? ShownyStyle.mainPurple
+                                              : Color(0xFFEEEEEE),
                                         ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -361,7 +384,10 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                                           //       color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? black : textColor,
                                           //     ),
                                           style: ShownyStyle.caption(
-                                            color: (index == 0 && isNew == 0) || (index == 1 && isNew == 1) ? black : Color(0xFFAAAAAA),
+                                            color: (index == 0 && isNew == 0) ||
+                                                    (index == 1 && isNew == 1)
+                                                ? black
+                                                : Color(0xFFAAAAAA),
                                           ),
                                         ),
                                       ),
@@ -375,74 +401,83 @@ class _SearchFilterWidgetMinishopState extends State<SearchFilterWidgetMinishop>
                       ),
                     ),
                     // Spacer(),
-                    // Padding(
-                    //   padding: EdgeInsets.fromLTRB(16.toWidth, 10.toWidth, 16.toWidth, ShownyStyle.defaultBottomPadding()),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.start,
-                    //     children: [
-                    //       ShownyButton(
-                    //         onPressed: () => newState(() => initFilter()),
-                    //         option: ShownyButtonOption.fill(
-                    //           text: tr('mini_shop.filter.reset'),
-                    //           theme: ShownyButtonFillTheme.gray,
-                    //           style: ShownyButtonFillStyle.fullRegular,
-                    //         ),
-                    //       ),
-                    //       SizedBox(width: 10.toWidth),
-                    //       Expanded(
-                    //         child: ShownyButton(
-                    //           onPressed: () {
-                    //             FilterMinishopModel filterMinishopModel = FilterMinishopModel();
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(16.toWidth, 10.toWidth,
+                          16.toWidth, ShownyStyle.defaultBottomPadding()),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          ShownyButton(
+                            onPressed: () => newState(() => initFilter()),
+                            option: ShownyButtonOption.fill(
+                              text: tr('mini_shop.filter.reset'),
+                              theme: ShownyButtonFillTheme.gray,
+                              style: ShownyButtonFillStyle.regular,
+                            ),
+                          ),
+                          SizedBox(width: 10.toWidth),
+                          Expanded(
+                            child: ShownyButton(
+                              onPressed: () {
+                                FilterMinishopModel filterMinishopModel =
+                                    FilterMinishopModel();
 
-                    //             filterMinishopModel.categoryId = selectedCategory == null ? 0 : selectedCategory! + 1;
-                    //             filterMinishopModel.isNew = isNew;
+                                filterMinishopModel.categoryId =
+                                    selectedCategory == null
+                                        ? 0
+                                        : selectedCategory! + 1;
+                                filterMinishopModel.isNew = isNew;
 
-                    //             if (isSelectPriceMode) {
-                    //               filterMinishopModel.minPrice = (rangeValues.start as double).toInt() * 10000;
-                    //               filterMinishopModel.maxPrice = (rangeValues.end as double).toInt() * 10000;
-                    //             }
-                    //             applyFilter(filterMinishopModel);
+                                if (isSelectPriceMode) {
+                                  filterMinishopModel.minPrice =
+                                      (rangeValues.start as double).toInt() *
+                                          10000;
+                                  filterMinishopModel.maxPrice =
+                                      (rangeValues.end as double).toInt() *
+                                          10000;
+                                }
+                                applyFilter(filterMinishopModel);
 
-                    //             // 원래 주석 되어있던 부분
-                    //             // provider.setSelectedCategory(
-                    //             //     selectedCategory + 1);
-                    //             // if (minPriceController.text
-                    //             //     .trim()
-                    //             //     .isNotEmpty) {
-                    //             //   provider.setMinPrice(int.parse(
-                    //             //       minPriceController.text.trim()));
-                    //             // }
-                    //             // if (maxPriceController.text
-                    //             //     .trim()
-                    //             //     .isNotEmpty) {
-                    //             //   provider.setMaxPrice(int.parse(
-                    //             //       maxPriceController.text.trim()));
-                    //             // }
-                    //             // if (productType != null) {
-                    //             //   provider.setProductType(productType!);
-                    //             // }
-                    //             // UserProvider userProvider =
-                    //             //     Provider.of<UserProvider>(context,
-                    //             //         listen: false);
-                    //             // final user = userProvider.user;
-                    //             // Provider.of<MiniShopSearchProductsProvider>(context, listen: false).setSearchText(searchKeyword!.isNotEmpty
-                    //             //       ? searchKeyword
-                    //             //       : "");
-                    //             // provider.getMiniShopProductList(
-                    //             //   memNo: user.memNo
-                    //             // );
-                    //             Navigator.pop(context);
-                    //           },
-                    //           option: ShownyButtonOption.fill(
-                    //             text: tr('mini_shop.filter.apply'),
-                    //             theme: ShownyButtonFillTheme.violet,
-                    //             style: ShownyButtonFillStyle.fullRegular,
-                    //           ),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
+                                // 원래 주석 되어있던 부분
+                                // provider.setSelectedCategory(
+                                //     selectedCategory + 1);
+                                // if (minPriceController.text
+                                //     .trim()
+                                //     .isNotEmpty) {
+                                //   provider.setMinPrice(int.parse(
+                                //       minPriceController.text.trim()));
+                                // }
+                                // if (maxPriceController.text
+                                //     .trim()
+                                //     .isNotEmpty) {
+                                //   provider.setMaxPrice(int.parse(
+                                //       maxPriceController.text.trim()));
+                                // }
+                                // if (productType != null) {
+                                //   provider.setProductType(productType!);
+                                // }
+                                // UserProvider userProvider =
+                                //     Provider.of<UserProvider>(context,
+                                //         listen: false);
+                                // final user = userProvider.user;
+                                // Provider.of<MiniShopSearchProductsProvider>(context, listen: false).setSearchText(searchKeyword!.isNotEmpty
+                                //       ? searchKeyword
+                                //       : "");
+                                // provider.getMiniShopProductList(
+                                //   memNo: user.memNo
+                                // );
+                                Navigator.pop(context);
+                              },
+                              option: ShownyButtonOption.fill(
+                                text: tr('mini_shop.filter.apply'),
+                                theme: ShownyButtonFillTheme.violet,
+                                style: ShownyButtonFillStyle.fullRegular,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -473,9 +508,13 @@ class _PriceRangeSliderState extends State<_PriceRangeSlider> {
     return Column(
       children: [
         Text(
-          widget.onChanged == null ? '전체' : '${widget.rangeValues.start.round()}만원 ~ ${widget.rangeValues.end.round()}만원',
+          widget.onChanged == null
+              ? '전체'
+              : '${widget.rangeValues.start.round()}만원 ~ ${widget.rangeValues.end.round()}만원',
           style: ShownyStyle.caption(
-            color: widget.onChanged == null ? const Color(0xff777777) : ShownyStyle.mainPurple,
+            color: widget.onChanged == null
+                ? const Color(0xff777777)
+                : ShownyStyle.mainPurple,
             weight: FontWeight.bold,
           ),
         ),
@@ -506,7 +545,8 @@ class _PriceRangeSliderState extends State<_PriceRangeSlider> {
             tickShape: SfTickShape(),
             values: widget.rangeValues,
             onChanged: widget.onChanged,
-            labelFormatterCallback: (dynamic actualValue, String formattedText) {
+            labelFormatterCallback:
+                (dynamic actualValue, String formattedText) {
               Logger().i(actualValue);
               if (actualValue is double && actualValue == 100.0) {
                 return '$formattedText만원';
