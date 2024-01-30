@@ -33,15 +33,7 @@ class StoreSearchResultScreen extends StatefulWidget {
   final BrandData? initBrand;
   final Function(StoreGoodModel)? onSelected;
 
-  const StoreSearchResultScreen(
-      {Key? key,
-      this.search,
-      this.onSelected,
-      required this.isViewMainCategory,
-      this.initMainCategory,
-      this.initSubCategory,
-      this.initBrand})
-      : super(key: key);
+  const StoreSearchResultScreen({Key? key, this.search, this.onSelected, required this.isViewMainCategory, this.initMainCategory, this.initSubCategory, this.initBrand}) : super(key: key);
 
   @override
   State<StoreSearchResultScreen> createState() => _StoreSearchResultScreen();
@@ -85,14 +77,12 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
       if (widget.initMainCategory != null) {
         setState(() {
           mainCategoryIndex = widget.initMainCategory!;
-          Provider.of<StoreSearchProvider>(context, listen: false)
-              .setMainCategory(widget.initMainCategory!);
+          Provider.of<StoreSearchProvider>(context, listen: false).setMainCategory(widget.initMainCategory!);
         });
       }
       if (widget.initSubCategory != null) {
         setState(() {
-          Provider.of<StoreSearchProvider>(context, listen: false)
-              .setSubCategory(widget.initSubCategory!);
+          Provider.of<StoreSearchProvider>(context, listen: false).setSubCategory(widget.initSubCategory!);
         });
       }
       if (widget.initBrand != null) {
@@ -113,35 +103,28 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
   }
 
   void onScroll() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       // 바닥에 도달했을 때의 동작을 수행
-      UserProvider userProvider =
-          Provider.of<UserProvider>(context, listen: false);
+      UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
       final user = userProvider.user;
-      Provider.of<StoreSearchProvider>(context, listen: false).getSearchList(
-          user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
+      Provider.of<StoreSearchProvider>(context, listen: false).getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
     }
   }
 
   refreshItemsStoreSearchPage() {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
 
     Provider.of<StoreSearchProvider>(context, listen: false).initPage();
-    Provider.of<StoreSearchProvider>(context, listen: false).getSearchList(
-        user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
+    Provider.of<StoreSearchProvider>(context, listen: false).getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
   }
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
 
-    return Consumer<StoreSearchProvider>(
-        builder: (context, searchProvider, child) {
+    return Consumer<StoreSearchProvider>(builder: (context, searchProvider, child) {
       return Column(
         children: [
           widget.isViewMainCategory
@@ -157,15 +140,11 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                           ShownyPageRoute(
                             builder: (context) => BrandSearchScreen(
                               selectBrand: (selectBrandData) {
-                                searchProvider
-                                    .setBrandCd(selectBrandData.cateCd);
+                                searchProvider.setBrandCd(selectBrandData.cateCd);
                                 searchProvider.setMainCategory(-1);
                                 searchProvider.setSubCategory(0);
                                 searchProvider.initPage();
-                                searchProvider.getSearchList(
-                                    user.memNo,
-                                    filterShopModel,
-                                    widget.onSelected == null ? 0 : 1);
+                                searchProvider.getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
                                 setState(() {
                                   brandData = selectBrandData;
                                 });
@@ -176,17 +155,12 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                       searchProvider.setMainCategory(index);
                       searchProvider.setBrandCd("");
                       searchProvider.initPage();
-                      searchProvider.getSearchList(user.memNo, filterShopModel,
-                          widget.onSelected == null ? 0 : 1);
+                      searchProvider.getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
                     }
                   },
                 )
               : const SizedBox(),
-          widget.isViewMainCategory == true &&
-                  mainCategoryIndex == 2 &&
-                  brandData != null
-              ? StoreBrandWidget(brandData: brandData!)
-              : const SizedBox(),
+          widget.isViewMainCategory == true && mainCategoryIndex == 2 && brandData != null ? StoreBrandWidget(brandData: brandData!) : const SizedBox(),
           const Divider(
             height: 1,
             thickness: 1,
@@ -198,8 +172,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
             onSelectCategory: (index) {
               searchProvider.setSubCategory(index);
               searchProvider.initPage();
-              searchProvider.getSearchList(user.memNo, filterShopModel,
-                  widget.onSelected == null ? 0 : 1);
+              searchProvider.getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
             },
           ),
           const Divider(
@@ -215,16 +188,14 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
               setState(() {
                 filterShopModel.initFilter();
                 searchProvider.initPage();
-                searchProvider.getSearchList(user.memNo, filterShopModel,
-                    widget.onSelected == null ? 0 : 1);
+                searchProvider.getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
               });
             },
             applyFilter: (newFilterShopModel) {
               setState(() {
                 filterShopModel = newFilterShopModel;
                 searchProvider.initPage();
-                searchProvider.getSearchList(user.memNo, filterShopModel,
-                    widget.onSelected == null ? 0 : 1);
+                searchProvider.getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
               });
             },
           ),
@@ -246,15 +217,13 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                     onSelectItem: (index) {
                       filterShopModel.sort = index;
                       searchProvider.initPage();
-                      searchProvider.getSearchList(user.memNo, filterShopModel,
-                          widget.onSelected == null ? 0 : 1);
+                      searchProvider.getSearchList(user.memNo, filterShopModel, widget.onSelected == null ? 0 : 1);
                     })
               ],
             ),
           ),
           Expanded(
-            child: (searchProvider.isSearchLoading &&
-                    searchProvider.goodsList.isEmpty)
+            child: (searchProvider.isSearchLoading && searchProvider.goodsList.isEmpty)
                 ? Center(
                     child: ShownyIndicator(
                       radius: 15,
@@ -280,17 +249,13 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                                         Navigator.push(
                                             context,
                                             ShownyPageRoute(
-                                              builder: (context) =>
-                                                  RequestNewItemScreen(),
+                                              builder: (context) => RequestNewItemScreen(),
                                             ));
                                       },
                                       child: Container(
                                         width: 140,
                                         height: 40,
-                                        decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
+                                        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
                                         child: Center(
                                           child: Text(
                                             "아이템 등록 신청하기",
@@ -314,8 +279,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                               controller: scrollController,
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10.toWidth,
                                 childAspectRatio: 170 / 335,
@@ -330,10 +294,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                                         Navigator.push(
                                             context,
                                             ShownyPageRoute(
-                                              builder: (context) =>
-                                                  StoreGoodDetailScreen(
-                                                      goodsNo:
-                                                          goodsData.goodsNo),
+                                              builder: (context) => StoreGoodDetailScreen(goodsNo: goodsData.goodsNo),
                                             ));
                                       } else {
                                         _showBottomSheet(context, goodsData);
@@ -349,8 +310,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
   }
 
   void _showBottomSheet(BuildContext context, StoreGoodModel goodsData) {
-    List<String?> selectOptionList =
-        List.filled(goodsData.optionList.length, null);
+    List<String?> selectOptionList = List.filled(goodsData.optionList.length, null);
 
     showModalBottomSheet(
       context: context,
@@ -393,9 +353,7 @@ class _StoreSearchResultScreen extends State<StoreSearchResultScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    for (int index = 0;
-                        index < goodsData.optionList.length;
-                        index++)
+                    for (int index = 0; index < goodsData.optionList.length; index++)
                       Column(
                         children: [
                           SizedBox(

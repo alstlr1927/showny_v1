@@ -68,8 +68,7 @@ class MainLandingState extends State<MainLanding> {
           return WillPopScope(
             onWillPop: () async {
               final now = DateTime.now();
-              if (now.difference(_lastPressedAt!) >
-                  const Duration(seconds: 2)) {
+              if (now.difference(_lastPressedAt!) > const Duration(seconds: 2)) {
                 _lastPressedAt = now;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -87,8 +86,7 @@ class MainLandingState extends State<MainLanding> {
                 children: [
                   Column(
                     children: [
-                      Consumer<MainLandingProvider>(
-                          builder: (ctx, prov, child) {
+                      Consumer<MainLandingProvider>(builder: (ctx, prov, child) {
                         return Expanded(
                           child: IndexedStack(
                             index: prov.currentType.pageIndex,
@@ -211,8 +209,7 @@ class MainLandingState extends State<MainLanding> {
                               Container(
                                 color: Colors.black.withOpacity(0.4),
                                 alignment: Alignment.center,
-                                child:
-                                    Image.asset('assets/icons/init_guide.png'),
+                                child: Image.asset('assets/icons/init_guide.png'),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -243,8 +240,7 @@ class _BottomActions extends StatefulWidget {
 
 class __BottomActionsState extends State<_BottomActions> {
   void scrollToTop() {
-    final ScrollController? primaryScrollController =
-        PrimaryScrollController.of(context);
+    final ScrollController? primaryScrollController = PrimaryScrollController.of(context);
     if (primaryScrollController != null && primaryScrollController.hasClients) {
       primaryScrollController.animateTo(
         0.0,
@@ -262,26 +258,13 @@ class __BottomActionsState extends State<_BottomActions> {
         children: [
           Container(
             height: sheetHeight,
-            padding:
-                EdgeInsets.only(bottom: ShownyStyle.defaultBottomPadding()),
+            padding: EdgeInsets.only(bottom: ShownyStyle.defaultBottomPadding()),
             decoration: const BoxDecoration(
               color: ShownyStyle.white,
               boxShadow: [
-                BoxShadow(
-                    color: Color(0x14000000),
-                    offset: Offset(0, 3),
-                    blurRadius: 8,
-                    spreadRadius: 0),
-                BoxShadow(
-                    color: Color(0x08000000),
-                    offset: Offset(0, 2),
-                    blurRadius: 5,
-                    spreadRadius: 0),
-                BoxShadow(
-                    color: Color(0x26000000),
-                    offset: Offset(0, 0),
-                    blurRadius: 1,
-                    spreadRadius: 0)
+                BoxShadow(color: Color(0x14000000), offset: Offset(0, 3), blurRadius: 8, spreadRadius: 0),
+                BoxShadow(color: Color(0x08000000), offset: Offset(0, 2), blurRadius: 5, spreadRadius: 0),
+                BoxShadow(color: Color(0x26000000), offset: Offset(0, 0), blurRadius: 1, spreadRadius: 0)
               ],
             ),
             child: Builder(

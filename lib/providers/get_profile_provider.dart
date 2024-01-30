@@ -8,10 +8,8 @@ class GetProfileProvider extends ChangeNotifier {
   GetMyShoppingResponseModel? _getMyShoppingResponseModel;
   GetProfileResponseModel? _getProfileResponseModel;
 
-  GetMyShoppingResponseModel? get getMyShoppingResponseModel =>
-      _getMyShoppingResponseModel;
-  GetProfileResponseModel? get getProfileResponseModel =>
-      _getProfileResponseModel;
+  GetMyShoppingResponseModel? get getMyShoppingResponseModel => _getMyShoppingResponseModel;
+  GetProfileResponseModel? get getProfileResponseModel => _getProfileResponseModel;
 
   bool _isProfileLoading = true;
   bool _isShoppingLoading = true;
@@ -38,9 +36,7 @@ class GetProfileProvider extends ChangeNotifier {
     }
     ShownyLog().e('memno : $memNo');
     ShownyLog().e('orderNo : $orderNo');
-    ApiService()
-        .getMyShoppingApi(memNo: memNo, orderNo: orderNo)
-        .then((getMyShoppingSuccess) {
+    ApiService().getMyShoppingApi(memNo: memNo, orderNo: orderNo).then((getMyShoppingSuccess) {
       ShownyLog().e('?? : ${getMyShoppingSuccess?.success}');
       if (getMyShoppingSuccess!.success!) {
         _getMyShoppingResponseModel = getMyShoppingSuccess;
