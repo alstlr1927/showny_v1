@@ -22,12 +22,7 @@ class StoreGoodsListScreen extends StatefulWidget {
   final int subCategory;
   final BrandData? brandData;
 
-  const StoreGoodsListScreen(
-      {Key? key,
-      required this.mainCategory,
-      required this.subCategory,
-      this.brandData})
-      : super(key: key);
+  const StoreGoodsListScreen({Key? key, required this.mainCategory, required this.subCategory, this.brandData}) : super(key: key);
 
   @override
   State<StoreGoodsListScreen> createState() => _StoreGoodsListScreen();
@@ -41,20 +36,15 @@ class _StoreGoodsListScreen extends State<StoreGoodsListScreen> {
     super.initState();
 
     Future.delayed(Duration.zero, () {
-      UserProvider userProvider =
-          Provider.of<UserProvider>(context, listen: false);
+      UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
       final user = userProvider.user;
 
       Provider.of<StoreSearchProvider>(context, listen: false).initParams();
 
-      Provider.of<StoreSearchProvider>(context, listen: false)
-          .setMainCategory(widget.mainCategory);
-      Provider.of<StoreSearchProvider>(context, listen: false)
-          .setSubCategory(widget.subCategory);
-      Provider.of<StoreSearchProvider>(context, listen: false)
-          .setBrandCd(widget.brandData == null ? "" : widget.brandData!.cateCd);
-      Provider.of<StoreSearchProvider>(context, listen: false)
-          .getSearchList(user.memNo, null, widget.brandData == null ? 0 : 1);
+      Provider.of<StoreSearchProvider>(context, listen: false).setMainCategory(widget.mainCategory);
+      Provider.of<StoreSearchProvider>(context, listen: false).setSubCategory(widget.subCategory);
+      Provider.of<StoreSearchProvider>(context, listen: false).setBrandCd(widget.brandData == null ? "" : widget.brandData!.cateCd);
+      Provider.of<StoreSearchProvider>(context, listen: false).getSearchList(user.memNo, null, widget.brandData == null ? 0 : 1);
     });
   }
 
@@ -92,8 +82,7 @@ class _StoreGoodsListScreen extends State<StoreGoodsListScreen> {
               SizedBox(width: 12.toWidth),
               BaseButton(
                 onPressed: () {
-                  ProfilePageCategory? category =
-                      ProfilePageCategory.myShopping;
+                  ProfilePageCategory? category = ProfilePageCategory.myShopping;
                   Navigator.push(
                     context,
                     ShownyPageRoute(

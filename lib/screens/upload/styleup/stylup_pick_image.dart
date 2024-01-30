@@ -68,14 +68,12 @@ class _StylupPickImageState extends State<StylupPickImage> {
                       children: [
                         DropdownButton2(
                           customButton: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16.toWidth, vertical: 8.toWidth),
+                            padding: EdgeInsets.symmetric(horizontal: 16.toWidth, vertical: 8.toWidth),
                             child: Row(
                               children: [
                                 Text(
                                   '이미지',
-                                  style: ShownyStyle.body2(
-                                      color: ShownyStyle.black),
+                                  style: ShownyStyle.body2(color: ShownyStyle.black),
                                 ),
                                 SizedBox(width: 8.toWidth),
                                 Image.asset(
@@ -91,16 +89,14 @@ class _StylupPickImageState extends State<StylupPickImage> {
                               value: FileType.image.name,
                               child: Text(
                                 '이미지',
-                                style:
-                                    ShownyStyle.body2(color: ShownyStyle.black),
+                                style: ShownyStyle.body2(color: ShownyStyle.black),
                               ),
                             ),
                             DropdownMenuItem(
                               value: FileType.video.name,
                               child: Text(
                                 '비디오',
-                                style:
-                                    ShownyStyle.body2(color: ShownyStyle.black),
+                                style: ShownyStyle.body2(color: ShownyStyle.black),
                               ),
                             ),
                           ],
@@ -168,8 +164,7 @@ class _StylupPickImageState extends State<StylupPickImage> {
                       width: ScreenUtil().screenWidth,
                       child: GridView(
                         physics: const ClampingScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                         ),
                         addAutomaticKeepAlives: true,
@@ -202,8 +197,7 @@ class _StylupPickImageState extends State<StylupPickImage> {
   }
 
   Widget _buildSeletedArea(BuildContext context) {
-    StyleupPickProvider pickProv =
-        Provider.of<StyleupPickProvider>(context, listen: false);
+    StyleupPickProvider pickProv = Provider.of<StyleupPickProvider>(context, listen: false);
 
     return GestureDetector(
       onTap: () async {
