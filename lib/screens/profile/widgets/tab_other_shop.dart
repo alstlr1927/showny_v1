@@ -4,8 +4,6 @@ import 'package:showny/models/minishop_product_model.dart';
 import 'package:showny/screens/profile/widgets/tab_my_shop.dart';
 import 'package:showny/screens/profile/widgets/my_shop_grid_item.dart';
 import 'package:showny/screens/profile/widgets/profile_tab_button.dart';
-import 'package:showny/utils/colors.dart';
-import 'package:showny/utils/theme.dart';
 
 class TabOtherShop extends StatefulWidget {
   final List<MinishopProductModel> allProductList;

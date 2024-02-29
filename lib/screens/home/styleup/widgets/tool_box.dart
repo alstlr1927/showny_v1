@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:showny/api/new_api/api_helper.dart';
-import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/providers/user_model_provider.dart';
 import 'package:showny/providers/get_my_profile_provider.dart';
 import 'package:showny/utils/showny_util.dart';

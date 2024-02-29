@@ -21,7 +21,6 @@ import 'widgets/store_good_detail_tab1_widget.dart';
 import 'widgets/store_good_detail_tab2_widget.dart';
 import 'widgets/store_good_detail_tab3_widget.dart';
 import 'widgets/store_good_detail_tab4_widget.dart';
-import 'widgets/store_good_detail_tab_widget.dart';
 
 class StoreGoodDetailScreen extends StatefulWidget {
   final String goodsNo;

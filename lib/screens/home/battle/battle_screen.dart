@@ -35,7 +35,7 @@ class BattleScreen extends StatefulWidget {
 
 class _BattleScreenState extends State<BattleScreen> {
   // SwiperController swiperController = SwiperController();
-  bool pollLock = false;
+  // bool pollLock = false;
 
   late BattleScreenProvider provider;
 

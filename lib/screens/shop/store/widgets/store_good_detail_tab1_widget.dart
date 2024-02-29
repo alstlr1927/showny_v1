@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:showny/components/logger/showny_logger.dart';
+import 'package:showny/models/goods_data.dart';
 import 'package:showny/models/store_good_model.dart';
 
 class StoreGoodDetailTab1Widget extends StatefulWidget {

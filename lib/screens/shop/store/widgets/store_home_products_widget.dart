@@ -69,7 +69,7 @@ class _StoreHomeProductsWidgetState extends State<StoreHomeProductsWidget> {
                                     SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 3,
                                         crossAxisSpacing: 2.toWidth,
-                                        childAspectRatio: 130 / 320),
+                                        childAspectRatio: 130 / 240),
                                 itemCount:
                                     // _gridProductImages.length,
                                     provider.getBattleInGoods().length,
@@ -106,96 +106,92 @@ class _ProductInBattleItem extends StatefulWidget {
 class _ProductInBattleItemState extends State<_ProductInBattleItem> {
   @override
   Widget build(BuildContext context) {
-    StoreProvider provider = Provider.of<StoreProvider>(context, listen: false);
-    return Container(
-      width: ScreenUtil().screenWidth / 3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 130 / 200,
-            child: ClipRect(
-              child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: GestureDetector(
-                    onTap: () async {
-                      String goodsNo = widget.item.goodsNo;
-                      if (goodsNo == "") {
-                        return;
-                      }
-                      await Navigator.push(
-                          context,
-                          ShownyPageRoute(
-                            builder: (context) => StoreGoodDetailScreen(
-                              goodsNo: widget.item.goodsNo,
-                            ),
-                          ));
-                      setState(() {});
-                    },
-                    child: Image.network(widget.item.goodsImageUrlList[0],
-                        errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.white,
-                      );
-                    }),
-                  )),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        AspectRatio(
+          aspectRatio: 1,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: FittedBox(
+                fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: () async {
+                    String goodsNo = widget.item.goodsNo;
+                    if (goodsNo == "") {
+                      return;
+                    }
+                    await Navigator.push(
+                        context,
+                        ShownyPageRoute(
+                          builder: (context) => StoreGoodDetailScreen(
+                            goodsNo: widget.item.goodsNo,
+                          ),
+                        ));
+                    setState(() {});
+                  },
+                  child: Image.network(widget.item.goodsImageUrlList[0],
+                      errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.white,
+                    );
+                  }),
+                )),
           ),
-          SizedBox(height: 8.toWidth),
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.toWidth),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        // _gridProductCategory[index],
-                        widget.item.brandNm,
-                        style: ShownyStyle.overline(
-                            color: ShownyStyle.gray070,
-                            weight: FontWeight.w700),
-                      ),
-                      BaseButton(
-                        onPressed: () {
-                          UserProvider userProvider =
-                              Provider.of<UserProvider>(context, listen: false);
-                          final user = userProvider.user;
-                          StoreHelper.setHeartClick(
-                              context, user.memNo, widget.item);
-                        },
-                        child: (widget.item.isHeart)
-                            ? Image.asset(
-                                'assets/icons/home/comment_like.png',
-                                height: 14.toWidth,
-                                width: 14.toWidth,
-                              )
-                            : Image.asset(
-                                'assets/icons/home/comment_unlike.png',
-                                height: 14.toWidth,
-                                width: 14.toWidth,
-                              ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    widget.item.goodsNm,
-                    style: ShownyStyle.caption(color: ShownyStyle.black),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 6.toWidth),
-                  Text(
-                    "${widget.item.goodsPrice.formatPrice()} 원",
-                    style: ShownyStyle.caption(
-                        color: ShownyStyle.black, weight: FontWeight.w700),
-                  ),
-                ],
-              )),
-        ],
-      ),
+        ),
+        SizedBox(height: 8.toWidth),
+        Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4.toWidth),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      // _gridProductCategory[index],
+                      widget.item.brandNm,
+                      style: ShownyStyle.overline(
+                          color: ShownyStyle.gray070, weight: FontWeight.w700),
+                    ),
+                    BaseButton(
+                      onPressed: () {
+                        UserProvider userProvider =
+                            Provider.of<UserProvider>(context, listen: false);
+                        final user = userProvider.user;
+                        StoreHelper.setHeartClick(
+                            context, user.memNo, widget.item);
+                      },
+                      child: (widget.item.isHeart)
+                          ? Image.asset(
+                              'assets/icons/home/comment_like.png',
+                              height: 14.toWidth,
+                              width: 14.toWidth,
+                            )
+                          : Image.asset(
+                              'assets/icons/home/comment_unlike.png',
+                              height: 14.toWidth,
+                              width: 14.toWidth,
+                            ),
+                    ),
+                  ],
+                ),
+                Text(
+                  widget.item.goodsNm,
+                  style: ShownyStyle.caption(color: ShownyStyle.black),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 6.toWidth),
+                Text(
+                  "${widget.item.goodsPrice.formatPrice()} 원",
+                  style: ShownyStyle.caption(
+                      color: ShownyStyle.black, weight: FontWeight.w700),
+                ),
+              ],
+            )),
+      ],
     );
   }
 }

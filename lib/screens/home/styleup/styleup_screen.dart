@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:showny/components/indicator/showny_indicator.dart';
 import 'package:showny/models/styleup_model.dart';
 import 'package:showny/screens/common/scroll_physics/custom_scroll_physics.dart';
 import 'package:showny/utils/showny_style.dart';
@@ -15,7 +12,6 @@ class StyleupScreen extends StatefulWidget {
     super.key,
     required this.initIndex,
     required this.styleupList,
-    this.updateShowMenu,
     required this.isMain,
     this.setStyelupData,
     this.refresh,
@@ -24,7 +20,6 @@ class StyleupScreen extends StatefulWidget {
   final bool isMain;
   final int initIndex;
   final List<StyleupModel> styleupList;
-  final Function? updateShowMenu;
   final Function({required String styleupNo, required StyleupModel copy})?
       setStyelupData;
   final VoidCallback? refresh;
@@ -40,23 +35,10 @@ class _StyleupScreenState extends State<StyleupScreen> {
 
   late PageController pageController;
 
-  // double refreshPoint = -80.0;
-  // double indicatorTopPadding = -30.0;
-
-  // bool readyToRefresh = false;
-
-  // setReadyRefresh(bool flag) {
-  //   readyToRefresh = flag;
-  //   setState(() {});
-  // }
-
   void updateShowTag(bool isShow) {
     setState(() {
       showTags = isShow;
     });
-    if (widget.updateShowMenu != null) {
-      widget.updateShowMenu!(isShow);
-    }
   }
 
   @override
@@ -67,28 +49,6 @@ class _StyleupScreenState extends State<StyleupScreen> {
       pageController = PageController(initialPage: widget.initIndex);
       styleupList = widget.styleupList;
     });
-    if (widget.isMain) {
-      // pageController.addListener(() {
-      //   if (pageController.offset < refreshPoint) {
-      //     if (!readyToRefresh) {
-      //       setReadyRefresh(true);
-      //       HapticFeedback.mediumImpact();
-      //     }
-      //   }
-      //   if (!readyToRefresh && pageController.offset < 0) {
-      //     indicatorTopPadding = pageController.offset * -1;
-      //     setState(() {});
-      //   }
-      //   if (pageController.offset == 0.0) {
-      //     indicatorTopPadding = -30;
-
-      //     if (readyToRefresh) {
-      //       widget.refresh?.call();
-      //     }
-      //     setReadyRefresh(false);
-      //   }
-      // });
-    }
   }
 
   @override

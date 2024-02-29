@@ -72,11 +72,11 @@ class HomeProvider with ChangeNotifier {
     );
   }
 
-  void updateShowMenu(bool isShow) {
-    debugPrint("updateShowMenu");
-    showTag = isShow;
-    notifyListeners();
-  }
+  // void updateShowMenu(bool isShow) {
+  //   debugPrint("updateShowMenu");
+  //   showTag = isShow;
+  //   notifyListeners();
+  // }
 
   @override
   void notifyListeners() {

@@ -14,11 +14,18 @@ import '../../../../components/showny_button/showny_button.dart';
 import '../models/color_model.dart';
 import '../models/style_model.dart';
 
-void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterShopModel, Function() resetFilter, Function(FilterShopModel) applyFilter) {
+void showStoreFilterBottomSheet(
+    BuildContext context,
+    FilterShopModel setFilterShopModel,
+    Function() resetFilter,
+    Function(FilterShopModel) applyFilter) {
   Size size = MediaQuery.of(context).size;
 
-  bool isSelectPriceMode = setFilterShopModel.minPrice != null && setFilterShopModel.maxPrice != null;
-  SfRangeValues rangeValues = SfRangeValues(((setFilterShopModel.minPrice?.toDouble()) ?? 0.0) / 10000, (setFilterShopModel.maxPrice?.toDouble() ?? 100.0) / 10000);
+  bool isSelectPriceMode = setFilterShopModel.minPrice != null &&
+      setFilterShopModel.maxPrice != null;
+  SfRangeValues rangeValues = SfRangeValues(
+      ((setFilterShopModel.minPrice?.toDouble()) ?? 0.0) / 10000,
+      (setFilterShopModel.maxPrice?.toDouble() ?? 100.0) / 10000);
   List<int> styleIdList = [...setFilterShopModel.styleIdList];
   List<int> fitIdList = [...setFilterShopModel.fitIdList];
   List<int> materialIdList = [...setFilterShopModel.materialIdList];
@@ -63,7 +70,8 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.toWidth, vertical: 16.toWidth),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 16.toWidth, vertical: 16.toWidth),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -88,7 +96,8 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                   Expanded(
                     child: SingleChildScrollView(
                         child: Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 40),
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, top: 16, bottom: 40),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -96,7 +105,9 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                             children: [
                               Text(
                                 tr('store.filter.options.price'),
-                                style: ShownyStyle.body2(color: const Color(0xff555555), weight: FontWeight.bold),
+                                style: ShownyStyle.body2(
+                                    color: const Color(0xff555555),
+                                    weight: FontWeight.bold),
                               ),
                               const Spacer(),
                               Text(
@@ -139,21 +150,25 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                           const SizedBox(height: 40),
                           Text(
                             tr('store.filter.options.style'),
-                            style: ShownyStyle.body2(color: const Color(0xff555555), weight: FontWeight.bold),
+                            style: ShownyStyle.body2(
+                                color: const Color(0xff555555),
+                                weight: FontWeight.bold),
                           ),
                           const SizedBox(height: 20),
                           GridView.builder(
                             shrinkWrap: true,
                             itemCount: styleData.length,
                             physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
                               childAspectRatio: 84 / 35,
                               mainAxisSpacing: 8,
                               crossAxisSpacing: 8,
                             ),
                             itemBuilder: (context, index) {
-                              bool isSelected = styleIdList.contains(styleData[index].id);
+                              bool isSelected =
+                                  styleIdList.contains(styleData[index].id);
                               return BaseButton(
                                 onPressed: () {
                                   newState(
@@ -169,15 +184,24 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(4),
-                                    color: isSelected ? ShownyStyle.mainPurple : ShownyStyle.white,
+                                    color: isSelected
+                                        ? ShownyStyle.mainPurple
+                                        : ShownyStyle.white,
                                     border: Border.all(
-                                      color: isSelected ? ShownyStyle.mainPurple : ShownyStyle.gray040,
+                                      color: isSelected
+                                          ? ShownyStyle.mainPurple
+                                          : ShownyStyle.gray040,
                                     ),
                                   ),
                                   child: Center(
                                       child: Text(
                                     tr(styleData[index].name),
-                                    style: isSelected ? ShownyStyle.caption(color: ShownyStyle.white, weight: FontWeight.w500) : ShownyStyle.caption(color: const Color(0xffaaaaaa)),
+                                    style: isSelected
+                                        ? ShownyStyle.caption(
+                                            color: ShownyStyle.white,
+                                            weight: FontWeight.w500)
+                                        : ShownyStyle.caption(
+                                            color: const Color(0xffaaaaaa)),
                                   )),
                                 ),
                               );
@@ -194,11 +218,14 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                               color: white,
                               width: size.width,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     tr("store.filter.options.fit"),
-                                    style: ShownyStyle.body2(color: const Color(0xff555555), weight: FontWeight.bold),
+                                    style: ShownyStyle.body2(
+                                        color: const Color(0xff555555),
+                                        weight: FontWeight.bold),
                                   ),
                                   AnimatedRotation(
                                     turns: isShowFit ? .5 : 1,
@@ -220,39 +247,55 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                                 ? GridView.builder(
                                     shrinkWrap: true,
                                     itemCount: fitData.length,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 4,
                                       childAspectRatio: 84 / 35,
                                       mainAxisSpacing: 8,
                                       crossAxisSpacing: 8,
                                     ),
                                     itemBuilder: (context, index) {
-                                      bool isSelected = fitIdList.contains(fitData[index].id);
+                                      bool isSelected =
+                                          fitIdList.contains(fitData[index].id);
                                       return BaseButton(
                                         onPressed: () {
                                           newState(
                                             () {
                                               if (isSelected) {
-                                                fitIdList.remove(fitData[index].id);
+                                                fitIdList
+                                                    .remove(fitData[index].id);
                                               } else {
-                                                fitIdList.add(fitData[index].id);
+                                                fitIdList
+                                                    .add(fitData[index].id);
                                               }
                                             },
                                           );
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(4),
-                                            color: isSelected ? ShownyStyle.mainPurple : ShownyStyle.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: isSelected
+                                                ? ShownyStyle.mainPurple
+                                                : ShownyStyle.white,
                                             border: Border.all(
-                                              color: isSelected ? ShownyStyle.mainPurple : ShownyStyle.gray040,
+                                              color: isSelected
+                                                  ? ShownyStyle.mainPurple
+                                                  : ShownyStyle.gray040,
                                             ),
                                           ),
                                           child: Center(
                                             child: Text(
                                               tr(fitData[index].name),
-                                              style: isSelected ? ShownyStyle.caption(color: ShownyStyle.white, weight: FontWeight.w500) : ShownyStyle.caption(color: const Color(0xffaaaaaa)),
+                                              style: isSelected
+                                                  ? ShownyStyle.caption(
+                                                      color: ShownyStyle.white,
+                                                      weight: FontWeight.w500)
+                                                  : ShownyStyle.caption(
+                                                      color: const Color(
+                                                          0xffaaaaaa)),
                                             ),
                                           ),
                                         ),
@@ -275,11 +318,14 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                               color: white,
                               width: size.width,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     tr("store.filter.options.main_material"),
-                                    style: ShownyStyle.body2(color: const Color(0xff555555), weight: FontWeight.bold),
+                                    style: ShownyStyle.body2(
+                                        color: const Color(0xff555555),
+                                        weight: FontWeight.bold),
                                   ),
                                   AnimatedRotation(
                                     turns: isShowMaterial ? .5 : 1,
@@ -301,39 +347,55 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                                 ? GridView.builder(
                                     shrinkWrap: true,
                                     itemCount: materialData.length,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 4,
                                       childAspectRatio: 84 / 35,
                                       mainAxisSpacing: 8,
                                       crossAxisSpacing: 8,
                                     ),
                                     itemBuilder: (context, index) {
-                                      bool isSelected = materialIdList.contains(materialData[index].id);
+                                      bool isSelected = materialIdList
+                                          .contains(materialData[index].id);
                                       return BaseButton(
                                         onPressed: () {
                                           newState(
                                             () {
                                               if (isSelected) {
-                                                materialIdList.remove(materialData[index].id);
+                                                materialIdList.remove(
+                                                    materialData[index].id);
                                               } else {
-                                                materialIdList.add(materialData[index].id);
+                                                materialIdList.add(
+                                                    materialData[index].id);
                                               }
                                             },
                                           );
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(4),
-                                            color: isSelected ? ShownyStyle.mainPurple : ShownyStyle.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: isSelected
+                                                ? ShownyStyle.mainPurple
+                                                : ShownyStyle.white,
                                             border: Border.all(
-                                              color: isSelected ? ShownyStyle.mainPurple : ShownyStyle.gray040,
+                                              color: isSelected
+                                                  ? ShownyStyle.mainPurple
+                                                  : ShownyStyle.gray040,
                                             ),
                                           ),
                                           child: Center(
                                               child: Text(
                                             tr(materialData[index].name),
-                                            style: isSelected ? ShownyStyle.caption(color: ShownyStyle.white, weight: FontWeight.w500) : ShownyStyle.caption(color: const Color(0xffaaaaaa)),
+                                            style: isSelected
+                                                ? ShownyStyle.caption(
+                                                    color: ShownyStyle.white,
+                                                    weight: FontWeight.w500)
+                                                : ShownyStyle.caption(
+                                                    color: const Color(
+                                                        0xffaaaaaa)),
                                           )),
                                         ),
                                       );
@@ -355,43 +417,62 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                               color: white,
                               width: size.width,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     tr("store.filter.options.flexibility"),
-                                    style: ShownyStyle.body2(color: const Color(0xff555555), weight: FontWeight.bold),
+                                    style: ShownyStyle.body2(
+                                        color: const Color(0xff555555),
+                                        weight: FontWeight.bold),
                                   ),
                                   isShowFlexiblity && flexibility == 1
                                       ? Text(
                                           tr("무관"),
-                                          style: ShownyStyle.body2(weight: FontWeight.bold),
+                                          style: ShownyStyle.body2(
+                                              weight: FontWeight.bold),
                                         )
                                       : isShowFlexiblity && flexibility == 2
                                           ? Text(
                                               tr("store.filter.options.almost_none"),
-                                              style: ShownyStyle.body2(weight: FontWeight.bold),
+                                              style: ShownyStyle.body2(
+                                                  weight: FontWeight.bold),
                                             )
                                           : isShowFlexiblity && flexibility == 3
                                               ? Text(
                                                   tr("store.filter.options.slightly_none"),
-                                                  style: ShownyStyle.body2(weight: FontWeight.bold),
+                                                  style: ShownyStyle.body2(
+                                                      weight: FontWeight.bold),
                                                 )
-                                              : isShowFlexiblity && flexibility == 4
+                                              : isShowFlexiblity &&
+                                                      flexibility == 4
                                                   ? Text(
                                                       tr("store.filter.options.commonly"),
-                                                      style: ShownyStyle.body2(weight: FontWeight.bold),
+                                                      style: ShownyStyle.body2(
+                                                          weight:
+                                                              FontWeight.bold),
                                                     )
-                                                  : isShowFlexiblity && flexibility == 5
+                                                  : isShowFlexiblity &&
+                                                          flexibility == 5
                                                       ? Text(
                                                           tr("store.filter.options.little_bit"),
-                                                          style: ShownyStyle.body2(weight: FontWeight.bold),
+                                                          style:
+                                                              ShownyStyle.body2(
+                                                                  weight:
+                                                                      FontWeight
+                                                                          .bold),
                                                         )
-                                                      : isShowFlexiblity && flexibility == 6
+                                                      : isShowFlexiblity &&
+                                                              flexibility == 6
                                                           ? Text(
                                                               tr("store.filter.options.very_present"),
-                                                              style: ShownyStyle.body2(weight: FontWeight.bold),
+                                                              style: ShownyStyle.body2(
+                                                                  weight:
+                                                                      FontWeight
+                                                                          .bold),
                                                             )
-                                                          : const SizedBox.shrink(),
+                                                          : const SizedBox
+                                                              .shrink(),
                                   AnimatedRotation(
                                     turns: isShowFlexiblity ? .5 : 1,
                                     duration: const Duration(milliseconds: 200),
@@ -437,11 +518,14 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                               color: white,
                               width: size.width,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     tr("store.filter.options.color"),
-                                    style: ShownyStyle.body2(color: const Color(0xff555555), weight: FontWeight.bold),
+                                    style: ShownyStyle.body2(
+                                        color: const Color(0xff555555),
+                                        weight: FontWeight.bold),
                                   ),
                                   AnimatedRotation(
                                     turns: isShowColor ? .5 : 1,
@@ -463,18 +547,26 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                                 ? GridView.builder(
                                     shrinkWrap: true,
                                     itemCount: colorData.length,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, childAspectRatio: 1.2),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 4,
+                                      childAspectRatio: 1.2,
+                                    ),
                                     itemBuilder: (context, index) {
-                                      bool isSelected = colorIdList.contains(colorData[index].id);
+                                      bool isSelected = colorIdList
+                                          .contains(colorData[index].id);
                                       return GestureDetector(
                                         onTap: () {
                                           newState(
                                             () {
                                               if (isSelected) {
-                                                colorIdList.remove(colorData[index].id);
+                                                colorIdList.remove(
+                                                    colorData[index].id);
                                               } else {
-                                                colorIdList.add(colorData[index].id);
+                                                colorIdList
+                                                    .add(colorData[index].id);
                                               }
                                             },
                                           );
@@ -484,11 +576,19 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                                             Container(
                                               height: 32,
                                               width: 32,
-                                              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSelected ? black : Colors.transparent)),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                      color: isSelected
+                                                          ? black
+                                                          : Colors
+                                                              .transparent)),
                                               child: Padding(
-                                                padding: const EdgeInsets.all(4),
+                                                padding:
+                                                    const EdgeInsets.all(4),
                                                 child: CircleAvatar(
-                                                  backgroundColor: colorData[index].colorHex,
+                                                  backgroundColor:
+                                                      colorData[index].colorHex,
                                                   radius: 14,
                                                 ),
                                               ),
@@ -498,7 +598,13 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                                             ),
                                             Text(
                                               colorData[index].colorName,
-                                              style: themeData().textTheme.bodySmall!.apply(color: isSelected ? black : textColor),
+                                              style: themeData()
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .apply(
+                                                      color: isSelected
+                                                          ? black
+                                                          : textColor),
                                             )
                                           ],
                                         ),
@@ -516,7 +622,8 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                     )),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(16.toWidth, 10.toWidth, 16.toWidth, ShownyStyle.defaultBottomPadding()),
+                    padding: EdgeInsets.fromLTRB(16.toWidth, 10.toWidth,
+                        16.toWidth, ShownyStyle.defaultBottomPadding()),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -537,15 +644,21 @@ void showStoreFilterBottomSheet(BuildContext context, FilterShopModel setFilterS
                           child: ShownyButton(
                             onPressed: () {
                               newState(() {
-                                FilterShopModel filterShopModel = FilterShopModel();
+                                FilterShopModel filterShopModel =
+                                    FilterShopModel();
                                 if (isSelectPriceMode) {
-                                  filterShopModel.minPrice = (rangeValues.start as double).toInt() * 10000;
-                                  filterShopModel.maxPrice = (rangeValues.end as double).toInt() * 10000;
+                                  filterShopModel.minPrice =
+                                      (rangeValues.start as double).toInt() *
+                                          10000;
+                                  filterShopModel.maxPrice =
+                                      (rangeValues.end as double).toInt() *
+                                          10000;
                                 }
                                 filterShopModel.styleIdList = styleIdList;
                                 filterShopModel.fitIdList = fitIdList;
                                 filterShopModel.materialIdList = materialIdList;
-                                filterShopModel.flexibility = flexibility.toInt();
+                                filterShopModel.flexibility =
+                                    flexibility.toInt();
                                 filterShopModel.colorList = colorIdList;
 
                                 applyFilter(filterShopModel);
@@ -600,26 +713,86 @@ List<StyleResponseModel> styleData = [
 ];
 
 List<ColorResponseModel> colorData = [
-  ColorResponseModel(id: 1, colorHex: beigeColor, colorName: tr("profile_edit.fav_screen.beige_color")),
-  ColorResponseModel(id: 2, colorHex: khakiColor, colorName: tr("profile_edit.fav_screen.khaki_color")),
-  ColorResponseModel(id: 3, colorHex: yellowColor, colorName: tr("profile_edit.fav_screen.yellow_color")),
-  ColorResponseModel(id: 4, colorHex: orangeColor, colorName: tr("profile_edit.fav_screen.orange_color")),
-  ColorResponseModel(id: 5, colorHex: redColor, colorName: tr("profile_edit.fav_screen.red_color")),
-  ColorResponseModel(id: 6, colorHex: wineColor, colorName: tr("profile_edit.fav_screen.wine_color")),
-  ColorResponseModel(id: 7, colorHex: brownColor, colorName: tr("profile_edit.fav_screen.brown_color")),
-  ColorResponseModel(id: 8, colorHex: navyColor, colorName: tr("profile_edit.fav_screen.navy_color")),
-  ColorResponseModel(id: 9, colorHex: blueColor, colorName: tr("profile_edit.fav_screen.blue_color")),
-  ColorResponseModel(id: 10, colorHex: greenColor, colorName: tr("profile_edit.fav_screen.green_color")),
-  ColorResponseModel(id: 11, colorHex: purpleColor, colorName: tr("profile_edit.fav_screen.purple_color")),
-  ColorResponseModel(id: 12, colorHex: greyColor, colorName: tr("profile_edit.fav_screen.gray_color")),
-  ColorResponseModel(id: 13, colorHex: black, colorName: tr("profile_edit.fav_screen.black_color")),
-  ColorResponseModel(id: 14, colorHex: silverColor, colorName: tr("profile_edit.fav_screen.silver_color")),
-  ColorResponseModel(id: 15, colorHex: goldColor, colorName: tr("profile_edit.fav_screen.gold_color")),
-  ColorResponseModel(id: 16, colorHex: mintColor, colorName: tr("profile_edit.fav_screen.mint_color")),
-  ColorResponseModel(id: 17, colorHex: lavenderColor, colorName: tr("profile_edit.fav_screen.lavender_color")),
-  ColorResponseModel(id: 18, colorHex: whiteColor, colorName: tr("profile_edit.fav_screen.white_color")),
-  ColorResponseModel(id: 19, colorHex: skyBlueColor, colorName: tr("profile_edit.fav_screen.sky_blue_color")),
-  ColorResponseModel(id: 20, colorHex: pinkColor, colorName: tr("profile_edit.fav_screen.pink_color")),
+  ColorResponseModel(
+      id: 1,
+      colorHex: beigeColor,
+      colorName: tr("profile_edit.fav_screen.beige_color")),
+  ColorResponseModel(
+      id: 2,
+      colorHex: khakiColor,
+      colorName: tr("profile_edit.fav_screen.khaki_color")),
+  ColorResponseModel(
+      id: 3,
+      colorHex: yellowColor,
+      colorName: tr("profile_edit.fav_screen.yellow_color")),
+  ColorResponseModel(
+      id: 4,
+      colorHex: orangeColor,
+      colorName: tr("profile_edit.fav_screen.orange_color")),
+  ColorResponseModel(
+      id: 5,
+      colorHex: redColor,
+      colorName: tr("profile_edit.fav_screen.red_color")),
+  ColorResponseModel(
+      id: 6,
+      colorHex: wineColor,
+      colorName: tr("profile_edit.fav_screen.wine_color")),
+  ColorResponseModel(
+      id: 7,
+      colorHex: brownColor,
+      colorName: tr("profile_edit.fav_screen.brown_color")),
+  ColorResponseModel(
+      id: 8,
+      colorHex: navyColor,
+      colorName: tr("profile_edit.fav_screen.navy_color")),
+  ColorResponseModel(
+      id: 9,
+      colorHex: blueColor,
+      colorName: tr("profile_edit.fav_screen.blue_color")),
+  ColorResponseModel(
+      id: 10,
+      colorHex: greenColor,
+      colorName: tr("profile_edit.fav_screen.green_color")),
+  ColorResponseModel(
+      id: 11,
+      colorHex: purpleColor,
+      colorName: tr("profile_edit.fav_screen.purple_color")),
+  ColorResponseModel(
+      id: 12,
+      colorHex: greyColor,
+      colorName: tr("profile_edit.fav_screen.gray_color")),
+  ColorResponseModel(
+      id: 13,
+      colorHex: black,
+      colorName: tr("profile_edit.fav_screen.black_color")),
+  ColorResponseModel(
+      id: 14,
+      colorHex: silverColor,
+      colorName: tr("profile_edit.fav_screen.silver_color")),
+  ColorResponseModel(
+      id: 15,
+      colorHex: goldColor,
+      colorName: tr("profile_edit.fav_screen.gold_color")),
+  ColorResponseModel(
+      id: 16,
+      colorHex: mintColor,
+      colorName: tr("profile_edit.fav_screen.mint_color")),
+  ColorResponseModel(
+      id: 17,
+      colorHex: lavenderColor,
+      colorName: tr("profile_edit.fav_screen.lavender_color")),
+  ColorResponseModel(
+      id: 18,
+      colorHex: whiteColor,
+      colorName: tr("profile_edit.fav_screen.white_color")),
+  ColorResponseModel(
+      id: 19,
+      colorHex: skyBlueColor,
+      colorName: tr("profile_edit.fav_screen.sky_blue_color")),
+  ColorResponseModel(
+      id: 20,
+      colorHex: pinkColor,
+      colorName: tr("profile_edit.fav_screen.pink_color")),
 ];
 
 List<StyleResponseModel> fitData = [
@@ -632,7 +805,8 @@ List<StyleResponseModel> fitData = [
 
 List<StyleResponseModel> materialData = [
   StyleResponseModel(id: 1, name: tr('store.filter.material_filters.myeon')),
-  StyleResponseModel(id: 2, name: tr('store.filter.material_filters.polyester')),
+  StyleResponseModel(
+      id: 2, name: tr('store.filter.material_filters.polyester')),
   StyleResponseModel(id: 3, name: tr('store.filter.material_filters.acrylic')),
   StyleResponseModel(id: 4, name: tr('store.filter.material_filters.rayon')),
   StyleResponseModel(id: 5, name: tr('store.filter.material_filters.wool')),
@@ -642,10 +816,12 @@ List<StyleResponseModel> materialData = [
   StyleResponseModel(id: 9, name: tr('store.filter.material_filters.spandex')),
   StyleResponseModel(id: 10, name: tr('store.filter.material_filters.tencel')),
   StyleResponseModel(id: 11, name: tr('store.filter.material_filters.knit')),
-  StyleResponseModel(id: 12, name: tr('store.filter.material_filters.polyurethane')),
+  StyleResponseModel(
+      id: 12, name: tr('store.filter.material_filters.polyurethane')),
   StyleResponseModel(id: 13, name: tr('store.filter.material_filters.modal')),
   StyleResponseModel(id: 14, name: tr('store.filter.material_filters.viscose')),
-  StyleResponseModel(id: 15, name: tr('store.filter.material_filters.cashmere')),
+  StyleResponseModel(
+      id: 15, name: tr('store.filter.material_filters.cashmere')),
 ];
 
 class _StorePriceRangeSlider extends StatefulWidget {
@@ -667,9 +843,13 @@ class __StorePriceRangeSliderState extends State<_StorePriceRangeSlider> {
     return Column(
       children: [
         Text(
-          widget.onChanged == null ? '전체' : '${widget.rangeValues.start.round()}만원 ~ ${widget.rangeValues.end.round()}만원',
+          widget.onChanged == null
+              ? '전체'
+              : '${widget.rangeValues.start.round()}만원 ~ ${widget.rangeValues.end.round()}만원',
           style: ShownyStyle.caption(
-            color: widget.onChanged == null ? const Color(0xff777777) : ShownyStyle.mainPurple,
+            color: widget.onChanged == null
+                ? const Color(0xff777777)
+                : ShownyStyle.mainPurple,
             weight: FontWeight.bold,
           ),
         ),
@@ -700,7 +880,8 @@ class __StorePriceRangeSliderState extends State<_StorePriceRangeSlider> {
             tickShape: SfTickShape(),
             values: widget.rangeValues,
             onChanged: widget.onChanged,
-            labelFormatterCallback: (dynamic actualValue, String formattedText) {
+            labelFormatterCallback:
+                (dynamic actualValue, String formattedText) {
               if (actualValue is double && actualValue == 100.0) {
                 return '${formattedText}만원';
               }

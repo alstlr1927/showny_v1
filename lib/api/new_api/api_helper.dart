@@ -39,7 +39,7 @@ class ApiHelper {
   static final ApiHelper _instance = ApiHelper._internal();
   static const storage = FlutterSecureStorage();
 
-  // private 생성자
+// private 생성자
   ApiHelper._internal();
 
   // 외부에서 싱글톤 인스턴스에 접근할 수 있는 getter

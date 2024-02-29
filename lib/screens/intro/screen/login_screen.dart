@@ -6,7 +6,6 @@ import 'package:showny/components/logger/showny_logger.dart';
 import 'package:showny/components/page_route.dart';
 import 'package:showny/constants.dart';
 import 'package:showny/providers/user_model_provider.dart';
-import 'package:showny/screens/common/components/page_route_builder_right_left.dart';
 import 'package:showny/screens/intro/components/showny_dialog.dart';
 import 'package:showny/screens/intro/screen/email_sign_up2_screen.dart';
 import 'package:showny/screens/intro/screen/input_additional_information_screen.dart';
